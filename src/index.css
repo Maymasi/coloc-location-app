@@ -1,0 +1,512 @@
+/* ========================================
+   RÉFÉRENCE CSS - VARIABLES ET MEDIA QUERIES
+   Projet: Plateforme de logement étudiant
+   ========================================
+*/
+
+/* ----------------------------------------
+   1. VARIABLES DE COULEUR
+   Ces couleurs sont utilisées dans tout le projet
+   pour maintenir une cohérence visuelle
+   ---------------------------------------- */
+
+   :root {
+    /* Couleurs principales */
+    --color-primary: #2e7d32; /* Vert principal - Utilisé pour les boutons principaux, accents, liens */
+    --color-primary-light: #4caf50; /* Version plus claire du vert - Utilisé pour les survols, états actifs */
+    --color-primary-dark: #1b5e20; /* Version plus foncée du vert - Utilisé pour les états pressés, bordures */
+    --color-primary-bg: rgba(46, 125, 50, 0.1); /* Fond vert transparent - Utilisé pour les arrière-plans subtils */
+    
+    /* Couleurs secondaires */
+    --color-secondary: #f5f2e8; /* Beige clair - Utilisé pour les arrière-plans secondaires, cartes */
+    --color-secondary-dark: #e6e2d3; /* Beige plus foncé - Utilisé pour les bordures, séparateurs */
+    
+    /* Couleurs neutres */
+    --color-background: #faf8f3; /* Fond principal - Utilisé pour l'arrière-plan général du site */
+    --color-foreground: #0d0c09; /* Texte principal - Utilisé pour le texte principal */
+    --color-card: #ffffff; /* Fond des cartes - Utilisé pour les composants de type carte */
+    --color-border: #e8e4d8; /* Bordures - Utilisé pour les séparations, bordures de champs */
+    
+    /* Couleurs de texte */
+    --color-text-primary: #0d0c09; /* Texte principal - Utilisé pour les titres, texte important */
+    --color-text-secondary: #72705b; /* Texte secondaire - Utilisé pour les descriptions, texte moins important */
+    --color-text-muted: #8f8d7a; /* Texte atténué - Utilisé pour les placeholders, texte désactivé */
+    
+    /* Couleurs d'état */
+    --color-success: #4caf50; /* Succès - Utilisé pour les messages de réussite, confirmations */
+    --color-warning: #ff9800; /* Avertissement - Utilisé pour les alertes, notifications */
+    --color-error: #f44336; /* Erreur - Utilisé pour les messages d'erreur, actions destructives */
+    --color-info: #2196f3; /* Information - Utilisé pour les messages d'information, conseils */
+    
+    /* Couleurs d'interaction */
+    --color-hover: rgba(0, 0, 0, 0.05); /* Survol - Utilisé pour l'état de survol des éléments */
+    --color-active: rgba(0, 0, 0, 0.1); /* Actif - Utilisé pour l'état actif des éléments */
+    --color-focus: rgba(46, 125, 50, 0.25); /* Focus - Utilisé pour l'état de focus des éléments */
+  }
+  
+  /* Mode sombre */
+  .dark {
+    --color-background: #0d0c09; /* Fond principal en mode sombre */
+    --color-foreground: #faf8f3; /* Texte principal en mode sombre */
+    --color-card: #1a1914; /* Fond des cartes en mode sombre */
+    --color-border: #2a2822; /* Bordures en mode sombre */
+    
+    --color-text-primary: #faf8f3; /* Texte principal en mode sombre */
+    --color-text-secondary: #c5c3b2; /* Texte secondaire en mode sombre */
+    --color-text-muted: #8f8d7a; /* Texte atténué en mode sombre */
+    
+    --color-secondary: #26241e; /* Couleur secondaire en mode sombre */
+    --color-secondary-dark: #36342e; /* Couleur secondaire foncée en mode sombre */
+    
+    --color-hover: rgba(255, 255, 255, 0.05); /* Survol en mode sombre */
+    --color-active: rgba(255, 255, 255, 0.1); /* Actif en mode sombre */
+  }
+  
+  /* ----------------------------------------
+     2. TYPOGRAPHIE
+     Définition des polices, tailles et styles
+     de texte utilisés dans l'application
+     ---------------------------------------- */
+  
+  :root {
+    /* Familles de polices */
+    --font-primary: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    /* Police principale - Utilisée pour tout le texte courant, les paragraphes */
+    
+    --font-heading: 'Poppins', 'Inter', sans-serif;
+    /* Police des titres - Utilisée pour les titres h1-h6, plus distinctive */
+    
+    --font-mono: 'JetBrains Mono', 'SF Mono', 'Menlo', monospace;
+    /* Police monospace - Utilisée pour le code, données techniques */
+    
+    /* Tailles de police - Système de taille fluide */
+    --font-size-xs: clamp(0.75rem, 0.7rem + 0.25vw, 0.875rem); /* 12-14px - Utilisé pour les petits textes, mentions légales */
+    --font-size-sm: clamp(0.875rem, 0.8rem + 0.375vw, 1rem); /* 14-16px - Utilisé pour le texte secondaire, étiquettes */
+    --font-size-base: clamp(1rem, 0.925rem + 0.375vw, 1.125rem); /* 16-18px - Utilisé pour le texte principal */
+    --font-size-lg: clamp(1.125rem, 1.05rem + 0.375vw, 1.25rem); /* 18-20px - Utilisé pour les sous-titres, texte mis en avant */
+    --font-size-xl: clamp(1.25rem, 1.15rem + 0.5vw, 1.5rem); /* 20-24px - Utilisé pour les petits titres */
+    --font-size-2xl: clamp(1.5rem, 1.3rem + 1vw, 2rem); /* 24-32px - Utilisé pour les titres de section */
+    --font-size-3xl: clamp(1.875rem, 1.65rem + 1.125vw, 2.5rem); /* 30-40px - Utilisé pour les titres de page */
+    --font-size-4xl: clamp(2.25rem, 1.95rem + 1.5vw, 3rem); /* 36-48px - Utilisé pour les grands titres */
+    --font-size-5xl: clamp(3rem, 2.5rem + 2.5vw, 4rem); /* 48-64px - Utilisé pour les titres de héros */
+    
+    /* Poids de police */
+    --font-weight-light: 300; /* Utilisé pour le texte léger, citations */
+    --font-weight-normal: 400; /* Utilisé pour le texte courant */
+    --font-weight-medium: 500; /* Utilisé pour le texte légèrement mis en avant */
+    --font-weight-semibold: 600; /* Utilisé pour les sous-titres, texte important */
+    --font-weight-bold: 700; /* Utilisé pour les titres, texte très important */
+    --font-weight-extrabold: 800; /* Utilisé pour les grands titres, accents forts */
+    
+    /* Hauteurs de ligne */
+    --line-height-tight: 1.2; /* Utilisé pour les titres */
+    --line-height-normal: 1.5; /* Utilisé pour le texte courant */
+    --line-height-relaxed: 1.75; /* Utilisé pour les paragraphes longs */
+    
+    /* Espacement des lettres */
+    --letter-spacing-tight: -0.025em; /* Utilisé pour les grands titres */
+    --letter-spacing-normal: 0; /* Utilisé pour le texte courant */
+    --letter-spacing-wide: 0.025em; /* Utilisé pour les petits textes, ALL CAPS */
+    --letter-spacing-wider: 0.05em; /* Utilisé pour les boutons, étiquettes */
+  }
+  
+  /* ----------------------------------------
+     3. ESPACEMENT
+     Système d'espacement cohérent pour les
+     marges, paddings et gaps
+     ---------------------------------------- */
+  
+  :root {
+    /* Système d'espacement - Échelle géométrique */
+    --space-1: 0.25rem; /* 4px - Utilisé pour les petits espacements, bordures */
+    --space-2: 0.5rem; /* 8px - Utilisé pour les espacements internes des petits éléments */
+    --space-3: 0.75rem; /* 12px - Utilisé pour les espacements moyens */
+    --space-4: 1rem; /* 16px - Utilisé pour les espacements standard */
+    --space-5: 1.25rem; /* 20px - Utilisé pour les espacements entre éléments moyens */
+    --space-6: 1.5rem; /* 24px - Utilisé pour les espacements entre sections */
+    --space-8: 2rem; /* 32px - Utilisé pour les grands espacements */
+    --space-10: 2.5rem; /* 40px - Utilisé pour les espacements entre grandes sections */
+    --space-12: 3rem; /* 48px - Utilisé pour les espacements de section */
+    --space-16: 4rem; /* 64px - Utilisé pour les grands espacements de section */
+    --space-20: 5rem; /* 80px - Utilisé pour les très grands espacements */
+    --space-24: 6rem; /* 96px - Utilisé pour les espacements de section principale */
+    --space-32: 8rem; /* 128px - Utilisé pour les espacements entre grandes sections */
+    
+    /* Espacements négatifs (pour les marges négatives) */
+    --space-n1: -0.25rem;
+    --space-n2: -0.5rem;
+    --space-n3: -0.75rem;
+    --space-n4: -1rem;
+    --space-n5: -1.25rem;
+    --space-n6: -1.5rem;
+    --space-n8: -2rem;
+    --space-n10: -2.5rem;
+    --space-n12: -3rem;
+    
+    /* Espacements pour les conteneurs */
+    --container-padding-x: clamp(1rem, 5vw, 2rem); /* Padding horizontal des conteneurs - responsive */
+    --container-padding-y: clamp(2rem, 8vw, 4rem); /* Padding vertical des conteneurs - responsive */
+    
+    /* Largeurs de conteneur */
+    --container-sm: 640px; /* Petit conteneur - utilisé pour les formulaires, modales */
+    --container-md: 768px; /* Conteneur moyen - utilisé pour le contenu textuel */
+    --container-lg: 1024px; /* Grand conteneur - utilisé pour la plupart des sections */
+    --container-xl: 1280px; /* Très grand conteneur - utilisé pour les sections larges */
+    --container-2xl: 1536px; /* Conteneur maximum - utilisé pour les mises en page complètes */
+  }
+  
+  /* ----------------------------------------
+     4. BORDURES ET RAYONS
+     Définition des styles de bordure et des
+     rayons d'arrondi
+     ---------------------------------------- */
+  
+  :root {
+    /* Épaisseurs de bordure */
+    --border-width-thin: 1px; /* Utilisé pour les bordures fines, séparateurs */
+    --border-width-normal: 2px; /* Utilisé pour les bordures standard */
+    --border-width-thick: 3px; /* Utilisé pour les bordures accentuées */
+    --border-width-extra: 4px; /* Utilisé pour les bordures très accentuées */
+    
+    /* Styles de bordure */
+    --border-style-solid: solid; /* Utilisé pour la plupart des bordures */
+    --border-style-dashed: dashed; /* Utilisé pour les zones de dépôt, éléments interactifs */
+    --border-style-dotted: dotted; /* Utilisé pour les indications visuelles subtiles */
+    
+    /* Rayons de bordure */
+    --radius-none: 0; /* Pas d'arrondi - utilisé pour les éléments carrés */
+    --radius-sm: 0.125rem; /* 2px - Utilisé pour les petits arrondis */
+    --radius-md: 0.25rem; /* 4px - Utilisé pour les arrondis moyens */
+    --radius-lg: 0.5rem; /* 8px - Utilisé pour les grands arrondis (cartes, boutons) */
+    --radius-xl: 0.75rem; /* 12px - Utilisé pour les très grands arrondis */
+    --radius-2xl: 1rem; /* 16px - Utilisé pour les arrondis importants */
+    --radius-3xl: 1.5rem; /* 24px - Utilisé pour les composants spéciaux */
+    --radius-full: 9999px; /* Arrondi complet - utilisé pour les badges, avatars */
+    
+    /* Bordures prédéfinies */
+    --border-input: var(--border-width-thin) var(--border-style-solid) var(--color-border); /* Bordure pour les champs de saisie */
+    --border-card: var(--border-width-thin) var(--border-style-solid) var(--color-border); /* Bordure pour les cartes */
+    --border-focus: var(--border-width-normal) var(--border-style-solid) var(--color-primary); /* Bordure pour les éléments en focus */
+  }
+  
+  /* ----------------------------------------
+     5. OMBRES
+     Définition des ombres pour les élévations
+     et effets de profondeur
+     ---------------------------------------- */
+  
+  :root {
+    /* Ombres de base */
+    --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05); /* Ombre légère - utilisée pour les cartes plates */
+    --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06); /* Ombre moyenne - utilisée pour les cartes, boutons */
+    --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05); /* Grande ombre - utilisée pour les modales, dropdowns */
+    --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04); /* Très grande ombre - utilisée pour les popups, tooltips */
+    --shadow-2xl: 0 25px 50px -12px rgba(0, 0, 0, 0.25); /* Ombre maximale - utilisée pour les éléments en premier plan */
+    --shadow-inner: inset 0 2px 4px 0 rgba(0, 0, 0, 0.06); /* Ombre intérieure - utilisée pour les champs, boutons pressés */
+    
+    /* Ombres colorées */
+    --shadow-primary: 0 4px 14px 0 rgba(46, 125, 50, 0.39); /* Ombre verte - utilisée pour les boutons principaux */
+    --shadow-success: 0 4px 14px 0 rgba(76, 175, 80, 0.39); /* Ombre de succès - utilisée pour les éléments de succès */
+    --shadow-warning: 0 4px 14px 0 rgba(255, 152, 0, 0.39); /* Ombre d'avertissement - utilisée pour les alertes */
+    --shadow-error: 0 4px 14px 0 rgba(244, 67, 54, 0.39); /* Ombre d'erreur - utilisée pour les messages d'erreur */
+  }
+  
+  /* Ombres pour le mode sombre */
+  .dark {
+    --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.9);
+    --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.9), 0 2px 4px -1px rgba(0, 0, 0, 0.9);
+    --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.9), 0 4px 6px -2px rgba(0, 0, 0, 0.9);
+    --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.9), 0 10px 10px -5px rgba(0, 0, 0, 0.9);
+    --shadow-2xl: 0 25px 50px -12px rgba(0, 0, 0, 0.9);
+    --shadow-inner: inset 0 2px 4px 0 rgba(0, 0, 0, 0.9);
+  }
+  
+  /* ----------------------------------------
+     6. BREAKPOINTS
+     Points de rupture pour le design responsive
+     ---------------------------------------- */
+  
+  :root {
+    /* Breakpoints principaux */
+    --breakpoint-xs: 480px; /* Extra small - Utilisé pour les très petits mobiles */
+    --breakpoint-sm: 640px; /* Small - Utilisé pour les mobiles */
+    --breakpoint-md: 768px; /* Medium - Utilisé pour les tablettes */
+    --breakpoint-lg: 1024px; /* Large - Utilisé pour les petits ordinateurs portables */
+    --breakpoint-xl: 1280px; /* Extra large - Utilisé pour les ordinateurs de bureau */
+    --breakpoint-2xl: 1536px; /* 2X large - Utilisé pour les grands écrans */
+  }
+  
+  /* ----------------------------------------
+     7. TRANSITIONS ET ANIMATIONS
+     Définition des durées, courbes et animations
+     ---------------------------------------- */
+  
+  :root {
+    /* Durées de transition */
+    --transition-duration-fast: 150ms; /* Rapide - Utilisé pour les petites interactions (hover) */
+    --transition-duration-normal: 250ms; /* Normal - Utilisé pour la plupart des transitions */
+    --transition-duration-slow: 350ms; /* Lent - Utilisé pour les transitions plus importantes */
+    --transition-duration-slower: 500ms; /* Très lent - Utilisé pour les animations de page */
+    
+    /* Courbes de transition */
+    --transition-timing-default: cubic-bezier(0.4, 0, 0.2, 1); /* Courbe par défaut - Utilisée pour la plupart des transitions */
+    --transition-timing-in: cubic-bezier(0.4, 0, 1, 1); /* Entrée - Utilisée pour les éléments qui apparaissent */
+    --transition-timing-out: cubic-bezier(0, 0, 0.2, 1); /* Sortie - Utilisée pour les éléments qui disparaissent */
+    --transition-timing-linear: linear; /* Linéaire - Utilisée pour les progressions constantes */
+    
+    /* Transitions prédéfinies */
+    --transition-all: all var(--transition-duration-normal) var(--transition-timing-default); /* Transition générale */
+    --transition-colors: background-color var(--transition-duration-fast) var(--transition-timing-default),
+                        border-color var(--transition-duration-fast) var(--transition-timing-default),
+                        color var(--transition-duration-fast) var(--transition-timing-default),
+                        fill var(--transition-duration-fast) var(--transition-timing-default),
+                        stroke var(--transition-duration-fast) var(--transition-timing-default); /* Transition de couleurs */
+    --transition-opacity: opacity var(--transition-duration-fast) var(--transition-timing-default); /* Transition d'opacité */
+    --transition-shadow: box-shadow var(--transition-duration-fast) var(--transition-timing-default); /* Transition d'ombre */
+    --transition-transform: transform var(--transition-duration-fast) var(--transition-timing-default); /* Transition de transformation */
+  }
+  
+  /* ----------------------------------------
+     8. Z-INDEX
+     Gestion des couches d'empilage
+     ---------------------------------------- */
+  
+  :root {
+    /* Niveaux d'empilage */
+    --z-negative: -1; /* En dessous - utilisé pour les éléments d'arrière-plan */
+    --z-0: 0; /* Base - niveau par défaut */
+    --z-10: 10; /* Premier niveau - utilisé pour les éléments légèrement surélevés */
+    --z-20: 20; /* Deuxième niveau - utilisé pour les éléments flottants */
+    --z-30: 30; /* Troisième niveau - utilisé pour les dropdowns, tooltips */
+    --z-40: 40; /* Quatrième niveau - utilisé pour les barres fixes */
+    --z-50: 50; /* Cinquième niveau - utilisé pour les modales, dialogs */
+    --z-auto: auto; /* Automatique - laisse le navigateur décider */
+    
+    /* Z-index spécifiques */
+    --z-header: var(--z-40); /* En-tête de page */
+    --z-sidebar: var(--z-30); /* Barre latérale */
+    --z-dropdown: var(--z-30); /* Menus déroulants */
+    --z-modal: var(--z-50); /* Fenêtres modales */
+    --z-toast: 1000; /* Notifications toast - toujours au-dessus */
+    --z-tooltip: 1100; /* Infobulles - toujours au-dessus de tout */
+  }
+  
+  /* ----------------------------------------
+     9. MEDIA QUERIES
+     Exemples d'utilisation des breakpoints
+     ---------------------------------------- */
+  
+  /* Très petits mobiles (jusqu'à 479px) */
+  @media (max-width: 479px) {
+    /* Styles pour très petits mobiles */
+    :root {
+      /* Ajustements de taille pour très petits écrans */
+      --container-padding-x: 1rem;
+      --container-padding-y: 1.5rem;
+    }
+    
+    /* Exemple: Réduire la taille des titres sur très petits écrans */
+    h1 {
+      font-size: var(--font-size-3xl);
+    }
+    
+    /* Exemple: Ajuster les espacements sur très petits écrans */
+    .section {
+      padding-top: var(--space-8);
+      padding-bottom: var(--space-8);
+    }
+    
+    /* Exemple: Masquer certains éléments sur très petits écrans */
+    .hide-xs {
+      display: none;
+    }
+  }
+  
+  /* Mobiles (480px à 639px) */
+  @media (min-width: 480px) and (max-width: 639px) {
+    /* Styles pour mobiles */
+    :root {
+      /* Ajustements de taille pour mobiles */
+      --container-padding-x: 1.25rem;
+      --container-padding-y: 2rem;
+    }
+    
+    /* Exemple: Ajuster les espacements sur mobiles */
+    .section {
+      padding-top: var(--space-10);
+      padding-bottom: var(--space-10);
+    }
+  }
+  
+  /* Tablettes (640px à 767px) */
+  @media (min-width: 640px) and (max-width: 767px) {
+    /* Styles pour tablettes */
+    :root {
+      /* Ajustements de taille pour tablettes */
+      --container-padding-x: 1.5rem;
+      --container-padding-y: 2.5rem;
+    }
+    
+    /* Exemple: Ajuster les espacements sur tablettes */
+    .section {
+      padding-top: var(--space-12);
+      padding-bottom: var(--space-12);
+    }
+  }
+  
+  /* Petits écrans d'ordinateur (768px à 1023px) */
+  @media (min-width: 768px) and (max-width: 1023px) {
+    /* Styles pour petits écrans d'ordinateur */
+    :root {
+      /* Ajustements de taille pour petits écrans d'ordinateur */
+      --container-padding-x: 2rem;
+      --container-padding-y: 3rem;
+    }
+    
+    /* Exemple: Ajuster les espacements sur petits écrans d'ordinateur */
+    .section {
+      padding-top: var(--space-16);
+      padding-bottom: var(--space-16);
+    }
+  }
+  
+  /* Écrans moyens (1024px à 1279px) */
+  @media (min-width: 1024px) and (max-width: 1279px) {
+    /* Styles pour écrans moyens */
+    :root {
+      /* Ajustements de taille pour écrans moyens */
+      --container-padding-x: 2.5rem;
+      --container-padding-y: 3.5rem;
+    }
+    
+    /* Exemple: Ajuster les espacements sur écrans moyens */
+    .section {
+      padding-top: var(--space-20);
+      padding-bottom: var(--space-20);
+    }
+  }
+  
+  /* Grands écrans (1280px à 1535px) */
+  @media (min-width: 1280px) and (max-width: 1535px) {
+    /* Styles pour grands écrans */
+    :root {
+      /* Ajustements de taille pour grands écrans */
+      --container-padding-x: 3rem;
+      --container-padding-y: 4rem;
+    }
+    
+    /* Exemple: Ajuster les espacements sur grands écrans */
+    .section {
+      padding-top: var(--space-24);
+      padding-bottom: var(--space-24);
+    }
+  }
+  
+  /* Très grands écrans (1536px et plus) */
+  @media (min-width: 1536px) {
+    /* Styles pour très grands écrans */
+    :root {
+      /* Ajustements de taille pour très grands écrans */
+      --container-padding-x: 4rem;
+      --container-padding-y: 5rem;
+    }
+    
+    /* Exemple: Ajuster les espacements sur très grands écrans */
+    .section {
+      padding-top: var(--space-32);
+      padding-bottom: var(--space-32);
+    }
+  }
+  
+  /* Préférences de mouvement réduit */
+  @media (prefers-reduced-motion: reduce) {
+    * {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+  
+  /* Mode sombre basé sur les préférences système */
+  @media (prefers-color-scheme: dark) {
+    :root:not(.light) {
+      /* Les variables du mode sombre sont déjà définies dans la classe .dark */
+      /* Cette media query applique automatiquement le mode sombre si l'utilisateur l'a activé dans son système */
+    }
+  }
+  
+  /* ----------------------------------------
+     10. ANIMATIONS
+     Définition des animations personnalisées
+     ---------------------------------------- */
+  
+  /* Animation de fondu */
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+  
+  @keyframes fadeOut {
+    from { opacity: 1; }
+    to { opacity: 0; }
+  }
+  
+  /* Animation de glissement */
+  @keyframes slideInFromLeft {
+    from { transform: translateX(-100%); }
+    to { transform: translateX(0); }
+  }
+  
+  @keyframes slideInFromRight {
+    from { transform: translateX(100%); }
+    to { transform: translateX(0); }
+  }
+  
+  @keyframes slideInFromTop {
+    from { transform: translateY(-100%); }
+    to { transform: translateY(0); }
+  }
+  
+  @keyframes slideInFromBottom {
+    from { transform: translateY(100%); }
+    to { transform: translateY(0); }
+  }
+  
+  /* Animation de pulsation */
+  @keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
+  }
+  
+  /* Animation de rotation */
+  @keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+  }
+  
+  /* Classes d'animation */
+  .animate-fade-in {
+    animation: fadeIn var(--transition-duration-normal) var(--transition-timing-default) forwards;
+  }
+  
+  .animate-fade-out {
+    animation: fadeOut var(--transition-duration-normal) var(--transition-timing-default) forwards;
+  }
+  
+  .animate-slide-in-left {
+    animation: slideInFromLeft var(--transition-duration-normal) var(--transition-timing-default) forwards;
+  }
+  
+  .animate-slide-in-right {
+    animation: slideInFromRight var(--transition-duration-normal) var(--transition-timing-default) forwards;
+  }
+  
+  .animate-pulse {
+    animation: pulse 2s var(--transition-timing-default) infinite;
+  }
+  
+  .animate-spin {
+    animation: spin 1s linear infinite;
+  }
