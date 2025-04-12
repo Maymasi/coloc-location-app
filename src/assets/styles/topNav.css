@@ -1,0 +1,16 @@
+@import url(../../index.css);
+.user-icon{
+    width: 18px;
+    height: 18px;
+    border-radius: 12px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 12px;
+    font-size: 18px !important;
+}
+.user-icon:hover{
+    background-color: hsl(var(--primary));
+    cursor: pointer;
+    color:  white !important;
+}
