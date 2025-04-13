@@ -8,6 +8,7 @@
     width: calc(100vw - 256px);
     padding: 20px 0 0 0 ;
     box-sizing: border-box;
+    
 }
 .user-layout  .left-bar{
     z-index: 33366;

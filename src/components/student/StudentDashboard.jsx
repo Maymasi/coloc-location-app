@@ -1,9 +1,9 @@
 import React from 'react';
-import { Home,Users } from 'lucide-react';
+import { Home,Users,Heart,MessageSquare } from 'lucide-react';
 import '../../assets/styles/userCss/dashbordStudent.css';
 export default function StudentDashboard() {
 return (
-    <div>
+    <div style={{ padding: '0 60px' }} className="student-dashboard">
             <header>
                     <div className="info-student">
                             <h1>Bienvenue, Oussama</h1>
@@ -26,28 +26,28 @@ return (
                                     <div className="title">Propriétés enregistrées</div>
                                     <div className="number">3</div>
                             </div>
-                            <div className="icon"></div>
+                            <div className="icon"><Heart/></div>
                     </div>
                     <div className="card">
                             <div className="content">
                                     <div className="title">Messages non lus</div>
                                     <div className="number">5</div>
                             </div>
-                            <div className="icon"></div>
+                            <div className="icon"><MessageSquare /></div>
                     </div>
                     <div className="card">
                             <div className="content">
                                     <div className="title">Demandes de colocataires</div>
                                     <div className="number">8</div>
                             </div>
-                            <div className="icon"></div>
+                            <div className="icon"><Users/></div>
                     </div>
                     <div className="card">
                             <div className="content">
                                     <div className="title">Vues de la propriété</div>
                                     <div className="number">12</div>
                             </div>
-                            <div className="icon"></div>
+                            <div className="icon"><Home/></div>
                     </div>
             </div>
     </div>
