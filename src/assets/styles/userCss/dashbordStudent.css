@@ -1,0 +1,58 @@
+header{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 60px;
+}
+.links{
+    display: flex;
+    gap: 20px;
+}
+.links .colocations,.links .homes{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+    padding: 8px 20px;
+    border-radius: 12px;
+    font-size:0.875rem;
+    font-weight: 400;
+    cursor: pointer;
+}
+.links .colocations{
+    color: black;
+    background-color: hsl(var(--background));
+    border: 1px solid hsl(var(--border));
+}
+.links .icon{
+    width: 16px;
+}
+.links .colocations:hover{
+    background-color: hsl(var(--primary));
+    color: white;
+}
+.links .homes:hover{
+    background-color: hsl(6deg 100% 72% / 78%);
+}
+.links .homes{
+    color: white;
+    background-color: hsl(var(--primary));
+}
+.info-student{
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    width: 45%;
+}
+.info-student *{
+   margin: 0;
+}
+.info-student h1{
+    font-size: 1.8rem;
+    font-weight: 700;
+}
+.info-student p{
+    font-size: 1rem;
+    font-weight: 400;
+    color: hsl(var(--muted-foreground));
+}

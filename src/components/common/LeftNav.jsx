@@ -2,13 +2,16 @@ import { X,House,Heart,MessageSquare,Users,SquareLibrary,Bell,Settings,User} fro
 import * as React from 'react';
 import Avatar from '@mui/material/Avatar';
 import Divider from '@mui/material/Divider';
+import { useNavigate } from 'react-router-dom';
 
 import '../../assets/styles/LeftNav.css';
 export default  function LeftNav(){
     const [activeLink, setActiveLink] = React.useState(null);
+    const Navigate = useNavigate(); // Utilisez useNavigate pour la navigation
 
     const handleLinkClick = (linkName) => {
         setActiveLink(linkName);
+        Navigate(`${linkName}`); // Utilisez navigate pour changer de route
     };
 
     return(
@@ -16,6 +19,10 @@ export default  function LeftNav(){
                 <div className="logo">
                      <img src="/src/assets/logos/Logo.png" alt="Logo" />
                     <X />
+                    {/* onClick={()=>{
+                        document.querySelector('.left-bar').style.display = 'none';
+                        
+                    }} */}
                 </div>
                 <Divider style={{backgroundColor:'hsl(0 ,0%, 92%)'}}/>
                 

@@ -1,0 +1,24 @@
+.user-layout{
+  display: flex;
+  height: 100vh;
+  width: 100vw;
+    background-color: hsl(var(--muted));
+}
+.user-layout .content-user-layout{
+    width: calc(100vw - 256px);
+    padding: 20px 0 0 0 ;
+    box-sizing: border-box;
+}
+.user-layout  .left-bar{
+    z-index: 33366;
+    position: fixed;
+}
+.content-user-layout{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    margin-left: 256px;
+}
+.content-user-layout .top-bar{
+   height: 80px;
+}
