@@ -81,6 +81,7 @@ header{
     display: flex;
     flex-direction: column;
     gap: -2px;
+    width: 80%;
 }
 .card *{
     margin: 0;
@@ -105,4 +106,66 @@ header{
     justify-content: center;
     align-items: center;
     color: hsl(var(--primary));
+}
+.bar{
+    width: 450px !important;
+    border-radius: 15px;
+    height: 30px !important;
+    align-items: center;
+    list-style: none;
+    box-shadow: none !important;
+    background-color: hsl(0, 0%, 91%) !important;
+    color: hsl(var(--muted-foreground)) !important;
+    font-family: inherit !important;
+    display: block !important;
+}
+.tabs-nav,.css-jhczcq-MuiTabs-root,.css-jhczcq-MuiTabs-root{
+    width: 450px !important;
+    border-radius: 15px;
+    height: 30px !important;
+    align-items: center;
+    list-style: none;
+    box-shadow: none !important;
+    background-color: hsl(0, 0%, 91%) !important;
+    color: hsl(var(--muted-foreground)) !important;
+    font-family: inherit !important;
+    padding: 4px;
+    min-height: 30px !important;
+}
+
+.MuiTabs-root button{
+    font-size: 13px !important;
+    font-weight: 500 !important;
+    padding: 0px 20px !important;
+    height: fit-content;
+    text-transform: none !important;
+    border-radius: 48px !important;
+    z-index: 44;
+
+}
+.MuiTabs-root span{
+    display: none !important;
+}
+.MuiTabs-list{
+    width: 100% !important;
+    height: 30px !important;
+    align-items: center !important;
+}
+.recent-activity{
+    display: flex;
+    gap: 20px;
+    width: 100% !important;
+    padding: 0;
+}
+/* Recent activity card */
+.css-19kzrtu{
+    padding-right: 0 !important;
+    padding-left: 0 !important;
+    padding-top: 30px !important;
+}
+.css-12dv9jb{
+    width: 50% !important;
+    height: 400px !important;
+    border-radius: 40px !important;
+
 }
