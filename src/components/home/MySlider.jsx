@@ -49,7 +49,10 @@ export default function MySlider(){
         slidesToScroll: 1,
         arrows: true,
         nextArrow: <NextArrow />,
-        prevArrow: <PrevArrow />
+        prevArrow: <PrevArrow />,
+        autoplay: true, 
+        autoplaySpeed: 3000,
+        pauseOnHover: true
     };
     const infos = [
         {

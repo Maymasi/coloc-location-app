@@ -6,7 +6,6 @@
     padding: 0;
     box-sizing: border-box;
 }
-
 .ListNav {
     list-style: none;
     display: flex;
@@ -17,32 +16,28 @@
     background: white;
     border-bottom: 1px solid #eee;
 }
-
 ul li {
     display: flex;
     align-items: center;
     color: #333;
     cursor: pointer;
 }
-
 ul li a {
     text-decoration: none;
     color: inherit;
+    font-size: 16px;
 }
 ul li a:hover {
     color:#ff6c5cbc;
 }
-
 .dropdown::after {
     content: "";
     margin-left: 4px;
 }
-
 .searchBox {
     display: flex;
     align-items: center;
 }
-
 .searchContainer {
     display: flex;
     align-items: center;
@@ -59,7 +54,6 @@ ul li a:hover {
     font-size: 14px;
     width: 120px;
 }
-
 .btn-outline {
     background-color: transparent;
     border: none;
@@ -251,4 +245,18 @@ body{
 }
 .slick-prev:before{
     display: none !important;
+}
+.slick-dots {
+    bottom: -30px; 
+}
+.slick-dots li {
+    margin: 0 4px;
+}
+.slick-dots li button:before {
+    font-size: 12px;
+    color: #cfd2d6; 
+    opacity: 1;
+}
+.slick-dots li.slick-active button:before {
+    color: #fd7667; 
 }
