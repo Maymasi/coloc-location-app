@@ -260,3 +260,40 @@ body{
 .slick-dots li.slick-active button:before {
     color: #fd7667; 
 }
+.CardSta{
+    height: 150px;
+    width: 280px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+    border: 2px solid #facec963;
+    border-radius: 12px;
+    transition: all 300ms ease;
+    transform-origin: center; 
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+.CardSta:hover{
+    transform: scale(1.05);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+}
+.number{
+    font-size: 33px;
+    color: #fd7667;
+    font-weight: 700;
+    font-family: 'JetBrains Mono', 'SF Mono', 'Menlo', monospace;
+}
+.icn{
+    color: #fd7667;
+    background-color: #facec98d;
+    padding: 7px;
+    border-radius: 100%;
+    display: flex;
+    align-items: center;
+    justify-self: center;
+}
+.content{
+    color: #979595;
+    font-size: 15px;
+}
