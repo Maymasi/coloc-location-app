@@ -38,7 +38,7 @@ export default function SimpleProcess(){
                     <div className='descripProcessCard'>Schedule viewings, sign your lease online, and move into your perfect student housing.</div>
                 </div>
             </div>
-            <div style={{display:"flex",justifyContent:"center",alignItems:"center",gap:"7px",cursor: "pointer"}}>
+            <div className='startSearch' style={{display:"flex",justifyContent:"center",alignItems:"center",gap:"7px",cursor: "pointer"}}>
                 <a style={{color:"#fe7364",fontSize:"16px",margin:"50px 0px"}}>Start your search today</a>
                 <MoveRight size={18} color='#fe7364'/>
             </div>
