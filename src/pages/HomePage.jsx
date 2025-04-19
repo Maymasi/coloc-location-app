@@ -6,6 +6,8 @@ import FeaturedProperties from "../components/home/FeaturedProperties";
 import FindStudent from "../components/home/FindStudent";
 import WhyChose from "../components/home/WhyChose";
 import StudentSay from "../components/home/StudentSay";
+import JoinNewsletter from "../components/home/JoinNewsletter";
+import StudentHousingBanner from "../components/home/StudentHousingBanner";
 export default function HomePage(){
     return(
         <>
@@ -18,6 +20,8 @@ export default function HomePage(){
             <FindStudent/>
             <WhyChose/>
             <StudentSay/>
+            <JoinNewsletter/>
+            <StudentHousingBanner/>
         </>
     );
 }
