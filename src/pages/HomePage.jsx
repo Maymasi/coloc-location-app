@@ -5,6 +5,7 @@ import SimpleProcess from "../components/home/SimpleProcess";
 import FeaturedProperties from "../components/home/FeaturedProperties";
 import FindStudent from "../components/home/FindStudent";
 import WhyChose from "../components/home/WhyChose";
+import StudentSay from "../components/home/StudentSay";
 export default function HomePage(){
     return(
         <>
@@ -16,6 +17,7 @@ export default function HomePage(){
             <FeaturedProperties/>
             <FindStudent/>
             <WhyChose/>
+            <StudentSay/>
         </>
     );
 }

@@ -232,7 +232,7 @@ body{
     right: 20px !important;
     width: 50px !important;
     height: 50px !important;
-    top: 280px;
+    top: 280px !important;
 }
 .slick-next:hover{
     background-color: #eeeeee;
@@ -574,4 +574,109 @@ body{
 }
 .card .descripProcessCard{
     text-align: start;
+}
+/* studentSay part */
+.Says{
+    display: flex;
+    margin: 50px 10px;
+    width: 70vw;
+    justify-content: flex-start;;
+    align-items: center;
+    gap: 25px;
+    overflow-x: auto;         
+    scroll-behavior: smooth;  
+    padding-bottom: 20px;
+    flex-wrap: nowrap;
+}
+.sayCard{
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    background-color: rgb(255, 255, 255);
+    padding: 25px;
+    gap: 20px;
+    border-radius: 14px;
+    border: 2px solid #fde7e4;
+    flex: 0 0 calc((100% - 50px) / 3);
+    max-width: calc((100% - 50px) / 3);
+}
+/* scroll bar */
+.Says::-webkit-scrollbar {
+    height: 8px; /* 👈 réduit la hauteur du scroll horizontal */
+    width: 30px;
+}
+
+.Says::-webkit-scrollbar-track {
+    background: #ffebe9; /* fond clair ou transparent */
+    border-radius: 8px;
+}
+
+.Says::-webkit-scrollbar-thumb {
+    background-color: #f4b8b2; 
+    border-radius: 8px;
+    border: 2px solid #fce4e4; 
+}
+.topSayCard{
+    display: flex;
+    gap: 13px;
+    align-items: start;
+}
+.pic{
+    width: 100%;
+    height: 100%;
+}
+.picProfile{
+    border: 2px solid #fdd3cd;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    overflow: hidden; 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #777;
+}
+.infoStudent{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: start;
+}
+.NameStudent{
+    font-size: 17px;
+    font-weight: 700;
+}
+.Specialite,.school{
+    font-size: 13px;
+    font-weight: 400;
+    color: #909090;
+}
+.evaluation{
+    margin-top: 3px;
+}
+.contentText{
+    text-align: start;
+    color: #5d5d5d;
+    padding: 0px 10px;
+}
+.school{
+    text-align: start;
+}
+.Specialite{
+    text-align: start;
+}
+.virguleTop{
+    display: flex;
+    /* align-items: start; */
+    justify-content: start;
+}
+.virguleBottom{
+    display: flex;
+    align-items: end;
+    justify-content: end;
+}
+.text{
+    display: flex;
+    gap: 15px;
+    flex-direction: column;
 }

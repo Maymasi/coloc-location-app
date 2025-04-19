@@ -1,19 +1,15 @@
 import * as React from 'react';
 import "slick-carousel/slick/slick.css"; 
 import "slick-carousel/slick/slick-theme.css";
-import { House } from 'lucide-react';
-import { Users } from 'lucide-react';
-import { Building } from 'lucide-react';
+import { House,Users,Building,Shield } from 'lucide-react';
 import StarIcon from '@mui/icons-material/Star';
-import { Shield } from 'lucide-react';
 import Slider from "react-slick";
 import Button from '@mui/material/Button';
-
 function NextArrow(props) {
     const { className, onClick } = props;
     return (
         <div className={className} onClick={onClick} style={{
-            // right: "-350px",
+            right: "-350px",
             color:"black" ,
             borderRadius:"100%",
             boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
@@ -28,7 +24,7 @@ function PrevArrow(props) {
     const { className, onClick } = props;
     return (
         <div className={className} onClick={onClick} style={{
-            // left:"350px",
+            left:"350px",
             color:"black",
             borderRadius:"100%",
             display:"flex",
