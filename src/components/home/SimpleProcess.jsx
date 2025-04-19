@@ -2,7 +2,7 @@ import { Search,UsersRound,House,MoveRight  } from 'lucide-react';
 
 export default function SimpleProcess(){
     return(
-        <div style={{display:"flex",flexDirection:"column",justifyContent:"center",alignItems:"center",gap:"10px",background:"linear-gradient(to bottom,rgb(255, 255, 255),rgb(255, 252, 252))"}}>
+        <div style={{display:"flex",flexDirection:"column",justifyContent:"center",alignItems:"center",gap:"10px",background:"linear-gradient(rgb(253 247 247), rgb(255 254 254))",paddingTop:"25px"}}>
             <div className="litleTitle">Simple Process</div>
             <div className="bigTitle">How CampusHaven Works</div>
             <div className="shortDescrip">Finding your perfect student housing and roommates is easy with our simple three-step process</div>

@@ -542,7 +542,8 @@ body{
     padding: 25px;
     border-radius: 14px;
     transition: transform 300ms ease;
-    background-color: #efeff4
+    background-color: #f7f7f79c;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
 }
 .card:hover{
     transform: scale(1.05);
