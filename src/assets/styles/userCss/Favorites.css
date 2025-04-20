@@ -1,0 +1,258 @@
+@import url('../../../index.css');
+.favorites-colocataires{
+    display: flex;
+    width: 100%;
+    height: 100%;
+    box-sizing: border-box;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+.favorites{
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+    padding: 20px 40px;
+    box-sizing: border-box;
+}
+.favorites .title .main-title{
+    font-size: 30px;
+    font-weight: 700;
+    color: hsl(var(--foreground));
+}
+.favorites .title .sub-title{
+    font-size: 17px;
+    font-weight: 400;
+    color: hsl(var(--muted-foreground));
+}
+/* favorite card  */
+.colocataire{
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+    border-radius: 10px;
+    width: 380px;
+    border: 1px solid hsl(var(--border));
+    height: 370px;
+    background-color: hsl(var(--background));
+    gap: 10px;
+}
+.colocataire .head{
+    height: 54% !important;
+    border-radius: 10px 10px 0 0;
+    border: 1px solid hsl(var(--border));
+    border-bottom: none;
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+
+}
+.colocataire .head .info{
+    display: flex;
+    justify-content: space-between;
+    padding: 10px;
+    box-sizing: border-box;
+    font-size: 15px;
+    font-weight: 700;
+    width: 100%;
+}
+.colocataire .head .info .delete{
+    color: hsl(var(--primary));
+    background-color: white;
+    padding: 10px;
+    border-radius: 50%;
+    border: 1px solid hsl(var(--border));
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: all 0.3s ease-in-out;
+    width: fit-content
+}
+.colocataire .head .info .delete:hover{
+    background-color: hsl(var(--primary));
+    color: white;
+}
+.colocataire .head .type{
+    width: fit-content;
+    padding: 5px 10px;
+    border-radius: 16px;
+    font-size: 12px;
+    font-weight: 600;
+    background-color: hsl(var(--primary));
+    color: white;
+    height: fit-content;
+}
+.colocataire .content .price{
+    color: hsl(var(--primary));
+    font-weight: 600;
+}
+.colocataire .content{
+    padding: 10px 10px 0;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    border-top: none;
+}
+.colocataire .content .title-price{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.colocataire .content .title-price .title{
+    font-size:16px;
+    font-weight: 700;
+    text-transform: capitalize;
+}
+.colocataire .content .location{
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 15px;
+    color: hsl(var(--muted-foreground));
+}
+.colocataire .content .details{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 15px;
+}
+.colocataire .content .details .details-info{
+    display: flex;
+    align-items: center;
+    gap: 2px;
+    font-size: 14px;
+}
+
+.colocataire .content .details .state{
+   background-color: hsl(var(--background));
+    padding: 3px 10px;
+    border-radius: 16px;
+    font-size: 12px;
+    font-weight: 600;
+    border: 1px solid hsl(var(--border));
+}
+.colocataire .footer{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    box-sizing: border-box;
+    font-size: 15px;
+    font-weight: 700;
+    width: 100%;
+}
+.colocataire .footer .seeProfil,.colocataire .footer .sendMessage{
+    padding: 8px 10px;
+    border-radius: 12px;
+    width: 43%;
+    text-align: center;
+    font-weight: 500;
+}
+.colocataire .footer .sendMessage{
+    background-color: hsl(var(--primary));
+    color: white;
+    transition: all 0.3s ease-in-out;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 15px;
+    cursor: pointer;
+}
+.colocataire .footer .sendMessage:hover{
+    background-color: hsl(var(--primary) / 80%);
+    color: white;
+}
+.colocataire .footer .seeProfil{
+    background-color: hsl(var(--background));
+    color: hsl(var(--foreground));
+    border: 1px solid hsl(var(--border));
+    transition: all 0.3s ease-in-out;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 15px;
+    cursor: pointer;
+}
+.colocataire .footer .seeProfil:hover{
+    background-color: hsl(var(--primary));
+    color: white;
+}
+/* pagination */
+.css-1c5o7vy-MuiPagination-ul{
+    justify-content: center;
+}
+.css-1l5xwdx-MuiButtonBase-root-MuiPaginationItem-root.Mui-selected{
+    background-color: hsl(var(--primary)/ 80%) !important;
+    color: white !important;
+}
+/* card coloc favorite */
+.colocataire .header{
+    display: flex;
+    flex-direction: column;
+    height: 50% !important;
+    background-color: hsl(var(--secondary));
+    border-radius: 10px 10px 0 0;
+    border: 1px solid hsl(var(--border));
+    border-bottom: none;
+    padding: 16px;
+}
+.colocataire .header .delete{
+    display: flex;
+    justify-content: end;
+    align-items: center;
+    height: 20%;
+}
+.colocataire .header .delete .delete-icon{
+    color: hsl(var(--primary));
+    background-color: white;
+    padding: 10px;
+    border-radius: 50%;
+    border: 1px solid hsl(var(--border));
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: all 0.3s ease-in-out;
+    width: fit-content
+}
+.colocataire .header .delete .delete-icon:hover{
+    background-color: hsl(var(--primary));
+    color: white;
+}
+.colocataire .header .name{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 20px;
+    height: 80%;
+}
+.colocataire .header .name .avatar{
+    color: hsl(var(--primary));
+    width: 80px;
+    height: 80px;
+    font-weight: 700;
+    font-size: 30px;
+}
+.colocataire .info{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+.colocataire .content{
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+.colocataire .content .detail{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.colocataire .content .detail .label{
+    font-size: 15px;
+    font-weight: 500;
+    color: hsl(var(--muted-foreground));
+}
+

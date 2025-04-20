@@ -327,7 +327,7 @@ header {
     cursor: pointer;
     box-shadow: 0 0 10px hsl(var(--shadow));
     transition: all 0.3s ease-in-out;
-    height: 280px;
+    height: 300px;
 }
 .recommended-home:hover{
     transform: scale(1.02);
@@ -335,7 +335,7 @@ header {
     background-color: hsl(var(--primary));
 }
 .recommended-home .image{
-    height:150px !important;
+    height:180px !important;
     width: 100%;
     background-image:contain !important;
     background-repeat: no-repeat !important;
