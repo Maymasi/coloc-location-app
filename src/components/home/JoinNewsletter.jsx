@@ -3,7 +3,7 @@ import Button from '@mui/material/Button';
 export default function JoinNewsletter(){
     return(
         <div style={{display:"flex",justifyContent:"center",alignItems:"center"}}>
-            <div 
+            <div data-aos="zoom-out"
             style={{
                 display:"flex",
                 justifyContent:"space-between",

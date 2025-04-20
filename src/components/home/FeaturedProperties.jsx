@@ -12,7 +12,7 @@ export default function FeaturedProperties(){
                 </div>
             </div>
             <div className="FeaturedCards">
-                <div className="featuredCard">
+                <div className="featuredCard" data-aos="fade-up" data-aos-delay="0" data-aos-easing="ease-in-out">
                     <div className="topPic">
                         <img src="../../../public/Room.jfif" alt="" />
                         <div className="starTopRight">
@@ -54,7 +54,7 @@ export default function FeaturedProperties(){
                         </div>
                     </div>
                 </div>
-                <div className="featuredCard">
+                <div className="featuredCard" data-aos="fade-up" data-aos-delay="150" data-aos-easing="ease-in-out">
                     <div className="topPic">
                         <img src="../../../public/Room.jfif" alt="" />
                         <div className="starTopRight">
@@ -96,7 +96,7 @@ export default function FeaturedProperties(){
                         </div>
                     </div>
                 </div>
-                <div className="featuredCard">
+                <div className="featuredCard" data-aos="fade-up" data-aos-delay="300" data-aos-easing="ease-in-out">
                     <div className="topPic">
                         <img src="../../../public/Room.jfif" alt="" />
                         <div className="starTopRight">

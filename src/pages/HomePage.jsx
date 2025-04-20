@@ -8,7 +8,16 @@ import WhyChose from "../components/home/WhyChose";
 import StudentSay from "../components/home/StudentSay";
 import JoinNewsletter from "../components/home/JoinNewsletter";
 import StudentHousingBanner from "../components/home/StudentHousingBanner";
+import AOS from 'aos';
+import 'aos/dist/aos.css';
+import { useEffect } from 'react';
 export default function HomePage(){
+    useEffect(() => {
+        AOS.init({
+          duration: 1500, // durée de l’animation (en ms)
+          once: true, // animation seulement au premier scroll
+        });
+    }, []);
     return(
         <>
             <Nav/>

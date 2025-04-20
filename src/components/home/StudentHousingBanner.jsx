@@ -3,7 +3,7 @@ import { Sparkles } from 'lucide-react';
 export default function StudentHousingBanner () {
     return (
         <section className="student-housing-banner">
-        <div className="banner-content">
+        <div className="banner-content" data-aos="fade-right">
             <span className="limited-offer">
             <Sparkles size={"16px"}/>
             Limited Time Offer
@@ -16,7 +16,7 @@ export default function StudentHousingBanner () {
             Sign up today and get 50% off your first month's rent!
             </p>
         </div>
-        <div className="banner-buttons">
+        <div className="banner-buttons" data-aos="fade-left">
             <button className="btn-primary">Sign Up Now</button>
             <button className="btn-secondary">Browse Properties</button>
         </div>
