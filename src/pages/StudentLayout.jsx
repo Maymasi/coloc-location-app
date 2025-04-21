@@ -1,7 +1,7 @@
-import LeftNav from '../common/LeftNav';
-import TopNav from '../common/TopNav';  
+import LeftNav from '../components/common/LeftNav';
+import TopNav from '../components/common/TopNav';  
 import { Outlet } from 'react-router-dom';
-import '../../assets/styles/userCss/userLayout.css';
+import '../assets/styles/userCss/userLayout.css';
 
 const StudentLayout = () => {
   return (

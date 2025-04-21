@@ -32,7 +32,7 @@
     border-radius: 10px;
     width: 380px;
     border: 1px solid hsl(var(--border));
-    height: 370px;
+    height: 400px;
     background-color: hsl(var(--background));
     gap: 10px;
 }
@@ -234,11 +234,21 @@
     font-weight: 700;
     font-size: 30px;
 }
-.colocataire .info{
+.colocataire .info-coloc{
     display: flex;
     flex-direction: column;
     align-items: center;
     width: 100%;
+}
+.colocataire .info-coloc .name-person{
+    font-size: 18px;
+    font-weight: 700;
+    color: hsl(var(--foreground));
+}
+.colocataire .info-coloc .school{
+    font-size: 15px;
+    font-weight: 500;
+    color: hsl(var(--muted-foreground));
 }
 .colocataire .content{
     display: flex;
@@ -251,8 +261,20 @@
     align-items: center;
 }
 .colocataire .content .detail .label{
-    font-size: 15px;
+    font-size: 14px;
     font-weight: 500;
     color: hsl(var(--muted-foreground));
 }
+.colocataire .content .detail .value{
+    font-size: 14px;
+    font-weight: 500;
+}
+.colocataire {
+    transition: transform 0.4s ease, box-shadow 0.4s ease, background-color 0.4s ease;
+}
 
+.colocataire:hover {
+    transform: translateY(-8px) rotate(1deg);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+    background-color: hsl(var(--primary) / 10%);
+}
