@@ -2,7 +2,6 @@ import { Users, Building, House, UsersRound } from 'lucide-react';
 import { useInView } from 'react-intersection-observer';
 import { useState, useEffect } from 'react';
 import CountUp from 'react-countup';
-import "../../assets/styles/styleHome.css";
 export default function StatisiCard(){
     const { ref, inView } = useInView({
         triggerOnce: true,

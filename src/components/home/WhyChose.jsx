@@ -1,5 +1,4 @@
 import { House,UsersRound,Building2  } from 'lucide-react';
-
 export default function WhyChose(){
     return (
         <div style={{display:"flex",flexDirection:"column",justifyContent:"center",alignItems:"center",gap:"10px",background:"linear-gradient(to bottom,rgb(255, 255, 255),rgb(255, 252, 252))",margin:"70px 0px"}}>
