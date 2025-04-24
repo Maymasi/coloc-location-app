@@ -166,7 +166,8 @@ ul li a:hover {
         display: none;
     }
     .ParentMenu{
-        display:block;
+        display:flex;
+        flex-direction: column;
     }
 }
 /* slide */

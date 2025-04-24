@@ -15,8 +15,8 @@ import MenuItem from '@mui/material/MenuItem';
 import FavoriteBorder from '@mui/icons-material/FavoriteBorder';
 import Favorite from '@mui/icons-material/Favorite';
 import Pagination from '@mui/material/Pagination';
-import { MapPin } from 'lucide-react';
-import { useState } from "react";
+import { MapPin,SlidersHorizontal  } from 'lucide-react';
+import { useState,useEffect } from "react";
 const properties = Array.from({ length: 25 }, (_, i) => ({
   id: i,
   title: `Modern Studio ${i + 1}`,
@@ -78,11 +78,25 @@ export default function PropertiesFound(){
     const [amenities,setAmenities]=useState(['Parking']);
     const [sort, setSort] = useState("Newest");
     const [page, setPage] = useState(1);
+    const [openFilter,setOpenFilter]=useState(false);
+    const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
     //choices
     const propertiesPerPage = 6;
     const propertyTypes = ['Apartment', 'House', 'Room', 'Studio'];
     const amenitiesList = ['Parking','Laundry','Pet Friendly','WiFi included']
     //handlers
+    useEffect(() => {
+      const handleResize = () => {
+        setIsMobile(window.innerWidth < 768);
+      };
+    
+      window.addEventListener("resize", handleResize);
+    
+      return () => window.removeEventListener("resize", handleResize);
+    }, []);
+    useEffect(() => {
+      document.body.style.overflow = openFilter ? "hidden" : "auto";
+    }, [openFilter]);
     const handleType = (event) => {
       const { value, checked } = event.target;
   
@@ -116,13 +130,29 @@ export default function PropertiesFound(){
     const handleChangePage = (event, value) => {
       setPage(value);
     };
+    const handleOpenFilter = ()=>{
+      setOpenFilter((prev) => !prev);
+    }
     // indexes
     const startIndex = (page - 1) * propertiesPerPage;
     const endIndex = startIndex + propertiesPerPage;
     const currentProperties = properties.slice(startIndex, endIndex);
     return(
         <div className="PropertiesFoundContainer">
-            <div className="filter">
+            <div className="btnFilter" onClick={handleOpenFilter}>
+              <SlidersHorizontal size={"15px"}/>
+              <button className="buttonFilter" >Filters</button>
+            </div>
+            {/* Overlay */}
+            {openFilter && isMobile && (
+              <div className="overlay" onClick={handleOpenFilter}></div>
+            )}
+            <div className="filter"
+            style={{
+              display: isMobile ? (openFilter ? "flex" : "none") : "flex",
+              zIndex: 1001, // Assurez-vous que le filtre soit au-dessus de l'overlay
+            }}
+              >
                 <div className="titleFilter">Filters</div>
                 <div style={{width:"100%",display:"flex",alignItems:"start",flexDirection:"column",gap:"9px"}}>
                   <label htmlFor="Slider">Price Range</label>
@@ -247,7 +277,7 @@ export default function PropertiesFound(){
             </div>
             <div className="resultats">
                 <div className="top">
-                  <div style={{fontSize:"23px"}}>742 Properties Found</div>
+                  <div  className="titlePropFound" style={{fontSize:"23px"}}>742 Properties Found</div>
                   <FormControl className="formControll" fullWidth style={{width:"190px"}}>
                     <Select
                       labelId="demo-simple-select-label"
@@ -297,7 +327,7 @@ export default function PropertiesFound(){
                   </div>
                 ))}
                 </div>
-                <div style={{ display: "flex", justifyContent: "center", marginTop: "20px" }}>
+                <div  className="pagination" style={{display: "flex", justifyContent: "center", marginTop: "20px" }}>
                 <Pagination
                   count={Math.ceil(properties.length / propertiesPerPage)}
                   page={page}
