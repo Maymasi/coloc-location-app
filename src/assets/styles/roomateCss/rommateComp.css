@@ -1,0 +1,137 @@
+@import url(../../../index.css);
+/* /header */
+.roommate-page .header .create-request{
+    width: fit-content;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 11px 20px;
+    font-size: 15px;
+    background-color: hsl(var(--primary));
+    color: white;
+    border-radius: 16px;
+    cursor: pointer;
+}
+.roommate-page .header .create-request:hover{
+    background-color: hsl(var(--primary)/80%);
+}
+.roommate-page header{
+    width: 100% !important;
+}
+.roommate-page .css-jhczcq-MuiTabs-root{
+    width: 100% !important;
+    text-align: center !important;
+    margin: 0 auto !important;
+}
+.roommate-page{
+    width: 100% !important;
+    box-sizing: border-box;
+    padding: 20px 50px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+.roommate-page .header{
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+.roommate-page .header .title .fonctionnality{
+    font-size: 32px;
+    font-weight: 700;
+    color: #000000;
+}
+.roommate-page .header .title .description{
+    color: hsl(var(--muted-foreground));
+}
+.roommate-page .css-4bojcr-MuiInputBase-root-MuiOutlinedInput-root{
+    border: 1px solid hsl(var(--border)) !important;
+    border-radius: 16px !important;
+
+}
+.roommate-filter{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    background-color: white !important;
+    padding: 20px 30px !important;
+    border-radius: 16px !important;
+    margin-top: 20px !important;
+    margin-bottom: 20px !important;
+    border: 1px solid hsl(var(--border)) !important;
+    box-sizing: border-box;
+    align-items: start;
+
+}
+.search-field{
+    display: flex;
+    gap: 20px;
+    width: 100%;
+    justify-content: space-between;
+    border-radius: 16px;
+}
+.search-field .select-budget{
+    width: 50%;
+}
+.css-sc8y68-MuiInputBase-root-MuiOutlinedInput-root-MuiSelect-root{
+    border: 1px solid hsl(var(--border)) !important;
+    border-radius: 12px !important;
+}
+.search-field .search-btn{
+    width: 50%;
+    height: 45px;
+    background-color: hsl(var(--primary)) !important;
+    color: white !important;
+    border-radius: 12px !important;
+    padding: 10px 20px !important;
+    box-sizing: border-box;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
+.search-field .search-btn:hover{
+    background-color: hsl(var(--primary)/80%) !important;
+
+}
+
+.css-1rju2q6-MuiButtonBase-root-MuiMenuItem-root.Mui-selected{
+    background-color: hsl(var(--primary)) !important;
+    color: white !important;
+    border-radius: 12px !important;
+}
+.css-1rju2q6-MuiButtonBase-root-MuiMenuItem-root{
+    margin-top: 2px !important;
+}
+.css-1rju2q6-MuiButtonBase-root-MuiMenuItem-root:hover{
+    background-color: hsl(var(--primary)) !important;
+    color: white !important;
+    border-radius: 12px !important;
+}
+.css-1tktgsa-MuiPaper-root-MuiPopover-paper-MuiMenu-paper{
+    border-radius: 16px !important;
+    padding: 0 8px !important;
+}
+.css-1j2ktq4-MuiFormControl-root .MuiOutlinedInput-root{
+    height: 45px !important;
+}
+.css-q6u2lg-MuiFormControl-root .MuiOutlinedInput-root{
+    border-radius: 16px !important;
+}
+.css-vppglv-MuiFormControl-root-MuiTextField-root .MuiOutlinedInput-root {
+    height: 50px;
+}
+.roommate-filter{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+.css-q6u2lg-MuiFormControl-root{
+    margin: 0 !important;
+}
+/* barre de search */
+.css-1jz7igd-MuiFormControl-root-MuiTextField-root .MuiOutlinedInput-root{
+    height: 50px;
+}

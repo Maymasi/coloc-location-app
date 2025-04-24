@@ -13,7 +13,7 @@ const StudentLayout = () => {
             <div className="top-bar">
                 <TopNav />
             </div>
-            <div className="main-content">
+            <div className="main-content" style={{width: '100%'}}>
                 <Outlet />
             </div>
         </div>

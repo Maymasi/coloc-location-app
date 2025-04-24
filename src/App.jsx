@@ -4,6 +4,7 @@ import StudentLayout from './pages/StudentLayout';
 import StudentDashboard from './components/student/StudentDashboard';
 import Favorites from './components/student/Favorites';
 import ChatUi from './components/common/ChatUi';
+import RoommateComp from './components/student/RoommateComp';
 function App() {
   return (
     <>
@@ -14,6 +15,7 @@ function App() {
           <Route path="profil" element={<h1>orifil</h1>} />
           <Route path="dashboard" element={<StudentDashboard/>} />
           <Route path="favoris" element={<Favorites/>} />
+          <Route path="colocations" element={<RoommateComp/>}/>
         </Route>
         <Route path="/" element={<h1>HOME</h1>} />
         <Route path="*" element={<h1>Page not found</h1>} />
