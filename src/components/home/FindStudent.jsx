@@ -1,8 +1,8 @@
 import { Search } from 'lucide-react';
 export default function FindStudent(){
     return(
-        <div style={{display:"flex",flexDirection:"column",height:"40vh",justifyContent:"center",gap:"20px",alignItems:"center",backgroundColor:"rgb(247 247 247 / 86%)",padding:"100px 0px"}}>
-            <div style={{color:"#fe7364",fontSize:"34px",fontWeight:"650"}}>Find Your Perfect Student Housing</div>
+        <div className='findContainer' style={{display:"flex",flexDirection:"column",height:"40vh",justifyContent:"center",gap:"20px",alignItems:"center",backgroundColor:"rgb(247 247 247 / 86%)",padding:"150px 0px"}}>
+            <div className='findTitle' style={{color:"#fe7364",fontSize:"34px",fontWeight:"650"}}>Find Your Perfect Student Housing</div>
             <div style={{fontSize:"16px",color:"#868686"}}>Search from thousands of verified student accommodations near your campus</div>
             <div className="searchBar">
                 <Search size={"20px"}/>

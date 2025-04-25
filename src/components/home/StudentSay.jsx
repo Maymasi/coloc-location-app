@@ -10,7 +10,7 @@ export default function StudentSay(){
         {img:"/ProfilPicture.jfif",Name:"David Rodriguez",specialite:"Computer Science Student",school:"Tech University",evaliuation:"4",opinion:"The virtual tours saved me so much time! I was able to view multiple properties without leaving my dorm. Found an amazing apartment with three other business majors through the roommate matching feature."}
     ]
     return (
-        <div style={{backgroundColor:"rgb(250 250 250 / 68%)",margin:"80px 0px",display:"flex",flexDirection:"column",justifyContent:"center",alignItems:"center",padding:"40px"}}>
+        <div style={{backgroundColor:"rgb(250 250 250 / 68%)",margin:"80px 0px",display:"flex",flexDirection:"column",justifyContent:"center",alignItems:"center",padding:"40px 10px"}}>
             <div className="bigTitle">What Our Students Say</div>
             <div className="shortDescrip">Hear from students who found their perfect housing and roommates through CampusHaven</div>           
             <div className="Says">
@@ -27,7 +27,7 @@ export default function StudentSay(){
                                             <div className="Specialite">{student.specialite}</div>
                                             <div className="school">{student.school}</div>
                                     </div>
-                                    <div className="evaluation"><Rating name="read-only" value={student.evaliuation} readOnly/></div>
+                                    <div className="evaluationk"><Rating name="read-only" value={student.evaliuation} readOnly/></div>
                                 </div>
                                 <div className="text">
                                     <div className="virguleTop"><Quote style={{ transform: "rotate(180deg)", color: "#fde3e3", fontSize: "32px" }}/></div>

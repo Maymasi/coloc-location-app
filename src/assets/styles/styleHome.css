@@ -216,12 +216,6 @@ body{
     color: #6e6e6ed2;
     font-weight: 400;
 }
-.evaluation{
-    display: flex;
-    /* justify-content: start; */
-    gap: 7px;
-    align-items: center;
-}
 .underDescription{
     display: flex;
     align-items: center;
@@ -467,6 +461,36 @@ body{
 .startSearch:hover{
     gap: 10px;
 }
+/* slider respo */
+@media (max-width: 768px){
+    .rightSide{
+        display: none;
+    }
+    .slide{
+        width: 100%;
+    }
+    .slick-prev{
+        top: 40% !important;
+        left: 1% !important;
+    }
+    .slick-next{
+        top: 40% !important;
+        right: 1% !important;
+    }
+    .BigTitle{
+        font-size: 30px;
+    }
+    .leftSide{
+        width: 90%;
+        align-items: center;
+        padding-bottom: 40px;
+    }
+    .DescriptionSlider{
+        text-align: center;
+        width: 100%;
+    }
+}
+
 /* FeaturedProperties */
 .titleFeatured{
     font-size: 26px;
@@ -477,11 +501,12 @@ body{
     margin-top: 40px;
     display: flex;
     justify-content: space-between;
-    gap: 30px;
+    gap: 20px;
+    width: 100%;
 }
 .featuredCard{
-    width: 40%;
-    height: 470px;
+    width: 45%;
+    height: 410px;
     border-radius: 24px;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
     overflow: hidden;
@@ -525,18 +550,25 @@ body{
 }
 .infoSec{
     flex: 1;
-    padding: 19px;
+    padding: 14px;
     display: flex;
     flex-direction: column;
     gap: 10px;
 }
 .houseDescrip{
-    font-size: 18px;
+    font-size: 17px;
     font-weight: 700;
+    text-align: start;
+}
+.evaluation{
+    display: flex;
+    gap: 3px;
+    align-items: center;
 }
 .underLine{
     display: flex;
     justify-content: space-between;
+    align-items: center;
 }
 .adress{
     display: flex;
@@ -609,6 +641,58 @@ body{
 .searchBtn:hover{
     transform: scale(1.05);
 }
+/* featured Properties respo */
+@media (max-width: 768px){
+    .FeaturedContainer{
+        height: fit-content;
+        width: 100%;
+    }
+    .CardSta{
+        width: 40%;
+    }
+}
+/* simple Porcess respo */
+@media (max-width: 768px){
+    .simpleProcessContainer{
+        flex-wrap: wrap;
+        padding-top: 50px;
+    }
+    .cards{
+        flex-wrap: wrap;
+    }
+    .processCard {
+        width: 100%;
+    }
+}
+/* featured Properties respo */
+@media (max-width: 768px){
+    .FeaturedContainer{
+        margin: 0px;
+        padding: 30px;
+    }
+    .FeaturedCards{
+        flex-wrap: wrap;
+    }
+    .featuredCard{
+        width: 100%;
+    }
+}
+/* find student respo */
+@media (max-width: 768px){
+    .findContainer{
+        width: 100%;
+        padding: 30px !important;
+    }
+    .searchBar{
+        width: 100%;
+    }
+    .inputSearch{
+        width: 60%;
+    }
+    .findTitle{
+        font-size: 30px ;
+    }
+}
 /* WhyChose Part */
 .card{
     width: 24%;
@@ -654,11 +738,21 @@ body{
 .card .descripProcessCard{
     text-align: start;
 }
+/* why chose respo */
+@media (max-width: 768px){
+    .whyContainer{
+        width: 100%;
+        padding: 20px;
+    }
+    .whycard{
+        width: 100%;
+    }
+}
 /* studentSay part */
 .Says{
     display: flex;
     margin: 50px 10px;
-    width: 70vw;
+    width: 80%;
     justify-content: flex-start;;
     align-items: center;
     gap: 25px;
@@ -672,12 +766,15 @@ body{
     flex-direction: column;
     align-items: start;
     background-color: rgb(255, 255, 255);
-    padding: 25px;
-    gap: 20px;
+    padding: 20px;
+    gap: 10px;
     border-radius: 14px;
     border: 2px solid #fde7e4;
-    flex: 0 0 calc((100% - 50px) / 3);
-    max-width: calc((100% - 50px) / 3);
+    width: 100%;
+    flex: 0 0 calc(((100%) - 20px) / 3);
+}
+.evaluationk{
+    padding-top: 3px;
 }
 /* scroll bar */
 .Says::-webkit-scrollbar {
@@ -729,9 +826,6 @@ body{
     font-size: 13px;
     font-weight: 400;
     color: #909090;
-}
-.evaluation{
-    margin-top: 3px;
 }
 .contentText{
     text-align: start;
@@ -791,19 +885,19 @@ body{
     background: #ff6e64;
     background-image:   radial-gradient(circle at 20% 30%, rgba(255, 255, 255, 0.05) 0%, transparent 70%),
                         radial-gradient(circle at 70% 70%, rgba(255, 255, 255, 0.05) 0%, transparent 60%);
-    padding: 60px 10px;
+    padding: 40px 40px;
     text-align: left;
     color: white;
     font-family: 'Segoe UI', sans-serif;
-    margin: 80px 0px;
+    margin: 40px 0px;
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: space-between;
     gap: 20vw;
 }
 
 .banner-content {
-    width: 40vw;
+    width: 60%;
     /* margin: 0 auto; */
 }
 
@@ -830,13 +924,15 @@ body{
     font-size: 16px;
     line-height: 1.6;
     margin-bottom: 30px;
-    color: #f5f5f6db;
+    color: #ffffff;
 }
 
 .banner-buttons {
     display: flex;
     gap: 15px;
     align-items: center;
+    width: 40%;
+    justify-content: center;
 }
 
 .btn-primary,

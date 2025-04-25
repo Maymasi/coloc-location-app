@@ -3,7 +3,7 @@ import Button from '@mui/material/Button';
 import StarIcon from '@mui/icons-material/Star';
 export default function FeaturedProperties(){
     return(
-        <div style={{display:'flex',flexDirection:'column',justifyContent:'center',margin:"40px 180px"}}>
+        <div className='FeaturedContainer' style={{display:'flex',flexDirection:'column',justifyContent:'center',margin:"40px 100px"}}>
             <div className="top" style={{display:"flex",justifyContent:"space-between"}}>
                 <div className="titleFeatured">Featured Properties</div>
                 <div className="viewAll" style={{display:"flex",justifyContent:"center",alignItems:"center",gap:"10px",color:"#fe7364"}}>

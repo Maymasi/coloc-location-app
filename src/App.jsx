@@ -5,8 +5,8 @@ import HomePage from './pages/HomePage'
 function App() {
   return (
     <>
-      <AnnoncesPage/>
-      {/* <HomePage/> */}
+      {/* <AnnoncesPage/> */}
+      <HomePage/>
     </>
   )
 }
