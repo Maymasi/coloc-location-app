@@ -286,7 +286,7 @@ body{
     text-align: end;
 }
 .slick-prev {
-    z-index: 9999 !important;
+    z-index: 9 !important;
     display: flex !important;
     align-items: center;
     justify-content: center;
@@ -297,7 +297,7 @@ body{
     height: 50px !important;
 }
 .slick-next {
-    z-index: 9999 !important;
+    z-index: 9 !important;
     /* display: flex !important; */
     align-items: center;
     justify-content: center;
@@ -641,21 +641,28 @@ body{
 .searchBtn:hover{
     transform: scale(1.05);
 }
-/* featured Properties respo */
+/* static respo */
 @media (max-width: 768px){
     .FeaturedContainer{
         height: fit-content;
         width: 100%;
+        margin: 0px;
+        margin-bottom: 20px;
     }
     .CardSta{
         width: 40%;
+    }
+    .cardsSta{
+        flex-wrap: wrap;
+        height: fit-content !important;
+        margin: 70px 0px 60px 0px !important;
     }
 }
 /* simple Porcess respo */
 @media (max-width: 768px){
     .simpleProcessContainer{
         flex-wrap: wrap;
-        padding-top: 50px;
+        padding:20px 20px !important;
     }
     .cards{
         flex-wrap: wrap;
@@ -663,12 +670,15 @@ body{
     .processCard {
         width: 100%;
     }
+    .bigTitle{
+        font-size: 30px;
+    }
 }
 /* featured Properties respo */
 @media (max-width: 768px){
     .FeaturedContainer{
-        margin: 0px;
-        padding: 30px;
+        margin: 0px !important;
+        padding:  10px 30px 30px 30px !important;
     }
     .FeaturedCards{
         flex-wrap: wrap;
@@ -676,21 +686,25 @@ body{
     .featuredCard{
         width: 100%;
     }
+    .titleFeatured{
+        text-align: start;
+    }
 }
 /* find student respo */
 @media (max-width: 768px){
     .findContainer{
         width: 100%;
         padding: 30px !important;
+        height: fit-content !important;
     }
     .searchBar{
         width: 100%;
     }
     .inputSearch{
-        width: 60%;
+        width: 50% !important;
     }
     .findTitle{
-        font-size: 30px ;
+        font-size: 30px !important ;
     }
 }
 /* WhyChose Part */
@@ -853,6 +867,24 @@ body{
     gap: 15px;
     flex-direction: column;
 }
+/* respo student say */
+@media (max-width: 768px){
+    .sayContainer{
+        width: 100%;
+        margin: 0px !important;
+        padding: 40px 10px 10px 10px !important;
+    }
+    .Says{
+        width: 100%;
+    }
+    .picProfile{
+        width: 90px;
+        height: 100%;
+    }
+    .NameStudent{
+        text-align: start;
+    }
+}
 /* Style Join Newletter */
 .inputEmail{
     /* background-color: #333; */
@@ -879,6 +911,28 @@ body{
     justify-content: center;
     align-items: center;
     width: 50%;
+}
+/* join respo */
+@media (max-width: 768px){
+    .joinContainer{
+        width: 100%;
+        padding: 30px;
+    }
+    .cardJoin{
+        width: 100% !important;
+    }
+    .rightSideJoin{
+        display: none;
+    }
+    .leftSideJoin{
+        width: 100% !important;
+    }
+    .inputEmail{
+        width: 100%;
+    }
+    .joinbtn{
+        width: 100% !important;
+    }
 }
 /* studentBanner */
 .student-housing-banner {
@@ -965,4 +1019,24 @@ body{
 
 .btn-secondary:hover {
     background-color: rgba(255, 255, 255, 0.1);
+}
+/* student banner respo */
+@media (max-width: 768px){
+    .student-housing-banner{
+        flex-wrap: wrap;
+        gap: 10px !important;
+    }
+    .banner-content{
+        width: 100%;
+    }
+    .banner-buttons{
+        width: 100%;
+        flex-wrap: wrap;
+    }
+    .btn-primary{
+        transform: none;
+    }
+    .btn-primary,.btn-secondary{
+        width: 100%;
+    }
 }

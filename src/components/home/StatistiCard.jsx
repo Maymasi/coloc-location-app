@@ -14,7 +14,7 @@ export default function StatisiCard(){
     }, [inView]);
     const [startCount, setStartCount] = useState(false);
     return(
-        <div data-aos="fade-up" style={{margin:"60px 0px",height:'30vh',display:"flex",justifyContent:"center",alignItems:"center",gap:"30px"}}>
+        <div className='cardsSta' data-aos="fade-up" style={{margin:"60px 0px",height:'30vh',display:"flex",justifyContent:"center",alignItems:"center",gap:"30px"}}>
             <div ref={ref} className='CardSta'>
                 <div className="icn">
                     <Users/>

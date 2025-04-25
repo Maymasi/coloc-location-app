@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState,useEffect } from "react";
 import { Typography } from "@mui/material";
 import { Menu,House, Home ,Megaphone,Info,CircleHelp,X} from 'lucide-react';
 import Button from '@mui/material/Button';
@@ -8,6 +8,9 @@ import "../../assets/styles/styleHome.css";
 import { UserPlus } from 'lucide-react';
 export default function Nav(){
     const [open,setOpen]=useState(false);
+    useEffect(() => {
+        document.body.style.overflow = open ? "hidden" : "auto";
+    }, [open]);
     return(
         <>
             <div className={`ParentMenu ${open ? "fixedMenu" : ""}`}>

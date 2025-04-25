@@ -25,7 +25,6 @@ export default function HomePage(){
             <MySlider/>
             <StatisiCard/>
             <SimpleProcess/>
-            <br/>
             <FeaturedProperties/>
             <FindStudent/>
             <WhyChose/>

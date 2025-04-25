@@ -2,8 +2,8 @@ import { Mail } from 'lucide-react';
 import Button from '@mui/material/Button';
 export default function JoinNewsletter(){
     return(
-        <div style={{display:"flex",justifyContent:"center",alignItems:"center"}}>
-            <div data-aos="zoom-out"
+        <div className='joinContainer' style={{display:"flex",justifyContent:"center",alignItems:"center"}}>
+            <div data-aos="zoom-out" className='cardJoin'
             style={{
                 display:"flex",
                 justifyContent:"space-between",
@@ -21,7 +21,7 @@ export default function JoinNewsletter(){
                         <Mail color='#9e9e9e' size={"23px"}/>
                         <input style={{border:"none",width:"100%",fontSize:"15px"}} placeholder='Your email address' type="Email" />
                     </div>
-                    <Button variant="contained" style={{width:"340px",borderRadius:"11px",height:"37px",fontSize:"15px",textTransform:"none",backgroundColor:"#fe7364"}}>Subscribe</Button>
+                    <Button className='joinbtn' variant="contained" style={{width:"340px",borderRadius:"11px",height:"37px",fontSize:"15px",textTransform:"none",backgroundColor:"#fe7364"}}>Subscribe</Button>
                     <div style={{fontSize:"12px",color:"#757575"}}>We respect your privacy. Unsubscribe at any time.</div>
                 </div>
                 <div className="rightSideJoin">
