@@ -28,3 +28,194 @@ img{
     width: 100%;
     height: 100%;
 }
+.topInfo{
+    display: flex;
+    justify-content: space-between;
+}
+.infoAnnonces{
+    display: flex;
+    flex-direction: column;
+    width: 60%;
+    gap: 10px;
+}
+.bodyAppartment{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+.caracAppartment{
+    display: flex;
+    gap: 10px;
+}
+.infoAnnoncesContainer{
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+    margin:35px 12px;
+}
+/* prop card */
+.infoPropCard{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: start;
+    width: 25%;
+    padding: 20px;
+    border-radius: 12px;
+    border: 1px solid #e0e0e0;
+    color: #757575;
+    gap: 6px;
+    height: 50%;
+}
+.topInfoCard{
+    display: flex;
+    gap: 16px;
+    margin-bottom: 7px;
+}
+.pdpProp{
+    background-color: gray;
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+}
+.nameProp{
+    display: flex;
+    gap: 8px;
+    align-items: center;
+}
+.evaluationProp{
+    display: flex;
+    gap: 4px;
+}
+.adressApartment{
+    display: flex;
+}
+.cordonneesProp{
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+}
+.respondDelai{
+    display: flex;
+    gap: 6px;
+    align-items: center;
+    margin-left: 6px;
+}
+.availableProp{
+    display: flex;
+    gap: 6px;
+    align-items: center;
+    margin-left: 6px;
+}
+.iconInfo{
+    width: 15px;
+    color:#757575;
+}
+button{
+    border: none;
+    background: none;
+}
+.cntctBtn{
+    display: flex;
+    gap: 9px;
+    background-color: #ff6b5c;
+    padding: 7px;
+    width: 100%;
+    border-radius: 14px;
+    align-items: center;
+    justify-content: center;
+    margin-top: 6px;
+}
+/* left side */
+.nameAppartment{
+    font-size: 28px;
+    font-weight: 700;
+    text-align: start;
+}
+.prcAppartment{
+    font-size: 23px;
+    font-weight: 700;
+    color: #ff6b5c;
+}
+.priceAppartment{
+    display: flex;
+    flex-direction: column;
+    justify-content: end;
+    align-items: end;
+    gap: 6px;
+}
+.available{
+    text-align: end;
+    font-size: 12px;
+    border: 1px solid #e0e0e0;
+    border-radius: 9999px;
+    padding-right: 10px;
+}
+.adressApartment{
+    color: #757575;
+    display: flex;
+    gap: 6px;
+    align-items: center;
+    
+}
+.typeApp{
+    display: flex;
+    background-color: #e8eaf6;
+    align-items: center;
+    padding: 9px 13px;
+    gap: 7px;
+    border-radius: 12px;
+}
+.valueTypeApp{
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    align-items: start;
+    gap: 3px;
+}
+.BoxInfoAappartment{
+    margin-top: 14px;
+}
+.BoxInfoAappartment .css-19kzrtu{
+    text-align: start;
+    color: #757575 !important;
+    padding: 20px 10px !important;
+    font-weight: 400;
+}
+.BoxInfoAappartment .css-1usuzwp-MuiButtonBase-root-MuiTab-root.Mui-selected{
+    color: #ff6b5c !important;
+}
+.BoxInfoAappartment .css-1qltlow-MuiTabs-indicator{
+    background-color: #ff6b5c !important;
+}
+.buttonsBodyAppartment{
+    display: flex;
+    gap: 2%;
+    width: 100%;
+}
+.buttonBodyAppartment{
+    display: flex;
+    gap: 13px;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid #e0e0e0;
+    width: 32%;
+    padding: 7px;
+    border-radius: 11px;
+}
+.buttonBodyAppartment:hover{
+    background-color: #ff6b5c;
+    color: white;
+}
+.listAmenities{
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    flex-wrap: wrap;
+    height: 100px;
+}
+.listAmenities li{
+    display: flex;
+    gap: 4px;
+    font-weight: 500;
+}
