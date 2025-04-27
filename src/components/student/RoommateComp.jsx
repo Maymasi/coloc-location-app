@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { useState } from 'react';
+import { useState,useContext } from 'react';
 // MUI Components
 import AppBar from '@mui/material/AppBar';
 import Tabs from '@mui/material/Tabs';
@@ -24,6 +24,9 @@ import { Users, Search } from 'lucide-react';
 import '../../assets/styles/roomateCss/rommateComp.css';
 //components
 import RoommateCardRequest from './rommateCardRequest';
+import ListRommatePage from './ListRommatePage';
+//import context
+import { RommateContext } from '../../context/RommateContext';
 function TabPanel(props) {
     const { children, value, index, ...other } = props;
   
@@ -106,7 +109,25 @@ function getStyles(name, preference, theme) {
       : theme.typography.fontWeightRegular,
   };
 }
+    const data = [
+        { id: 1, name: 'Oussama', school: 'ESI', budget: 3000, moveInDate: '01/10/2023', preferredZone: 'Agdal',type:'Offre' },
+        { id: 2, name: 'Ahmed', school: 'ENSIAS', budget: 2500 , moveInDate: '15/10/2023', preferredZone: 'Hay Riad', type:'Demande' },
+        { id: 3, name: 'Sara', school: 'EMI', budget: 3500 , moveInDate: '01/11/2023', preferredZone: 'Centre Ville' , type:'Offre' },
+        { id: 4, name: 'Fatima', school: 'FSI', budget: 2800 , moveInDate: '20/10/2023', preferredZone: 'Agdal' , type:'Demande' },
+        { id: 5, name: 'Youssef', school: 'ENSA', budget: 3200 , moveInDate: '01/12/2023', preferredZone: 'Hay Riad' , type:'Offre' },
+        { id: 6, name: 'Mouad', school: 'FST', budget: 2700 , moveInDate: '15/11/2023', preferredZone: 'Centre Ville' , type:'Demande' },
+        { id: 7, name: 'Laila', school: 'ENCG', budget: 3000 , moveInDate: '01/10/2023', preferredZone: 'Agdal' , type:'Offre' },
+        { id: 8, name: 'Khalid', school: 'FSI', budget: 2500 , moveInDate: '15/10/2023', preferredZone: 'Hay Riad' , type:'Demande' },  
+        { id: 9, name: 'Nadia', school: 'EMI', budget: 3500 , moveInDate: '01/11/2023', preferredZone: 'Centre Ville' , type:'Offre' },
+        { id: 10, name: 'Hassan', school: 'ENSIAS', budget: 2800 , moveInDate: '20/10/2023', preferredZone: 'Agdal' , type:'Demande' },
+        { id: 11, name: 'Amina', school: 'ENSA', budget: 3200 , moveInDate: '01/12/2023', preferredZone: 'Hay Riad' , type:'Offre' },
+        // Ajoutez plus de données si nécessaire
+    ];
 export default function RoommateComp(){
+
+    // State for managing the filtered data
+    const [filterData, setFilterData] = useState(data);
+
       const [coloc,setColoc]=useState({
         preferences:[],
         budget:1,
@@ -172,6 +193,16 @@ export default function RoommateComp(){
             console.log(coloc)
 
         };
+        //search filter
+        const handleSearch = (event) => {
+            const searchTerm = event.target.value.toLowerCase();
+            const filteredData = data.filter((item) =>
+              item.name.toLowerCase().includes(searchTerm) ||
+              item.school.toLowerCase().includes(searchTerm) ||
+              item.preferredZone.toLowerCase().includes(searchTerm)
+            );
+            setFilterData(filteredData);
+          };
     return (
       <div className="roommate-page"> 
         <div className="header">
@@ -198,6 +229,7 @@ export default function RoommateComp(){
               startAdornment: <InputAdornment position="start"><Search/></InputAdornment>,
             },
             }}
+            onChange={handleSearch} // Call the search function on input change
           />
           <div className="search-field">
             <FormControl
@@ -207,8 +239,7 @@ export default function RoommateComp(){
                 '&.Mui-focused fieldset': {
                 
                 borderColor: 'hsl(6 100% 72%)', // Change border color on focus
-                },
-                
+                }, 
               },
               }}
             >
@@ -301,15 +332,19 @@ export default function RoommateComp(){
             <Tab label="Offre chambre" {...a11yProps(2)} className="tab" />
           </Tabs>
           </AppBar>
-          <TabPanel value={value} index={0} style={{ width: '100%', marginTop: '10px' }}>
-          
-          </TabPanel>
-          <TabPanel value={value} index={1} style={{ width: '100%', marginTop: '10px' }}>
-          <div>hi2</div>
-          </TabPanel>
-          <TabPanel value={value} index={2} style={{ width: '100%', marginTop: '10px' }}>
-          <div>hi3</div>
-          </TabPanel>
+            <TabPanel value={value} index={0} style={{ width: '100%', marginTop: '10px' }}>
+            <ListRommatePage data={filterData}/>
+            </TabPanel>
+            <TabPanel value={value} index={1} style={{ width: '100%', marginTop: '10px' }}>
+              <ListRommatePage data={
+                filterData.filter((item) => item.type.toLowerCase() === 'demande')
+              }/>
+            </TabPanel>
+            <TabPanel value={value} index={2} style={{ width: '100%', marginTop: '10px' }}>
+              <ListRommatePage data={
+                filterData.filter((item) => item.type.toLowerCase() === 'offre')
+              }/>
+            </TabPanel>
         </Box>
       </div>
     );
