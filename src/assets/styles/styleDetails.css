@@ -303,7 +303,7 @@ button{
 .cardResultat{
     width: 30% !important;
 }
-/* respo images annonces */
+/* respo details page */
 @media (max-width: 768px){
     .imagesAnnoncesContainer{
         flex-direction: column ;
