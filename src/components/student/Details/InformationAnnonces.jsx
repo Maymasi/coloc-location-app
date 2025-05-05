@@ -7,6 +7,11 @@ import Box from '@mui/material/Box';
 import PropTypes from 'prop-types';
 import StarIcon from '@mui/icons-material/Star';
 import ShareIcon from '@mui/icons-material/Share';
+import Radio from '@mui/material/Radio';
+import RadioGroup from '@mui/material/RadioGroup';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import FormControl from '@mui/material/FormControl';
+import Button from '@mui/material/Button';
 function CustomTabPanel(props) {
     const { children, value, index, ...other } = props;
 
@@ -34,11 +39,26 @@ function a11yProps(index) {
     };
 }
 export default function InformationAnnonces(){
+    // states
     const [value, setValue] = React.useState(0);
+    const [openSignal,setOpenSignal] = React.useState(false);
 
+    // handlers
     const handleChange = (event, newValue) => {
         setValue(newValue);
-    };
+    }
+    const handleOpenSignal = ()=>{
+        setOpenSignal(true);
+    }
+    const handleCloseSignal = ()=>{
+        setOpenSignal(false);
+    }
+
+    React.useEffect(()=>{
+        document.body.style.overflow = openSignal ? "hidden" : "auto";
+
+    },[openSignal])
+
     const typesApp = [
         {icn:House,title:"Type",value:"Apartment"},
         {icn:User,title:"Bedrooms",value:"2"},
@@ -47,6 +67,38 @@ export default function InformationAnnonces(){
     ]
     return(
         <div className='infoAnnoncesContainer'>
+            {/* Overlay */}
+            {openSignal && (
+                <div className="overlay" onClick={handleCloseSignal}></div>
+            )}
+            <div className="cardSignal" style={{display: openSignal?"flex":"none"}}>
+                <div className="topCard">
+                    <div className='titleCardSignal'>Signaler cette propriété</div>
+                    <div className='discreptionCardSignal'>Veuillez nous indiquer pourquoi vous souhaitez signaler Spacious 2-Bedroom Apartment Near Campus. Votre signalement sera examiné par notre équipe.</div>
+                </div>
+                <FormControl sx={{display:"flex",gap:"8px"}}>
+                                <div className='rsnSignal'>Raison du signalement</div>
+                                <RadioGroup
+                                    aria-labelledby="demo-radio-buttons-group-label"
+                                    defaultValue="female"
+                                    name="radio-buttons-group"
+                                >
+                                    <FormControlLabel  value="Frauduleux" control={<Radio />} label="Contenu frauduleux ou trompeur" />
+                                    <FormControlLabel value="inapproprié" control={<Radio />} label="Contenu inapproprié" />
+                                    <FormControlLabel value="spam" control={<Radio />} label="Spam ou publicité" />
+                                    <FormControlLabel value="abusif" control={<Radio />} label="Harcèlement ou comportement abusif" />
+                                    <FormControlLabel value="other" control={<Radio />} label="Autre raison" />
+                                </RadioGroup>
+                </FormControl>
+                <div className="areaSignal">
+                                <label htmlFor="" className='titleArea'>Détails supplémentaires</label>
+                                <textarea className='areaText' style={{border:"2px solid #e0e0e0",borderRadius:"12px",padding:"12px",fontSize:"12px",height:"80px"}} type="text" placeholder='veuillez fournir plus de details sur votre signalement...' />
+                </div>
+                <div className="btnSignal">
+                    <Button onClick={handleCloseSignal} variant="outlined" sx={{color:"black",borderColor:"#9e9e9e",textTransform:"none"}}>Annuler</Button>
+                    <Button variant="contained" style={{backgroundColor:"#ff6b5c",width:"170px",textTransform:"none"}} >Envoyer le signalement</Button>
+                </div>
+            </div>
             <div className="infoAnnonces">
                 <div className="topInfo">
                     <div className="nameAppartment">Spacious 2-Bedroom Apartment Near Campus</div>
@@ -129,7 +181,7 @@ export default function InformationAnnonces(){
                                 <ShareIcon sx={{fontSize:"14px"}}/>
                                 <div>Share</div>
                             </div>
-                            <div className="buttonBodyAppartment">
+                            <div className="buttonBodyAppartment" onClick={handleOpenSignal}>
                                 <Flag size="14px"/>
                                 <div>Signaler</div>
                             </div>

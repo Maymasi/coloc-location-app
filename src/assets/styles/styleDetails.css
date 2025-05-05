@@ -219,3 +219,140 @@ button{
     gap: 4px;
     font-weight: 500;
 }
+/* similar properties style */
+.titleSimilarPart{
+    font-size: 20px;
+    font-weight: 700;
+
+}
+.similarPropertiesContainer{
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    align-items: start;
+    gap: 19px;
+    background-color: #e8eaf6;
+    height: max-content;
+    padding: 20px 5%;
+}
+.cardsSimilarPart{
+    display: flex;
+    width: 100%;
+    gap: 1%;
+    justify-content: center;
+    align-items: center;
+    
+}
+.cardSignal{
+    width: 380px;
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    padding: 20px;
+    border-radius: 12px;
+    position: fixed;
+    z-index: 1001;
+    top: 50% !important;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+.titleCardSignal{
+    font-size: 15px;
+    font-weight: 600;
+    text-align: start;
+}
+.discreptionCardSignal{
+    font-size: 13px;
+    text-align: start;
+    color: #757575;
+}
+.rsnSignal{
+    text-align: start;
+    font-size: 13px;
+}
+.css-13lvt8g-MuiButtonBase-root-MuiRadio-root{
+    padding: 1px 5px 1px 10px!important;
+}
+.css-13lvt8g-MuiButtonBase-root-MuiRadio-root.Mui-checked {
+    color: #ff6b5c !important;
+}
+.titleArea{
+    font-size: 13px;
+    text-align: start;
+}
+.areaSignal{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+.btnSignal{
+    display: flex;
+    justify-content: end;
+    gap: 10px;
+}
+.areaText:focus{
+    border: 2px solid #ff6b5c !important;
+}
+.cardSignal .css-1bz1rr0-MuiSvgIcon-root{
+    color: #ff6b5c;
+}
+.cardsSimilarPart .cardResultat{
+    background-color: rgba(255, 255, 255, 0.851);
+}
+.cardResultat{
+    width: 30% !important;
+}
+/* respo images annonces */
+@media (max-width: 768px){
+    .imagesAnnoncesContainer{
+        flex-direction: column ;
+        padding: 20px 7%;
+        height: fit-content ;
+    }
+    .principaleImage{
+        width: 100% ;
+    }
+    .autresImages{
+        width: 100% ;
+    }
+    .infoAnnoncesContainer{
+        flex-direction: column;
+        margin: 5% 6%;
+    }
+    .infoAnnonces{
+        width: 100% ;
+    }
+    .topInfo{
+        align-items: start;
+        gap: 7%;
+    }
+    .caracAppartment{
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+    .prcAppartment{
+        font-size: 30px ;
+    }
+    .available{
+        font-size: 15px ;
+        text-align: center ;
+    }
+    .typeApp {
+        width: 45% ;
+        height: 80px ;
+    }
+    .infoPropCard{
+        width: 100% !important;
+        padding: 28px !important;
+    } 
+    .cardsSimilarPart {
+        flex-wrap: wrap !important;
+        padding: 5% !important;
+        gap: 20px !important;
+    }
+    .titleSimilarPart{
+        padding: 0% 5% !important;
+        margin: 0px !important;
+    }
+}

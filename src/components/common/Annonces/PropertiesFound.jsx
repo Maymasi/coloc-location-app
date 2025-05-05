@@ -150,7 +150,7 @@ export default function PropertiesFound(){
             <div className="filter"
             style={{
               display: isMobile ? (openFilter ? "flex" : "none") : "flex",
-              zIndex: 1001, // Assurez-vous que le filtre soit au-dessus de l'overlay
+              zIndex: 1001, 
             }}
               >
                 <div className="titleFilter">Filters</div>
