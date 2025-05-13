@@ -7,7 +7,7 @@ const StudentLayout = () => {
   return (
     <div className="user-layout">
         <div className="left-bar">
-             <LeftNav />
+            <LeftNav />
         </div>
         <div className="content-user-layout">
             <div className="top-bar">

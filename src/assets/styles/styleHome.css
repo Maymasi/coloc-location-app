@@ -1,0 +1,1041 @@
+ * {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+/* Nav */
+.navParent .ListNav {
+    list-style: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 25px;
+    padding: 10px 0px ;
+    background: white;
+    border-bottom: 1px solid #eee;
+    width: 100%;
+}
+.navParent ul li {
+    display: flex;
+    align-items: center;
+    color: #333;
+    cursor: pointer;
+    padding: 0px 10px;
+}
+.navParent ul li a {
+    text-decoration: none;
+    color: inherit;
+    font-size: 16px;
+}
+.navParent ul li a:hover {
+    color:#ff6c5cbc;
+}
+.navParent .dropdown::after {
+    content: "";
+    margin-left: 4px;
+}
+.navParent .searchBox {
+    display: flex;
+    align-items: center;
+}
+.navParent .searchContainer {
+    display: flex;
+    align-items: center;
+    background-color: #f5f5f5;
+    padding: 10px 12px;
+    border-radius: 9999px;
+    border: 1px solid #ddd;
+    gap: 8px;
+}
+.navParent .searchContainer input {
+    border: none;
+    outline: none;
+    background: transparent;
+    font-size: 13px;
+    width: 120px;
+}
+.navParent .btn-outline {
+    background-color: transparent;
+    border: none;
+}
+.navParent .connexionContainer{
+    display: flex;
+    align-items: center;
+    padding: 10px 18px;
+    border-radius: 9999px;
+    border: 1px solid #ddd;
+    gap: 8px;
+    text-align: center;
+}
+.navParent .connexionContainer:hover{
+    .navParent .btn-outline{
+        color: #ff6b5c;
+    }
+}
+.navParent .btn-filled {
+    color: rgb(250, 244, 244) !important;
+    border: none;
+    background-color: transparent;
+}
+.navParent .inscripContainer{
+    display: flex;
+    align-items: center;
+    padding: 8px 18px;
+    border-radius: 9999px;
+    gap: 8px;
+    text-align: center;
+    background-color: #ff6b5c;
+}
+.navParent .inscripContainer:hover{
+    background-color: #f8503e;
+}
+/* media query nav */
+.navParent .MenuRespo{
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items:center ;
+    padding: 5% 10%;
+}
+.navParent .btnM{
+    padding: 10px;
+    /* background-color: #5d5d5d; */
+}
+.navParent .btnM:hover{
+    background-color: #ff6e64;
+    color: white;
+    border-radius: 12px;
+}
+.navParent .ParentMenu{
+    display: none;
+}
+.navParent .fixedMenu {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 10;
+    overflow-y: auto;
+}
+.navParent .MenuRespo {
+    background-color: white;
+    width: 100%;
+    z-index: 6;
+}
+
+.navParent .ListMenu {
+    background-color: white;
+    width: 100%;
+    height: 100%;
+    z-index: 6;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding: 40px 20px;
+}
+
+.navParent .btnMenu{
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+.navParent .lia{
+    display: flex;
+    gap: 13px;
+    padding: 12px 17px;
+    width: 95%;
+}
+.navParent .lia:hover{
+    background-color: #e8eaf6;
+    border-radius: 9999px;
+
+}
+.navParent .connexionConMenu,.navParent .inscripConMenu{
+    width: 99%;
+    align-items: center;
+    justify-content: center;
+    padding: 14px 0px;
+}
+@media (max-width: 768px){
+    .navParent .ListNav{
+        display: none;
+    }
+    .navParent .ParentMenu{
+        display:flex;
+        flex-direction: column;
+    }
+}
+/* slide */
+.HomeParent body{
+    margin: 0 !important ;
+    width: 100%;
+}
+.HomeParent #root{
+    margin: 0 !important;
+    padding: 0 !important;
+    max-width: None !important;
+}
+.HomeParent .slide{
+    display: flex;
+    /* flex-direction: column; */
+    gap: 1px;
+    justify-content: center;
+    margin-top: 80px;
+    height:max-content
+}
+.HomeParent .HomeParent .title{
+    display: flex;
+    gap: 7px;
+    align-items: center;
+    border-radius: 9999px;
+    background-color: #ffd5d090;
+    width: 210px;
+    /* margin: 85px 100px; */
+    padding:  10px 13px ;
+    color:#fa8173e2;
+    justify-content: center;
+}
+.HomeParent .BigTitle{
+    display: flex;
+    justify-content: start;
+    font-size: 50px;
+    color: #fd7667ea;
+    font-weight: 700;
+}
+.HomeParent .DescriptionSlider{
+    display: flex;
+    justify-content: start;
+    font-size: 22px;
+    width: 59%;
+    text-align: left;
+    color: #6e6e6ed2;
+    font-weight: 400;
+}
+.HomeParent .underDescription{
+    display: flex;
+    align-items: center;
+    gap: 23px;
+}
+.HomeParent .buttons{
+    display: flex;
+    gap: 20px;
+    margin-top: 15px;
+}
+.HomeParent .learnMoreBtn:hover{
+    background-color: #f5f5f5 !important;
+}
+.HomeParent .leftSide{
+    gap: 30px;
+    display: flex;
+    flex-direction: column;
+    width: 44%;
+}
+.HomeParent .rightSide{
+    width: 400px;
+    /* height: 450px; */
+    height: 470px;
+    border-radius: 24px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    background: white;
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 20px;
+}
+.HomeParent .imageContainer {
+    flex: 3;
+    width: 100%;
+    overflow: hidden;
+}
+.HomeParent .imageContainer img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+.HomeParent .infoSection {
+    flex: 1;
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+.HomeParent .titleRating {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.HomeParent .rating {
+    display: flex;
+    gap: 5px;
+    align-items: center;
+}
+.HomeParent .description {
+    font-size: 15px;
+    color: #777;
+    margin: 8px 0;
+    text-align: left;
+}
+.HomeParent .price {
+    font-weight: bold;
+    text-align: end;
+}
+.HomeParent .slick-prev {
+    z-index: 9 !important;
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+    opacity: 1 !important;
+    visibility: visible !important;
+    left: 50px !important;
+    width: 50px !important;
+    height: 50px !important;
+}
+.HomeParent .slick-next {
+    z-index: 9 !important;
+    /* display: flex !important; */
+    align-items: center;
+    justify-content: center;
+    right: 20px !important;
+    width: 50px !important;
+    height: 50px !important;
+    top: 280px !important;
+}
+.HomeParent .slick-next:hover{
+    background-color: #eeeeee;
+}
+.HomeParent .slick-prev:hover{
+    background-color: #eeeeee;
+}
+.HomeParent .slick-next:before{
+    display: none !important;
+}
+.HomeParent .slick-prev:before{
+    display: none !important;
+}
+.HomeParent .slick-dots {
+    bottom: -30px; 
+}
+.HomeParent .slick-dots li {
+    margin: 0 4px;
+}
+.HomeParent .slick-dots li button:before {
+    font-size: 12px;
+    color: #cfd2d6; 
+    opacity: 1;
+}
+.HomeParent .slick-dots li.slick-active button:before {
+    color: #fd7667; 
+}
+.HomeParent .CardSta{
+    height: 150px;
+    width: 280px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+    border: 2px solid #facec963;
+    border-radius: 12px;
+    transition: all 300ms ease;
+    transform-origin: center; 
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+.HomeParent .CardSta:hover{
+    transform: scale(1.05);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+}
+.HomeParent .number{
+    font-size: 33px;
+    color: #fd7667;
+    font-weight: 700;
+    font-family: 'JetBrains Mono', 'SF Mono', 'Menlo', monospace;
+}
+.HomeParent .icn{
+    color: #fd7667;
+    background-color: #facec98d;
+    padding: 7px;
+    border-radius: 100%;
+    display: flex;
+    align-items: center;
+    justify-self: center;
+}
+.HomeParent .content{
+    color: #979595;
+    font-size: 15px;
+}
+.HomeParent .litleTitle{
+    color: #fd7667;
+    background-color: #facec98d;
+    font-size: 15px;
+    padding: 6px 14px;
+    border-radius: 15px;
+}
+.HomeParent .bigTitle{
+    color: #fe7364;
+    font-size: 30px;
+    font-weight: 700;
+}
+.HomeParent .shortDescrip{
+    color: #878686;
+}
+.HomeParent .cards{
+    display: flex;
+    justify-content: center;
+    margin-top: 60px;
+    gap: 60px;
+}
+.HomeParent .processCard{
+    width: 24%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    border: 2px solid #dbd7d734;
+    padding: 25px;
+    border-radius: 14px;
+    transition: all 300ms ease;
+    transform-origin: center; 
+}
+.HomeParent .processCard:hover{
+    .HomeParent .iconProcessCard{
+        transform: scale(1.09) rotate(10deg); 
+        transition: transform 0.3s ease-in-out;
+    }
+    transform: scale(1.05);
+}
+.HomeParent .iconWrapper {
+    position: relative;
+    display: inline-block;
+}
+.HomeParent .iconProcessCard {
+    color: #fe7364;
+    background-color: #facec98d;
+    padding: 20px;
+    border-radius: 9999px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    box-shadow: 0 0 20px #fce4e4;
+    transition: all 300ms ease;
+    transform-origin: center; 
+}
+.HomeParent .badgeNotif {
+    position: absolute;
+    top: 0;
+    right: 0;
+    transform: translate(30%, -30%);
+    background-color: #fe7364;
+    color: white;
+    border-radius: 9999px;
+    width: 25px;
+    height: 25px;
+    font-size: 14px;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
+}
+.HomeParent .titleProcessCard{
+    font-size: 20px;
+    font-weight: 700;
+    color: rgb(26, 26, 26);
+}
+.HomeParent .descripProcessCard{
+    font-size: 15px;
+    color: #878686;
+}
+.HomeParent .bleuCard:hover{
+    background-color: #f8fdff;
+}
+.HomeParent .pinkCard:hover{
+    background-color: #fef6f5;
+}
+.HomeParent .startSearch:hover{
+    gap: 10px;
+}
+/* slider respo */
+@media (max-width: 768px){
+    .HomeParent .rightSide{
+        display: none;
+    }
+    .HomeParent .slide{
+        width: 100%;
+    }
+    .HomeParent .slick-prev{
+        top: 40% !important;
+        left: 1% !important;
+    }
+    .HomeParent .slick-next{
+        top: 40% !important;
+        right: 1% !important;
+    }
+    .HomeParent .BigTitle{
+        font-size: 30px;
+    }
+    .HomeParent .leftSide{
+        width: 90%;
+        align-items: center;
+        padding-bottom: 40px;
+    }
+    .HomeParent .DescriptionSlider{
+        text-align: center;
+        width: 100%;
+    }
+}
+
+/* FeaturedProperties */
+.HomeParent .titleFeatured{
+    font-size: 26px;
+    font-weight: 700;
+    color: #fe7364;
+}
+.HomeParent .FeaturedCards{
+    margin-top: 40px;
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+    width: 100%;
+}
+.HomeParent .featuredCard{
+    width: 45%;
+    height: 410px;
+    border-radius: 24px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    background: white;
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 20px;
+    transition: all 300ms ease;
+    transform-origin: center; 
+}
+.HomeParent .featuredCard:hover{
+    transform: scale(1.05);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+}
+.HomeParent .topPic{
+    flex: 3;
+    width: 100%;
+    overflow: hidden;
+    position: relative;
+}
+.HomeParent .topPic img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+.HomeParent .topPic::after {
+    content: "";
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.4), transparent);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+    z-index: 2;
+}
+.HomeParent .featuredCard:hover .HomeParent .topPic::after {
+    opacity: 1;
+}
+.HomeParent .infoSec{
+    flex: 1;
+    padding: 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+.HomeParent .houseDescrip{
+    font-size: 17px;
+    font-weight: 700;
+    text-align: start;
+}
+.HomeParent .evaluation{
+    display: flex;
+    gap: 3px;
+    align-items: center;
+}
+.HomeParent .underLine{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.HomeParent .adress{
+    display: flex;
+    color: #868686;
+    gap: 5px;
+    align-items: center;
+}
+.HomeParent .carac{
+    display: flex;
+    color: #868686;
+    gap: 15px;
+    margin: 8px 0px;
+}
+.HomeParent .footerCard{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.HomeParent .price{
+    display: flex;
+    align-items: end;
+}
+.HomeParent .viewDetailsBtn{
+    background-color: #fe7364 !important;
+    border-radius: 9999px !important;
+    padding: 6px !important;
+    width: 130px !important;
+}
+.HomeParent .starTopRight {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: #f2f1f1;
+    border-radius: 999px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    padding: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 5;
+}
+.HomeParent .starTopRight:hover{
+    background-color: white;
+}
+.HomeParent .searchBar{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 800px;
+    box-shadow: 0px 4px 9px 1px rgba(0, 0, 0, 0.156);
+    padding: 20px;
+    border-radius: 9999px;
+}
+.HomeParent .inputSearch:hover {
+    border: none;
+    outline: none;
+    background: transparent;
+    box-shadow: none; 
+
+}
+.HomeParent .inputSearch {
+    border: none;
+    outline: none;
+    background: transparent; 
+    /* color: #ededed; */
+}
+.HomeParent .searchBtn{
+    transition: transform 0.3s ease;
+}
+.HomeParent .searchBtn:hover{
+    transform: scale(1.05);
+}
+/* static respo */
+@media (max-width: 768px){
+    .HomeParent .FeaturedContainer{
+        height: fit-content;
+        width: 100%;
+        margin: 0px;
+        margin-bottom: 20px;
+    }
+    .HomeParent .CardSta{
+        width: 40%;
+    }
+    .HomeParent .cardsSta{
+        flex-wrap: wrap;
+        height: fit-content !important;
+        margin: 70px 0px 60px 0px !important;
+    }
+}
+/* simple Porcess respo */
+@media (max-width: 768px){
+    .HomeParent .simpleProcessContainer{
+        flex-wrap: wrap;
+        padding:20px 20px !important;
+    }
+    .HomeParent .cards{
+        flex-wrap: wrap;
+    }
+    .HomeParent .processCard {
+        width: 100%;
+    }
+    .HomeParent .bigTitle{
+        font-size: 30px;
+    }
+}
+/* featured Properties respo */
+@media (max-width: 768px){
+    .HomeParent .FeaturedContainer{
+        margin: 0px !important;
+        padding:  10px 30px 30px 30px !important;
+    }
+    .HomeParent .FeaturedCards{
+        flex-wrap: wrap;
+    }
+    .HomeParent .featuredCard{
+        width: 100%;
+    }
+    .HomeParent .titleFeatured{
+        text-align: start;
+    }
+}
+/* find student respo */
+@media (max-width: 768px){
+    .HomeParent .findContainer{
+        width: 100%;
+        padding: 30px !important;
+        height: fit-content !important;
+    }
+    .HomeParent .searchBar{
+        width: 100%;
+    }
+    .HomeParent .inputSearch{
+        width: 50% !important;
+    }
+    .HomeParent .findTitle{
+        font-size: 30px !important ;
+    }
+}
+/* WhyChose Part */
+.HomeParent .cardHome{
+    width: 24%;
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    gap: 10px;
+    border: 2px solid #dbd7d734;
+    padding: 25px;
+    border-radius: 14px;
+    transition: transform 300ms ease;
+    background-color: #f7f7f79c;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+.HomeParent .cardHome:hover{
+    transform: scale(1.05);
+}
+@keyframes float {
+    0% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-1mm);
+    }
+    100% {
+        transform: translateY(0);
+    }
+}
+.HomeParent .iconCard{
+    color: #fe7364;
+    background-color: #fde7e4;
+    padding: 15px;
+    border-radius: 9999px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    box-shadow: 0 0 20px #fce4e4;
+    transition: all 300ms ease;
+    transform-origin: center; 
+    animation: float 2s ease-in-out infinite;
+}
+.HomeParent .cardHome .descripProcessCard{
+    text-align: start;
+}
+/* why chose respo */
+@media (max-width: 768px){
+    .HomeParent .whyContainer{
+        width: 100%;
+        padding: 20px;
+    }
+    .HomeParent .whycard{
+        width: 100%;
+    }
+}
+/* studentSay part */
+.HomeParent .Says{
+    display: flex;
+    margin: 50px 10px;
+    width: 80%;
+    justify-content: flex-start;;
+    align-items: center;
+    gap: 25px;
+    overflow-x: auto;         
+    scroll-behavior: smooth;  
+    padding-bottom: 20px;
+    flex-wrap: nowrap;
+}
+.HomeParent .sayCard{
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    background-color: rgb(255, 255, 255);
+    padding: 20px;
+    gap: 10px;
+    border-radius: 14px;
+    border: 2px solid #fde7e4;
+    width: 100%;
+    flex: 0 0 calc(((100%) - 20px) / 3);
+}
+.HomeParent .evaluationk{
+    padding-top: 3px;
+}
+/* scroll bar */
+.HomeParent .Says::-webkit-scrollbar {
+    height: 8px; /* 👈 réduit la hauteur du scroll horizontal */
+    width: 30px;
+}
+
+.HomeParent .Says::-webkit-scrollbar-track {
+    background: #ffebe9; /* fond clair ou transparent */
+    border-radius: 8px;
+}
+
+.HomeParent .Says::-webkit-scrollbar-thumb {
+    background-color: #f4b8b2; 
+    border-radius: 8px;
+    border: 2px solid #fce4e4; 
+}
+.HomeParent .topSayCard{
+    display: flex;
+    gap: 13px;
+    align-items: start;
+}
+.HomeParent .pic{
+    width: 100%;
+    height: 100%;
+}
+.HomeParent .picProfile{
+    border: 2px solid #fdd3cd;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    overflow: hidden; 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #777;
+}
+.HomeParent .infoStudent{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: start;
+}
+.HomeParent .NameStudent{
+    font-size: 17px;
+    font-weight: 700;
+}
+.HomeParent .Specialite,.HomeParent .school{
+    font-size: 13px;
+    font-weight: 400;
+    color: #909090;
+}
+.HomeParent .contentText{
+    text-align: start;
+    color: #5d5d5d;
+    padding: 0px 10px;
+}
+.HomeParent .school{
+    text-align: start;
+}
+.HomeParent .Specialite{
+    text-align: start;
+}
+.HomeParent .virguleTop{
+    display: flex;
+    /* align-items: start; */
+    justify-content: start;
+}
+.HomeParent .virguleBottom{
+    display: flex;
+    align-items: end;
+    justify-content: end;
+}
+.HomeParent .text{
+    display: flex;
+    gap: 15px;
+    flex-direction: column;
+}
+/* respo student say */
+@media (max-width: 768px){
+    .HomeParent .sayContainer{
+        width: 100%;
+        margin: 0px !important;
+        padding: 40px 10px 10px 10px !important;
+    }
+    .HomeParent .Says{
+        width: 100%;
+    }
+    .HomeParent .picProfile{
+        width: 90px;
+        height: 100%;
+    }
+    .HomeParent .NameStudent{
+        text-align: start;
+    }
+}
+/* Style Join Newletter */
+.HomeParent .inputEmail{
+    /* background-color: #333; */
+    padding: 8px 10px;
+    display: flex;
+    gap: 10px;
+    border-radius: 13px;
+    width: 340px;
+    border: 2px solid #e0e0e0;
+    background-color: white;
+    align-items: center;
+}
+.HomeParent .inputEmail:hover{
+    border-color: #fe7364;
+}
+.HomeParent .inputEmail input{
+    border: none;
+    outline: none;
+    background: transparent;
+    box-shadow: none; 
+}
+.HomeParent .rightSideJoin{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 50%;
+}
+/* join respo */
+@media (max-width: 768px){
+    .HomeParent .joinContainer{
+        width: 100%;
+        padding: 30px;
+    }
+    .HomeParent .cardJoin{
+        width: 100% !important;
+    }
+    .HomeParent .rightSideJoin{
+        display: none;
+    }
+    .HomeParent .leftSideJoin{
+        width: 100% !important;
+    }
+    .HomeParent .inputEmail{
+        width: 100%;
+    }
+    .HomeParent .joinbtn{
+        width: 100% !important;
+    }
+}
+/* studentBanner */
+.HomeParent .student-housing-banner {
+    background: #ff6e64;
+    background-image:   radial-gradient(circle at 20% 30%, rgba(255, 255, 255, 0.05) 0%, transparent 70%),
+                        radial-gradient(circle at 70% 70%, rgba(255, 255, 255, 0.05) 0%, transparent 60%);
+    padding: 40px 40px;
+    text-align: left;
+    color: white;
+    font-family: 'Segoe UI', sans-serif;
+    margin: 40px 0px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20vw;
+}
+
+.HomeParent .banner-content {
+    width: 60%;
+    /* margin: 0 auto; */
+}
+
+.HomeParent .limited-offer {
+    background-color: rgba(255, 255, 255, 0.2);
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 14px;
+    font-weight: bold;
+    display: inline-block;
+    margin-bottom: 16px;
+    display:flex;
+    width: fit-content;
+    gap: 10px;
+}
+
+.HomeParent .banner-content h1 {
+    font-size: 32px;
+    font-weight: bold;
+    margin: 0 0 20px;
+}
+
+.HomeParent .banner-content p {
+    font-size: 16px;
+    line-height: 1.6;
+    margin-bottom: 30px;
+    color: #ffffff;
+}
+
+.HomeParent .banner-buttons {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+    width: 40%;
+    justify-content: center;
+}
+
+.HomeParent .btn-primary,
+.HomeParent .btn-secondary {
+    padding: 12px 24px;
+    border-radius: 25px;
+    font-weight: bold;
+    cursor: pointer;
+    border: none;
+    transition: transform 0.9s ease;
+    height: fit-content;
+}
+
+.HomeParent .btn-primary {
+    background-color: white;
+    color: #ff6e64;
+    width: 170px;
+    transform: scale(1.05);
+}
+
+.HomeParent .btn-primary:hover {
+    background-color: #f5f5f5;
+}
+
+.HomeParent .btn-secondary {
+    background-color: transparent;
+    color: white;
+    border: 2px solid white;
+}
+
+.HomeParent .btn-secondary:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+/* student banner respo */
+@media (max-width: 768px){
+    .HomeParent .student-housing-banner{
+        flex-wrap: wrap;
+        gap: 10px !important;
+    }
+    .HomeParent .banner-content{
+        width: 100%;
+    }
+    .HomeParent .banner-buttons{
+        width: 100%;
+        flex-wrap: wrap;
+    }
+    .HomeParent .btn-primary{
+        transform: none;
+    }
+    .HomeParent .btn-primary,.HomeParent .btn-secondary{
+        width: 100%;
+    }
+}

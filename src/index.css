@@ -1,16 +1,16 @@
 /* ========================================
-   RÉFÉRENCE CSS - VARIABLES ET MEDIA QUERIES
-   Projet: Plateforme de logement étudiant
-   ========================================
+  RÉFÉRENCE CSS - VARIABLES ET MEDIA QUERIES
+  Projet: Plateforme de logement étudiant
+  ========================================
 */
 
 /* ----------------------------------------
-   1. VARIABLES DE COULEUR
-   Ces couleurs sont utilisées dans tout le projet
-   pour maintenir une cohérence visuelle
+  1. VARIABLES DE COULEUR
+  Ces couleurs sont utilisées dans tout le projet
+  pour maintenir une cohérence visuelle
    ---------------------------------------- */
 
-   :root {
+:root {
     /* Couleurs principales */
     --color-primary: #2e7d32; /* Vert principal - Utilisé pour les boutons principaux, accents, liens */
     --color-primary-light: #4caf50; /* Version plus claire du vert - Utilisé pour les survols, états actifs */
@@ -93,10 +93,10 @@
   }
   
   /* ----------------------------------------
-     2. TYPOGRAPHIE
-     Définition des polices, tailles et styles
-     de texte utilisés dans l'application
-     ---------------------------------------- */
+    2. TYPOGRAPHIE
+    Définition des polices, tailles et styles
+    de texte utilisés dans l'application
+    ---------------------------------------- */
   
   :root {
     /* Familles de polices */

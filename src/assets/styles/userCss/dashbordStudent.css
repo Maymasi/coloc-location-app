@@ -1,20 +1,20 @@
 /* ===========================
     Header Section
     =========================== */
-header {
+.user-layout header {
      display: flex;
      justify-content: space-between;
      align-items: center;
 }
 
 /* Links Section */
-.links {
+.user-layout .links {
      display: flex;
      gap: 20px;
 }
 
-.links .colocations,
-.links .homes {
+.user-layout .links .colocations,
+.user-layout .links .homes {
      display: flex;
      align-items: center;
      gap: 10px;
@@ -26,26 +26,26 @@ header {
      cursor: pointer;
 }
 
-.links .colocations {
+.user-layout .links .colocations {
      color: black;
      background-color: hsl(var(--background));
      border: 1px solid hsl(var(--border));
 }
 
-.links .icon {
+.user-layout .links .icon {
      width: 16px;
 }
 
-.links .colocations:hover {
+.user-layout .links .colocations:hover {
      background-color: hsl(var(--primary));
      color: white;
 }
 
-.links .homes:hover {
+.user-layout .links .homes:hover {
      background-color: hsl(6deg 100% 72% / 78%);
 }
 
-.links .homes {
+.user-layout .links .homes {
      color: white;
      background-color: hsl(var(--primary));
 }
@@ -53,23 +53,23 @@ header {
 /* ===========================
     Student Info Section
     =========================== */
-.info-student {
+.user-layout .info-student {
      display: flex;
      flex-direction: column;
      gap: 2px;
      width: 45%;
 }
 
-.info-student * {
+.user-layout .info-student * {
      margin: 0;
 }
 
-.info-student h1 {
+.user-layout .info-student h1 {
      font-size: 1.8rem;
      font-weight: 700;
 }
 
-.info-student p {
+.user-layout .info-student p {
      font-size: 1rem;
      font-weight: 400;
      color: hsl(var(--muted-foreground));
@@ -78,13 +78,13 @@ header {
 /* ===========================
     Dashboard Section
     =========================== */
-.data-student {
+.user-layout .data-student {
      display: flex;
      justify-content: space-between;
      align-items: center;
 }
 
-.student-dashboard {
+.user-layout .student-dashboard {
      display: flex;
      flex-direction: column;
      gap: 40px;
@@ -93,7 +93,7 @@ header {
 /* ===========================
     Card Section
     =========================== */
-.card {
+.user-layout .card {
      display: flex;
      justify-content: space-between;
      padding: 20px;
@@ -105,30 +105,30 @@ header {
      height: 70px;
 }
 
-.card .content {
+.user-layout .card .content {
      display: flex;
      flex-direction: column;
      gap: -2px;
      width: 80%;
 }
 
-.card * {
+.user-layout .card * {
      margin: 0;
 }
 
-.card .content .title {
+.user-layout .card .content .title {
      font-size: 1rem;
      font-weight: 400;
      color: hsl(var(--muted-foreground));
 }
 
-.card .content .number {
+.user-layout .card .content .number {
      font-size: 1.5rem;
      font-weight: 700;
      color: hsl(var(--foreground));
 }
 
-.card .icon {
+.user-layout .card .icon {
      width: 20px;
      padding: 8px;
      height: 20px;
@@ -143,7 +143,7 @@ header {
 /* ===========================
     Tabs Section
     =========================== */
-.bar {
+.user-layout .bar {
      width: 450px !important;
      border-radius: 15px;
      height: 30px !important;
@@ -156,9 +156,9 @@ header {
      display: block !important;
 }
 
-.tabs-nav,
-.css-jhczcq-MuiTabs-root,
-.css-jhczcq-MuiTabs-root {
+.user-layout .tabs-nav,
+.user-layout .css-jhczcq-MuiTabs-root,
+.user-layout .css-jhczcq-MuiTabs-root {
      width: 450px !important;
      border-radius: 15px;
      height: 30px !important;
@@ -172,7 +172,7 @@ header {
      min-height: 30px !important;
 }
 
-.MuiTabs-root button {
+.user-layout .MuiTabs-root button {
      font-size: 13px !important;
      font-weight: 500 !important;
      padding: 0px 20px !important;
@@ -182,11 +182,11 @@ header {
      z-index: 44;
 }
 
-.MuiTabs-root span {
+.user-layout .MuiTabs-root span {
      display: none !important;
 }
 
-.MuiTabs-list {
+.user-layout .MuiTabs-list {
      width: 100% !important;
      height: 30px !important;
      align-items: center !important;
@@ -195,7 +195,7 @@ header {
 /* ===========================
     Recent Activity Section
     =========================== */
-.recent-activity {
+.user-layout .recent-activity {
      display: flex;
      gap: 20px;
      width: 100% !important;
@@ -203,18 +203,18 @@ header {
 }
 
 /* Recent Activity Card */
-.css-19kzrtu {
+.user-layout .css-19kzrtu {
      padding-right: 0 !important;
      padding-left: 0 !important;
      padding-top: 30px !important;
 }
 
-.css-12dv9jb {
+.user-layout .css-12dv9jb {
      width: 50% !important;
      height: 400px !important;
 }
 
-.css-1re43rx-MuiAvatar-root {
+.user-layout .css-1re43rx-MuiAvatar-root {
      font-size: 14px !important;
      background-color: hsl(210 40% 96.1%) !important;
      color: black !important;
@@ -224,7 +224,7 @@ header {
 /* ===========================
     Button Section
     =========================== */
-.btn {
+.user-layout .btn {
      background-color: white;
      border-radius: 14px !important;
      padding: 6px 20px !important;
@@ -237,7 +237,7 @@ header {
      cursor: pointer !important;
 }
 
-.btn:hover {
+.user-layout .btn:hover {
      background-color: hsl(var(--primary)) !important;
      color: white !important;
 }
@@ -245,22 +245,22 @@ header {
 /* ===========================
     Properties Section
     =========================== */
-.css-1q0hex5-MuiPaper-root-MuiCard-root {
+.user-layout .css-1q0hex5-MuiPaper-root-MuiCard-root {
      padding: 10px !important;
 }
 
-.all-prop {
+.user-layout .all-prop {
      margin-top: 10px !important;
 }
 
-.recent-properties .content {
+.user-layout .recent-properties .content {
      width: 100%;
      display: flex;
      gap: 20px;
      align-items: start;
 }
 
-.recent-properties .content .image {
+.user-layout .recent-properties .content .image {
      width: 60px !important;
      height: 60px !important;
      border-radius: 12px;
@@ -268,25 +268,25 @@ header {
      border: 1px solid hsl(var(--border));
 }
 
-.recent-properties .content .image img {
+.user-layout .recent-properties .content .image img {
      width: 100% !important;
      height: 100% !important;
      border-radius: 12px;
 }
 
-.recent-properties .content .info {
+.user-layout .recent-properties .content .info {
      display: flex;
      flex-direction: column;
      gap: 1px;
      width: calc(100% - 60px);
 }
 
-.recent-properties .content .info .title {
+.user-layout .recent-properties .content .info .title {
      font-weight: 500;
      text-transform: capitalize;
 }
 
-.recent-properties .content .info .location {
+.user-layout .recent-properties .content .info .location {
      font-size: 0.875rem;
      font-weight: 400;
      color: hsl(var(--muted-foreground));
@@ -294,20 +294,20 @@ header {
      align-items: center;
 }
 
-.recent-properties .content .info .price-type {
+.user-layout .recent-properties .content .info .price-type {
      display: flex;
      justify-content: space-between;
      align-items: center;
      margin-top: 3px;
 }
 
-.recent-properties .content .info .price-type .price {
+.user-layout .recent-properties .content .info .price-type .price {
      font-size: 0.9rem;
      font-weight: 400;
      color: hsl(var(--primary));
 }
 
-.recent-properties .content .info .price-type .type {
+.user-layout .recent-properties .content .info .price-type .type {
      font-size: 0.7rem;
      font-weight: 700;
      background-color: hsl(var(--background));
@@ -317,7 +317,7 @@ header {
 }
 /* recommended home section */
 
-.recommended-home{
+.user-layout .recommended-home{
     width: 30%;
      display: flex;
     flex-direction: column;
@@ -329,12 +329,12 @@ header {
     transition: all 0.3s ease-in-out;
     height: 300px;
 }
-.recommended-home:hover{
+.user-layout .recommended-home:hover{
     transform: scale(1.02);
     box-shadow: 0 0 20px hsl(var(--shadow));
     background-color: hsl(var(--primary));
 }
-.recommended-home .image{
+.user-layout .recommended-home .image{
     height:180px !important;
     width: 100%;
     background-image:contain !important;
@@ -347,13 +347,13 @@ header {
     padding: 10px;
 
 }
-.recommended-home .image .info{
+.user-layout .recommended-home .image .info{
     display: flex;
     justify-content: space-between;
     align-items: center;
     width: 100%;
 }
-.recommended-home .image .info .type{
+.user-layout .recommended-home .image .info .type{
     font-size: 0.75rem;
     font-weight: 600;
     color: hsl(var(--background));
@@ -363,7 +363,7 @@ header {
     text-transform:capitalize;
 
 }
-.recommended-home .image .info .favorite{
+.user-layout .recommended-home .image .info .favorite{
     width: 20px;
     height: 20px;
     background-color: hsl(var(--background));
@@ -375,7 +375,7 @@ header {
     padding: 6px;
 }
 
-.recommended-home .description{
+.user-layout .recommended-home .description{
     display: flex;
     flex-direction: column;
     gap: 8px;
@@ -387,7 +387,7 @@ header {
     border-top: none;
 
 }
-.recommended-home .title-price{
+.user-layout .recommended-home .title-price{
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -396,15 +396,15 @@ header {
     font-weight: 600;
     font-size: 1rem;
 }
-.recommended-home .title-price .price{
+.user-layout .recommended-home .title-price .price{
     font-weight: 600;
     color: hsl(var(--primary));
     font-size: 0.96rem;
 }
-.recommended-home .title-price .title{
+.user-layout .recommended-home .title-price .title{
     font-size: 1.2rem;
 }
-.recommended-home .location{
+.user-layout .recommended-home .location{
     font-size: 0.89rem;
     font-weight: 400;
     color: hsl(var(--muted-foreground));
@@ -413,19 +413,19 @@ header {
     gap: 5px;
 }
 
-.recommended-home .details .rooms{
+.user-layout .recommended-home .details .rooms{
     display: flex;
     align-items: center;
     gap: 3px;
     font-size: 0.9rem;
     font-weight: 500;
 }
-.recommended-home .details {
+.user-layout .recommended-home .details {
     display: flex;
     align-items: center;
     justify-content: space-between;
 }
-.recommended-home .details .available{
+.user-layout .recommended-home .details .available{
     font-size: 0.8rem;
     font-weight: 600;
     background-color: hsl(var(--background));
@@ -433,13 +433,13 @@ header {
     border-radius: 15px;
     border: 1px solid hsl(var(--border));
 }
-.all-recommended-home{
+.user-layout .all-recommended-home{
     display: flex;
     gap: 40px;
     width: 100%;
     flex-wrap: wrap;
     }
-.see-all{
+.user-layout .see-all{
      padding: 5px 12px;
      background-color: hsl(var(--background));
      border-radius: 10px;
@@ -449,14 +449,14 @@ header {
      font-weight: 500;
      cursor: pointer;
 }
-.see-all:hover{
+.user-layout .see-all:hover{
      background-color: hsl(var(--primary));
      color: white;
 }
 /* ===========================
     requests Section
     =========================== */
-.roommate-requests{
+.user-layout .roommate-requests{
      display: flex;
      flex-direction: column;
      gap: 10px;
@@ -464,7 +464,7 @@ header {
      padding: 0px;
      align-items: start;
 }
-.roommate-requests .head{
+.user-layout .roommate-requests .head{
      display: flex;
      justify-content: space-between;
      align-items: center;
@@ -472,7 +472,7 @@ header {
      padding: 10px 0;
      gap: 20px;
 }
-.request-card{
+.user-layout .request-card{
      width: 320px;
      background-color: white;
      padding: 20px 20px;
@@ -485,52 +485,52 @@ header {
      height: fit-content;
 }
      
-.roommate-requests h2{
+.user-layout .roommate-requests h2{
      font-size: 1.5rem;
      font-weight: 700;
       margin-bottom: 20px;
 
 }
-.roommate-requests .request-card-header{
+.user-layout .roommate-requests .request-card-header{
      display: flex;
      align-items: center;
      width: 100%;
      padding: 10px 0;
      gap: 20px;
 }
-.request-card .request-card-header .info .school{
+.user-layout .request-card .request-card-header .info .school{
      font-size: 0.9rem;
      font-weight: 400;
      color: hsl(var(--muted-foreground));
 
 }
-.request-card .request-card-header .info .name{
+.user-layout .request-card .request-card-header .info .name{
      font-size: 1rem;
      font-weight: 600;
      color: hsl(var(--foreground));
 }
-.request-card .request-card-body{
+.user-layout .request-card .request-card-body{
      display: flex;
      flex-direction: column;
      gap: 4px;
 }
-.request-card .request-card-body .info {
+.user-layout .request-card .request-card-body .info {
      display: flex;
      align-items: center;
      width: 100%;
      justify-content: space-between;
 }
-.request-card .request-card-body .info .title{
+.user-layout .request-card .request-card-body .info .title{
      font-size: 0.9rem;
      font-weight: 400;
      color: hsl(var(--muted-foreground));
 }
-.request-card .request-card-body .info span{
+.user-layout .request-card .request-card-body .info span{
      font-size: 0.9rem;
      font-weight: 400;
      color: hsl(var(--foreground));
 }
-.see-profile{
+.user-layout .see-profile{
      padding: 6px 12px;
      background-color: hsl(var(--primary));
      border-radius: 10px;
@@ -541,10 +541,10 @@ header {
      color: white;
      border: 1px solid hsl(var(--primary));
 }
-.see-profile:hover{
+.user-layout .see-profile:hover{
      background-color: hsl(var(--primary) / 80%);
 }
-.requests-list{
+.user-layout .requests-list{
      display: flex;
      width: 100%;
      flex-wrap: wrap;

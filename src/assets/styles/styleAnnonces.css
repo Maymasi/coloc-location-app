@@ -1,0 +1,328 @@
+.annoncesParent * {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+/* searchHouse */
+.annoncesParent .SearchContainer{
+    display: flex;
+    flex-direction: column;    
+    background-color: #f5f8fa;
+    height: 30vh;
+    justify-content: center;
+    align-items: start;
+    padding: 110px 100px;
+    gap: 30px;
+}
+.annoncesParent .bar{
+    display: flex;
+    width: 100%;
+    gap: 17px;
+    background-color:white;
+    padding: 15px;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+.annoncesParent .BigTitleSearch{
+    font-size: 23px;
+    text-align: start;
+    font-weight: 650;
+    color: rgb(52, 51, 51);
+}
+.annoncesParent .searchButton{
+    width: 900px;
+    text-transform: none !important;
+    font-size: 14px !important;
+    border-radius: 12px !important;
+    background-color:#ff6b5c !important;
+}
+.annoncesParent .selectForm{
+    border-radius: 12px !important;
+}
+.annoncesParent .cityOrCampus{
+    display:flex ;
+    justify-content: start;
+    align-items: center;
+    background-color: white;
+    padding: 9px;
+    border: 1.5px solid rgb(183, 183, 183);
+    border-radius: 12px;
+    width:1000px;
+    gap: 8px;
+    color: #b1b1b1;
+}
+.annoncesParent .cityOrCampus:hover{
+    border-color: #ff6b5c;
+}
+.annoncesParent .cityOrCampus input{
+    border: none;
+    outline: none;
+}
+.annoncesParent .btnFilter{
+    display: none;
+}
+/* Properties Found */
+.annoncesParent .overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); 
+    z-index: 1000; 
+}
+.annoncesParent .PropertiesFoundContainer{
+    display: flex;
+    justify-content: center;
+    /* align-items: center; */
+    padding:30px 2%;
+    gap: 20px;
+    /* align-items: center; */
+}
+.annoncesParent .filter{
+    background-color: white;
+    padding: 30px;
+    width: 25%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: start;
+    gap: 18px;
+    border-radius: 12px;
+    border: 1px solid #dadada95;
+}
+.annoncesParent .titleFilter{
+    font-size: 20px;
+    font-weight: 700;
+}
+.annoncesParent .PropertiesFoundContainer label{
+    font-size: 17px;
+}
+.annoncesParent .resultats{
+    width: 90%;
+    /* background-color: #b1b1b1; */
+    height: inherit;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+.annoncesParent .top{
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    padding-right: 20px;
+}
+.annoncesParent .cardsResultats{
+    /* background-color: #a61414; */
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    /* width: 45%; */
+    height: 90%;
+}
+.annoncesParent .cardResultat{
+    width: 31%;
+    display: flex;
+    flex-direction: column;
+    height: 350px;
+    border-radius: 12px;
+    border: 1px solid rgb(212, 210, 210);
+    overflow: hidden;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+.annoncesParent .containerPic{
+    height: 50%;
+    flex: 3;
+    width: 100%;
+    overflow: hidden;
+    position: relative;
+    /* border-radius: 12px; */
+}
+.annoncesParent .containerPic img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+.annoncesParent .descrbAndPrice{
+    display: flex;
+    justify-content: space-between;
+}
+.annoncesParent .address{
+    display: flex;
+    color: rgb(107, 107, 107);
+    gap: 5px;
+    align-items: center;
+}
+.annoncesParent .infoSupp{
+    display: flex;
+    justify-content: space-between;
+}
+.annoncesParent .bedsAndBaths{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+}
+.annoncesParent .heartTopRight{
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: #f2f1f1;
+    border-radius: 999px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    padding: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 5;
+}
+.annoncesParent .typeTopLeft{
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    background: #fe7364;
+    border-radius: 999px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    padding: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 5;
+    color: white;
+    width: 74px;
+    font-size: 15px;
+}
+.annoncesParent .infoSectionn{
+    height: 35%;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 15px;
+}
+.annoncesParent .describ{
+    font-size: 15px;
+    font-weight: 700;
+}
+.annoncesParent .Pprice{
+    color: #fe7364;
+}
+.annoncesParent .availability{
+    font-size: 16px;
+    border: 1px solid rgb(195, 195, 195);
+    border-radius: 9999px;
+    padding: 3px 10px;
+}
+.annoncesParent .formControll .MuiOutlinedInput-root {
+    border-radius: 16px !important;
+    padding: 1px !important;
+    height: 50px;
+}
+.annoncesParent .formControll .MuiOutlinedInput-root:hover fieldset {
+    border-color: #fe7364 !important;
+}
+
+.annoncesParent .formControll .MuiOutlinedInput-root.Mui-focused fieldset {
+    border-color: #fe7364 !important;
+}
+.annoncesParent .heartTopRight .css-1g494rb-MuiSvgIcon-root{
+    fill : #fe7364;
+}
+.annoncesParent .css-1qb8o-MuiToggleButtonGroup-root{
+    gap: 7px;
+}
+.annoncesParent .css-1qb8o-MuiToggleButtonGroup-root button{
+    border-radius: 12px !important;
+    border: 1px solid rgb(216, 216, 216) !important;
+    width: 40px !important;
+    height: 40px !important;
+    color: black !important;
+    font-weight: 500 !important;
+    font-size: 14px;
+}
+.annoncesParent .css-gn0oko-MuiButtonBase-root-MuiToggleButton-root.Mui-selected{
+    background-color: #fe7364 !important;
+    color: white !important;
+}
+.annoncesParent .css-1pn9ldh-MuiButtonBase-root-MuiToggleButton-root.Mui-selected{
+    background-color: #fe7364 !important;
+    color: white !important;
+}
+.annoncesParent .css-gn0oko-MuiButtonBase-root-MuiToggleButton-root:hover{
+    background-color: #ff887b !important;
+    color: white !important;
+}
+/* Media query page annonces */
+@media (max-width: 768px){
+    .annoncesParent .BigTitleSearch{
+        font-size: 25px;
+        text-align: center;
+    }
+    .annoncesParent .bar{
+        flex-direction: column;
+    }
+    .annoncesParent .cityOrCampus{
+        width: 100%;
+    }
+    .annoncesParent .searchButton{
+        width: 100%;
+    }
+    .annoncesParent .SearchContainer{
+        height: fit-content;
+        padding: 16px 20px;
+    }
+    .annoncesParent .PropertiesFoundContainer{
+        flex-direction: column;
+        align-items: center;
+    }
+    /* filter query */
+    .annoncesParent .filter{
+        position: fixed;
+        z-index: 20;
+        top: 0;
+        left: 0;
+        width: 70% !important;
+        height: 100% !important;
+        overflow-y: auto;
+        border-radius: 0px !important;
+    }
+    .annoncesParent .btnFilter{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 15px;
+        border: 1px solid rgb(223, 223, 223);
+        width: 80%;
+        border-radius: 12px;
+        padding: 8px;
+        font-size: 10px;
+    }
+    .annoncesParent .buttonFilter{
+        background-color: white;
+        border: none;
+        font-size: 14px;
+    }
+    /* properties found query */
+    .annoncesParent .top{
+        padding-top: 20px;
+    }
+    .annoncesParent .titlePropFound{
+        text-align: start;
+        width: 200px;
+    }
+    .annoncesParent .formControll{
+        width: 100px;
+    }
+    .annoncesParent .cardResultat{
+        width: 100% !important;
+    }
+    .annoncesParent .pagination{
+        width: 100%;
+    }
+    .annoncesParent .pagination ul li{
+        padding: 0px 7px;
+    }
+}

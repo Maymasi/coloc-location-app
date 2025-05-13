@@ -76,7 +76,7 @@ export default function StudentDashboard() {
           tabs.forEach(tab => {
             tab.style.backgroundColor = '';
             tab.style.color = ''; // Reset background color for all tabs
-             
+
           });
           tabs[newValue].style.backgroundColor = 'white';
           tabs[newValue].style.color = 'black';

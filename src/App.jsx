@@ -5,6 +5,9 @@ import StudentDashboard from './components/student/StudentDashboard';
 import Favorites from './components/student/Favorites';
 import ChatUi from './components/common/ChatUi';
 import RoommateComp from './components/student/RoommateComp';
+import AnnoncesPage from './pages/AnnoncesPage';
+import HomePage from './pages/HomePage';
+import DetailsPage from './pages/DetailsPage';
 function App() {
   return (
     <>
@@ -17,7 +20,9 @@ function App() {
           <Route path="favoris" element={<Favorites/>} />
           <Route path="colocations" element={<RoommateComp/>}/>
         </Route>
-        <Route path="/" element={<h1>HOME</h1>} />
+        <Route path="Annonces" element={<AnnoncesPage/>} />
+        <Route path="details" element={<DetailsPage/>} />
+        <Route path="/" element={<HomePage/>} />
         <Route path="*" element={<h1>Page not found</h1>} />
 
         {/* Tu peux garder les autres routes ici aussi, comme admin, etc. */}
@@ -25,5 +30,4 @@ function App() {
     </>
   )
 }
-
-export default App
+export default App;
