@@ -300,9 +300,9 @@ button{
 .cardsSimilarPart .cardResultat{
     background-color: rgba(255, 255, 255, 0.851);
 }
-.cardResultat{
+/* .cardResultat{
     width: 30% !important;
-}
+} */
 /* respo details page */
 @media (max-width: 768px){
     .imagesAnnoncesContainer{

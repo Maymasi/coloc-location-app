@@ -14,7 +14,7 @@
     height: 30vh;
     justify-content: center;
     align-items: start;
-    padding: 110px 50px;
+    padding: 110px 100px;
     gap: 30px;
 }
 .bar{
@@ -27,9 +27,10 @@
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
 }
 .BigTitleSearch{
-    font-size: 32px;
+    font-size: 23px;
     text-align: start;
-    font-weight: 700;
+    font-weight: 650;
+    color: rgb(52, 51, 51);
 }
 .searchButton{
     width: 900px;
@@ -123,7 +124,7 @@
     height: 90%;
 }
 .cardResultat{
-    /* width: 31%; */
+    width: 31%;
     display: flex;
     flex-direction: column;
     height: 350px;
@@ -316,7 +317,7 @@
         width: 100px;
     }
     .cardResultat{
-        width: 100%;
+        width: 100% !important;
     }
     .pagination{
         width: 100%;

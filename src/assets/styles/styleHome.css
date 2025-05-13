@@ -13,7 +13,7 @@
     align-items: center;
     justify-content: center;
     gap: 25px;
-    padding: 20px 0px ;
+    padding: 10px 0px ;
     background: white;
     border-bottom: 1px solid #eee;
     width: 100%;
@@ -28,7 +28,7 @@ ul li {
 ul li a {
     text-decoration: none;
     color: inherit;
-    font-size: 19px;
+    font-size: 16px;
 }
 ul li a:hover {
     color:#ff6c5cbc;
@@ -54,7 +54,7 @@ ul li a:hover {
     border: none;
     outline: none;
     background: transparent;
-    font-size: 16px;
+    font-size: 13px;
     width: 120px;
 }
 .btn-outline {

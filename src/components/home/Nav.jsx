@@ -1,7 +1,5 @@
 import { useState,useEffect } from "react";
-import { Typography } from "@mui/material";
-import { Menu,House, Home ,Megaphone,Info,CircleHelp,X} from 'lucide-react';
-import Button from '@mui/material/Button';
+import { Menu, Home ,Megaphone,Info,CircleHelp,X} from 'lucide-react';
 import SearchIcon from '@mui/icons-material/Search';
 import LoginIcon from '@mui/icons-material/Login';
 import "../../assets/styles/styleHome.css";
@@ -70,13 +68,13 @@ export default function Nav(){
                 <li>
                     <a href="#" className="connexionContainer">
                         <LoginIcon className="loginIcon" sx={{fontSize:"25px"}}/>
-                        <button className="btn-outline" style={{fontSize:"15px"}}>Connexion</button>
+                        <button className="btn-outline" style={{fontSize:"13px"}}>Connexion</button>
                     </a>
                 </li>
                 <li>
                     <a href="#" className="inscripContainer">
                             <UserPlus className="signIcon" style={{color:" rgb(250, 244, 244)"}} sx={{fontSize:"25px"}}/>
-                            <button  className="btn-filled" style={{fontSize:"15px"}}>Inscription</button>
+                            <button  className="btn-filled" style={{fontSize:"13px"}}>Inscription</button>
                     </a>
                 </li>
             </ul>

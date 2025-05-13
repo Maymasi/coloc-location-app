@@ -19,7 +19,7 @@ export default function SimilarProperties(){
             <div className="cardsSimilarPart">
                 {properties.map((property)=>{
                     return(
-                        <div className="cardResultat" key={property.id}>
+                        <div className="cardResultat" key={property.id} style={{width: "30% !important"}}>
                             <div className="containerPic">
                             <img src={property.image} alt="" />
                             <div className="heartTopRight">
