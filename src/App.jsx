@@ -6,9 +6,6 @@ import DetailsPage from './pages/DetailsPage';
 function App() {
   return (
     <>
-      {/* <AnnoncesPage/> */}
-      {/* <HomePage/> */}
-      <DetailsPage/>
     </>                                                     
   )
 }
