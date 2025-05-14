@@ -5,6 +5,9 @@ import StudentDashboard from './components/student/StudentDashboard';
 import Favorites from './components/student/Favorites';
 import ChatUi from './components/common/ChatUi';
 import RoommateComp from './components/student/RoommateComp';
+import ListDemandeRommate from './components/student/ListDemandeRommate';
+import MyRoomateRequest from './components/student/MyRoomateRequest'
+import ProfilComp from './components/common/ProfilComp';
 function App() {
   return (
     <>
@@ -12,10 +15,12 @@ function App() {
         {/* ROUTES USER */}
         <Route path="/student" element={<StudentLayout />}>
           <Route path="messages" element={<ChatUi/>} />
-          <Route path="profil" element={<h1>orifil</h1>} />
+          <Route path="profil" element={<ProfilComp/>} />
           <Route path="dashboard" element={<StudentDashboard/>} />
           <Route path="favoris" element={<Favorites/>} />
           <Route path="colocations" element={<RoommateComp/>}/>
+          <Route path='demandesRecus' element={<ListDemandeRommate/>} />
+          <Route path='mesDemandes' element={<MyRoomateRequest/>} />
         </Route>
         <Route path="/" element={<h1>HOME</h1>} />
         <Route path="*" element={<h1>Page not found</h1>} />

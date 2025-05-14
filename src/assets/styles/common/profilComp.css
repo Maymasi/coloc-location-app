@@ -1,0 +1,69 @@
+@import url(../../../index.css);
+.profil-data{
+    padding: 20px 90px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+.profil-data .content-profil{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    width: 100%;
+}
+.profil-data .content-profil .cardProfil{
+    background-color: white !important;
+    border: 1px solid hsl(var(--border)) !important;
+    border-radius: 16px;
+    padding: 15px 30px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 80% !important;
+}
+.profil-data .content-profil .about-me .content{
+    color: gray;
+    font-weight: 400;
+}
+.profil-data .content-profil .cardProfil .Sommeil,
+.profil-data .content-profil .cardProfil .Proprete,
+.profil-data .content-profil .cardProfil .Sociabilite,
+.profil-data .content-profil .cardProfil .Coordonnees .email,
+.profil-data .content-profil .cardProfil .Coordonnees .phone {
+    display: flex;
+    gap: 30px;
+    align-items: center;
+}
+.profil-data .content-profil .data .Coordonnees {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+.profil-data .content-profil .cardProfil .texts{
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+}
+.profil-data .content-profil .cardProfil .icon{
+    background-color: hsl(var(--secondary));
+    color: hsl(var(--primary));
+    padding: 10px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+}
+.profil-data .content-profil .cardProfil .texts .label{
+    font-size: 15px;
+    color: gray;
+    margin: 0;
+}
+.profil-data .content-profil .cardProfil .texts .desc{
+    margin-top:-5px;
+    font-weight: 500;
+    font-size: 17px;
+}
+.profil-data .content-profil .cardProfil .title{
+    font-size: 18px;
+    font-weight: 700;
+    margin-bottom: 12px;
+}
