@@ -1,9 +1,7 @@
 import React,{ useRef } from "react";
 import "../../assets/styles/PolitiquePage.css";
 import PrivacyPolicy from "./PrivacyPolicy";
-import Nav from "../home/Nav";
 import Questions from "./Questions";
-import Footer from "../common/Footer";
 import ScrollToTopButton from "./ScrollToTopButton";
 const PolitiquePage = () => {
     const privacyRef = useRef(null);
@@ -13,7 +11,6 @@ const PolitiquePage = () => {
     };
     return(
         <div>
-            <Nav/>
             <section className="about-section-Politique" >
                 <div className="about-container-Politique">
                     <h1 className="about-title-Politique">
@@ -40,9 +37,6 @@ const PolitiquePage = () => {
             </div>
             <div>
                 <Questions/>
-            </div>
-            <div>
-                <Footer />
             </div>
             <ScrollToTopButton />
         </div>

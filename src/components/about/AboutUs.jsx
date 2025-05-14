@@ -1,11 +1,9 @@
 import "../../assets/styles/AboutUs.css";
-import Nav from "../home/Nav"
 import { CheckCircle } from 'lucide-react';
 import { Users, Shield, Award } from 'lucide-react';
 import React, { useState, useEffect } from 'react';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
-import Footer from '../common/Footer';
 import img1 from '../../assets/images/image1.jpg';
 import img2 from '../../assets/images/image2.jpg';
 import img3 from '../../assets/images/image3.jpg';
@@ -51,7 +49,6 @@ const AboutUs = () => {
   ];
   return (
     <div>
-      <Nav/>
       <section className="aboutUs-section" data-aos="fade-up">
           <div className="aboutUs-container">
             <span className="aboutUs-tag">À propos de nous</span>
@@ -205,7 +202,6 @@ const AboutUs = () => {
         </div>
       </section>
       <div>
-      < Footer />
 </div>
 
 </div>

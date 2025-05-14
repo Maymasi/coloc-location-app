@@ -21,11 +21,11 @@ export default function Nav(){
                 <ul className="ListMenu" style={{display:open?"flex":"none"}}>
                     <li className="lia">
                         <Home/>
-                        <a href="#">Accueil</a>
+                        <a href="/">Accueil</a>
                     </li>
                     <li className="lia">
                         <Megaphone />
-                        <a href="#">Annonces</a>
+                        <a href="/annonces">Annonces</a>
                     </li>
                     <li className="lia">
                         <Info />
@@ -52,13 +52,15 @@ export default function Nav(){
                 </ul>
             </div>
             <ul className="ListNav">
-                <li>
-                <img src="/Logo.png" style={{ width: "100px" }} />
+                <li >
+                    <a href="/Home">
+                        <img src="/Logo.png" style={{ width: "100px" }} />
+                    </a>
                 </li>
-                <li><a href="#">Accueil</a></li>
-                <li><a href="#">Annonces</a></li>
-                <li><a href="#">À propos</a></li>
-                <li><a href="#">FAQ</a></li>
+                <li><a href="/Home">Accueil</a></li>
+                <li><a href="/annonces">Annonces</a></li>
+                <li><a href="/aboutUs">À propos</a></li>
+                <li><a href="FAQ">FAQ</a></li>
                 <li className="searchBox">
                     <div className="searchContainer">
                         <SearchIcon style={{ color: "#888", fontSize: "25px" }} />

@@ -6,8 +6,6 @@ import AccordionSummary from '@mui/material/AccordionSummary';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import Typography from '@mui/material/Typography';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import Footer from '../common/Footer';
-import Nav from '../home/Nav'
 const FAQ = () => {
     const [activeTab, setActiveTab] = useState('Général');
 
@@ -126,7 +124,6 @@ const FAQ = () => {
 
     return (
         <>
-            <Nav/>
             <div className="faq-container">
                     <div className="faq-header">
                         <h1 className="faq-title">Foire Aux Questions</h1>
@@ -179,9 +176,6 @@ const FAQ = () => {
                         <button className="contact-email-faq">support@campushaven.com</button>
                     </div>
                 </div>
-            </div>
-            <div className='style-Footer'>
-                < Footer />
             </div>
         </>
     );

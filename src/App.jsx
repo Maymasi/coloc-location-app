@@ -11,6 +11,7 @@ import DetailsPage from './pages/DetailsPage';
 import AboutUs from './components/about/AboutUs'
 import PolitiquePage from './components/Politique/PolitiquePage';
 import FAQ from './components/faq/FAQ'
+import PrincipalePageLayout from './pages/PrincipalePageLayout';
 function App() {
   return (
     <>
@@ -23,12 +24,14 @@ function App() {
           <Route path="favoris" element={<Favorites/>} />
           <Route path="colocations" element={<RoommateComp/>}/>
         </Route>
-        <Route path="Annonces" element={<AnnoncesPage/>} />
-        <Route path="details" element={<DetailsPage/>} />
-        <Route path="politique" element={<PolitiquePage/>} />
-        <Route path="aboutUs" element={<AboutUs/>} />
-        <Route path="FAQ" element={<FAQ/>} />
-        <Route path="/" element={<HomePage/>} />
+        <Route path="/" element={<PrincipalePageLayout/>}>
+          <Route path="Annonces" element={<AnnoncesPage/>} />
+          <Route path="details" element={<DetailsPage/>} />
+          <Route path="politique" element={<PolitiquePage/>} />
+          <Route path="aboutUs" element={<AboutUs/>} />
+          <Route path="FAQ" element={<FAQ/>} />
+          <Route path="/Home" element={<HomePage/>} />
+        </Route>
         <Route path="*" element={<h1>Page not found</h1>} />
 
         {/* Tu peux garder les autres routes ici aussi, comme admin, etc. */}

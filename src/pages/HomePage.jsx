@@ -21,7 +21,6 @@ export default function HomePage(){
     }, []);
     return(
         <div className="HomeParent">
-            <Nav/>
             <MySlider/>
             <StatisiCard/>
             <SimpleProcess/>

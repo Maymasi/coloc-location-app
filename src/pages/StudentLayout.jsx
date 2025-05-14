@@ -4,7 +4,7 @@ import { Outlet } from 'react-router-dom';
 import '../assets/styles/userCss/userLayout.css';
 
 const StudentLayout = () => {
-  return (
+    return (
     <div className="user-layout">
         <div className="left-bar">
             <LeftNav />
@@ -18,7 +18,7 @@ const StudentLayout = () => {
             </div>
         </div>
     </div>
-  );
+    );
 };
 
 export default StudentLayout;
