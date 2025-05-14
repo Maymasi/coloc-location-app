@@ -1,4 +1,4 @@
- * {
+.HomeParent * {
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
     font-size: 14px;
     font-weight: 500;
@@ -187,7 +187,7 @@
     margin-top: 80px;
     height:max-content
 }
-.HomeParent .HomeParent .title{
+.HomeParent .title{
     display: flex;
     gap: 7px;
     align-items: center;

@@ -544,7 +544,7 @@
 
 
   /* ----------------------------------------
-     Default styles
+    Default styles
      ---------------------------------------- */
   /* Reset CSS */
   li{
@@ -554,7 +554,7 @@
     margin: 0;
     padding: 0;
     font-family: var(--font-primary);
-    background-color: var(--color-background);
-    color: var(--color-foreground);
+    /* background-color: var(--color-background); */
+    /* color: var(--color-foreground); */
     line-height: var(--line-height-normal);
   }

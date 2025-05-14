@@ -8,6 +8,9 @@ import RoommateComp from './components/student/RoommateComp';
 import AnnoncesPage from './pages/AnnoncesPage';
 import HomePage from './pages/HomePage';
 import DetailsPage from './pages/DetailsPage';
+import AboutUs from './components/about/AboutUs'
+import PolitiquePage from './components/Politique/PolitiquePage';
+import FAQ from './components/faq/FAQ'
 function App() {
   return (
     <>
@@ -22,6 +25,9 @@ function App() {
         </Route>
         <Route path="Annonces" element={<AnnoncesPage/>} />
         <Route path="details" element={<DetailsPage/>} />
+        <Route path="politique" element={<PolitiquePage/>} />
+        <Route path="aboutUs" element={<AboutUs/>} />
+        <Route path="FAQ" element={<FAQ/>} />
         <Route path="/" element={<HomePage/>} />
         <Route path="*" element={<h1>Page not found</h1>} />
 
