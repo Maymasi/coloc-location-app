@@ -12,6 +12,7 @@ import AboutUs from './components/about/AboutUs'
 import PolitiquePage from './components/Politique/PolitiquePage';
 import FAQ from './components/faq/FAQ'
 import PrincipalePageLayout from './pages/PrincipalePageLayout';
+import AdminLayout from './pages/AdminLayout';
 function App() {
   return (
     <>
@@ -30,7 +31,14 @@ function App() {
           <Route path="politique" element={<PolitiquePage/>} />
           <Route path="aboutUs" element={<AboutUs/>} />
           <Route path="FAQ" element={<FAQ/>} />
-          <Route path="/Home" element={<HomePage/>} />
+          <Route path="" element={<HomePage/>} />
+        </Route>
+        <Route path="/admin" element={<AdminLayout />}>
+          <Route path="messages" element={<ChatUi/>} />
+          <Route path="profil" element={<h1>orifil</h1>} />
+          <Route path="dashboard" element={<StudentDashboard/>} />
+          <Route path="favoris" element={<Favorites/>} />
+          <Route path="colocations" element={<RoommateComp/>}/>
         </Route>
         <Route path="*" element={<h1>Page not found</h1>} />
 

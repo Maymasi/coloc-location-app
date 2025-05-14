@@ -29,11 +29,11 @@ export default function Nav(){
                     </li>
                     <li className="lia">
                         <Info />
-                        <a href="#">À propos</a>
+                        <a href="/aboutUs">À propos</a>
                     </li>
                     <li className="lia">
                         <CircleHelp />
-                        <a href="#">FAQ</a>
+                        <a href="/FAQ">FAQ</a>
                     </li>
                     <div className="btnMenu">
                         <li>
@@ -53,14 +53,14 @@ export default function Nav(){
             </div>
             <ul className="ListNav">
                 <li >
-                    <a href="/Home">
+                    <a href="/">
                         <img src="/Logo.png" style={{ width: "100px" }} />
                     </a>
                 </li>
-                <li><a href="/Home">Accueil</a></li>
+                <li><a href="/">Accueil</a></li>
                 <li><a href="/annonces">Annonces</a></li>
                 <li><a href="/aboutUs">À propos</a></li>
-                <li><a href="FAQ">FAQ</a></li>
+                <li><a href="/FAQ">FAQ</a></li>
                 <li className="searchBox">
                     <div className="searchContainer">
                         <SearchIcon style={{ color: "#888", fontSize: "25px" }} />
