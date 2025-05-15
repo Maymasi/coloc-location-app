@@ -14,8 +14,7 @@ import MenuIcon from '@mui/icons-material/Menu';
 import PersonAdd from '@mui/icons-material/PersonAdd';
 import Settings from '@mui/icons-material/Settings';
 import Logout from '@mui/icons-material/Logout';
-import NotificationsOutlinedIcon from '@mui/icons-material/NotificationsOutlined';
-import { User, BellDot, MessageCircle, Logs} from 'lucide-react';
+import { User, BellDot, Logs} from 'lucide-react';
 import '../../assets/styles/TopNav.css';
 
 export default function TopNav({handleLogsClick}) {
