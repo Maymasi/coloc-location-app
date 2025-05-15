@@ -1,6 +1,5 @@
-import { X,House,Heart,MessageSquare,Users,SquareLibrary,Bell,Settings,User,ChartColumnIncreasing  } from 'lucide-react';
+import { Home,MessageSquare,Users,House ,ShieldAlert ,Settings,LogOut ,ChartColumnIncreasing,Building,Flag    } from 'lucide-react';
 import * as React from 'react';
-import Avatar from '@mui/material/Avatar';
 import Divider from '@mui/material/Divider';
 import { useNavigate } from 'react-router-dom';
 import '../../assets/styles/LeftNav.css';
@@ -15,14 +14,9 @@ export default  function LeftNav(){
     };
 
     return(
-            <div className="left-nav">
+            <div className="left-nav-admin">
                 <div className="logo">
                     <div style={{fontSize:"18px",fontWeight:"700",color:"hsl(var(--primary))"}}>Admin Panel</div>
-                    <X />
-                    {/* onClick={()=>{
-                        document.querySelector('.left-bar').style.display = 'none';
-                        
-                    }} */}
                 </div>
                 <Divider style={{backgroundColor:'hsl(0 ,0%, 92%)'}}/>
                 
@@ -38,19 +32,19 @@ export default  function LeftNav(){
                                     <span>Tableau de Bord</span>
                                 </div>
                                 <div 
-                                    className={`link-left-nav-admin ${activeLink === 'annonces' ? 'active' : ''}`} 
-                                    onClick={() => handleLinkClick('annonces')}
+                                    className={`link-left-nav-admin ${activeLink === 'Analytiques' ? 'active' : ''}`} 
+                                    onClick={() => handleLinkClick('Analytiques')}
                                 >
                                     <ChartColumnIncreasing  size={17} />
                                     <span>Analytiques</span>
                                 </div>
                             </div>     
                             <div>
-
                             </div>
+                                <div className='title-left-nav-admin' style={{marginTop:"20px"}}>Gestion</div>
                                 <div 
-                                    className={`link-left-nav-admin ${activeLink === 'favoris' ? 'active' : ''}`} 
-                                    onClick={() => handleLinkClick('favoris')}
+                                    className={`link-left-nav-admin ${activeLink === 'utilisateurs' ? 'active' : ''}`} 
+                                    onClick={() => handleLinkClick('utilisateurs')}
                                 >
                                     <Users  size={17} />
                                     <span>Utilisateurs</span>
@@ -58,52 +52,55 @@ export default  function LeftNav(){
                                 <div 
                                     className={`link-left-nav-admin ${activeLink === 'messages' ? 'active' : ''}`} 
                                     onClick={() => handleLinkClick('messages')}
-                                    style={{justifyContent:'space-between'}}
                                 >
-                                    <div className="" style={{display:'flex',alignItems:'center',gap:'1rem'}}>
-                                        <MessageSquare size={17} />
-                                        <span>Messages</span>
-                                    </div>
-                                    <span className="notification">3</span>
+                                    <MessageSquare size={17} />
+                                    <span>Messages</span>
                                 </div>
                                 <div 
-                                    className={`link-left-nav-admin ${activeLink === 'colocations' ? 'active' : ''}`} 
-                                    onClick={() => handleLinkClick('colocations')}
+                                    className={`link-left-nav-admin ${activeLink === 'proprietés' ? 'active' : ''}`} 
+                                    onClick={() => handleLinkClick('proprietés')}
                                 >
-                                    <Users size={17} />
-                                    <span>Colocations</span>
+                                    <Building  size={17} />
+                                    <span>propriétés</span>
+                                </div>
+                                <div className='title-left-nav-admin' style={{marginTop:"20px"}}>Modération</div>
+                                <div 
+                                    className={`link-left-nav-admin ${activeLink === 'signalements' ? 'active' : ''}`} 
+                                    onClick={() => handleLinkClick('signalements')}
+                                >
+                                    <Flag  size={17} />
+                                    <span>signalements</span>
                                 </div>
                                 <div 
-                                    className={`link-left-nav-admin ${activeLink === 'demandesRecus' ? 'active' : ''}`} 
-                                    onClick={() => handleLinkClick('demandesRecus')}
-                                    style={{justifyContent:'space-between'}}
+                                    className={`link-left-nav-admin ${activeLink === 'Sécurité' ? 'active' : ''}`} 
+                                    onClick={() => handleLinkClick('Sécurité')}
                                 >
-                                    <div className="" style={{display:'flex',alignItems:'center',gap:'1rem'}}>
-                                        <Bell size={17} />
-                                        <span>Demandes recus</span>
-                                    </div>
-                                    <span className="notification">5</span>
+                                    <ShieldAlert  size={17} />
+                                    <span>Sécurité</span>
                                 </div>
-                                <div 
-                                    className={`link-left-nav-admin ${activeLink === 'mesDemandes' ? 'active' : ''}`} 
-                                    onClick={() => handleLinkClick('mesDemandes')}
-                                >
-                                    <SquareLibrary size={17} />
-                                    <span>Mes demandes</span>
-                                </div>
-                                <div 
-                                    className={`link-left-nav-admin ${activeLink === 'profil' ? 'active' : ''}`} 
-                                    onClick={() => handleLinkClick('profil')}
-                                >
-                                    <User size={17} />
-                                    <span>Profil</span>
-                                </div>
+                                <div className='title-left-nav-admin' style={{marginTop:"20px"}}>Paramètres</div>
                                 <div 
                                     className={`link-left-nav-admin ${activeLink === 'parametres' ? 'active' : ''}`} 
                                     onClick={() => handleLinkClick('parametres')}
                                 >
                                     <Settings size={17} />
-                                    <span>Parametres</span>
+                                    <span>Paramètres</span>
+                                </div>
+                                <div style={{marginTop:"20px"}}>
+                                    <div 
+                                        className={`link-left-nav-admin ${activeLink === '' ? 'active' : ''}`} 
+                                        onClick={() => handleLinkClick('')}
+                                    >
+                                        <Home size={17} />
+                                        <span>Retour au site</span>
+                                    </div>
+                                    <div 
+                                        className={`link-left-nav-admin ${activeLink === 'Déconnexion' ? 'active' : ''}`} 
+                                        onClick={() => handleLinkClick('Déconnexion')}
+                                    >
+                                        <LogOut  size={17} />
+                                        <span>Déconnexion</span>
+                                    </div>
                                 </div>
                         </div>
                     </div>
