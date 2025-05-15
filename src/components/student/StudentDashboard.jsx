@@ -82,7 +82,7 @@ export default function StudentDashboard() {
           tabs[newValue].style.color = 'black';
         };
         return (
-          <div style={{ padding: '0 60px', marginBottom: '60px', height: '100%' }} className="student-dashboard">
+          <div style={{  marginBottom: '60px', height: '100%' }} className="student-dashboard">
             <header>
               <div className="info-student">
           <h1>Bienvenue, Oussama</h1>

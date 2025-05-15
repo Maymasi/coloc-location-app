@@ -88,6 +88,7 @@
      display: flex;
      flex-direction: column;
      gap: 40px;
+     padding: 0 60px;
 }
 
 /* ===========================
@@ -210,7 +211,7 @@
 }
 
 .user-layout .css-12dv9jb {
-     width: 50% !important;
+     width: 47% !important;
      height: 400px !important;
 }
 
@@ -385,7 +386,7 @@
     border-radius: 0 0 14px 14px;
     border: 1px solid hsl(var(--border));
     border-top: none;
-
+     height: 55%;
 }
 .user-layout .recommended-home .title-price{
     display: flex;
@@ -549,6 +550,65 @@
      width: 100%;
      flex-wrap: wrap;
      gap: 30px;
+}
+/* /media queries/ */
+
+
+/* Pour les petits écrans (smartphones, etc.) */
+@media (max-width: 768) {
+          .user-layout .recommended-home{
+          width: 100%
+     }
+        .user-layout .card {
+          width: 80%
+     }
+}
+
+/* Pour les tablettes en mode portrait */
+@media  (max-width: 900px) {
+     .user-layout .recommended-home{
+          width: 100%
+     }
+     .user-layout .tabs-nav,
+     .user-layout .css-jhczcq-MuiTabs-root,
+     .user-layout .css-jhczcq-MuiTabs-root{
+          width: 100% !important;
+     }
+     .user-layout .recent-activity {
+          flex-direction: column !important;
+     }
+     .user-layout .student-dashboard{
+          padding: 0 20px;
+     }
+     .user-layout .card {
+          width: 40%
+     }
+     .user-layout .data-student {
+          flex-wrap: wrap;
+          /* gap: 10px; */
+     }
+      .user-layout .bar{
+          width: 100% !important;
+          height: 40px !important;
+      }
+}
+@media (max-width: 768) {
+          .user-layout .recommended-home{
+          width: 100%
+     }
+        .user-layout .card {
+          width: 80% !important;
+     }
+}
+/* Pour les tablettes en mode paysage */
+@media (max-width: 1280px) {
+      
+}
+
+/* Pour les écrans plus larges (ordinateurs de bureau) */
+@media (min-width: 1280px) {
+     
+
 }
 /* ===========================
     End of File

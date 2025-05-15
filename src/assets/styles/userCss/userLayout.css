@@ -21,3 +21,52 @@
 .content-user-layout .top-bar{
    height: 80px;
 }
+/* /media queries/ */
+
+
+/* Pour les petits écrans (smartphones, etc.) */
+@media (max-width: 600px) {
+}
+
+/* Pour les tablettes en mode portrait */
+@media (max-width: 900px) {
+    .user-layout .content-user-layout{
+        padding:10px;
+        box-sizing: border-box;
+    }
+    .user-layout .content-user-layout header  {
+    display: flex;
+    justify-content: start;
+    align-items: start;
+    flex-direction: column;
+    gap: 18px;
+    }
+    .user-layout .content-user-layout .info-student{
+        width: 100%;
+    }
+    .user-layout .top-bar header{
+        flex-direction: row;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+}
+
+/* Pour les tablettes en mode paysage */
+@media (max-width: 1280px) {
+      .user-layout .left-bar .left-nav{
+        display: none;
+    }
+    .user-layout .content-user-layout{
+        width: 100% !important;
+        margin-left: 0;
+    }
+}
+
+/* Pour les écrans plus larges (ordinateurs de bureau) */
+@media (min-width: 1280px) {
+    .user-layout .left-bar .left-nav{
+        display: flex;
+    }
+
+    }
