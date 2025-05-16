@@ -1,6 +1,14 @@
-import React from 'react'
-import  '../../assets/styles/AdminStyles/DashboardAdmin.css'
+import * as React from 'react';import  '../../assets/styles/AdminStyles/DashboardAdmin.css';
+import VueDensemble from './tabsAdmin/VueDensemble';
+import ActiviteUtilisateur from './tabsAdmin/ActiviteUtilisateur';
+import SignalementsRecents from './tabsAdmin/SignalementsRecents';
+import ActionsRapide from './ActionsRapide';
 import { Flag,Users,MessageSquare,Building,  } from 'lucide-react';
+import Box from '@mui/material/Box';
+import Tab from '@mui/material/Tab';
+import TabContext from '@mui/lab/TabContext';
+import TabList from '@mui/lab/TabList';
+import TabPanel from '@mui/lab/TabPanel';
 
 const cardsInfo = [
     {title:"Utilisateurs totaux",number:1248,icon:"Users",evolutionMsg:"+12% depuis le mois dernier",color:"#00c853"},
@@ -14,8 +22,13 @@ const iconMap = {
     MessageSquare: MessageSquare,
     Flag: Flag
 };
-const AdminDashboard = () => {
+export default function AdminDashboard () {
 
+    const [value, setValue] = React.useState('1');
+
+    const handleChange = (event, newValue) => {
+        setValue(newValue);
+    };
     return (
         <div style={{padding:"0px 10px"}}>
             <div className="top-admin-dashboard">
@@ -51,8 +64,46 @@ const AdminDashboard = () => {
                     )
                 })}
             </div>
+            <div className="tabs-admin-dashboard">
+                <Box sx={{ width: '100%', typography: 'body1' }}>
+                    <TabContext value={value}>
+                        <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+                            <TabList onChange={handleChange} aria-label="lab API tabs example">
+                                <Tab label="Vue d'ensemble" value="1" />
+                                <Tab label="Activité utilisateurs" value="2" />
+                                <Tab label="Signalements récents" value="3" />
+                            </TabList>
+                        </Box>
+                        <TabPanel value="1" style={{width:"100%"}}>
+                            <VueDensemble/>
+                        </TabPanel>
+                        <TabPanel value="2">
+                            <ActiviteUtilisateur/>
+                        </TabPanel>
+                        <TabPanel value="3">
+                            <SignalementsRecents/>
+                        </TabPanel>
+                    </TabContext>
+                </Box>
+            </div>
+            <div className="actionsRapide">
+                <div className="big-title-parts-admin">Actions rapides</div>
+                <ActionsRapide/>
+            </div>
+            <div className="resume-analytique">
+                <div className="big-title-parts-admin">Résumé analytique</div>
+                <div style={{backgroundColor:"white",height:"400px",padding:"20px",borderRadius:"13px",border:"1px solid rgb(179, 179, 179)",marginTop:"20px",gap:"20px",display:"flex",flexDirection:"column"}}>
+                    <div>
+                        <div className="title-tab-admin-dashboard">Distribution des utilisateurs</div>
+                        <div className="description-tab-admin-dashboard">Répartition des types d'utilisateurs sur la plateforme</div>
+                    </div>
+                    <div className="graphiqueAnalyse">
+                        
+                    </div>
+                </div>
+            </div>
+
         </div>
     )
 }
 
-export default AdminDashboard

@@ -37,6 +37,11 @@
     font-size:13px ;
     color: #9e9e9e;
 }
+.big-title-parts-admin {
+    font-size: 25px;
+    font-weight: 700;
+}
+/* cards top */
 .cards-admin-dashboard{
     display: flex;
     justify-content: space-between;
@@ -69,4 +74,269 @@
     justify-content: center;
     align-items: center;
     border-radius: 50%;
+}
+.tabs-admin-dashboard{
+    /* width: fit-content !important; */
+    margin-top: 30px;
+    width: 100% !important;
+}
+.tabs-admin-dashboard .css-1usuzwp-MuiButtonBase-root-MuiTab-root.Mui-selected{
+    color:black !important;
+    background-color: white !important;
+    padding: 0px 30px !important;
+}
+.tabs-admin-dashboard .css-13xfq8m-MuiTabPanel-root{
+    padding: 30px 0px;
+}
+.tabs-admin-dashboard.user-layout .tabs-nav, .user-layout .css-jhczcq-MuiTabs-root, .user-layout .css-jhczcq-MuiTabs-root{
+    width: fit-content !important;
+}
+/* vueDensemble */
+.title-tab-admin-dashboard{
+    font-size: 16px;
+    font-weight: 500;
+}
+.description-tab-admin-dashboard{
+    font-size: 12px;
+    color: #757575;
+}
+.progressBars{
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+}
+.card-vue-densemble{
+    border: 1px solid #e0e0e0;
+    border-radius: 12px;
+    padding: 20px;
+    width: 45%;
+}
+.ligneSante{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 12px;
+}
+/* activiteUtilisateur */
+.activite-wrapper {
+    padding: 20px;
+    font-family: sans-serif;
+}
+
+.activite-title {
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.activite-description {
+    font-size: 14px;
+    color: #666;
+    margin-bottom: 20px;
+}
+
+.activites-list {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.activite-card {
+    display: flex;
+    align-items: flex-start;
+    gap: 15px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #eee;
+}
+
+.activite-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.activite-content {
+    flex: 1;
+}
+
+.activite-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 4px;
+}
+
+.activite-name {
+    font-weight: 600;
+}
+
+.activite-role {
+    font-size: 12px;
+    padding: 2px 8px;
+    border-radius: 12px;
+    background-color: #f0f0f0;
+    color: #333;
+}
+
+.activite-role.proprietaire {
+    background-color: #e1e7fe;
+    color: #2e73f3;
+}
+
+.activite-role.etudiant {
+    background-color: #d6f5e4;
+    color: #1ab248;
+}
+
+.activite-text {
+    color: #555;
+    font-size: 14px;
+    margin-bottom: 3px;
+}
+
+.activite-time {
+    font-size: 12px;
+    color: #999;
+}
+
+/* Signalements recents  */
+.priorite {
+    font-size: 12px;
+    padding: 2px 8px;
+    border-radius: 12px;
+    font-weight: 500;
+    margin-left: auto;
+}
+
+.priorite.haute {
+    background-color: #f44336;
+    color: white;
+}
+
+.priorite.moyenne {
+    background-color: #fbc02d;
+    color: white;
+}
+
+.priorite.basse {
+    background-color: #3f51b5;
+    color: white;
+}
+
+.activite-buttons {
+    margin-top: 10px;
+    display: flex;
+    gap: 10px;
+}
+
+.btn-examiner {
+    background-color: #f44336;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    padding: 6px 12px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.2s ease;
+}
+
+.btn-examiner:hover {
+    background-color: #d32f2f;
+}
+
+.btn-examiner:active {
+    background-color: #b71c1c;
+}
+
+.btn-ignorer {
+    background-color: white;
+    color: #333;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    padding: 6px 12px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: all 0.2s ease;
+}
+
+.btn-ignorer:hover {
+    background-color: #f5f5f5;
+}
+
+.btn-ignorer:active {
+    background-color: #e0e0e0;
+    border-color: #bbb;
+}
+/* actions rapide  */
+.actionsRapide{
+    padding: 0px 14px;
+}
+.actions-rapides-dashboard {
+    display: flex;
+    padding: 20px 0;
+    justify-content: space-between;
+}
+
+.action-card {
+    width: 27%;
+    border-radius: 16px;
+    background: white;
+    padding: 24px;
+    box-shadow: 0 0 0 1px #eee;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    transition: box-shadow 0.3s ease;
+}
+
+.action-card:hover {
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.07);
+}
+
+.action-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.action-title {
+    font-weight: bold;
+    font-size: 16px;
+    color: #111;
+}
+
+.action-description {
+    color: #666;
+    font-size: 14px;
+}
+
+.badge-attente {
+    background-color: #f9f9f9;
+    padding: 6px 12px;
+    font-size: 14px;
+    border-radius: 10px;
+    color: #111;
+    display: inline-block;
+    margin-top: 10px;
+    border: 1px solid #e0e0e0;
+}
+/* Resume analytique */
+.resume-analytique{
+    padding: 14px;
+    margin-bottom: 30px;
+}
+.graphiqueAnalyse{
+    height: 90%;
+    background-color: rgba(228, 228, 228, 0.954);
+    border-radius: 12px;
 }
