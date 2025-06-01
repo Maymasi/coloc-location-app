@@ -223,6 +223,7 @@
     width: 100%;
     gap: 6px;
     margin-top: 5px;
+    flex-wrap: wrap;
 }
 .roommate-card .content .user-details .preferences .item{
     font-size: 12px;
@@ -283,4 +284,79 @@
     display: flex;
     gap: 20px;
     flex-wrap: wrap;
+}
+
+/* /media queries/ */
+
+
+/* Pour les petits écrans (smartphones, etc.) */
+
+
+/* Pour les tablettes en mode portrait */
+@media (max-width: 900px) {
+   .roommate-page .roommate-filter .search-field{
+        flex-direction: column;
+        gap: 10px;
+    }
+    .roommate-page .roommate-filter .search-field .select-budget{
+        width: 100%;
+    }
+    .roommate-page .roommate-filter .search-field .search-btn{
+        width: 100%;
+    }
+    .roommate-page{
+        padding: 20px 30px;
+    }
+    .roommate-card{
+        width: 48% !important;
+    }
+    .list-roommate-page{
+        flex-wrap: wrap;
+        gap: 20px;
+    }
+    .roommate-page .css-q6u2lg-MuiFormControl-root{
+        width: 100% !important;
+    }
+    .roommate-page .header{
+        text-align: center;
+        align-items: center;
+    }
+}
+@media (max-width: 1024px) {
+    .roommate-page{
+        padding: 20px 40px;
+    }
+    .roommate-card{
+        width: 48% !important;
+    }
+    .list-roommate-page{
+        flex-wrap: wrap;
+        gap: 20px;
+    }
+}
+
+/* Pour les tablettes en mode paysage */
+@media (max-width: 1280px) {
+    .roommate-page{
+        padding: 20px 15px !important;
+    }
+    .roommate-page .css-jhczcq-MuiTabs-root{
+        width: 100% !important;
+        text-align: center !important;
+        margin: 0 auto !important;
+    }
+
+}
+
+
+/* Pour les écrans plus larges (ordinateurs de bureau) */
+@media (min-width: 1280px) {
+}
+@media (max-width: 768px) {
+    .roommate-page .roommate-filter{
+        padding: 20px !important;
+    }
+    .roommate-card{
+        width: 100% !important;
+    }
 }

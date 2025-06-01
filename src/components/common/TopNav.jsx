@@ -44,7 +44,7 @@ export default function TopNav({handleLogsClick}) {
         <AppBar
             position="fixed"
             sx={{
-                justifyContent: 'space-beetwen',
+                justifyContent: 'space-between',
                 zIndex: 1201,
                 backgroundColor: "white",
                 height: '80px',
@@ -58,16 +58,23 @@ export default function TopNav({handleLogsClick}) {
                 flexDirection:'row'
             }}
         >
-           <Logs className='menuBarUser'
-            onClick={handleLogsClick}
-            style={{color:'black',display: window.innerWidth >= 1280 ? 'none':''}}/>
-            <Toolbar style={{ gap: '1rem',height:'100%'}}>
+           {/* Menu hamburger - seulement visible sur écrans < 1280px */}
+           <Logs 
+                className='menuBarUser'
+                onClick={handleLogsClick}
+                style={{
+                    color:'black',
+                    display: window.innerWidth >= 1280 ? 'none' : 'block'
+                }}
+            />
+            
+            <Toolbar style={{ gap: '1rem', height:'100%', marginLeft: 'auto' }}>
                 <React.Fragment>
-                    {/* Notification Icon */}
+                    {/* Notification Icon - toujours visible */}
                     <Box sx={{ display: 'flex', alignItems: 'center', textAlign: 'center' }}>
                         <BellDot
-                            size={10}
-                            style={{ color: 'black' }}
+                            size={24}
+                            style={{ color: 'black', cursor: 'pointer' }}
                             onClick={handleNotifMenuClick}
                             aria-controls={notifMenuOpen ? 'notif-menu' : undefined}
                             aria-haspopup="true"
@@ -76,11 +83,11 @@ export default function TopNav({handleLogsClick}) {
                         />
                     </Box>
 
-                    {/* User Icon */}
+                    {/* User Icon - toujours visible */}
                     <Box sx={{ display: 'flex', alignItems: 'center', textAlign: 'center' }}>
                         <User
-                            size={10}
-                            style={{ color: 'black' }}
+                            size={24}
+                            style={{ color: 'black', cursor: 'pointer' }}
                             onClick={handleUserMenuClick}
                             aria-controls={userMenuOpen ? 'account-menu' : undefined}
                             aria-haspopup="true"
