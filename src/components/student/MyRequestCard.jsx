@@ -65,7 +65,7 @@ export default function MyRequestCard({ demande }) {
                     )} */}
 
                     { isPending&& (
-                        <div className="cancel" style={{ marginTop: 8 }}>
+                        <div className="" style={{ marginTop: 8 }}>
                             <div className="cancel bt" style={{ color: 'red' }}>Annuler la demande</div>
                         </div>
                     )}

@@ -60,6 +60,22 @@ const roommateRequests = [
             location: "Downtown",
         },
         {
+            id: 2,
+            name: "Jane Smith",
+            school: "University of ABC",
+            Budget: "3000",
+            date: "2023-10-05",
+            location: "Downtown",
+        },
+        {
+            id: 2,
+            name: "Jane Smith",
+            school: "University of ABC",
+            Budget: "3000",
+            date: "2023-10-05",
+            location: "Downtown",
+        },
+        {
             id: 3,
             name: "Alice Johnson",
             school: "University of DEF",

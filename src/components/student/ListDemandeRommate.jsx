@@ -109,7 +109,7 @@ export default function ListDemandeRommate() {
 
     const [value, setValue] = React.useState(0);
     const [currentPage, setCurrentPage] = React.useState([1, 1, 1]);
-    const cardsPerPage = 2;
+    const cardsPerPage = 3;
 
     const handleChange = (_, newValue) => {
         setValue(newValue);

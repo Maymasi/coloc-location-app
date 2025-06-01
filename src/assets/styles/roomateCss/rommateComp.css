@@ -288,10 +288,6 @@
 
 /* /media queries/ */
 
-
-/* Pour les petits écrans (smartphones, etc.) */
-
-
 /* Pour les tablettes en mode portrait */
 @media (max-width: 900px) {
    .roommate-page .roommate-filter .search-field{
