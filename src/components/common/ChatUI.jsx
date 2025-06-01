@@ -30,11 +30,18 @@ export default function ChatUi() {
     // State to store chat history for each user.
     const [messagesData, setMessagesData] = useState({
         'Kent Dodds': [
-            { from: 'Kent Dodds', text: 'Hello! How are you?', time: '12:30 PM' },
-            { from: 'Me', text: 'I am fine, thanks! And you?', time: '12:32 PM' },
+            { from: 'Kent Dodds', text: 'Hello! How are you?', time: '12:30 PM', read: true },
+            { from: 'Me', text: 'I am fine, thanks! And you?', time: '12:32 PM', read: true },
+            { from: 'Kent Dodds', text: 'Great! Working on some new projects', time: '12:35 PM', read: false },
+            { from: 'Kent Dodds', text: 'Would you like to collaborate?', time: '12:36 PM', read: false },
         ],
         'Sarah Connor': [
-            { from: 'Sarah Connor', text: "Don't forget our meeting at 2!", time: '11:00 AM' },
+            { from: 'Sarah Connor', text: "Don't forget our meeting at 2!", time: '11:00 AM', read: false },
+            { from: 'Sarah Connor', text: "Also, bring the documents we discussed", time: '11:02 AM', read: false },
+            { from: 'Sarah Connor', text: "See you then!", time: '11:03 AM', read: false },
+        ],
+        'John Doe': [
+            { from: 'John Doe', text: 'Hey there!', time: '10:00 AM', read: false },
         ],
     });
 
@@ -42,7 +49,24 @@ export default function ChatUi() {
     const [userStatus, setUserStatus] = useState({
         'Kent Dodds': 'online',
         'Sarah Connor': 'offline',
+        'John Doe': 'online',
     });
+
+    // Function to count unread messages for a user
+    const getUnreadCount = (user) => {
+        return messagesData[user].filter(msg => msg.from !== 'Me' && !msg.read).length;
+    };
+
+    // Function to mark messages as read when selecting a user
+    const handleUserSelect = (user) => {
+        setSelectedUser(user);
+        
+        // Mark all messages from this user as read
+        setMessagesData(prev => ({
+            ...prev,
+            [user]: prev[user].map(msg => ({ ...msg, read: true }))
+        }));
+    };
 
     // Filtered list of users based on the search term.
     const users = Object.keys(messagesData).filter(user =>
@@ -57,6 +81,7 @@ export default function ChatUi() {
             from: 'Me',
             text: inputMessage.trim(),
             time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+            read: true,
         };
 
         // Update the chat history with the new message.
@@ -67,6 +92,29 @@ export default function ChatUi() {
 
         // Clear the input field after sending the message.
         setInputMessage('');
+    };
+
+    // Function to render unread indicator
+    const renderUnreadIndicator = (user) => {
+        const unreadCount = getUnreadCount(user);
+        
+        if (unreadCount === 0) {
+            return null;
+        } else if (unreadCount === 1) {
+            return (
+                <div className="unread">
+                    <Dot className='dot' size={20} strokeWidth={10} />
+                </div>
+            );
+        } else {
+            return (
+                <div className="unread has-count">
+                    <div className={`unread-count ${unreadCount > 99 ? 'large-count' : ''}`}>
+                        {unreadCount > 99 ? '99+' : unreadCount}
+                    </div>
+                </div>
+            );
+        }
     };
 
     return (
@@ -100,7 +148,7 @@ export default function ChatUi() {
                         <div
                             className="message"
                             key={user}
-                            onClick={() => setSelectedUser(user)}
+                            onClick={() => handleUserSelect(user)}
                             style={{
                                 display: 'flex',
                                 alignItems: 'center',
@@ -137,9 +185,7 @@ export default function ChatUi() {
                                 <div className="text" style={{ fontSize: '0.9em' }}>{truncateMessage(lastMessage?.text, 40)}</div>
                             </div>
                             {/* Unread message indicator */}
-                            <div className="unread">
-                                <Dot className='dot' size={20} strokeWidth={10} />
-                            </div>
+                            {renderUnreadIndicator(user)}
                         </div>
                     );
                 })}
@@ -208,6 +254,7 @@ export default function ChatUi() {
                                 placeholder="Entre ton message..."
                                 value={inputMessage}
                                 onChange={(e) => setInputMessage(e.target.value)}
+                                onKeyPress={(e) => e.key === 'Enter' && handleSend()}
                                 style={{
                                     flexGrow: 1,
                                     padding: 10,
@@ -246,4 +293,3 @@ export default function ChatUi() {
         </div>
     );
 }
-
