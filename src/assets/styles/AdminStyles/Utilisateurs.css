@@ -1,0 +1,355 @@
+/* Styles pour le composant Utilisateurs */
+
+.utilisateurs-container {
+  padding: 24px;
+  /* max-width: 1400px; */
+  margin: 0 auto;
+}
+
+.utilisateurs-header {
+  margin-bottom: 32px;
+}
+
+.utilisateurs-title {
+  font-size: 32px;
+  font-weight: 700;
+  color: #1f2937;
+  margin: 0 0 8px 0;
+}
+
+.utilisateurs-subtitle {
+  font-size: 16px;
+  color: #6b7280;
+  margin: 0;
+}
+
+/* Filtres */
+.utilisateurs-filters {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 32px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.utilisateurs-search {
+  position: relative;
+  flex: 1;
+  min-width: 300px;
+}
+
+.utilisateurs-search-icon {
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #9ca3af;
+}
+
+.utilisateurs-search-input {
+  width: 100%;
+  padding: 12px 12px 12px 44px;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  font-size: 14px;
+  outline: none;
+  transition: border-color 0.2s ease;
+}
+
+.utilisateurs-search-input:focus {
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.utilisateurs-search-input::placeholder {
+  color: #9ca3af;
+}
+
+/* Dropdowns */
+.utilisateurs-dropdown-container {
+  position: relative;
+}
+
+.utilisateurs-dropdown-button {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 16px;
+  background-color: #ffffff;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 14px;
+  color: #374151;
+  min-width: 160px;
+  justify-content: space-between;
+  transition: border-color 0.2s ease;
+}
+
+.utilisateurs-dropdown-button:hover {
+  border-color: #9ca3af;
+}
+
+.utilisateurs-dropdown-arrow {
+  font-size: 12px;
+  transition: transform 0.2s ease;
+}
+
+.utilisateurs-dropdown-menu {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background-color: #ffffff;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+  z-index: 50;
+  margin-top: 4px;
+}
+
+.utilisateurs-dropdown-item {
+  padding: 12px 16px;
+  cursor: pointer;
+  font-size: 14px;
+  color: #374151;
+  transition: background-color 0.2s ease;
+}
+
+.utilisateurs-dropdown-item:hover {
+  background-color: #f3f4f6;
+}
+
+.utilisateurs-dropdown-item-selected {
+  background-color: #fef3cd;
+  color: #d97706;
+  font-weight: 500;
+}
+
+/* Tableau */
+.utilisateurs-table-container {
+  background-color: #ffffff;
+  border-radius: 12px;
+  border: 1px solid #e5e7eb;
+  overflow: hidden;
+}
+
+.utilisateurs-table-title {
+  font-size: 20px;
+  font-weight: 600;
+  color: #1f2937;
+  padding: 20px 24px;
+  margin: 0;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.utilisateurs-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.utilisateurs-table-header {
+  background-color: #f9fafb;
+}
+
+.utilisateurs-th {
+  padding: 16px 24px;
+  text-align: left;
+  font-size: 14px;
+  font-weight: 600;
+  color: #374151;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.utilisateurs-table-row {
+  border-bottom: 1px solid #f3f4f6;
+  transition: background-color 0.2s ease;
+}
+
+.utilisateurs-table-row:hover {
+  background-color: #f9fafb;
+}
+
+.utilisateurs-td {
+  padding: 16px 24px;
+  vertical-align: middle;
+}
+
+/* Informations utilisateur */
+.utilisateurs-user-info {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.utilisateurs-avatar {
+  width: 40px;
+  height: 40px;
+  background-color: #e5e7eb;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.utilisateurs-user-name {
+  font-size: 14px;
+  font-weight: 500;
+  color: #1f2937;
+  margin-bottom: 2px;
+}
+
+.utilisateurs-user-email {
+  font-size: 13px;
+  color: #6b7280;
+}
+
+/* Badges */
+.utilisateurs-badge {
+  display: inline-block;
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 500;
+  text-align: center;
+  min-width: 70px;
+}
+
+.utilisateurs-badge-etudiant {
+  background-color: #dbeafe;
+  color: #1d4ed8;
+  border: 1px solid #93c5fd;
+}
+
+.utilisateurs-badge-proprietaire {
+  background-color: #d1fae5;
+  color: #065f46;
+  border: 1px solid #86efac;
+}
+
+.utilisateurs-badge-admin {
+  background-color: #f3e8ff;
+  color: #7c3aed;
+  border: 1px solid #c4b5fd;
+}
+
+.utilisateurs-badge-actif {
+  background-color: #d1fae5;
+  color: #065f46;
+  border: 1px solid #86efac;
+}
+
+.utilisateurs-badge-suspendu {
+  background-color: #fed7aa;
+  color: #c2410c;
+  border: 1px solid #fdba74;
+}
+
+.utilisateurs-badge-banni {
+  background-color: #fecaca;
+  color: #dc2626;
+  border: 1px solid #f87171;
+}
+
+.utilisateurs-badge-verifie {
+  background-color: #d1fae5;
+  color: #065f46;
+  border: 1px solid #86efac;
+}
+
+.utilisateurs-badge-non-verifie {
+  background-color: #f3f4f6;
+  color: #6b7280;
+  border: 1px solid #d1d5db;
+}
+
+/* Actions */
+.utilisateurs-actions-container {
+  position: relative;
+}
+
+.utilisateurs-action-button {
+  padding: 8px;
+  background-color: transparent;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  color: #6b7280;
+  transition: background-color 0.2s ease;
+}
+
+.utilisateurs-action-button:hover {
+  background-color: #f3f4f6;
+  color: #374151;
+}
+
+.utilisateurs-action-dropdown {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  background-color: #ffffff;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+  z-index: 50;
+  margin-top: 4px;
+  min-width: 150px;
+}
+
+.utilisateurs-action-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  padding: 12px 16px;
+  background: none;
+  border: none;
+  text-align: left;
+  cursor: pointer;
+  font-size: 14px;
+  color: #374151;
+  transition: background-color 0.2s ease;
+}
+
+.utilisateurs-action-item:hover {
+  background-color: #f3f4f6;
+}
+
+.utilisateurs-action-danger {
+  color: #dc2626;
+}
+
+.utilisateurs-action-danger:hover {
+  background-color: #fef2f2;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .utilisateurs-container {
+    padding: 16px;
+  }
+  
+  .utilisateurs-filters {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  
+  .utilisateurs-search {
+    min-width: auto;
+  }
+  
+  .utilisateurs-dropdown-button {
+    min-width: auto;
+  }
+  
+  .utilisateurs-table-container {
+    overflow-x: auto;
+  }
+  
+  .utilisateurs-table {
+    min-width: 800px;
+  }
+  
+  .utilisateurs-th,
+  .utilisateurs-td {
+    padding: 12px 16px;
+  }
+}
