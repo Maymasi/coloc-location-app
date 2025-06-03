@@ -1,4 +1,5 @@
-import * as React from 'react';import  '../../assets/styles/AdminStyles/DashboardAdmin.css';
+import * as React from 'react';
+import  '../../assets/styles/AdminStyles/DashboardAdmin.css';
 import VueDensemble from './tabsAdmin/VueDensemble';
 import ActiviteUtilisateur from './tabsAdmin/ActiviteUtilisateur';
 import SignalementsRecents from './tabsAdmin/SignalementsRecents';
