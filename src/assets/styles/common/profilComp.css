@@ -1,0 +1,205 @@
+@import url(../../../index.css);
+
+.profil-data{
+    padding: 20px 90px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.profil-data .content-profil{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    width: 100%;
+}
+
+.profil-data .content-profil .cardProfil{
+    background-color: white !important;
+    border: 1px solid hsl(var(--border)) !important;
+    border-radius: 16px;
+    padding: 15px 30px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 80% !important;
+}
+
+.profil-data .content-profil .about-me .content{
+    color: gray;
+    font-weight: 400;
+}
+
+.profil-data .content-profil .cardProfil .Sommeil,
+.profil-data .content-profil .cardProfil .Proprete,
+.profil-data .content-profil .cardProfil .Sociabilite,
+.profil-data .content-profil .cardProfil .Coordonnees .email,
+.profil-data .content-profil .cardProfil .Coordonnees .phone {
+    display: flex;
+    gap: 30px;
+    align-items: center;
+}
+
+.profil-data .content-profil .data .Coordonnees {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.profil-data .content-profil .cardProfil .texts{
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+}
+
+.profil-data .content-profil .cardProfil .icon{
+    background-color: hsl(var(--secondary));
+    color: hsl(var(--primary));
+    padding: 10px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+}
+
+.profil-data .content-profil .cardProfil .texts .label{
+    font-size: 15px;
+    color: gray;
+    margin: 0;
+}
+
+.profil-data .content-profil .cardProfil .texts .desc{
+    margin-top: -5px;
+    font-weight: 500;
+    font-size: 17px;
+}
+
+.profil-data .content-profil .cardProfil .title{
+    font-size: 18px;
+    font-weight: 700;
+    margin-bottom: 12px;
+}
+
+/* MEDIA QUERIES */
+
+/* Tablettes (1024px et moins) */
+@media (max-width: 1024px) {
+    .profil-data {
+        padding: 20px 60px;
+    }
+    
+    .profil-data .content-profil .cardProfil {
+        width: 90% !important;
+    }
+}
+
+/* Tablettes portrait et petits écrans (768px et moins) */
+@media (max-width: 768px) {
+    .profil-data {
+        padding: 15px 30px;
+    }
+    
+    .profil-data .content-profil .cardProfil {
+        width: 90% !important;
+        padding: 12px 20px;
+    }
+    
+    .profil-data .content-profil .cardProfil .Sommeil,
+    .profil-data .content-profil .cardProfil .Proprete,
+    .profil-data .content-profil .cardProfil .Sociabilite,
+    .profil-data .content-profil .cardProfil .Coordonnees .email,
+    .profil-data .content-profil .cardProfil .Coordonnees .phone {
+        gap: 20px;
+    }
+    
+    .profil-data .content-profil .cardProfil .title {
+        font-size: 16px;
+        margin-bottom: 10px;
+    }
+    
+    .profil-data .content-profil .cardProfil .texts .desc {
+        font-size: 16px;
+    }
+    
+    .profil-data .content-profil .cardProfil .texts .label {
+        font-size: 14px;
+    }
+}
+
+/* Smartphones (576px et moins) */
+@media (max-width: 576px) {
+    .profil-data {
+        padding: 15px 20px;
+    }
+    
+    .profil-data .header-profil h2 {
+        font-size: 20px;
+        text-align: center;
+    }
+    
+    .profil-data .content-profil .cardProfil {
+        padding: 10px 15px;
+        border-radius: 12px;
+    }
+    
+    .profil-data .content-profil .cardProfil .Sommeil,
+    .profil-data .content-profil .cardProfil .Proprete,
+    .profil-data .content-profil .cardProfil .Sociabilite,
+    .profil-data .content-profil .cardProfil .Coordonnees .email,
+    .profil-data .content-profil .cardProfil .Coordonnees .phone {
+        gap: 15px;
+    }
+    
+    .profil-data .content-profil .cardProfil .icon {
+        padding: 8px;
+        min-width: 40px;
+        min-height: 40px;
+    }
+    
+    .profil-data .content-profil .cardProfil .title {
+        font-size: 15px;
+        margin-bottom: 8px;
+    }
+    
+    .profil-data .content-profil .cardProfil .texts .desc {
+        font-size: 15px;
+    }
+    
+    .profil-data .content-profil .cardProfil .texts .label {
+        font-size: 13px;
+    }
+    
+    .profil-data .content-profil .about-me .content {
+        font-size: 14px;
+        line-height: 1.4;
+    }
+}
+
+/* Très petits écrans (480px et moins) */
+@media (max-width: 480px) {
+    .profil-data {
+        padding: 10px 15px;
+        gap: 15px;
+    }
+    
+    .profil-data .content-profil {
+        gap: 15px;
+    }
+    
+    .profil-data .content-profil .cardProfil {
+        padding: 8px 12px;
+    }
+    
+    .profil-data .content-profil .cardProfil .Sommeil,
+    .profil-data .content-profil .cardProfil .Proprete,
+    .profil-data .content-profil .cardProfil .Sociabilite,
+    .profil-data .content-profil .cardProfil .Coordonnees .email,
+    .profil-data .content-profil .cardProfil .Coordonnees .phone {
+        gap: 12px;
+    }
+    
+    .profil-data .content-profil .cardProfil .icon {
+        padding: 6px;
+        min-width: 36px;
+        min-height: 36px;
+    }
+}

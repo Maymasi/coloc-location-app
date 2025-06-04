@@ -1,4 +1,4 @@
-import { X, House, Heart, MessageSquare, Users, SquareLibrary, Bell, Settings, User, Menu } from 'lucide-react';
+import { X, House, Heart, MessageSquare, Users, SquareLibrary, Bell, Settings, User, Menu,BadgePlus,ChartNoAxesColumnIncreasing} from 'lucide-react';
 import * as React from 'react';
 import { useState, useEffect } from 'react';
 import Avatar from '@mui/material/Avatar';
@@ -6,7 +6,8 @@ import Divider from '@mui/material/Divider';
 import { useNavigate } from 'react-router-dom';
 import '../../assets/styles/LeftNav.css';
 
-export default function LeftNav({ openLogs, handleLogsClick }) {
+
+export default function LeftNavOwner({ openLogs, handleLogsClick }) {
     const [activeLink, setActiveLink] = React.useState(null);
     const [isNavOpen, setIsNavOpen] = React.useState();
     const [windowWidth, setWindowWidth] = React.useState(window.innerWidth);
@@ -49,7 +50,7 @@ export default function LeftNav({ openLogs, handleLogsClick }) {
             </div>
             <Divider style={{ backgroundColor: 'hsl(0 ,0%, 92%)' }} />
             
-            <div className="content-nav">
+            <div className="content-nav" style={{padding: '1rem 16px'}}>
                 <div className="user">
                     <Avatar sx={{ width: 38, height: 38 }} style={{ backgroundColor: 'black' }} alt="user" src="/src/assets/logos/logoColokMeak.png" />
                     <div className="user-data">
@@ -59,25 +60,25 @@ export default function LeftNav({ openLogs, handleLogsClick }) {
                 </div>
                 <div className="nav-links">                           
                     <div 
-                        className={`link ${activeLink === 'dashboard' ? 'active' : ''}`} 
-                        onClick={() => handleLinkClick('dashboard')}
+                        className={`link ${activeLink === 'OwnerDashboard' ? 'active' : ''}`} 
+                        onClick={() => handleLinkClick('OwnerDashboard')}
                     >
                         <House size={20} />
                         <span>Tableau de Bord</span>
                     </div>
                     <div 
-                        className={`link ${activeLink === 'annonces' ? 'active' : ''}`} 
-                        onClick={() => handleLinkClick('annonces')}
+                        className={`link ${activeLink === 'OwnerProperties' ? 'active' : ''}`} 
+                        onClick={() => handleLinkClick('OwnerProperties')}
                     >
                         <House size={20} />
-                        <span>Annonces</span>
+                        <span>Mes Propriétés</span>
                     </div>
                     <div 
-                        className={`link ${activeLink === 'favoris' ? 'active' : ''}`} 
-                        onClick={() => handleLinkClick('favoris')}
+                        className={`link ${activeLink === 'OwnerAddProperty' ? 'active' : ''}`} 
+                        onClick={() => handleLinkClick('OwnerAddProperty')}
                     >
-                        <Heart size={20} />
-                        <span>Favoris</span>
+                        <BadgePlus />
+                        <span>Ajouter une Propriété</span>
                     </div>
                     <div 
                         className={`link ${activeLink === 'messages' ? 'active' : ''}`} 
@@ -91,40 +92,33 @@ export default function LeftNav({ openLogs, handleLogsClick }) {
                         <span className="notification">3</span>
                     </div>
                     <div 
-                        className={`link ${activeLink === 'colocations' ? 'active' : ''}`} 
-                        onClick={() => handleLinkClick('colocations')}
-                    >
-                        <Users size={20} />
-                        <span>Colocations</span>
-                    </div>
-                    <div 
-                        className={`link ${activeLink === 'demandesRecus' ? 'active' : ''}`} 
-                        onClick={() => handleLinkClick('demandesRecus')}
+                        className={`link ${activeLink === 'OwnerDemandesRecus' ? 'active' : ''}`} 
+                        onClick={() => handleLinkClick('OwnerDemandesRecus')}
                         style={{ justifyContent: 'space-between' }}
                     >
                         <div className="" style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
                             <Bell size={20} />
-                            <span>Demandes recus</span>
+                            <span>Demandes Reçues</span>
                         </div>
                         <span className="notification">5</span>
                     </div>
                     <div 
-                        className={`link ${activeLink === 'mesDemandes' ? 'active' : ''}`} 
-                        onClick={() => handleLinkClick('mesDemandes')}
+                        className={`link ${activeLink === 'OwnerStatistiques' ? 'active' : ''}`} 
+                        onClick={() => handleLinkClick('OwnerStatistiques')}
                     >
-                        <SquareLibrary size={20} />
-                        <span>Mes demandes</span>
+                        <ChartNoAxesColumnIncreasing />
+                        <span>Statistiques</span>
                     </div>
                     <div 
-                        className={`link ${activeLink === 'profil' ? 'active' : ''}`} 
-                        onClick={() => handleLinkClick('profil')}
+                        className={`link ${activeLink === 'OwnerProfilComp' ? 'active' : ''}`} 
+                        onClick={() => handleLinkClick('OwnerProfilComp')}
                     >
                         <User size={20} />
                         <span>Profil</span>
                     </div>
                     <div 
-                        className={`link ${activeLink === 'parametres' ? 'active' : ''}`} 
-                        onClick={() => handleLinkClick('parametres')}
+                        className={`link ${activeLink === 'OwnerParametres' ? 'active' : ''}`} 
+                        onClick={() => handleLinkClick('OwnerParametres')}
                     >
                         <Settings size={20} />
                         <span>Parametres</span>

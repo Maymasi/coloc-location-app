@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { useState,useContext } from 'react';
+import { useState } from 'react';
 // MUI Components
 import AppBar from '@mui/material/AppBar';
 import Tabs from '@mui/material/Tabs';
@@ -27,6 +27,7 @@ import RoommateCardRequest from './rommateCardRequest';
 import ListRommatePage from './ListRommatePage';
 //import context
 import { RommateContext } from '../../context/RommateContext';
+
 function TabPanel(props) {
     const { children, value, index, ...other } = props;
   
@@ -59,11 +60,13 @@ function a11yProps(index) {
       'aria-controls': `full-width-tabpanel-${index}`,
     };
 }
+
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 4;
 const MenuProps = {
   PaperProps: {
     style: {
+      maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP, 
       width: 250,
     },
   },
@@ -109,20 +112,22 @@ function getStyles(name, preference, theme) {
       : theme.typography.fontWeightRegular,
   };
 }
-    const data = [
-        { id: 1, name: 'Oussama', school: 'ESI', budget: 3000, moveInDate: '01/10/2023', preferredZone: 'Agdal',type:'Offre' },
-        { id: 2, name: 'Ahmed', school: 'ENSIAS', budget: 2500 , moveInDate: '15/10/2023', preferredZone: 'Hay Riad', type:'Demande' },
-        { id: 3, name: 'Sara', school: 'EMI', budget: 3500 , moveInDate: '01/11/2023', preferredZone: 'Centre Ville' , type:'Offre' },
-        { id: 4, name: 'Fatima', school: 'FSI', budget: 2800 , moveInDate: '20/10/2023', preferredZone: 'Agdal' , type:'Demande' },
-        { id: 5, name: 'Youssef', school: 'ENSA', budget: 3200 , moveInDate: '01/12/2023', preferredZone: 'Hay Riad' , type:'Offre' },
-        { id: 6, name: 'Mouad', school: 'FST', budget: 2700 , moveInDate: '15/11/2023', preferredZone: 'Centre Ville' , type:'Demande' },
-        { id: 7, name: 'Laila', school: 'ENCG', budget: 3000 , moveInDate: '01/10/2023', preferredZone: 'Agdal' , type:'Offre' },
-        { id: 8, name: 'Khalid', school: 'FSI', budget: 2500 , moveInDate: '15/10/2023', preferredZone: 'Hay Riad' , type:'Demande' },  
-        { id: 9, name: 'Nadia', school: 'EMI', budget: 3500 , moveInDate: '01/11/2023', preferredZone: 'Centre Ville' , type:'Offre' },
-        { id: 10, name: 'Hassan', school: 'ENSIAS', budget: 2800 , moveInDate: '20/10/2023', preferredZone: 'Agdal' , type:'Demande' },
-        { id: 11, name: 'Amina', school: 'ENSA', budget: 3200 , moveInDate: '01/12/2023', preferredZone: 'Hay Riad' , type:'Offre' },
-        // Ajoutez plus de données si nécessaire
-    ];
+
+const data = [
+    { id: 1, name: 'Oussama', school: 'ESI', budget: 3000, moveInDate: '01/10/2023', preferredZone: 'Agdal',type:'Offre' },
+    { id: 2, name: 'Ahmed', school: 'ENSIAS', budget: 2500 , moveInDate: '15/10/2023', preferredZone: 'Hay Riad', type:'Demande' },
+    { id: 3, name: 'Sara', school: 'EMI', budget: 3500 , moveInDate: '01/11/2023', preferredZone: 'Centre Ville' , type:'Offre' },
+    { id: 4, name: 'Fatima', school: 'FSI', budget: 2800 , moveInDate: '20/10/2023', preferredZone: 'Agdal' , type:'Demande' },
+    { id: 5, name: 'Youssef', school: 'ENSA', budget: 3200 , moveInDate: '01/12/2023', preferredZone: 'Hay Riad' , type:'Offre' },
+    { id: 6, name: 'Mouad', school: 'FST', budget: 2700 , moveInDate: '15/11/2023', preferredZone: 'Centre Ville' , type:'Demande' },
+    { id: 7, name: 'Laila', school: 'ENCG', budget: 3000 , moveInDate: '01/10/2023', preferredZone: 'Agdal' , type:'Offre' },
+    { id: 8, name: 'Khalid', school: 'FSI', budget: 2500 , moveInDate: '15/10/2023', preferredZone: 'Hay Riad' , type:'Demande' },  
+    { id: 9, name: 'Nadia', school: 'EMI', budget: 3500 , moveInDate: '01/11/2023', preferredZone: 'Centre Ville' , type:'Offre' },
+    { id: 10, name: 'Hassan', school: 'ENSIAS', budget: 2800 , moveInDate: '20/10/2023', preferredZone: 'Agdal' , type:'Demande' },
+    { id: 11, name: 'Amina', school: 'ENSA', budget: 3200 , moveInDate: '01/12/2023', preferredZone: 'Hay Riad' , type:'Offre' },
+    // Ajoutez plus de données si nécessaire
+];
+
 export default function RoommateComp(){
 
     // State for managing the filtered data
@@ -185,14 +190,22 @@ export default function RoommateComp(){
           target: { value },
             } = event;
 
-            // Update preferences state
-            setPreference(
-          typeof value === 'string' ? value.split(',') : value, // Handle stringified values
-            );
-            setColoc({...coloc,preferences:event.target.value});
-            console.log(coloc)
-
+            // Limiter à 4 préférences maximum
+            const newPreferences = typeof value === 'string' ? value.split(',') : value;
+            
+            if (newPreferences.length <= 4) {
+                // Update preferences state only if 4 or fewer items
+                setPreference(newPreferences);
+                setColoc({...coloc, preferences: newPreferences});
+                console.log(coloc)
+            } else {
+                // Si l'utilisateur essaie de sélectionner plus de 4, on garde les 4 premiers
+                const limitedPreferences = newPreferences.slice(0, 4);
+                setPreference(limitedPreferences);
+                setColoc({...coloc, preferences: limitedPreferences});
+            }
         };
+
         //search filter
         const handleSearch = (event) => {
             const searchTerm = event.target.value.toLowerCase();
@@ -287,18 +300,18 @@ export default function RoommateComp(){
               color: 'hsl(6 100% 78%)', // Change label color on focus
             },
 
-            }} >Préférences</InputLabel>
+            }} >Préférences (max 4)</InputLabel>
             <Select
               labelId="demo-multiple-chip-label"
               id="demo-multiple-chip"
               multiple
               value={preference}
               onChange={handleChangePreferences}
-              input={<OutlinedInput id="select-multiple-chip" label="Préférences" />}
+              input={<OutlinedInput id="select-multiple-chip" label="Préférences (max 4)" />}
               renderValue={(selected) => (
                 <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 ,maxLines: 1}}>
                   {selected.map((value) => (
-                    <Chip key={value} label={value} />
+                    <Chip key={value} label={value} size="small" />
                   ))}
                 </Box>
               )}
@@ -309,6 +322,7 @@ export default function RoommateComp(){
                   key={name}
                   value={name}
                   style={getStyles(name, preference, theme)}
+                  disabled={preference.length >= 4 && !preference.includes(name)} // Désactive les options non sélectionnées si 4 sont déjà choisies
                 >
                   {name}
                 </MenuItem>

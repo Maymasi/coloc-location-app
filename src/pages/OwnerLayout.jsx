@@ -1,11 +1,11 @@
-import LeftNav from '../components/common/LeftNav';
 import TopNav from '../components/common/TopNav';  
 import { Outlet } from 'react-router-dom';
 import '../assets/styles/userCss/userLayout.css';
 import {Menu} from 'lucide-react';
 import { useState } from 'react';
+import LeftNavOwner from '../components/common/LeftNavOwner';
 
-const StudentLayout = () => {
+const OwnerLayout = () => {
   const [openLogs, setOpenLogs] = useState(false);
 
   const handleLogsClick = () => {
@@ -15,7 +15,7 @@ const StudentLayout = () => {
   return (
     <div className="user-layout">
         <div className="left-bar">
-             <LeftNav openLogs={openLogs} handleLogsClick={handleLogsClick}/>
+             <LeftNavOwner openLogs={openLogs} handleLogsClick={handleLogsClick}/>
         </div>
         <div className="content-user-layout">
             <div className="top-bar">
@@ -26,7 +26,7 @@ const StudentLayout = () => {
             </div>
         </div>
     </div>
-    );
+  );
 };
 
-export default StudentLayout;
+export default OwnerLayout;

@@ -88,6 +88,7 @@
      display: flex;
      flex-direction: column;
      gap: 40px;
+     padding: 0 60px;
 }
 
 /* ===========================
@@ -175,7 +176,7 @@
 .user-layout .MuiTabs-root button {
      font-size: 13px !important;
      font-weight: 500 !important;
-     padding: 0px 20px !important;
+     padding: 0px 17px !important;
      height: fit-content;
      text-transform: none !important;
      border-radius: 48px !important;
@@ -210,7 +211,7 @@
 }
 
 .user-layout .css-12dv9jb {
-     width: 50% !important;
+     width: 47% !important;
      height: 400px !important;
 }
 
@@ -318,7 +319,7 @@
 /* recommended home section */
 
 .user-layout .recommended-home{
-    width: 30%;
+    width: 32%;
      display: flex;
     flex-direction: column;
     border-radius: 14px;
@@ -345,7 +346,7 @@
     border: 1px solid hsl(var(--border));
     border-bottom: none;
     padding: 10px;
-
+     box-sizing: border-box;
 }
 .user-layout .recommended-home .image .info{
     display: flex;
@@ -385,7 +386,8 @@
     border-radius: 0 0 14px 14px;
     border: 1px solid hsl(var(--border));
     border-top: none;
-
+     height: 55%;
+     box-sizing: border-box;
 }
 .user-layout .recommended-home .title-price{
     display: flex;
@@ -435,7 +437,7 @@
 }
 .user-layout .all-recommended-home{
     display: flex;
-    gap: 40px;
+    gap: 20px;
     width: 100%;
     flex-wrap: wrap;
     }
@@ -473,7 +475,7 @@
      gap: 20px;
 }
 .user-layout .request-card{
-     width: 320px;
+     width: 28%;
      background-color: white;
      padding: 20px 20px;
      border-radius: 16px;
@@ -548,7 +550,106 @@
      display: flex;
      width: 100%;
      flex-wrap: wrap;
-     gap: 30px;
+     gap: 16px;
+}
+/* /media queries/ */
+
+
+/* Pour les petits écrans (smartphones, etc.) */
+@media (max-width: 768px) {
+          .user-layout .recommended-home{
+          width: 100%
+     }
+        .user-layout .card {
+          width: 80%
+     }
+        .user-layout .content-user-layout .links .colocations, .user-layout .content-user-layout .links .homes {
+          gap: 10px;
+          padding: 8px 11px;
+          font-size: 0.66rem !important;
+     }
+}
+
+/* Pour les tablettes en mode portrait */
+@media  (max-width: 900px) {
+     .user-layout .recommended-home{
+          width: 100%
+     }
+     .user-layout .tabs-nav,
+     .user-layout .css-jhczcq-MuiTabs-root,
+     .user-layout .css-jhczcq-MuiTabs-root{
+          width: 100% !important;
+     }
+     .user-layout .recent-activity {
+          flex-direction: column !important;
+     }
+     .user-layout .student-dashboard{
+          padding: 0 10px;
+          gap: 20px;
+     }
+     .user-layout .card {
+          width: 38%;
+          padding: 8px 18px;
+     }
+     .user-layout .card .content .title{
+          font-size: 0.9rem;
+     }
+     .user-layout .card .content .number{
+          font-size: 1.2rem;
+     }
+     .user-layout .data-student {
+          flex-wrap: wrap;
+          gap: 4px;
+     }
+      .user-layout .content-user-layout .bar{
+          width: 100% !important;
+          height: 40px !important;
+      }
+     .user-layout .css-1q0hex5-MuiPaper-root-MuiCard-root{
+          height: fit-content !important;
+     }
+      /* links */
+   
+     .user-layout .content-user-layout .links{
+          gap:5px
+     }
+     .user-layout .recent-activity .messages .info .header .name{
+          font-size: 16px;
+     }
+     .user-layout .css-12dv9jb{
+          width: 100% !important;
+          height: fit-content !important;
+     }
+     .user-layout .recent-properties .content .info .title{
+          font-size: 14px !important;
+     }
+     .user-layout .recent-properties .content .info .location{
+          font-size: 0.8rem;
+     }
+     .user-layout .recent-properties .css-1lt5qva-MuiCardContent-root{
+          padding: 9px !important;
+     }
+     .user-layout .requests-list .request-card{
+          width: 100% !important;
+     }
+     .user-layout .requests-list{
+          gap:10px
+     }
+}
+@media (max-width: 768px) {
+          .user-layout .recommended-home{
+          width: 100%
+     }
+}
+/* Pour les tablettes en mode paysage */
+@media (max-width: 1280px) {
+      
+}
+
+/* Pour les écrans plus larges (ordinateurs de bureau) */
+@media (min-width: 1280px) {
+     
+
 }
 /* ===========================
     End of File

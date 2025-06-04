@@ -14,11 +14,10 @@ import MenuIcon from '@mui/icons-material/Menu';
 import PersonAdd from '@mui/icons-material/PersonAdd';
 import Settings from '@mui/icons-material/Settings';
 import Logout from '@mui/icons-material/Logout';
-import NotificationsOutlinedIcon from '@mui/icons-material/NotificationsOutlined';
-import { User, BellDot, MessageCircle } from 'lucide-react';
+import { User, BellDot, Logs} from 'lucide-react';
 import '../../assets/styles/TopNav.css';
 
-export default function TopNav() {
+export default function TopNav({handleLogsClick}) {
     const [userAnchorEl, setUserAnchorEl] = React.useState(null);
     const [notifAnchorEl, setNotifAnchorEl] = React.useState(null);
 
@@ -44,9 +43,8 @@ export default function TopNav() {
     return (
         <AppBar
             position="fixed"
-            style={{ alignItems: 'end' }}
             sx={{
-                justifyContent: 'center',
+                justifyContent: 'space-between',
                 zIndex: 1201,
                 backgroundColor: "white",
                 height: '80px',
@@ -55,16 +53,28 @@ export default function TopNav() {
                 width: '100%',
                 padding: '0 1rem',
                 margin: '0 auto',
-                alignItems: 'center'
+                alignItems: 'center',
+                display:'flex',
+                flexDirection:'row'
             }}
         >
-            <Toolbar style={{ gap: '1rem' }}>
+           {/* Menu hamburger - seulement visible sur écrans < 1280px */}
+           <Logs 
+                className='menuBarUser'
+                onClick={handleLogsClick}
+                style={{
+                    color:'black',
+                    display: window.innerWidth >= 1280 ? 'none' : 'block'
+                }}
+            />
+            
+            <Toolbar style={{ gap: '1rem', height:'100%', marginLeft: 'auto' }}>
                 <React.Fragment>
-                    {/* Notification Icon */}
+                    {/* Notification Icon - toujours visible */}
                     <Box sx={{ display: 'flex', alignItems: 'center', textAlign: 'center' }}>
                         <BellDot
-                            size={10}
-                            style={{ color: 'black' }}
+                            size={24}
+                            style={{ color: 'black', cursor: 'pointer' }}
                             onClick={handleNotifMenuClick}
                             aria-controls={notifMenuOpen ? 'notif-menu' : undefined}
                             aria-haspopup="true"
@@ -73,11 +83,11 @@ export default function TopNav() {
                         />
                     </Box>
 
-                    {/* User Icon */}
+                    {/* User Icon - toujours visible */}
                     <Box sx={{ display: 'flex', alignItems: 'center', textAlign: 'center' }}>
                         <User
-                            size={10}
-                            style={{ color: 'black' }}
+                            size={24}
+                            style={{ color: 'black', cursor: 'pointer' }}
                             onClick={handleUserMenuClick}
                             aria-controls={userMenuOpen ? 'account-menu' : undefined}
                             aria-haspopup="true"

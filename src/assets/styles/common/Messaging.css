@@ -6,11 +6,12 @@
     margin-right: 20px;
     border-radius: 8px 8px 0 0;
 }
+
 .all-messages{
     background-color: white;
     box-sizing: border-box;
-     
 }
+
 .all-messages .message .content .text{
     width:100%;
     color: hsl(0 0% 45%);
@@ -28,28 +29,280 @@
 }
 
 .chat-content .chat-messages{
-    padding:  20px;
+    padding: 20px;
     box-sizing: border-box;
     height: calc(100vh - 120px);
     overflow-y: auto;
 }
+
 .chat-content .chat-messages::-webkit-scrollbar {
     width: 8px;
     background-color: hsl(var(--primary));
 }
+
 .chat-content .chat-conversation{
     display: flex;
     gap: 20px;
     margin-bottom: 20px;
     padding: 0 20px;
 }
+
 .chat-content .chat-conversation input:focus{
     outline: none;
     border: 1px solid hsl(var(--primary));
     box-shadow: 0 0 5px hsl(var(--primary));
-
 }
+
 .unread .dot{
     color: hsl(var(--primary));
+}
 
+/* Indicateur de messages non lus */
+.unread {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 20px;
+}
+
+.unread.has-count {
+    position: relative;
+}
+
+.unread.has-count .dot {
+    display: none;
+}
+
+.unread-count {
+    background-color: hsl(var(--primary));
+    color: white;
+    border-radius: 50%;
+    min-width: 20px;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.75em;
+    font-weight: 600;
+    padding: 0 6px;
+    box-sizing: border-box;
+}
+
+.unread-count.large-count {
+    border-radius: 10px;
+    min-width: 24px;
+    height: 20px;
+    font-size: 0.7em;
+}
+
+/* Media Queries pour la responsivité */
+
+/* Tablettes (768px à 1024px) */
+@media (max-width: 1024px) {
+    .chat-ui {
+        margin-left: 15px;
+        margin-right: 15px;
+        height: calc(100vh - 100px);
+    }
+    
+    .chat-header {
+        padding: 15px;
+        height: 10%;
+    }
+    
+    .chat-content .chat-messages {
+        height: calc(100vh - 100px);
+        padding: 15px;
+    }
+    
+    .chat-content .chat-conversation {
+        padding: 0 15px;
+        gap: 15px;
+    }
+}
+
+/* Tablettes en mode portrait et petits écrans (768px et moins) */
+@media (max-width: 768px) {
+    .chat-ui {
+        margin-left: 10px;
+        margin-right: 10px;
+        height: calc(100vh - 80px);
+        flex-direction: column;
+    }
+    
+    /* Liste des utilisateurs prend toute la largeur sur mobile */
+    .all-messages {
+        width: 100% !important;
+        height: 40%;
+        border-right: none !important;
+        border-bottom: 1px solid #ccc;
+    }
+    
+    /* Zone de conversation prend toute la largeur */
+    .chat-content {
+        width: 100% !important;
+        height: 60%;
+    }
+    
+    .chat-header {
+        padding: 10px 15px;
+        height: 60px;
+        font-size: 1.1em;
+    }
+    
+    .chat-content .chat-messages {
+        height: calc(60vh - 140px);
+        padding: 10px 15px;
+    }
+    
+    .chat-content .chat-conversation {
+        padding: 0 15px;
+        gap: 10px;
+        margin-bottom: 15px;
+    }
+    
+    .chat-content .chat-conversation input {
+        padding: 12px;
+        font-size: 16px; /* Évite le zoom sur iOS */
+    }
+    
+    /* Réduire la taille des avatars sur mobile */
+    .all-messages .message {
+        padding: 8px 10px !important;
+    }
+    
+    /* Indicateur de messages non lus sur mobile */
+    .unread-count {
+        min-width: 18px;
+        height: 18px;
+        font-size: 0.7em;
+    }
+    
+    .unread-count.large-count {
+        min-width: 22px;
+        height: 18px;
+        font-size: 0.65em;
+    }
+    .all-messages input[type="text"] {
+        width: 95% !important;
+        margin-left: 2.5% !important;
+        padding: 8px !important;
+        font-size: 16px; /* Évite le zoom sur iOS */
+    }
+}
+
+/* Smartphones (576px et moins) */
+@media (max-width: 576px) {
+    .chat-ui {
+        margin-left: 5px;
+        margin-right: 5px;
+        height: calc(100vh - 60px);
+    }
+    
+    .all-messages {
+        height: 45%;
+    }
+    
+    .chat-content {
+        height: 55%;
+    }
+    
+    .chat-header {
+        padding: 8px 10px;
+        height: 50px;
+        font-size: 1em;
+        gap: 8px;
+    }
+    
+    .chat-content .chat-messages {
+        height: calc(55vh - 120px);
+        padding: 8px 10px;
+    }
+    
+    .chat-content .chat-conversation {
+        padding: 0 10px;
+        gap: 8px;
+        margin-bottom: 10px;
+    }
+    
+    .chat-content .chat-conversation input {
+        padding: 10px;
+        font-size: 16px;
+    }
+    
+    /* Réduire encore plus les éléments sur très petits écrans */
+    .all-messages .message {
+        padding: 6px 8px !important;
+    }
+    
+    .all-messages .message .content .header .name {
+        font-size: 0.9em;
+    }
+    
+    .all-messages .message .content .text {
+        font-size: 0.8em;
+    }
+    
+    /* Ajuster les bulles de message */
+    .message-bubble {
+        padding: 8px 12px !important;
+        font-size: 0.9em !important;
+        max-width: 85% !important;
+    }
+    
+    /* Bouton d'envoi plus petit */
+    .chat-content .chat-conversation button {
+        width: 35px !important;
+        height: 35px !important;
+        padding: 8px !important;
+    }
+}
+
+/* Très petits écrans (480px et moins) */
+@media (max-width: 480px) {
+    .chat-ui {
+        margin-left: 2px;
+        margin-right: 2px;
+        border-radius: 4px 4px 0 0;
+    }
+    
+    .chat-header {
+        padding: 5px 8px;
+        height: 45px;
+        font-size: 0.95em;
+    }
+    
+    .chat-content .chat-messages {
+        padding: 5px 8px;
+    }
+    
+    .chat-content .chat-conversation {
+        padding: 0 8px;
+        gap: 6px;
+    }
+    
+    .message-bubble {
+        padding: 6px 10px !important;
+        font-size: 0.85em !important;
+        max-width: 90% !important;
+    }
+}
+
+/* Mode paysage pour smartphones */
+@media (max-width: 768px) and (orientation: landscape) {
+    .chat-ui {
+        height: calc(100vh - 40px);
+    }
+    
+    .all-messages {
+        height: 35%;
+    }
+    
+    .chat-content {
+        height: 65%;
+    }
+    
+    .chat-content .chat-messages {
+        height: calc(65vh - 100px);
+    }
 }

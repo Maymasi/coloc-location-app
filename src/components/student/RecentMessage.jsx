@@ -33,8 +33,8 @@ const messages = [
     }
 ];
 function truncateMessage(message) {
-  if (message.length > 80) {
-    return message.substring(0, 80) + '...';
+  if (message.length > 40) {
+    return message.substring(0, 40) + '...';
   }
   return message;
 }
