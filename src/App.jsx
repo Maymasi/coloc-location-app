@@ -14,6 +14,8 @@ import AboutUs from './components/about/AboutUs'
 import PolitiquePage from './components/Politique/PolitiquePage';
 import FAQ from './components/faq/FAQ'
 import PrincipalePageLayout from './pages/PrincipalePageLayout';
+import Login from './pages/Login';
+import NotFound from './pages/NotFound';
 // Admin part components
 import AdminLayout from './pages/AdminLayout';
 import AdminDashboard from './components/admin/AdminDashboard';
@@ -52,7 +54,8 @@ function App() {
           <Route path="sécurité" element={<Sécurité/>}/>
           <Route path="parametres" element={<RoommateComp/>}/>
         </Route>
-        <Route path="*" element={<h1>Page not found</h1>} />
+         <Route path="Login" element={<Login/>} />
+        <Route path="*" element={<NotFound/>} />
 
         {/* Tu peux garder les autres routes ici aussi, comme admin, etc. */}
       </Routes>
