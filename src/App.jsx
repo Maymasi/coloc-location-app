@@ -33,6 +33,8 @@ import OwnerDemandesRecus from './components/owner/OwnerDemandesRecus';
 import OwnerStatistiques from './components/owner/OwnerStatistiques';
 import OwnerProfilComp from './components/owner/OwnerProfilComp';
 import OwnerParametres from './components/owner/OwnerParametres';
+//register form
+import RegistrationForm  from './components/common/RegistrationForm';
 function App() {
   return (
     <>
@@ -79,6 +81,7 @@ function App() {
           </Route>
         <Route path="/" element={<h1>HOME</h1>} />
         <Route path="*" element={<h1>Page not found</h1>} />
+        <Route path="/register" element={<RegistrationForm/>} />
 
         
       </Routes>
