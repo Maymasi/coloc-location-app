@@ -37,13 +37,22 @@ import OwnerProfilComp from './components/owner/OwnerProfilComp';
 import OwnerParametres from './components/owner/OwnerParametres';
 //register form
 import RegistrationForm  from './components/common/RegistrationForm';
+//routes
+import PublicRoute from './routes/PublicRoute';
+import StudentRoute from './routes/StudentRoute';
+import OwnerRoute from './routes/OwnerRoute';
+import AdminRoute from './routes/AdminRoute ';
 
 function App() {
   return (
     <>
       <Routes>
         {/* ROUTES USER */}
-        <Route path="/student" element={<StudentLayout />}>
+        <Route path="/student" element={
+          <StudentRoute>
+            <StudentLayout />
+          </StudentRoute>
+          }>
           <Route path="messages" element={<ChatUi/>} />
           <Route path="profil" element={<ProfilComp/>} />
           <Route path="dashboard" element={<StudentDashboard/>} />
@@ -61,7 +70,11 @@ function App() {
           <Route path="" element={<HomePage/>} />
         </Route>
         {/* ROUTES ADMIN */}
-        <Route path="/admin" element={<AdminLayout />}>
+        <Route path="/admin" element={
+            <AdminRoute>
+              <AdminLayout />
+            </AdminRoute>
+          }>
           <Route path="messages" element={<ChatUi/>} />
           <Route path="analytiques" element={<Analytiques/>} />
           <Route path="dashboard" element={<AdminDashboard/>} />
@@ -72,7 +85,11 @@ function App() {
           <Route path="parametres" element={<RoommateComp/>}/>
         </Route>
         {/* ROUTES OWNER */}
-         <Route path="/owner" element={<OwnerLayout />}>
+         <Route path="/owner" element={
+            <OwnerRoute>
+              <OwnerLayout />
+            </OwnerRoute>
+          }>
             <Route path="OwnerDashboard" element={<OwnerDashboard />} />
             <Route path="OwnerProperties" element={<OwnerProperties />} />
             <Route path="OwnerAddProperty" element={<OwnerAddProperty />} />
@@ -83,7 +100,11 @@ function App() {
             <Route path="OwnerParametres" element={<OwnerParametres />} /> 
           </Route>
         <Route path="/register" element={<RegistrationForm/>} />
-         <Route path="Login" element={<Login/>} />
+         <Route path="Login" element={
+            <PublicRoute>
+              <Login/>
+            </PublicRoute>
+          } />
         <Route path="*" element={<NotFound/>} />
 
         

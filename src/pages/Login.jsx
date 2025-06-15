@@ -4,19 +4,30 @@ import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 import { FcGoogle } from "react-icons/fc";
 import { FaFacebookF } from "react-icons/fa";
 import { Link } from 'react-router-dom';
+import {login} from '../Services/AuthService';
+import { useNavigate } from 'react-router-dom';
 
 
 function Login() {
-  const [role, setRole] = useState('student');
+  const [role, setRole] = useState('Etudiant');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
-
-  const handleLogin = (e) => {
+  const [Erreur, setErreur] = useState('');
+  const navigate = useNavigate();
+  const handleLogin = async (e)=>{
     e.preventDefault();
-    console.log({ email, password, role });
-    // Tu ajouteras ici la requête vers ton API .NET
-  };
+    try{
+      const result = await login(email,password,role);
+      localStorage.setItem('token',result.token);
+      if(result.role == 'Etudiant') navigate('/student');
+      if(result.role == 'Proprietaire') navigate('/owner');
+      if(result.role == 'Admin') navigate('/admin');
+        
+    }catch(error){
+      setErreur('Email ou mot de passe incorrect.');
+    }
+  }
 
   return (
     <div className="login-container">
@@ -26,14 +37,14 @@ function Login() {
 
         <div className="login-role-switch">
           <button
-            className={role === 'student' ? 'active' : ''}
-            onClick={() => setRole('student')}
+            className={role === 'Etudiant' ? 'active' : ''}
+            onClick={() => setRole('Etudiant')}
           >
             Student
           </button>
           <button
-            className={role === 'owner' ? 'active' : ''}
-            onClick={() => setRole('owner')}
+            className={role === 'Proprietaire' ? 'active' : ''}
+            onClick={() => setRole('Proprietaire')}
           >
             Property Owner
           </button>
@@ -71,10 +82,10 @@ function Login() {
                    {showPassword ? <AiOutlineEyeInvisible /> : <AiOutlineEye />}
               </span>
             </div>
-
+            {Erreur && <div style={{ color: 'red', textAlign : "center" , marginTop : '5px'}}>{Erreur}</div>}
 
           <button className="login-button" type="submit">
-            Sign In as {role === 'student' ? 'Student' : 'Property Owner'}
+            Sign In as {role === 'Etudiant' ? 'student' : 'Property Owner'}
           </button>
         </form>
         <p className="signup-text">
