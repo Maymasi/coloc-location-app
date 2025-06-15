@@ -10,7 +10,9 @@ import Box from '@mui/material/Box';
 import RecentActivity from './RecentActivity';
 import RecommededHome from './RecommededHome';
 import RoommateRequests from './RoommateRequests';
+import { useAuth } from '../../context/AuthContext';
 function TabPanel(props) {
+
         const { children, value, index, ...other } = props;
       
         return (
@@ -85,6 +87,7 @@ const roommateRequests = [
         },
     ];
 export default function StudentDashboard() {
+        const {user} = useAuth();
         const [value, setValue] = React.useState(0);
         const handleChange = (event, newValue) => {
           setValue(newValue);
@@ -101,7 +104,7 @@ export default function StudentDashboard() {
           <div style={{  marginBottom: '60px', height: '100%' }} className="student-dashboard">
             <header>
               <div className="info-student">
-          <h1>Bienvenue, Oussama</h1>
+          <h1>Bienvenue, {user.nom}</h1>
           <p>Gérez vos recherches de logement et vos demandes de colocation</p>
               </div>
               <div className="links">

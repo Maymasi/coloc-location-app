@@ -16,8 +16,10 @@ import Settings from '@mui/icons-material/Settings';
 import Logout from '@mui/icons-material/Logout';
 import { User, BellDot, Logs} from 'lucide-react';
 import '../../assets/styles/TopNav.css';
+import { useAuth } from '../../context/AuthContext';
 
 export default function TopNav({handleLogsClick}) {
+    const {logout} = useAuth();
     const [userAnchorEl, setUserAnchorEl] = React.useState(null);
     const [notifAnchorEl, setNotifAnchorEl] = React.useState(null);
 
@@ -39,6 +41,9 @@ export default function TopNav({handleLogsClick}) {
     const handleNotifMenuClose = () => {
         setNotifAnchorEl(null);
     };
+    const handleLogout = ()=>{
+        logout();
+    }
 
     return (
         <AppBar
@@ -152,7 +157,7 @@ export default function TopNav({handleLogsClick}) {
                             </ListItemIcon>
                             Paramètres
                         </MenuItem>
-                        <MenuItem onClick={handleUserMenuClose}>
+                        <MenuItem onClick={handleLogout}>
                             <ListItemIcon>
                                 <Logout fontSize="small" />
                             </ListItemIcon>

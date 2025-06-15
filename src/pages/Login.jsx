@@ -1,14 +1,13 @@
 import React, { useState } from 'react';
 import '../assets/styles/Login.css';
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
-import { FcGoogle } from "react-icons/fc";
-import { FaFacebookF } from "react-icons/fa";
 import { Link } from 'react-router-dom';
-import {login} from '../Services/AuthService';
 import { useNavigate } from 'react-router-dom';
-
+// import {login} from '../Services/AuthService';
+import {useAuth} from '../context/AuthContext';
 
 function Login() {
+  const { login } = useAuth();
   const [role, setRole] = useState('Etudiant');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -19,7 +18,6 @@ function Login() {
     e.preventDefault();
     try{
       const result = await login(email,password,role);
-      localStorage.setItem('token',result.token);
       if(result.role == 'Etudiant') navigate('/student');
       if(result.role == 'Proprietaire') navigate('/owner');
       if(result.role == 'Admin') navigate('/admin');

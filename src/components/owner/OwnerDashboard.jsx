@@ -12,6 +12,7 @@ import DashboardProperties from './DashboardProperties';
 import RecentInquiries from './RecentInquiries';
 import PropertyAnalytics from './PropertyAnalytics';
 import RecentActivitydashboard from './RecentActivitydashboard';
+import { useAuth } from '../../context/AuthContext';
 function TabPanel(props) {
         const { children, value, index, ...other } = props;
       
@@ -45,6 +46,7 @@ function a11yProps(index) {
         };
 }
 export default function OwnerDashboard() {
+        const {user} = useAuth();
         const [value, setValue] = React.useState(0);
         const handleChange = (event, newValue) => {
           setValue(newValue);
@@ -61,7 +63,7 @@ export default function OwnerDashboard() {
           <div style={{  marginBottom: '60px', height: '100%' }} className="student-dashboard">
             <header>
               <div className="info-student">
-          <h1>Bienvenue, Oussama</h1>
+          <h1>Bienvenue, {user.nom}</h1>
           <p>Gérez vos propriétés et les demandes des étudiants</p>
               </div>
               <div className="links">

@@ -1,6 +1,6 @@
 import { X, House, Heart, MessageSquare, Users, SquareLibrary, Bell, Settings, User, Menu } from 'lucide-react';
 import * as React from 'react';
-import { useState, useEffect } from 'react';
+import { useEffect } from 'react';
 import Avatar from '@mui/material/Avatar';
 import Divider from '@mui/material/Divider';
 import { useNavigate } from 'react-router-dom';
@@ -60,7 +60,7 @@ export default function LeftNav({ openLogs, handleLogsClick }) {
                 <div className="nav-links">                           
                     <div 
                         className={`link ${activeLink === 'dashboard' ? 'active' : ''}`} 
-                        onClick={() => handleLinkClick('dashboard')}
+                        onClick={() => handleLinkClick('')}
                     >
                         <House size={20} />
                         <span>Tableau de Bord</span>

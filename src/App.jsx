@@ -55,7 +55,7 @@ function App() {
           }>
           <Route path="messages" element={<ChatUi/>} />
           <Route path="profil" element={<ProfilComp/>} />
-          <Route path="dashboard" element={<StudentDashboard/>} />
+          <Route path="" element={<StudentDashboard/>} />
           <Route path="favoris" element={<Favorites/>} />
           <Route path="colocations" element={<RoommateComp/>}/>
           <Route path='demandesRecus' element={<ListDemandeRommate/>} />
@@ -77,7 +77,7 @@ function App() {
           }>
           <Route path="messages" element={<ChatUi/>} />
           <Route path="analytiques" element={<Analytiques/>} />
-          <Route path="dashboard" element={<AdminDashboard/>} />
+          <Route path="" element={<AdminDashboard/>} />
           <Route path="utilisateurs" element={<Utilisateurs/>} />
           <Route path="proprietés" element={<Proprietés/>}/>
           <Route path="signalements" element={<Signalements/>}/>
@@ -90,7 +90,7 @@ function App() {
               <OwnerLayout />
             </OwnerRoute>
           }>
-            <Route path="OwnerDashboard" element={<OwnerDashboard />} />
+            <Route path="" element={<OwnerDashboard />} />
             <Route path="OwnerProperties" element={<OwnerProperties />} />
             <Route path="OwnerAddProperty" element={<OwnerAddProperty />} />
             <Route path="messages" element={<ChatUi />} />
