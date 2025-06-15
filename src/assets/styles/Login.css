@@ -1,0 +1,227 @@
+.login-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background: white;
+  }
+  
+  .login-box {
+    background: white;
+    padding: 2rem;
+    width: 90%;
+    max-width: 400px;
+    border-radius: 10px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+    text-align: center;
+  }
+  
+  .login-box h2 {
+    margin-bottom: 0.5rem;
+  }
+  
+  .login-box p {
+    color: #777;
+    margin-bottom: 1.5rem;
+  }
+  
+  .login-role-switch {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 1rem;
+  }
+  
+  .login-role-switch button {
+    flex: 1;
+    padding: 0.5rem;
+    border: none;
+    background: hsl(0 0% 92%);
+    color: #777;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background 0.3s;
+  }
+  
+  .login-role-switch button.active {
+    background: white;
+    border: 2px solid #ccc;
+    border-radius: 5px;
+    color: black;
+  }
+  
+  .Login-form {
+    text-align: left;
+  }
+  
+  .Login-form label {
+    display: block;
+    margin: 0.8rem 0 0.2rem;
+    font-weight: 600;
+  }
+  
+ .forgot-password {
+    font-size: 0.85rem;
+    color: #f77c6e;
+    text-decoration: none;
+    font-weight: 500;
+  }
+  
+ .social-login {
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 1rem;
+  }
+  
+  .login-google-btn,
+  .login-facebook-btn {
+    flex: 1;
+    margin: 0 0.5rem;
+    padding: 0.6rem;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    background: white;
+    cursor: pointer;
+  }
+  
+  .signup-text {
+    font-size: 0.9rem;
+    color: #444;
+  }
+  
+  .signup-text a {
+    color: #f77c6e;
+    text-decoration: none;
+    font-weight: 500;
+  }
+  .password-label-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 1rem;
+  }
+  
+  .password-label-row label {
+    margin: 0;
+    font-weight: 600;
+  }
+  
+  
+  .divider-Login {
+    display: flex;
+    align-items: center;
+    text-align: center;
+    color: #aaa;
+    margin: 1.5rem 0;
+    font-size: 0.85rem;
+  }
+  
+  .divider-Login::before,
+  .divider-Login::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: #ddd;
+    margin: 0 0.75rem;
+  }
+  .login-input-field,
+.login-button {
+  width: 100%;
+  max-width: 400px;
+  padding: 12px 16px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 1rem;
+  box-sizing: border-box;
+  margin-top: 10px;
+}
+.login-input-field:focus {
+    border-color: #f77c6e; 
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(247, 124, 110, 0.2); 
+}
+
+.login-button {
+  background-color: #f77c6e;
+  color: white;
+  font-weight: bold;
+  border: none;
+  cursor: pointer;
+  margin-top: 20px;
+}
+
+.login-button:hover {
+  background-color: #f55a4e;
+}
+.password-input-wrapper {
+    position: relative;
+  }
+  
+  .password-input-wrapper .input-field {
+    padding-right: 40px; 
+  }
+  
+  .login-eye-icon {
+    position: absolute;
+    right: 12px;
+    top: 60%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    color: #aaa;
+    font-size: 1.2rem;
+  }
+  .login-social-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    flex: 1;
+    margin: 0 0.5rem;
+    padding: 0.6rem;
+    border-radius: 10px;
+    border: 1px solid #ccc;
+    background: white;
+    cursor: pointer;
+    font-weight: 500;
+    font-size: 0.95rem;
+    transition: background 0.3s ease;
+  }
+  .login-social-btn:hover{
+    background-color: #f77c6e;
+    color: white;
+  }
+  
+  .login-social-icon {
+    font-size: 1.2rem;
+  }
+  
+  @media (max-width: 600px) {
+    .login-container {
+      padding: 1rem;
+      align-items: center; 
+    }
+  
+    .login-box {
+      width: 90%;            
+      padding: 1.5rem;        
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.05); 
+      border-radius: 10px;   
+    }
+  
+    .login-role-switch button,
+    .login-social-btn {
+      width: auto;
+      margin: 0 0.25rem;
+    }
+  
+    .login-input-field,
+    .login-button {
+      font-size: 1rem;
+      padding: 10px;
+    }
+  
+    .login-eye-icon {
+      font-size: 1.1rem;
+      right: 10px;
+    }
+  }
+  

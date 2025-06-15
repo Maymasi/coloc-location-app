@@ -4,7 +4,9 @@ import SearchIcon from '@mui/icons-material/Search';
 import LoginIcon from '@mui/icons-material/Login';
 import "../../assets/styles/styleHome.css";
 import { UserPlus } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 export default function Nav(){
+    const navigate = useNavigate();
     const [open,setOpen]=useState(false);
     useEffect(() => {
         document.body.style.overflow = open ? "hidden" : "auto";
@@ -37,7 +39,7 @@ export default function Nav(){
                     </li>
                     <div className="btnMenu">
                         <li>
-                            <a href="#" className="connexionContainer connexionConMenu">
+                            <a href="/Login" className="connexionContainer connexionConMenu">
                                 <LoginIcon className="loginIcon" sx={{fontSize:"25px"}}/>
                                 <button className="btn-outline" style={{fontSize:"15px"}}>Connexion</button>
                             </a>
@@ -68,9 +70,9 @@ export default function Nav(){
                     </div>
                 </li>
                 <li>
-                    <a href="#" className="connexionContainer">
+                    <a href="/Login" className="connexionContainer">
                         <LoginIcon className="loginIcon" sx={{fontSize:"25px"}}/>
-                        <button className="btn-outline" style={{fontSize:"13px"}}>Connexion</button>
+                        <button className="btn-outline" style={{fontSize:"13px",cursor:"pointer"}}>Connexion</button>
                     </a>
                 </li>
                 <li>

@@ -14,6 +14,8 @@ import AboutUs from './components/about/AboutUs'
 import PolitiquePage from './components/Politique/PolitiquePage';
 import FAQ from './components/faq/FAQ'
 import PrincipalePageLayout from './pages/PrincipalePageLayout';
+import Login from './pages/Login';
+import NotFound from './pages/NotFound';
 // Admin part components
 import AdminLayout from './pages/AdminLayout';
 import AdminDashboard from './components/admin/AdminDashboard';
@@ -35,6 +37,7 @@ import OwnerProfilComp from './components/owner/OwnerProfilComp';
 import OwnerParametres from './components/owner/OwnerParametres';
 //register form
 import RegistrationForm  from './components/common/RegistrationForm';
+
 function App() {
   return (
     <>
@@ -79,9 +82,9 @@ function App() {
             <Route path="OwnerProfilComp" element={<OwnerProfilComp />} />
             <Route path="OwnerParametres" element={<OwnerParametres />} /> 
           </Route>
-        <Route path="/" element={<h1>HOME</h1>} />
-        <Route path="*" element={<h1>Page not found</h1>} />
         <Route path="/register" element={<RegistrationForm/>} />
+         <Route path="Login" element={<Login/>} />
+        <Route path="*" element={<NotFound/>} />
 
         
       </Routes>

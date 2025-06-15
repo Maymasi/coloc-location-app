@@ -1,0 +1,286 @@
+.signalements-container {
+  padding: 24px;
+}
+
+.signalements-title {
+  font-size: 1.875rem;
+  font-weight: bold;
+  margin-top: -40px;
+}
+
+.signalements-subtitle {
+  color: #4b5563;
+  margin-top: -10px;
+  font-size: 1.125rem;
+  line-height: 1.25rem;
+}
+
+.signalements-tabs {
+  display: flex;
+  gap: 0;
+  background-color: #e7e7e9;
+  padding: 4px;
+  border-radius: 12px;
+  width: fit-content;
+}
+
+.signalements-tab-button {
+  background-color: transparent;
+  padding: 8px 16px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: #374151;
+  transition: background-color 0.2s ease;
+}
+
+.signalements-tab-button.active {
+  background-color: #ffffff;
+  font-weight: 700;
+}
+.signale-tab-content {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  white-space: nowrap;
+}
+
+.signalements-badge {
+  font-size: 0.75rem;
+  padding: 2px 8px;
+  border-radius: 9999px;
+  color: #ffffff;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.signalements-badge.yellow {
+  background-color: #f59e0b;
+}
+
+.signalements-badge.green {
+  background-color: #10b981;
+}
+
+.signalements-badge.red {
+  background-color: #ef4444;
+}
+
+
+
+.signalements-report-card {
+  background-color: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 16px;
+  margin-top: 24px;
+  padding: 24px;
+  margin-right: 10%;
+  
+}
+
+.signalements-report-header {
+  display: flex;
+  align-items: center;        
+  gap: 8px;                   
+  justify-content: flex-start;
+  flex-wrap: wrap;
+  margin-top: -10px;
+}
+
+.signalements-report-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-right: 16px;
+}
+
+.signalements-report-tags {
+  display: flex;
+  gap: 8px;
+  
+}
+
+.signalements-tag {
+  background-color: #facc15;
+  color: white;
+  font-size: 0.75rem;
+  font-weight: 500;
+  padding: 4px 8px;
+  border-radius: 9999px;
+}
+
+.signalements-tag-outline {
+  font-size: 0.75rem;
+  font-weight: 500;
+  padding: 4px 8px;
+  border-radius: 9999px;
+  border: 1px solid;
+}
+
+.signalements-tag-outline.red {
+  color: #ef4444;
+  border-color: #ef4444;
+}
+.signalements-tag-outline.green{
+  color: rgb(59 130 246);
+  border-color: rgb(59 130 246);
+
+}
+
+.signalements-report-date {
+  color: #6b7280;
+  font-size: 0.875rem;
+  margin-top: -8px;
+}
+
+.signalements-report-body {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 32px;
+  margin-top: 24px;
+}
+
+.signalements-report-column {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.signalements-report-section .signalements-section-title {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #374151;
+  margin-top: -4px;
+  padding-left: -10px;
+  
+}
+
+.signalements-report-user {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 8px;
+}
+
+.signalements-user-avatar {
+  width: 40px;
+  height: 40px;
+  background-color: #e5e7eb;
+  border-radius: 9999px;
+  margin-top: -20px;
+}
+
+.signalements-user-name {
+  font-weight: 600;
+  margin-top: -10px;
+}
+
+.signalements-user-email {
+  font-size: 0.875rem;
+  color: #6b7280;
+  margin-top: -10px;
+}
+
+.signalements-section-value {
+  color: #1f2937;
+  margin-top: -8px;
+ 
+}
+
+.signalements-description-box {
+  background-color: #f3f4f6;
+  padding: 12px;
+  border-radius: 8px;
+  margin-top: 8px;
+  color: #1f2937;
+  line-height: 1.5;
+  margin-left: -10px;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+}
+
+.signalements-reported-content-box {
+  background-color: #eff6ff;
+  padding: 12px;
+  border-radius: 8px;
+  margin-top: 8px;
+  color: #1f2937;
+  padding-top: -5px;
+  margin-left: -10px;
+}
+
+
+.signalements-original-link {
+  color: #ef4444;
+  margin-top: 6px;
+  cursor: pointer;
+  margin-top: -8px;
+  font-size: 0.75rem;
+  line-height: 1rem;
+}
+.signalements-original-Signale{
+    margin-top: -10px;
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+}
+
+.signalements-original-link:hover {
+  text-decoration: underline;
+}
+
+.signalements-report-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 16px;
+  margin-top: 24px;
+}
+
+.signalements-action-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 10px 16px;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  cursor: pointer;
+  font-weight: 500;
+}
+
+.signalements-action-btn.reject {
+  border: 1px solid #ef4444;
+  color: #ef4444;
+  background-color: transparent;
+}
+
+.signalements-action-btn.reject:hover {
+  background-color: #fef2f2;
+}
+
+.signalements-action-btn.resolve {
+  background-color: #16a34a;
+  color: white;
+  border: none;
+}
+
+.signalements-action-btn.resolve:hover {
+  background-color: #15803d;
+}
+
+.signalements-tag-outline.orange{
+    color: #facc15;
+    border-color:#facc15;
+
+}
+.signalements-tab-button {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.signalements-caret {
+  font-size: 14px;
+  margin-top: 2px;
+}
