@@ -4,9 +4,7 @@ import SearchIcon from '@mui/icons-material/Search';
 import LoginIcon from '@mui/icons-material/Login';
 import "../../assets/styles/styleHome.css";
 import { UserPlus } from 'lucide-react';
-import { useNavigate } from 'react-router-dom';
 export default function Nav(){
-    const navigate = useNavigate();
     const [open,setOpen]=useState(false);
     useEffect(() => {
         document.body.style.overflow = open ? "hidden" : "auto";
