@@ -7,15 +7,26 @@ import FormControl from '@mui/material/FormControl';
 import Button from '@mui/material/Button';
 import { MapPin } from 'lucide-react';
 
-export default function SearchHouse(){
+export default function SearchHouse({OnSearch}){
     // states
     const [propertyType, setPropertyType] = React.useState('');
     const [priceRange, setPriceRange] = React.useState('');
     const [City,setCity] = React.useState('');
     // handlers
+    const handelFilter = ()=>{
+        const filters= {
+            ville : City,
+            propertyType : propertyType,
+            minPrice: priceRange
+        }
+        OnSearch(filters);
+    }
     const handleChangePropertyType = (event) => {
         setPropertyType(event.target.value);
     };
+    const HandelSearch = ()=>{
+        handelFilter();
+    }
     const handleChangeCity = (event)=>{
         setCity(event.target.value)
     }
@@ -61,11 +72,11 @@ export default function SearchHouse(){
                         textAlign:"start"
                     }}
                     >
-                    <MenuItem value={10}>All Types</MenuItem>
-                    <MenuItem value={20}>Apartment</MenuItem>
-                    <MenuItem value={30}>House</MenuItem>
-                    <MenuItem value={30}>Room</MenuItem>
-                    <MenuItem value={30}>Studio</MenuItem>
+                    <MenuItem value="">All Types</MenuItem>
+                    <MenuItem value="Appartement">Appartement</MenuItem>
+                    <MenuItem value="Maison">Maison</MenuItem>
+                    <MenuItem value="Chambre">Chambre</MenuItem>
+                    <MenuItem value="Studio">Studio</MenuItem>
                     </Select>
                 </FormControl>
                 <FormControl fullWidth className="selectForm">
@@ -97,14 +108,14 @@ export default function SearchHouse(){
                         textAlign:"start"
                     }}
                     >
-                    <MenuItem value={10}>Any Price</MenuItem>
-                    <MenuItem value={20}>Under $500</MenuItem>
-                    <MenuItem value={30}>Under $1,000</MenuItem>
-                    <MenuItem value={30}>Under $1,500</MenuItem>
-                    <MenuItem value={30}>Under $2,000</MenuItem>
+                        <MenuItem value={0}>Any Price</MenuItem>
+                        <MenuItem value={500}>Under $500</MenuItem>
+                        <MenuItem value={1500}>Under $1,500</MenuItem>
+                        <MenuItem value={2000}>Under $2,000</MenuItem>
+                        <MenuItem value={2500}>Under $2,500</MenuItem>
                     </Select>
                 </FormControl>
-                <Button variant="contained" className="searchButton">Search</Button>
+                <Button variant="contained" className="searchButton" onClick={HandelSearch}>Search</Button>
             </div>
         </div>
     );

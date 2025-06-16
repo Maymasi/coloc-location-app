@@ -17,16 +17,9 @@ import Favorite from '@mui/icons-material/Favorite';
 import Pagination from '@mui/material/Pagination';
 import { MapPin,SlidersHorizontal  } from 'lucide-react';
 import { useState,useEffect } from "react";
-const properties = Array.from({ length: 25 }, (_, i) => ({
-  id: i,
-  title: `Modern Studio ${i + 1}`,
-  price: 750 + i * 10,
-  image: "../../../public/Room.jfif",
-  address: `456 College St, Downtown`,
-  type: "Studio",
-  bedrooms: 1,
-  bathrooms: 1,
-}));
+import {getAllAnnonces,filterAvancee} from '../../../Services/AnnonceService'
+import fallbackImg from '../../../assets/images/fallback.jpg'
+
 const marks = [
     {
       value: 0,
@@ -69,12 +62,14 @@ const CustomSlider = styled(Slider)({
 function valuetext(value) {
     return `$${value}`;
 }
-export default function PropertiesFound(){
+export default function PropertiesFound({annonces}){
     // states
+    const [properties,setproperties] = useState([]);
+    const [loading, setLoading] = useState(true);
     const [Bedrooms, setBedrooms] = useState('Any');
     const [Bathrooms, setBathrooms] = useState('Any');
     const [priceRange,setPriceRange] = useState(1000);
-    const [propertyType,setPropertyType]=useState(['Apartment']);
+    const [propertyType,setPropertyType]=useState(['Appartement']);
     const [amenities,setAmenities]=useState(['Parking']);
     const [sort, setSort] = useState("Newest");
     const [page, setPage] = useState(1);
@@ -82,21 +77,50 @@ export default function PropertiesFound(){
     const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
     //choices
     const propertiesPerPage = 6;
-    const propertyTypes = ['Apartment', 'House', 'Room', 'Studio'];
+    const propertyTypes = ['Appartement', 'Maison', 'Chambre', 'Studio'];
     const amenitiesList = ['Parking','Laundry','Pet Friendly','WiFi included']
+
     //handlers
     useEffect(() => {
       const handleResize = () => {
         setIsMobile(window.innerWidth < 768);
       };
-    
+      
       window.addEventListener("resize", handleResize);
     
       return () => window.removeEventListener("resize", handleResize);
     }, []);
+
     useEffect(() => {
       document.body.style.overflow = openFilter ? "hidden" : "auto";
     }, [openFilter]);
+
+    useEffect(()=>{
+      setproperties(annonces)
+    },annonces);
+
+    useEffect(() => {
+    const fetchAnnonces = async () => {
+      try {
+        const data = await getAllAnnonces();
+        console.log("🟡 données reçues :", data); 
+        setproperties(data.$values);
+      } catch (error) {
+        console.error("Erreur lors du chargement des annonces :", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchAnnonces();
+    }, []);
+    const handelFavori = async ()=>{
+      
+    }
+    const handleAdvancedFilter = async ()=>{
+      const data = await filterAvancee(priceRange,propertyType,Bedrooms,Bathrooms,amenities);
+      setproperties(data.$values);
+      console.log(data.$values);
+    }
     const handleType = (event) => {
       const { value, checked } = event.target;
   
@@ -133,6 +157,7 @@ export default function PropertiesFound(){
     const handleOpenFilter = ()=>{
       setOpenFilter((prev) => !prev);
     }
+
     // indexes
     const startIndex = (page - 1) * propertiesPerPage;
     const endIndex = startIndex + propertiesPerPage;
@@ -272,33 +297,19 @@ export default function PropertiesFound(){
                   </FormGroup>
                 </div>
                 <div style={{display:"flex",justifyContent:"center",alignItems:"center",width:"100%"}}>
-                  <Button variant="contained" className="searchButton" style={{width:"200px"}}>Apply Filter</Button>
+                  <Button variant="contained" className="searchButton" style={{width:"200px"}} onClick={handleAdvancedFilter}>Apply Filter</Button>
                 </div>
             </div>
             <div className="resultats">
                 <div className="top">
-                  <div  className="titlePropFound" style={{fontSize:"23px"}}>742 Properties Found</div>
-                  <FormControl className="formControll" fullWidth style={{width:"190px"}}>
-                    <Select
-                      labelId="demo-simple-select-label"
-                      id="demo-simple-select"
-                      value={sort}
-                      label="Age"
-                      onChange={handleSort}
-                    >
-                      <MenuItem value={"Newest"}>Newest</MenuItem>
-                      <MenuItem value={"Low to High"}>Price: Low to High</MenuItem>
-                      <MenuItem value={"High to Low"}>Price: High to Low</MenuItem>
-                      <MenuItem value={"Most Popular"}>Most Popular</MenuItem>
-                    </Select>
-                  </FormControl>
+                  <div  className="titlePropFound" style={{fontSize:"23px"}}>{properties.length} Properties Found</div>
                 </div>
                 <div className="cardsResultats">
                 {currentProperties.map((property) => (
                   <div className="cardResultat" key={property.id}>
                     <div className="containerPic">
-                      <img src={property.image} alt="" />
-                      <div className="heartTopRight">
+                      <img src={property.photos?.$values?.[0]?.url || fallbackImg} alt="" />
+                      <div className="heartTopRight" onClick={handelFavori} >
                         <Checkbox  icon={<FavoriteBorder color="#fe7364" />} checkedIcon={<Favorite color="#fe7364"/>} />
                       </div>
                       <div className="typeTopLeft">{property.type}</div>
@@ -307,19 +318,19 @@ export default function PropertiesFound(){
                       <div className="descrbAndPrice">
                         <div className="describ">{property.title}</div>
                         <div className="Pprice">
-                          <span style={{fontSize:"20px",fontWeight:"700"}}>${property.price}/</span>
+                          <span style={{fontSize:"20px",fontWeight:"700"}}>${property.prix}/</span>
                           <span style={{fontSize:"18px",fontWeight:"700"}}>mo</span>
                         </div>
                       </div>
                       <div className="address">
                         <MapPin size={"15px"}/>
-                        <div style={{fontSize:"16px"}}>{property.address}</div>
+                        <div style={{fontSize:"16px"}}>{property.ville}</div>
                       </div>
                       <div className="infoSupp">
                         <div className="bedsAndBaths">
-                          <span style={{fontSize:"16px",fontWeight:"500"}}>{property.bedrooms} Beds</span>
+                          <span style={{fontSize:"16px",fontWeight:"500"}}>{property.beds} Beds</span>
                           <span style={{ fontSize: '18px', lineHeight: '0' }}>•</span>
-                          <span style={{fontSize:"16px",fontWeight:"500"}}>{property.bathrooms} Baths</span>
+                          <span style={{fontSize:"16px",fontWeight:"500"}}>{property.baths} Baths</span>
                         </div>
                         <div className="availability">Available Now</div>
                       </div>

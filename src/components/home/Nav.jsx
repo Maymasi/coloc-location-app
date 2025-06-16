@@ -6,9 +6,14 @@ import "../../assets/styles/styleHome.css";
 import { UserPlus } from 'lucide-react';
 export default function Nav(){
     const [open,setOpen]=useState(false);
+    const [connected,setConnected] = useState(false);
     useEffect(() => {
         document.body.style.overflow = open ? "hidden" : "auto";
     }, [open]);
+    useEffect(()=>{
+        const token = localStorage.getItem('token');
+        if (token) setConnected(true)
+    },[])
     return(
         <div className="navParent">
             <div className={`ParentMenu ${open ? "fixedMenu" : ""}`}>
@@ -37,13 +42,13 @@ export default function Nav(){
                     </li>
                     <div className="btnMenu">
                         <li>
-                            <a href="/Login" className="connexionContainer connexionConMenu">
+                            <a href="/Login" className="connexionContainer connexionConMenu" style={{display:connected?"none":"flex"}}>
                                 <LoginIcon className="loginIcon" sx={{fontSize:"25px"}}/>
                                 <button className="btn-outline" style={{fontSize:"15px"}}>Connexion</button>
                             </a>
                         </li>
                         <li>
-                            <a href="#" className="inscripContainer inscripConMenu">
+                            <a href="#" className="inscripContainer inscripConMenu" style={{display:connected?"none":"flex"}}>
                                     <UserPlus className="signIcon" style={{color:" rgb(250, 244, 244)"}} sx={{fontSize:"25px"}}/>
                                     <button  className="btn-filled" style={{fontSize:"15px"}}>Inscription</button>
                             </a>
@@ -68,13 +73,13 @@ export default function Nav(){
                     </div>
                 </li>
                 <li>
-                    <a href="/Login" className="connexionContainer">
+                    <a href="/Login" className="connexionContainer" style={{display:connected?"none":"flex"}}>
                         <LoginIcon className="loginIcon" sx={{fontSize:"25px"}}/>
                         <button className="btn-outline" style={{fontSize:"13px",cursor:"pointer"}}>Connexion</button>
                     </a>
                 </li>
                 <li>
-                    <a href="#" className="inscripContainer">
+                    <a href="#" className="inscripContainer" style={{display:connected?"none":"flex"}}>
                             <UserPlus className="signIcon" style={{color:" rgb(250, 244, 244)"}} sx={{fontSize:"25px"}}/>
                             <button  className="btn-filled" style={{fontSize:"13px"}}>Inscription</button>
                     </a>

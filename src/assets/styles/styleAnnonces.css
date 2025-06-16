@@ -127,7 +127,7 @@
     width: 31%;
     display: flex;
     flex-direction: column;
-    height: 350px;
+    height: 410px;
     border-radius: 12px;
     border: 1px solid rgb(212, 210, 210);
     overflow: hidden;
@@ -187,13 +187,13 @@
     background: #fe7364;
     border-radius: 999px;
     box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-    padding: 5px;
+    padding: 5px 10px;
     display: flex;
     align-items: center;
     justify-content: center;
     z-index: 5;
     color: white;
-    width: 74px;
+    width: fit-content;
     font-size: 15px;
 }
 .annoncesParent .infoSectionn{

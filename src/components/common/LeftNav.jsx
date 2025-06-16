@@ -5,8 +5,9 @@ import Avatar from '@mui/material/Avatar';
 import Divider from '@mui/material/Divider';
 import { useNavigate } from 'react-router-dom';
 import '../../assets/styles/LeftNav.css';
-
+import { useAuth } from '../../context/AuthContext';
 export default function LeftNav({ openLogs, handleLogsClick }) {
+    const {user} = useAuth();
     const [activeLink, setActiveLink] = React.useState(null);
     const [isNavOpen, setIsNavOpen] = React.useState();
     const [windowWidth, setWindowWidth] = React.useState(window.innerWidth);
@@ -53,7 +54,7 @@ export default function LeftNav({ openLogs, handleLogsClick }) {
                 <div className="user">
                     <Avatar sx={{ width: 38, height: 38 }} style={{ backgroundColor: 'black' }} alt="user" src="/src/assets/logos/logoColokMeak.png" />
                     <div className="user-data">
-                        <div className='name'>User Name</div>
+                        <div className='name'>{user.nom}</div>
                         <div className='role'>Student</div>
                     </div>
                 </div>
@@ -67,7 +68,7 @@ export default function LeftNav({ openLogs, handleLogsClick }) {
                     </div>
                     <div 
                         className={`link ${activeLink === 'annonces' ? 'active' : ''}`} 
-                        onClick={() => handleLinkClick('annonces')}
+                        onClick={() => handleLinkClick('/annonces')}
                     >
                         <House size={20} />
                         <span>Annonces</span>
