@@ -97,7 +97,7 @@ export default function PropertiesFound({annonces}){
 
     useEffect(()=>{
       setproperties(annonces)
-    },annonces);
+    },[annonces]);
 
     useEffect(() => {
     const fetchAnnonces = async () => {

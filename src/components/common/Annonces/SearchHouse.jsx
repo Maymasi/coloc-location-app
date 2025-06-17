@@ -9,9 +9,9 @@ import { MapPin } from 'lucide-react';
 
 export default function SearchHouse({OnSearch}){
     // states
-    const [propertyType, setPropertyType] = React.useState('');
-    const [priceRange, setPriceRange] = React.useState('');
-    const [City,setCity] = React.useState('');
+    const [propertyType, setPropertyType] = React.useState();
+    const [priceRange, setPriceRange] = React.useState();
+    const [City,setCity] = React.useState();
     // handlers
     const handelFilter = ()=>{
         const filters= {
