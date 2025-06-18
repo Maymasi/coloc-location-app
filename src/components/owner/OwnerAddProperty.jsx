@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Stepper, Step, StepLabel, Box } from '@mui/material';
+import { Stepper, Step, StepLabel, Box, Snackbar, Alert } from '@mui/material';
 import { Upload, Calendar, Wifi, Car, Tv, WashingMachine, AirVent, Shield } from 'lucide-react';
 import '../../assets/styles/ownerCss/AddProperty.css';
 
@@ -30,6 +30,13 @@ const OwnerAddProperty = () => {
     photos: []
   });
 
+  const [errors, setErrors] = useState({});
+  const [snackbar, setSnackbar] = useState({
+    open: false,
+    message: '',
+    severity: 'success' // 'success', 'error', 'warning', 'info'
+  });
+
   const steps = [
     'Informations de base',
     'Détails',
@@ -37,8 +44,46 @@ const OwnerAddProperty = () => {
     'Finalisation'
   ];
 
+  const requiredFields = {
+    0: ['title', 'type', 'monthlyRent', 'description'],
+    1: ['address', 'city', 'postalCode', 'availableFrom'],
+    2: ['photos'],
+    3: ['desiredDuration', 'houseRules']};
+
+  const validateStep = (step) => {
+    const newErrors = {};
+    const fieldsToValidate = requiredFields[step] || [];
+
+    fieldsToValidate.forEach(field => {
+      if (!formData[field] || (Array.isArray(formData[field]) && formData[field].length === 0)) {
+        newErrors[field] = 'Ce champ est obligatoire';
+      }
+    });
+
+    // Validation spécifique pour le code postal
+    if (step === 1 && formData.postalCode && !/^\d{5}$/.test(formData.postalCode)) {
+      newErrors.postalCode = 'Le code postal doit contenir 5 chiffres';
+    }
+
+    // Validation spécifique pour le loyer
+    if (step === 0 && formData.monthlyRent && parseFloat(formData.monthlyRent) <= 0) {
+      newErrors.monthlyRent = 'Le loyer doit être supérieur à 0';
+    }
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
   const handleNext = () => {
-    setActiveStep((prevActiveStep) => prevActiveStep + 1);
+    if (validateStep(activeStep)) {
+      setActiveStep((prevActiveStep) => prevActiveStep + 1);
+    } else {
+      setSnackbar({
+        open: true,
+        message: 'Veuillez remplir tous les champs obligatoires',
+        severity: 'error'
+      });
+    }
   };
 
   const handleBack = () => {
@@ -50,6 +95,15 @@ const OwnerAddProperty = () => {
       ...prev,
       [field]: value
     }));
+    
+    // Clear error when field is filled
+    if (errors[field]) {
+      setErrors(prev => {
+        const newErrors = {...prev};
+        delete newErrors[field];
+        return newErrors;
+      });
+    }
   };
 
   const toggleAmenity = (amenity) => {
@@ -59,6 +113,28 @@ const OwnerAddProperty = () => {
         ? prev.amenities.filter(a => a !== amenity)
         : [...prev.amenities, amenity]
     }));
+  };
+
+  const handlePublish = () => {
+    if (validateStep(activeStep)) {
+      console.log('Form data submitted:', formData);
+      setSnackbar({
+        open: true,
+        message: 'Annonce publiée avec succès!',
+        severity: 'success'
+      });
+      // Ici vous pourriez ajouter la logique pour envoyer les données au serveur
+    } else {
+      setSnackbar({
+        open: true,
+        message: 'Veuillez corriger les erreurs avant de publier',
+        severity: 'error'
+      });
+    }
+  };
+
+  const handleCloseSnackbar = () => {
+    setSnackbar(prev => ({...prev, open: false}));
   };
 
   const renderStepContent = (step) => {
@@ -75,7 +151,9 @@ const OwnerAddProperty = () => {
                 placeholder="Ex : Studio moderne centre-ville"
                 value={formData.title}
                 onChange={(e) => handleInputChange('title', e.target.value)}
+                className={errors.title ? 'error' : ''}
               />
+              {errors.title && <span className="error-message">{errors.title}</span>}
             </div>
 
             <div className="form-row">
@@ -84,6 +162,7 @@ const OwnerAddProperty = () => {
                 <select
                   value={formData.type}
                   onChange={(e) => handleInputChange('type', e.target.value)}
+                  className={errors.type ? 'error' : ''}
                 >
                   <option value="">Sélectionnez le type</option>
                   <option value="studio">Studio</option>
@@ -91,6 +170,7 @@ const OwnerAddProperty = () => {
                   <option value="maison">Maison</option>
                   <option value="chambre">Chambre</option>
                 </select>
+                {errors.type && <span className="error-message">{errors.type}</span>}
               </div>
               <div className="form-group">
                 <label>Loyer mensuel (€) *</label>
@@ -98,7 +178,10 @@ const OwnerAddProperty = () => {
                   type="number"
                   value={formData.monthlyRent}
                   onChange={(e) => handleInputChange('monthlyRent', e.target.value)}
+                  className={errors.monthlyRent ? 'error' : ''}
+                  min="1"
                 />
+                {errors.monthlyRent && <span className="error-message">{errors.monthlyRent}</span>}
               </div>
             </div>
 
@@ -109,6 +192,7 @@ const OwnerAddProperty = () => {
                   type="number"
                   value={formData.deposit}
                   onChange={(e) => handleInputChange('deposit', e.target.value)}
+                  min="0"
                 />
               </div>
               <div className="form-group">
@@ -117,6 +201,7 @@ const OwnerAddProperty = () => {
                   type="number"
                   value={formData.fees}
                   onChange={(e) => handleInputChange('fees', e.target.value)}
+                  min="0"
                 />
               </div>
             </div>
@@ -128,7 +213,9 @@ const OwnerAddProperty = () => {
                 value={formData.description}
                 onChange={(e) => handleInputChange('description', e.target.value)}
                 rows={5}
+                className={errors.description ? 'error' : ''}
               />
+              {errors.description && <span className="error-message">{errors.description}</span>}
             </div>
           </div>
         );
@@ -145,6 +232,7 @@ const OwnerAddProperty = () => {
                   type="number"
                   value={formData.surface}
                   onChange={(e) => handleInputChange('surface', e.target.value)}
+                  min="1"
                 />
               </div>
               <div className="form-group">
@@ -153,6 +241,7 @@ const OwnerAddProperty = () => {
                   type="number"
                   value={formData.rooms}
                   onChange={(e) => handleInputChange('rooms', e.target.value)}
+                  min="1"
                 />
               </div>
               <div className="form-group">
@@ -161,6 +250,7 @@ const OwnerAddProperty = () => {
                   type="number"
                   value={formData.bedrooms}
                   onChange={(e) => handleInputChange('bedrooms', e.target.value)}
+                  min="0"
                 />
               </div>
             </div>
@@ -172,6 +262,7 @@ const OwnerAddProperty = () => {
                   type="number"
                   value={formData.bathrooms}
                   onChange={(e) => handleInputChange('bathrooms', e.target.value)}
+                  min="1"
                 />
               </div>
               <div className="form-group">
@@ -180,15 +271,44 @@ const OwnerAddProperty = () => {
                   type="number"
                   value={formData.floor}
                   onChange={(e) => handleInputChange('floor', e.target.value)}
+                  min="0"
                 />
               </div>
               <div className="form-group">
-                <label>Disponible à partir du</label>
+                <label>Disponible à partir du *</label>
                 <input
                   type="date"
                   value={formData.availableFrom}
-                  onChange={(e) => handleInputChange('availableFrom', e.target.value)}
+                  onChange={(e) => {
+                    const selectedDate = new Date(e.target.value);
+                    const today = new Date();
+                    today.setHours(0, 0, 0, 0); // Pour ignorer l'heure et comparer seulement les dates
+                    
+                    if (!e.target.value) {
+                      setErrors(prev => ({
+                        ...prev,
+                        availableFrom: 'Ce champ est obligatoire'
+                      }));
+                    } else if (selectedDate < today) {
+                      setErrors(prev => ({
+                        ...prev,
+                        availableFrom: 'La date ne peut pas être antérieure à aujourd\'hui'
+                      }));
+                    } else {
+                      handleInputChange('availableFrom', e.target.value);
+                      // Effacer l'erreur si elle existait
+                      setErrors(prev => {
+                        const newErrors = {...prev};
+                        delete newErrors.availableFrom;
+                        return newErrors;
+                      });
+                    }
+                  }}
+                  min={new Date().toISOString().split('T')[0]} 
+                  className={errors.availableFrom ? 'error' : ''}
+                  required
                 />
+                {errors.availableFrom && <span className="error-message">{errors.availableFrom}</span>}
               </div>
             </div>
 
@@ -199,7 +319,9 @@ const OwnerAddProperty = () => {
                   type="text"
                   value={formData.address}
                   onChange={(e) => handleInputChange('address', e.target.value)}
+                  className={errors.address ? 'error' : ''}
                 />
+                {errors.address && <span className="error-message">{errors.address}</span>}
               </div>
               <div className="form-group">
                 <label>Ville *</label>
@@ -207,7 +329,9 @@ const OwnerAddProperty = () => {
                   type="text"
                   value={formData.city}
                   onChange={(e) => handleInputChange('city', e.target.value)}
+                  className={errors.city ? 'error' : ''}
                 />
+                {errors.city && <span className="error-message">{errors.city}</span>}
               </div>
               <div className="form-group">
                 <label>Code postal *</label>
@@ -215,7 +339,10 @@ const OwnerAddProperty = () => {
                   type="text"
                   value={formData.postalCode}
                   onChange={(e) => handleInputChange('postalCode', e.target.value)}
+                  className={errors.postalCode ? 'error' : ''}
+                  maxLength="5"
                 />
+                {errors.postalCode && <span className="error-message">{errors.postalCode}</span>}
               </div>
             </div>
 
@@ -315,6 +442,12 @@ const OwnerAddProperty = () => {
               Ajoutez des photos attrayantes de votre propriété (maximum 6 photos)
             </p>
             
+            {errors.photos && (
+              <Alert severity="error" style={{ marginBottom: '20px' }}>
+                {errors.photos}
+              </Alert>
+            )}
+
             <div className="upload-area" style={{
               padding: 'clamp(20px, 4vw, 40px)',
               marginBottom: 'clamp(20px, 4vw, 30px)',
@@ -353,7 +486,11 @@ const OwnerAddProperty = () => {
                   
                   // Vérifier la limite de 6 photos
                   if (currentPhotos.length >= 6) {
-                    alert('Maximum 6 photos autorisées');
+                    setSnackbar({
+                      open: true,
+                      message: 'Maximum 6 photos autorisées',
+                      severity: 'warning'
+                    });
                     return;
                   }
                   
@@ -629,10 +766,11 @@ const OwnerAddProperty = () => {
             <p className="step-subtitle">Vérifiez vos informations et publiez votre annonce</p>
             
             <div className="form-group">
-              <label>Durée de la caution souhaitée</label>
+              <label>Durée de la caution souhaitée *</label>
               <select
                 value={formData.desiredDuration}
                 onChange={(e) => handleInputChange('desiredDuration', e.target.value)}
+                className={errors.desiredDuration ? 'error' : ''}
               >
                 <option value="">Sélectionner la durée</option>
                 <option value="3-months">3 mois</option>
@@ -640,6 +778,7 @@ const OwnerAddProperty = () => {
                 <option value="1-year">1 an</option>
                 <option value="2-years">2 ans</option>
               </select>
+              {errors.desiredDuration && <span className="error-message">{errors.desiredDuration}</span>}
             </div>
 
             <div className="form-group">
@@ -665,7 +804,7 @@ const OwnerAddProperty = () => {
                 </div>
                 <div className="summary-item">
                   <span className="summary-label">Prix :</span>
-                  <span className="summary-value">{formData.monthlyRent || 'Non renseigné'}</span>
+                  <span className="summary-value">{formData.monthlyRent || 'Non renseigné'} €</span>
                 </div>
                 <div className="summary-item">
                   <span className="summary-label">Localisation :</span>
@@ -673,7 +812,7 @@ const OwnerAddProperty = () => {
                 </div>
                 <div className="summary-item">
                   <span className="summary-label">Surface :</span>
-                  <span className="summary-value">{formData.surface || 'Non renseigné'}</span>
+                  <span className="summary-value">{formData.surface || 'Non renseigné'} m²</span>
                 </div>
                 <div className="summary-item">
                   <span className="summary-label">Photos :</span>
@@ -750,18 +889,40 @@ const OwnerAddProperty = () => {
         
         <div className="right-actions">
           {activeStep === steps.length - 1 && (
-            <button className="btn-outline" onClick={() => console.log(formData)}>
+            <button className="btn-outline" onClick={() => {
+              console.log(formData);
+              setSnackbar({
+                open: true,
+                message: 'Brouillon sauvegardé avec succès',
+                severity: 'success'
+              });
+            }}>
               Sauvegarder en brouillon
             </button>
           )}
           <button
             className="btn-primary"
-            onClick={activeStep === steps.length - 1 ? () => console.log(formData): handleNext}
+            onClick={activeStep === steps.length - 1 ? handlePublish : handleNext}
           >
             {activeStep === steps.length - 1 ? "Publier l'annonce" : 'Suivant'}
           </button>
         </div>
       </div>
+
+      <Snackbar
+        open={snackbar.open}
+        autoHideDuration={6000}
+        onClose={handleCloseSnackbar}
+        anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+      >
+        <Alert 
+          onClose={handleCloseSnackbar} 
+          severity={snackbar.severity}
+          sx={{ width: '100%' }}
+        >
+          {snackbar.message}
+        </Alert>
+      </Snackbar>
     </div>
   );
 };
