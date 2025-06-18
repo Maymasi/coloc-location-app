@@ -126,50 +126,61 @@ const RegistrationForm = () => {
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleNext = async () => {
-    if (validateStep()) {
-      if (currentStep < steps.length - 1) {
-        setCurrentStep(currentStep + 1);
-      } else {
-        setIsLoading(true);
-        try {
-          const result = await register(userType, formData, previewImage);
-          console.log(result);
-          
-              showSnackbar(
-                `🎉 Inscription réussie ! Bienvenue ${formData.prenom} ! Votre compte ${userType === 'student' ? 'étudiant' : 'propriétaire'} a été créé avec succès.`,
-                'success'
-              );
-              setTimeout(() => {
-                window.location.href = '/login';
-              }, 2000);
-          
-        } catch (error) {
-          console.error('Erreur:', error.response.data);
-          
-          // Messages d'erreur spécifiques selon le type d'erreur
-          let errorMessage = 'Une erreur inattendue s\'est produite lors de l\'inscription.';
-          
-          if (error.message && error.response.data.includes('Email')) {
-            errorMessage = ' Cette adresse email est déjà utilisée. Veuillez en choisir une autre.';
-          } else if (error.message && error.response.data.includes('network')) {
-            errorMessage = ' Problème de connexion. Vérifiez votre connexion internet et réessayez.';
-          } else if (error.message && error.response.data.includes('validation')) {
-            errorMessage = ' Certaines informations saisies ne sont pas valides. Veuillez vérifier vos données.';
-          } else if (error.message) {
-            errorMessage = ` Erreur: ${error.response.data}`;
-          }
-          
-          showSnackbar(errorMessage, 'error');
-        } finally {
-          setIsLoading(false);
-        }
-      }
+const handleNext = async () => {
+  if (validateStep()) {
+    if (currentStep < steps.length - 1) {
+      setCurrentStep(currentStep + 1);
     } else {
-      // Message d'erreur pour validation échouée
-      showSnackbar('⚠️ Veuillez corriger les erreurs dans le formulaire avant de continuer.', 'warning');
+      setIsLoading(true);
+      try {
+        const result = await register(userType, formData, previewImage);
+        console.log(result);
+
+        showSnackbar(
+          `🎉 Inscription réussie ! Bienvenue ${formData.prenom || ''} ! Votre compte ${
+            userType === 'student' ? 'étudiant' : 'propriétaire'
+          } a été créé avec succès.`,
+          'success'
+        );
+
+        setTimeout(() => {
+          window.location.href = '/login'; // Remplacer par useNavigate si tu utilises React Router
+        }, 2000);
+      } catch (error) {
+        console.error('Erreur:', error);
+
+        let errorMessage = "Une erreur inattendue s'est produite lors de l'inscription.";
+
+        if (error.response && error.response.data) {
+          const errorData = error.response.data;
+
+          if (typeof errorData === 'string') {
+            if (errorData.includes('Email')) {
+              errorMessage = "Cette adresse email est déjà utilisée. Veuillez en choisir une autre.";
+            } else if (errorData.toLowerCase().includes('network')) {
+              errorMessage = "Problème de connexion. Vérifiez votre connexion internet et réessayez.";
+            } else if (errorData.toLowerCase().includes('validation')) {
+              errorMessage = "Certaines informations saisies ne sont pas valides. Veuillez vérifier vos données.";
+            } else {
+              errorMessage = `Erreur : ${errorData}`;
+            }
+          } else {
+            errorMessage = "Erreur inattendue : réponse serveur invalide.";
+          }
+        } else if (error.message) {
+          errorMessage = `Erreur : ${error.message}`;
+        }
+
+        showSnackbar(errorMessage, 'error');
+      } finally {
+        setIsLoading(false);
+      }
     }
-  };
+  } else {
+    showSnackbar('⚠️ Veuillez corriger les erreurs dans le formulaire avant de continuer.', 'warning');
+  }
+};
+
 
   const handleBack = () => {
     if (currentStep > 0) {
@@ -198,7 +209,7 @@ const RegistrationForm = () => {
       ...prev,
       [field]: selectedValues
     }));
-    
+    console.log(formData);
     if (errors[field]) {
       setErrors(prev => ({
         ...prev,
@@ -492,16 +503,16 @@ const RegistrationForm = () => {
                 onChange={(e) => handleSelectChange('habitudes', e)}
                 className={errors.habitudes ? 'error multiple-select' : 'multiple-select'}
               >
-                <option value="Non-fumeur">Non-fumeur</option>
+                <option value="NonFumeur">Non-fumeur</option>
                 <option value="Fumeur">Fumeur</option>
                 <option value="Calme">Calme</option>
                 <option value="Social">Social</option>
                 <option value="Organisé">Organisé</option>
-                <option value="Nuit tôt">Nuit tôt</option>
-                <option value="Nuit tard">Nuit tard</option>
+                <option value="NuitTot">Nuit tôt</option>
+                <option value="NuitTard">Nuit tard</option>
                 <option value="Propre">Propre</option>
-                <option value="Animaux acceptés">Animaux acceptés</option>
-                <option value="Pas d'animaux">Pas d'animaux</option>
+                <option value="AnimauxAcceptés">Animaux acceptés</option>
+                <option value="PasDanimauxe">Pas d'animaux</option>
               </select>
               {errors.habitudes && <span className="error-message">{errors.habitudes}</span>}
             </div>
@@ -534,10 +545,10 @@ const RegistrationForm = () => {
                 onChange={(e) => handleSelectChange('styleDeVie', e)}
                 className={errors.styleDeVie ? 'error multiple-select' : 'multiple-select'}
               >
-                <option value="Étudiant">Étudiant</option>
+                <option value="Etudiant">Étudiant</option>
                 <option value="Actif">Actif</option>
                 <option value="Réservé">Réservé</option>
-                <option value="Fêtard">Fêtard</option>
+                <option value="Fetard">Fêtard</option>
                 <option value="Studieux">Studieux</option>
                 <option value="Sportif">Sportif</option>
                 <option value="Créatif">Créatif</option>
