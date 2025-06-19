@@ -2,9 +2,46 @@ import React, { useState } from 'react';
 import { Stepper, Step, StepLabel, Box, Snackbar, Alert } from '@mui/material';
 import { Upload, Calendar, Wifi, Car, Tv, WashingMachine, AirVent, Shield } from 'lucide-react';
 import '../../assets/styles/ownerCss/AddProperty.css';
+import { saveProperty } from '../../Services/PropertyService';
 
-const OwnerAddProperty = () => {
+/**
+ * OwnerAddProperty component
+ * 
+ * Ce composant React permet à un propriétaire d'ajouter ou de modifier une annonce de propriété à travers un formulaire multi-étapes.
+ * Il gère la saisie des informations de base, des détails, des photos et la finalisation de l'annonce, avec validation à chaque étape.
+ * 
+ * Props :
+ * @param {Object} props
+ * @param {string|null} props.logementId - L'identifiant du logement à éditer (null pour une nouvelle annonce).
+ * 
+ * États internes :
+ * - activeStep {number} : L'étape active du formulaire.
+ * - isEditing {boolean} : Indique si le formulaire est en mode édition.
+ * - formData {Object} : Les données du formulaire pour la propriété.
+ * - errors {Object} : Les erreurs de validation pour chaque champ.
+ * - snackbar {Object} : L'état de la notification (message, type, affichage).
+ * 
+ * Fonctions principales :
+ * - validateStep(step) : Valide les champs requis pour l'étape donnée.
+ * - handleNext() : Passe à l'étape suivante si la validation est correcte.
+ * - handleBack() : Revient à l'étape précédente.
+ * - handleInputChange(field, value) : Met à jour un champ du formulaire.
+ * - toggleAmenity(amenity) : Ajoute ou retire un équipement de la liste.
+ * - resetForm() : Réinitialise le formulaire à ses valeurs initiales.
+ * - handlePublish() : Publie l'annonce après validation.
+ * - handleSaveDraft() : Sauvegarde l'annonce en tant que brouillon.
+ * - renderStepContent(step) : Affiche le contenu du formulaire pour l'étape courante.
+ * 
+ * Utilisation :
+ * ```jsx
+ * <OwnerAddProperty logementId={null} />
+ * ```
+ * 
+ * @component
+ */
+const OwnerAddProperty = ({logementId}) => {
   const [activeStep, setActiveStep] = useState(0);
+  const [isEditing, setIsEditing] = useState(logementId == null ? false : true);
   const [formData, setFormData] = useState({
     title: '',
     type: '',
@@ -27,7 +64,8 @@ const OwnerAddProperty = () => {
     amenities: [],
     desiredDuration: '',
     houseRules: '',
-    photos: []
+    photos: [],
+    status:'active' // 'active', 'brouillon'
   });
 
   const [errors, setErrors] = useState({});
@@ -114,28 +152,97 @@ const OwnerAddProperty = () => {
         : [...prev.amenities, amenity]
     }));
   };
-
-  const handlePublish = () => {
-    if (validateStep(activeStep)) {
-      console.log('Form data submitted:', formData);
-      setSnackbar({
-        open: true,
-        message: 'Annonce publiée avec succès!',
-        severity: 'success'
-      });
-      // Ici vous pourriez ajouter la logique pour envoyer les données au serveur
-    } else {
-      setSnackbar({
-        open: true,
-        message: 'Veuillez corriger les erreurs avant de publier',
-        severity: 'error'
-      });
-    }
-  };
+  const resetForm = () => {
+  setActiveStep(0);
+  setFormData({
+    title: '',
+    type: '',
+    monthlyRent: '750',
+    deposit: '750',
+    fees: '50',
+    description: '',
+    surface: '60',
+    rooms: '2',
+    bedrooms: '1',
+    bathrooms: '1',
+    floor: '2',
+    availableFrom: '',
+    address: '123 rue de la Paix',
+    city: 'Safi',
+    postalCode: '75001',
+    furnished: false,
+    petsAllowed: false,
+    smokingAllowed: false,
+    amenities: [],
+    desiredDuration: '',
+    houseRules: '',
+    photos: [],
+    status: 'active'
+  });
+  setErrors({});
+};
 
   const handleCloseSnackbar = () => {
     setSnackbar(prev => ({...prev, open: false}));
   };
+  // Fonction pour enregistrer la propriété
+    const handlePublish = async () => {
+      console.log('Form data before saving:', formData);
+      if (validateStep(activeStep)) {
+        try {
+          const propertyToSave = {
+            ...formData,
+            status: 'active', 
+          };
+          
+          const result = await saveProperty(propertyToSave, logementId);
+          
+          setSnackbar({
+            open: true,
+            message: isEditing ? 'Annonce mise à jour avec succès!' : 'Annonce publiée avec succès!',
+            severity: 'success'
+          });
+          setTimeout(() => {resetForm();},2000);
+          // Redirection ou autre logique après succès
+        } catch (error) {
+          setSnackbar({
+            open: true,
+            message: error.message || 'Erreur lors de la publication',
+            severity: 'error'
+          });
+        }
+      } else {
+        setSnackbar({
+          open: true,
+          message: 'Veuillez corriger les erreurs avant de publier',
+          severity: 'error'
+        });
+      }
+    };
+    //fonction pour brouillonner la propriété
+    const handleSaveDraft = async () => {
+      try {
+        const propertyToSave = {
+          ...formData,
+          status: 'brouillon'
+        };
+        
+        const result = await saveProperty(propertyToSave, logementId);
+        
+        setSnackbar({
+          open: true,
+          message: 'Brouillon sauvegardé avec succès',
+          severity: 'success'
+        });
+          setTimeout(() => {resetForm();},2000);
+      } catch (error) {
+        setSnackbar({
+          open: true,
+          message: error.message || 'Erreur lors de la sauvegarde du brouillon',
+          severity: 'error'
+        });
+      }
+    };
 
   const renderStepContent = (step) => {
     switch (step) {
@@ -889,14 +996,7 @@ const OwnerAddProperty = () => {
         
         <div className="right-actions">
           {activeStep === steps.length - 1 && (
-            <button className="btn-outline" onClick={() => {
-              console.log(formData);
-              setSnackbar({
-                open: true,
-                message: 'Brouillon sauvegardé avec succès',
-                severity: 'success'
-              });
-            }}>
+            <button className="btn-outline" onClick={handleSaveDraft}   disabled={activeStep !== steps.length - 1}>
               Sauvegarder en brouillon
             </button>
           )}

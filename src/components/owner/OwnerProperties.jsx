@@ -1,93 +1,110 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Pagination } from '@mui/material';
-import { Search, Plus, MoreHorizontal, Eye, Edit, Trash2, Image, MapPin, Calendar } from 'lucide-react';
+import { Search, Plus, MoreHorizontal, Eye, Edit, Trash2, Image, MapPin, Calendar, ToggleLeft, ToggleRight } from 'lucide-react';
+import { getAllProperties, deleteProperty, changePropertyStatus } from '../../Services/PropertyService';
 import '../../assets/styles/ownerCss/PropertiesPage.css';
 
 const OwnerProperties = () => {
   const [activeTab, setActiveTab] = useState('all');
   const [showMenu, setShowMenu] = useState(null);
   const [page, setPage] = useState(1);
+  const [properties, setProperties] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [searchTerm, setSearchTerm] = useState('');
   const propertiesPerPage = 3;
 
-  const properties = [
-    {
-      id: 1,
-      title: "Studio moderne centre-ville",
-      location: "Paris 5ème",
-      publishDate: "Publié le15 mars 2024",
-      price: "750 €/mois",
-      views: 87,
-      requests: 5,
-      status: "active",
-      imageUrl: "https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?w=400&h=300&fit=crop"
-    },
-    {
-      id: 2,
-      title: "Appartement 2 chambres spacieux",
-      location: "Lyon 3ème",
-      publishDate: "Publié le10 mars 2024",
-      price: "1200 €/mois",
-      views: 124,
-      requests: 8,
-      status: "active",
-      imageUrl: "https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=400&h=300&fit=crop"
-    },
-    {
-      id: 3,
-      title: "Chambre dans maison partagée",
-      location: "Toulouse Centre",
-      publishDate: "Publié le5 mars 2024",
-      price: "550 €/mois",
-      views: 37,
-      requests: 2,
-      status: "rented",
-      imageUrl: "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=400&h=300&fit=crop"
-    },
-    {
-      id: 4,
-      title: "Appartement familial avec jardin",
-      location: "Marseille 8ème",
-      publishDate: "Publié le1 mars 2024",
-      price: "980 €/mois",
-      views: 62,
-      requests: 3,
-      status: "active",
-      imageUrl: "https://images.unsplash.com/photo-1449844908441-8829872d2607?w=400&h=300&fit=crop"
-    },
-    {
-      id: 5,
-      title: "Loft industriel rénové",
-      location: "Bordeaux Centre",
-      publishDate: "Brouillon créé le28 février 2024",
-      price: "1500 €/mois",
-      views: 0,
-      requests: 0,
-      status: "draft",
-      imageUrl: "https://images.unsplash.com/photo-1484154218962-a197022b5858?w=400&h=300&fit=crop"
+  // Charger les propriétés au montage du composant
+  useEffect(() => {
+    fetchProperties();
+  }, []);
+
+  const fetchProperties = async () => {
+    try {
+      setLoading(true);
+      const data = await getAllProperties();
+      setProperties(data);
+      setError(null);
+    } catch (err) {
+      setError(err.message);
+      console.error('Erreur lors du chargement des propriétés:', err);
+    } finally {
+      setLoading(false);
     }
-  ];
+  };
 
   const handleMenuClick = (propertyId) => {
     setShowMenu(showMenu === propertyId ? null : propertyId);
   };
 
+  const handleDeleteProperty = async (propertyId) => {
+    if (window.confirm('Êtes-vous sûr de vouloir supprimer cette propriété ?')) {
+      try {
+        await deleteProperty(propertyId);
+        await fetchProperties(); // Recharger la liste
+        setShowMenu(null);
+        alert('Propriété supprimée avec succès !');
+      } catch (err) {
+        alert('Erreur lors de la suppression : ' + err.message);
+      }
+    }
+  };
+
+  const handleStatusChange = async (propertyId, currentStatus) => {
+    const newStatus = currentStatus === 'brouillon' ? 'actif' : 'brouillon';
+    try {
+      await changePropertyStatus(propertyId, newStatus);
+      await fetchProperties(); // Recharger la liste
+      setShowMenu(null);
+      alert(`Statut changé vers ${newStatus} avec succès !`);
+    } catch (err) {
+      alert('Erreur lors du changement de statut : ' + err.message);
+    }
+  };
+
   const getStatusBadge = (status) => {
-    if (status === 'active') return 'Actif';
-    if (status === 'rented') return 'Loué';
-    if (status === 'draft') return 'Brouillon';
+    if (status === 'actif') return 'Actif';
+    if (status === 'loue') return 'Loué';
+    if (status === 'brouillon') return 'Brouillon';
     return 'Actif';
   };
 
   const getStatusClass = (status) => {
-    if (status === 'active') return 'status-active';
-    if (status === 'rented') return 'status-rented';
-    if (status === 'draft') return 'status-draft';
+    if (status === 'actif') return 'status-active';
+    if (status === 'loue') return 'status-rented';
+    if (status === 'brouillon') return 'status-draft';
     return 'status-active';
   };
 
+  // Calculer les statistiques automatiquement
+  const calculateStats = () => {
+    const total = properties.length;
+    const actifs = properties.filter(p => p.status === 'actif').length;
+    const loues = properties.filter(p => p.status === 'loue').length;
+    const brouillons = properties.filter(p => p.status === 'brouillon').length;
+    
+    return { total, actifs, loues, brouillons };
+  };
+
+  const stats = calculateStats();
+
   const filteredProperties = () => {
-    if (activeTab === 'all') return properties;
-    return properties.filter(property => property.status === activeTab);
+    let filtered = properties;
+    
+    // Filtrer par onglet
+    if (activeTab !== 'all') {
+      filtered = filtered.filter(property => property.status === activeTab);
+    }
+    
+    // Filtrer par recherche
+    if (searchTerm) {
+      filtered = filtered.filter(property => 
+        property.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        property.location.toLowerCase().includes(searchTerm.toLowerCase())
+      );
+    }
+    
+    return filtered;
   };
 
   const paginatedProperties = () => {
@@ -98,10 +115,39 @@ const OwnerProperties = () => {
 
   const handlePageChange = (event, value) => {
     setPage(value);
-    window.scrollTo({ top: 0, behavior: 'smooth' }); // pour remonter en haut de la page
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  const handleTabChange = (newTab) => {
+    setActiveTab(newTab);
+    setPage(1);
+    setShowMenu(null);
   };
 
   const totalPages = Math.ceil(filteredProperties().length / propertiesPerPage);
+
+  if (loading) {
+    return (
+      <div className="property-management">
+        <div style={{ textAlign: 'center', padding: '50px' }}>
+          <p>Chargement des propriétés...</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="property-management">
+        <div style={{ textAlign: 'center', padding: '50px', color: 'red' }}>
+          <p>Erreur : {error}</p>
+          <button onClick={fetchProperties} style={{ marginTop: '10px', padding: '8px 16px' }}>
+            Réessayer
+          </button>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="property-management">
@@ -119,7 +165,12 @@ const OwnerProperties = () => {
       <div className="search-bar">
         <div className="search-input">
           <Search size={20} className="search-icon" />
-          <input type="text" placeholder="Rechercher par titre ou localisation..." />
+          <input 
+            type="text" 
+            placeholder="Rechercher par titre ou localisation..."
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+          />
         </div>
       </div>
 
@@ -127,28 +178,28 @@ const OwnerProperties = () => {
         <div className="stat-card">
           <div className="stat-content">
             <span className="stat-label">Total</span>
-            <span className="stat-number">5</span>
+            <span className="stat-number">{stats.total}</span>
           </div>
           <div className="stat-icon total-icon">📋</div>
         </div>
         <div className="stat-card">
           <div className="stat-content">
             <span className="stat-label">Actifs</span>
-            <span className="stat-number">3</span>
+            <span className="stat-number">{stats.actifs}</span>
           </div>
           <div className="stat-icon active-icon">👁</div>
         </div>
         <div className="stat-card">
           <div className="stat-content">
             <span className="stat-label">Louées</span>
-            <span className="stat-number">1</span>
+            <span className="stat-number">{stats.loues}</span>
           </div>
           <div className="stat-icon rented-icon">🏠</div>
         </div>
         <div className="stat-card">
           <div className="stat-content">
             <span className="stat-label">Brouillons</span>
-            <span className="stat-number">1</span>
+            <span className="stat-number">{stats.brouillons}</span>
           </div>
           <div className="stat-icon draft-icon">✏️</div>
         </div>
@@ -157,39 +208,27 @@ const OwnerProperties = () => {
       <div className="tabs">
         <button 
           className={`tab ${activeTab === 'all' ? 'active' : ''}`}
-          onClick={() => {
-            setActiveTab('all');
-            setPage(1);
-          }}
+          onClick={() => handleTabChange('all')}
         >
-          Toutes (5)
+          Toutes ({stats.total})
         </button>
         <button 
-          className={`tab ${activeTab === 'active' ? 'active' : ''}`}
-          onClick={() => {
-            setActiveTab('active');
-            setPage(1);
-          }}
+          className={`tab ${activeTab === 'actif' ? 'active' : ''}`}
+          onClick={() => handleTabChange('actif')}
         >
-          Actifs (3)
+          Actifs ({stats.actifs})
         </button>
         <button 
-          className={`tab ${activeTab === 'rented' ? 'active' : ''}`}
-          onClick={() => {
-            setActiveTab('rented');
-            setPage(1);
-          }}
+          className={`tab ${activeTab === 'loue' ? 'active' : ''}`}
+          onClick={() => handleTabChange('loue')}
         >
-          Louées (1)
+          Louées ({stats.loues})
         </button>
         <button 
-          className={`tab ${activeTab === 'draft' ? 'active' : ''}`}
-          onClick={() => {
-            setActiveTab('draft');
-            setPage(1);
-          }}
+          className={`tab ${activeTab === 'brouillon' ? 'active' : ''}`}
+          onClick={() => handleTabChange('brouillon')}
         >
-          Brouillons (1)
+          Brouillons ({stats.brouillons})
         </button>
       </div>
 
@@ -214,9 +253,21 @@ const OwnerProperties = () => {
                   </button>
                   <button className="menu-item">
                     <Edit size={16} />
-                    Modificateur
+                    Modifier
                   </button>
-                  <button className="menu-item delete">
+                  {(property.status === 'brouillon' || property.status === 'actif') && (
+                    <button 
+                      className="menu-item"
+                      onClick={() => handleStatusChange(property.id, property.status)}
+                    >
+                      {property.status === 'brouillon' ? <ToggleRight size={16} /> : <ToggleLeft size={16} />}
+                      {property.status === 'brouillon' ? 'Activer' : 'Désactiver'}
+                    </button>
+                  )}
+                  <button 
+                    className="menu-item delete"
+                    onClick={() => handleDeleteProperty(property.id)}
+                  >
                     <Trash2 size={16} />
                     Supprimer
                   </button>
@@ -227,7 +278,7 @@ const OwnerProperties = () => {
             <div 
               className="property-image"
               style={{
-                backgroundImage: `url(${property.imageUrl})`,
+                backgroundImage: property.imageUrl ? `url(${property.imageUrl})` : 'none',
                 backgroundSize: 'cover',
                 backgroundPosition: 'center',
                 backgroundRepeat: 'no-repeat'
@@ -255,27 +306,38 @@ const OwnerProperties = () => {
               </div>
               <div className="stat-row">
                 <span className="stat-label">Vues:</span>
-                <span className="stat-value">{property.views}</span>
-              </div>
-              <div className="stat-row">
-                <span className="stat-label">Demandes:</span>
-                <span className="stat-value">{property.requests}</span>
+                <span className="stat-value">{property.views || 0}</span>
               </div>
             </div>
 
             <div className="property-actions">
               <button className="action-btn edit">
                 <Edit size={16} />
-                Modificateur
+                Modifier
               </button>
               <button className="action-btn view">
                 <Eye size={16} />
                 Voir
               </button>
+              {(property.status === 'brouillon' || property.status === 'actif') && (
+                <button 
+                  className="action-btn status"
+                  onClick={() => handleStatusChange(property.id, property.status)}
+                >
+                  {property.status === 'brouillon' ? <ToggleRight size={16} /> : <ToggleLeft size={16} />}
+                  {property.status === 'brouillon' ? 'Activer' : 'Désactiver'}
+                </button>
+              )}
             </div>
           </div>
         ))}
       </div>
+
+      {paginatedProperties().length === 0 && (
+        <div style={{ textAlign: 'center', padding: '50px' }}>
+          <p>Aucune propriété trouvée.</p>
+        </div>
+      )}
 
       {totalPages > 1 && (
         <div style={{ display: 'flex', justifyContent: 'center', margin: '20px 0' }}>
@@ -283,7 +345,7 @@ const OwnerProperties = () => {
             count={totalPages}
             page={page}
             onChange={handlePageChange}
-            color="#ea580c"
+            color="primary"
           />
         </div>
       )}
