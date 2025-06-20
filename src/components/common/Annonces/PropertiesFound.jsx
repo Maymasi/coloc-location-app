@@ -65,7 +65,7 @@ function valuetext(value) {
 export default function PropertiesFound({annonces}){
     // states
     const [properties,setproperties] = useState([]);
-    const [loading, setLoading] = useState(true);
+    // const [loading, setLoading] = useState(true);
     const [Bedrooms, setBedrooms] = useState('Any');
     const [Bathrooms, setBathrooms] = useState('Any');
     const [priceRange,setPriceRange] = useState(10000);
@@ -173,9 +173,6 @@ export default function PropertiesFound({annonces}){
     const handlePriceRange = (event)=>{
       setPriceRange(event.target.value);
     }
-    const handleSort = (event) => {
-      setSort(event.target.value);
-    };
     const handleChangePage = (event, value) => {
       setPage(value);
     };
