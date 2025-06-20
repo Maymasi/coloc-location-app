@@ -22,16 +22,16 @@ import fallbackImg from '../../../assets/images/fallback.jpg'
 
 const marks = [
     {
-      value: 0,
-      label: '$0',
+      value: 500,
+      label: '500dh',
     },
     {
-      value: 1000,
-      label: '$1,000',
+      value: 4700,
+      label: '4,700dh',
     },
     {
-      value: 3000,
-      label: '$3,000+',
+      value: 9000,
+      label: '9,000dh',
     }
 ];
 const CustomSlider = styled(Slider)({
@@ -68,17 +68,16 @@ export default function PropertiesFound({annonces}){
     const [loading, setLoading] = useState(true);
     const [Bedrooms, setBedrooms] = useState('Any');
     const [Bathrooms, setBathrooms] = useState('Any');
-    const [priceRange,setPriceRange] = useState(1000);
-    const [propertyType,setPropertyType]=useState(['Appartement']);
-    const [amenities,setAmenities]=useState(['Parking']);
-    const [sort, setSort] = useState("Newest");
+    const [priceRange,setPriceRange] = useState(10000);
+    const [propertyType,setPropertyType]=useState(['']);
+    const [amenities,setAmenities]=useState(['']);
     const [page, setPage] = useState(1);
     const [openFilter,setOpenFilter]=useState(false);
     const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
     //choices
     const propertiesPerPage = 6;
     const propertyTypes = ['Appartement', 'Maison', 'Chambre', 'Studio'];
-    const amenitiesList = ['Parking','Laundry','Pet Friendly','WiFi included']
+    const amenitiesList = ['Parking','Animaux acceptés','Wi-Fi inclus']
 
     //handlers
     useEffect(() => {
@@ -184,8 +183,8 @@ export default function PropertiesFound({annonces}){
                   <CustomSlider
                     aria-label="Price Range"
                     defaultValue={priceRange}
-                    min={0}
-                    max={4000}
+                    min={200}
+                    max={10000}
                     getAriaValueText={valuetext}
                     step={5}
                     valueLabelDisplay="auto"
@@ -228,7 +227,7 @@ export default function PropertiesFound({annonces}){
                     onChange={handleBedrooms}
                     aria-label="text alignment"
                   >
-                    <ToggleButton value="0" aria-label="any" sx={{textTransform:"none !important"}}>
+                    <ToggleButton value="Any" aria-label="any" sx={{textTransform:"none !important"}}>
                       Any
                     </ToggleButton>
                     <ToggleButton value="1" aria-label="1" >
@@ -253,20 +252,20 @@ export default function PropertiesFound({annonces}){
                     onChange={handleBathrooms}
                     aria-label="text alignment"
                   >
-                    <ToggleButton value="0" aria-label="0" sx={{textTransform:"none !important"}}>
+                    <ToggleButton value="Any" aria-label="0" sx={{textTransform:"none !important"}}>
                       Any
                     </ToggleButton>
                     <ToggleButton value="1" aria-label="1">
                       1
                     </ToggleButton>
-                    <ToggleButton value="1.5" aria-label="1.5">
-                      1.5
-                    </ToggleButton>
                     <ToggleButton value="2" aria-label="2">
                       2
                     </ToggleButton>
-                    <ToggleButton value="2+" aria-label="2+">
-                      2+
+                    <ToggleButton value="3" aria-label="3">
+                      3
+                    </ToggleButton>
+                    <ToggleButton value="4+" aria-label="4+">
+                      4+
                     </ToggleButton>
                   </ToggleButtonGroup>
                 </div>

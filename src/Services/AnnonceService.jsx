@@ -5,9 +5,6 @@ export const getAllAnnonces = async () =>{
     return response.data;
 }
 export const filterAvancee = async (price ,propertyType,bedrooms,bathrooms,amenities) =>{
-    if (bedrooms === "Any") bedrooms = 0;
-    if (bathrooms === "Any") bathrooms = 0;
-
     const response = await axios.post(`${API_BASE_URL}/FilterAnnonce/advanced`,{
         price,
         propertyType,
