@@ -17,7 +17,7 @@ import Favorite from '@mui/icons-material/Favorite';
 import Pagination from '@mui/material/Pagination';
 import { MapPin,SlidersHorizontal  } from 'lucide-react';
 import { useState,useEffect } from "react";
-import {getAllAnnonces,filterAvancee} from '../../../Services/AnnonceService'
+import {getAllAnnonces,filterAvancee,AddFavorisAnnonce,RemoveFavorisAnnonce,getMyFavoris} from '../../../Services/AnnonceService'
 import fallbackImg from '../../../assets/images/fallback.jpg'
 
 const marks = [
@@ -74,12 +74,12 @@ export default function PropertiesFound({annonces}){
     const [page, setPage] = useState(1);
     const [openFilter,setOpenFilter]=useState(false);
     const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
+    const [isFavori, setIsFavori] = useState([]);
     //choices
     const propertiesPerPage = 6;
     const propertyTypes = ['Appartement', 'Maison', 'Chambre', 'Studio'];
     const amenitiesList = ['Parking','Animaux acceptés','Wi-Fi inclus']
 
-    //handlers
     useEffect(() => {
       const handleResize = () => {
         setIsMobile(window.innerWidth < 768);
@@ -93,6 +93,20 @@ export default function PropertiesFound({annonces}){
     useEffect(() => {
       document.body.style.overflow = openFilter ? "hidden" : "auto";
     }, [openFilter]);
+
+    useEffect(() => {
+      const fetchFavoris = async () => {
+        try {
+          const data = await getMyFavoris(); 
+          const ids = data.$values.map(fav => fav.id); 
+          console.log("ids :",ids)
+          setIsFavori(ids);
+        } catch (error) {
+          console.error("Erreur lors du chargement des favoris :", error);
+        }
+      };
+        fetchFavoris();
+    }, []);
 
     useEffect(()=>{
       setproperties(annonces)
@@ -112,8 +126,20 @@ export default function PropertiesFound({annonces}){
     };
     fetchAnnonces();
     }, []);
-    const handelFavori = async ()=>{
-      
+
+    //handlers
+    const handelFavori = async (id) => {
+        let newFavoris 
+        if(isFavori.includes(id)){
+          let data= await RemoveFavorisAnnonce(id)
+          newFavoris = isFavori.filter(favId => favId !== id);
+          console.log(data)
+        }else{
+          let data=await AddFavorisAnnonce(id)
+          newFavoris = [...isFavori,id]
+          console.log(data)
+        }
+        setIsFavori(newFavoris)
     }
     const handleAdvancedFilter = async ()=>{
       const data = await filterAvancee(priceRange,propertyType,Bedrooms,Bathrooms,amenities);
@@ -305,11 +331,16 @@ export default function PropertiesFound({annonces}){
                 </div>
                 <div className="cardsResultats">
                 {currentProperties.map((property) => (
-                  <div className="cardResultat" key={property.id}>
+                  <div className="cardResultat" key={property.annonceId}>
                     <div className="containerPic">
                       <img src={property.photos?.$values?.[0]?.url || fallbackImg} alt="" />
-                      <div className="heartTopRight" onClick={handelFavori} >
-                        <Checkbox  icon={<FavoriteBorder color="#fe7364" />} checkedIcon={<Favorite color="#fe7364"/>} />
+                      <div className="heartTopRight" >
+                        <Checkbox 
+                          onChange={() => handelFavori(property.annonceId)} 
+                          icon={<FavoriteBorder color="#fe7364" />} 
+                          checkedIcon={<Favorite color="#fe7364"/>} 
+                          checked={isFavori.includes(property.annonceId)}
+                        />
                       </div>
                       <div className="typeTopLeft">{property.type}</div>
                     </div>
