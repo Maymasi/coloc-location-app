@@ -90,8 +90,8 @@ export const changePropertyStatus = async (propertyId, newStatus) => {
     // Convertir le statut en nombre (0 = brouillon, 1 = actif, etc.)
     const statusMap = {
       'brouillon': 0,
-      'actif': 1,
-      'loue': 2
+      'active': 1,
+      'louee': 2
     };
     
     const nouveauStatut = statusMap[newStatus] !== undefined ? statusMap[newStatus] : 0;

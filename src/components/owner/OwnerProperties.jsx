@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { Pagination } from '@mui/material';
-import { Search, Plus, MoreHorizontal, Eye, Edit, Trash2, Image, MapPin, Calendar, ToggleLeft, ToggleRight } from 'lucide-react';
+import { Pagination, Snackbar, Alert, Dialog, DialogTitle, DialogContent, DialogActions, Button } from '@mui/material';
+import { Search, Plus, MoreHorizontal, Eye, Edit, Trash2, Image, MapPin, Calendar, ToggleLeft, ToggleRight, CheckCircle, Home } from 'lucide-react';
 import { getAllProperties, deleteProperty, changePropertyStatus } from '../../Services/PropertyService';
 import '../../assets/styles/ownerCss/PropertiesPage.css';
 
@@ -12,6 +12,23 @@ const OwnerProperties = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [searchTerm, setSearchTerm] = useState('');
+  
+  // États pour les snackbars
+  const [snackbar, setSnackbar] = useState({
+    open: false,
+    message: '',
+    severity: 'success' // 'success', 'error', 'warning', 'info'
+  });
+
+  // États pour les confirmations
+  const [confirmDialog, setConfirmDialog] = useState({
+    open: false,
+    title: '',
+    message: '',
+    onConfirm: null,
+    type: '' // 'delete', 'status', 'rent'
+  });
+
   const propertiesPerPage = 3;
 
   // Charger les propriétés au montage du composant
@@ -27,51 +44,128 @@ const OwnerProperties = () => {
       setError(null);
     } catch (err) {
       setError(err.message);
+      showSnackbar('Erreur lors du chargement des propriétés', 'error');
       console.error('Erreur lors du chargement des propriétés:', err);
     } finally {
       setLoading(false);
     }
   };
 
+  const showSnackbar = (message, severity = 'success') => {
+    setSnackbar({
+      open: true,
+      message,
+      severity
+    });
+  };
+
+  const handleCloseSnackbar = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+    setSnackbar(prev => ({ ...prev, open: false }));
+  };
+
+  const showConfirmDialog = (title, message, onConfirm, type = '') => {
+    setConfirmDialog({
+      open: true,
+      title,
+      message,
+      onConfirm,
+      type
+    });
+  };
+
+  const handleConfirmClose = () => {
+    setConfirmDialog({
+      open: false,
+      title: '',
+      message: '',
+      onConfirm: null,
+      type: ''
+    });
+  };
+
+  const handleConfirmAction = () => {
+    if (confirmDialog.onConfirm) {
+      confirmDialog.onConfirm();
+    }
+    handleConfirmClose();
+  };
+
   const handleMenuClick = (propertyId) => {
     setShowMenu(showMenu === propertyId ? null : propertyId);
   };
 
-  const handleDeleteProperty = async (propertyId) => {
-    if (window.confirm('Êtes-vous sûr de vouloir supprimer cette propriété ?')) {
-      try {
-        await deleteProperty(propertyId);
-        await fetchProperties(); // Recharger la liste
-        setShowMenu(null);
-        alert('Propriété supprimée avec succès !');
-      } catch (err) {
-        alert('Erreur lors de la suppression : ' + err.message);
-      }
-    }
+  const handleDeleteProperty = (propertyId) => {
+    showConfirmDialog(
+      'Supprimer la propriété',
+      'Êtes-vous sûr de vouloir supprimer cette propriété ? Cette action est irréversible.',
+      async () => {
+        try {
+          await deleteProperty(propertyId);
+          await fetchProperties();
+          setShowMenu(null);
+          showSnackbar('Propriété supprimée avec succès !', 'success');
+        } catch (err) {
+          showSnackbar('Erreur lors de la suppression : ' + err.message, 'error');
+        }
+      },
+      'delete'
+    );
   };
 
-  const handleStatusChange = async (propertyId, currentStatus) => {
-    const newStatus = currentStatus === 'brouillon' ? 'actif' : 'brouillon';
-    try {
-      await changePropertyStatus(propertyId, newStatus);
-      await fetchProperties(); // Recharger la liste
-      setShowMenu(null);
-      alert(`Statut changé vers ${newStatus} avec succès !`);
-    } catch (err) {
-      alert('Erreur lors du changement de statut : ' + err.message);
+  const handleStatusChange = (propertyId, currentStatus, targetStatus) => {
+    let title, message;
+    
+    if (currentStatus === 'brouillon' && targetStatus === 'active') {
+      title = 'Publier la propriété';
+      message = 'Voulez-vous publier cette propriété ? Elle sera visible par les locataires.';
+    } else if (currentStatus === 'active' && targetStatus === 'brouillon') {
+      title = 'Désactiver la propriété';
+      message = 'Voulez-vous désactiver cette propriété ? Elle ne sera plus visible par les locataires.';
+    } else if (currentStatus === 'active' && targetStatus === 'louee') {
+      title = 'Marquer comme louée';
+      message = 'Voulez-vous marquer cette propriété comme louée ? Elle ne sera plus disponible à la location.';
     }
+
+    showConfirmDialog(
+      title,
+      message,
+      async () => {
+        try {
+          await changePropertyStatus(propertyId, targetStatus);
+          await fetchProperties();
+          setShowMenu(null);
+          
+          let successMessage;
+          if (targetStatus === 'active') {
+            successMessage = 'Propriété publiée avec succès !';
+          } else if (targetStatus === 'louee') {
+            successMessage = 'Propriété marquée comme louée !';
+          } else {
+            successMessage = 'Propriété désactivée avec succès !';
+          }
+          
+          showSnackbar(successMessage, 'success');
+        } catch (err) {
+          showSnackbar('Erreur lors du changement de statut : ' + err.message, 'error');
+        }
+      },
+      'status'
+    );
   };
 
   const getStatusBadge = (status) => {
-    if (status === 'actif') return 'Actif';
-    if (status === 'loue') return 'Loué';
+    if (status === 'active') return 'Actif';
+    if (status === 'louee') return 'Louée';
     if (status === 'brouillon') return 'Brouillon';
     return 'Actif';
   };
 
   const getStatusClass = (status) => {
-    if (status === 'actif') return 'status-active';
-    if (status === 'loue') return 'status-rented';
+    if (status === 'active') return 'status-active';
+    if (status === 'louee') return 'status-rented';
     if (status === 'brouillon') return 'status-draft';
     return 'status-active';
   };
@@ -79,8 +173,8 @@ const OwnerProperties = () => {
   // Calculer les statistiques automatiquement
   const calculateStats = () => {
     const total = properties.length;
-    const actifs = properties.filter(p => p.status === 'actif').length;
-    const loues = properties.filter(p => p.status === 'loue').length;
+    const actifs = properties.filter(p => p.status === 'active').length;
+    const loues = properties.filter(p => p.status === 'louee').length;
     const brouillons = properties.filter(p => p.status === 'brouillon').length;
     
     return { total, actifs, loues, brouillons };
@@ -213,14 +307,14 @@ const OwnerProperties = () => {
           Toutes ({stats.total})
         </button>
         <button 
-          className={`tab ${activeTab === 'actif' ? 'active' : ''}`}
-          onClick={() => handleTabChange('actif')}
+          className={`tab ${activeTab === 'active' ? 'active' : ''}`}
+          onClick={() => handleTabChange('active')}
         >
           Actifs ({stats.actifs})
         </button>
         <button 
-          className={`tab ${activeTab === 'loue' ? 'active' : ''}`}
-          onClick={() => handleTabChange('loue')}
+          className={`tab ${activeTab === 'louee' ? 'active' : ''}`}
+          onClick={() => handleTabChange('louee')}
         >
           Louées ({stats.loues})
         </button>
@@ -255,15 +349,37 @@ const OwnerProperties = () => {
                     <Edit size={16} />
                     Modifier
                   </button>
-                  {(property.status === 'brouillon' || property.status === 'actif') && (
+                  
+                  {/* Actions selon le statut */}
+                  {property.status === 'brouillon' && (
                     <button 
                       className="menu-item"
-                      onClick={() => handleStatusChange(property.id, property.status)}
+                      onClick={() => handleStatusChange(property.id, property.status, 'active')}
                     >
-                      {property.status === 'brouillon' ? <ToggleRight size={16} /> : <ToggleLeft size={16} />}
-                      {property.status === 'brouillon' ? 'Activer' : 'Désactiver'}
+                      <CheckCircle size={16} />
+                      Publier
                     </button>
                   )}
+                  
+                  {property.status === 'active' && (
+                    <>
+                      <button 
+                        className="menu-item"
+                        onClick={() => handleStatusChange(property.id, property.status, 'louee')}
+                      >
+                        <Home size={16} />
+                        Marquer comme louée
+                      </button>
+                      <button 
+                        className="menu-item"
+                        onClick={() => handleStatusChange(property.id, property.status, 'brouillon')}
+                      >
+                        <ToggleLeft size={16} />
+                        Désactiver
+                      </button>
+                    </>
+                  )}
+                  
                   <button 
                     className="menu-item delete"
                     onClick={() => handleDeleteProperty(property.id)}
@@ -319,13 +435,25 @@ const OwnerProperties = () => {
                 <Eye size={16} />
                 Voir
               </button>
-              {(property.status === 'brouillon' || property.status === 'actif') && (
+              
+              {/* Actions selon le statut dans les boutons principaux */}
+              {property.status === 'brouillon' && (
                 <button 
-                  className="action-btn status"
-                  onClick={() => handleStatusChange(property.id, property.status)}
+                  className="action-btn status publish"
+                  onClick={() => handleStatusChange(property.id, property.status, 'active')}
                 >
-                  {property.status === 'brouillon' ? <ToggleRight size={16} /> : <ToggleLeft size={16} />}
-                  {property.status === 'brouillon' ? 'Activer' : 'Désactiver'}
+                  <CheckCircle size={16} />
+                  Publier
+                </button>
+              )}
+              
+              {property.status === 'active' && (
+                <button 
+                  className="action-btn status rent"
+                  onClick={() => handleStatusChange(property.id, property.status, 'louee')}
+                >
+                  <Home size={16} />
+                  Louer
                 </button>
               )}
             </div>
@@ -349,6 +477,172 @@ const OwnerProperties = () => {
           />
         </div>
       )}
+
+      {/* Snackbar pour les notifications */}
+      <Snackbar
+        open={snackbar.open}
+        autoHideDuration={4000}
+        onClose={handleCloseSnackbar}
+        anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+      >
+        <Alert
+          onClose={handleCloseSnackbar}
+          severity={snackbar.severity}
+          variant="filled"
+          sx={{ width: '100%' }}
+        >
+          {snackbar.message}
+        </Alert>
+      </Snackbar>
+
+      {/* Dialog de confirmation amélioré */}
+      <Dialog
+        open={confirmDialog.open}
+        onClose={handleConfirmClose}
+        maxWidth="sm"
+        fullWidth
+        PaperProps={{
+          sx: {
+            borderRadius: '16px',
+            padding: '8px',
+            boxShadow: '0 10px 40px rgba(0,0,0,0.1)',
+          }
+        }}
+      >
+        <DialogTitle
+          sx={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: 2,
+            paddingBottom: '8px',
+            fontSize: '1.25rem',
+            fontWeight: 600,
+            color: confirmDialog.type === 'delete' ? 'hsl(6 100% 50%)' : 'hsl(6 100% 72%)'
+          }}
+        >
+          {/* Icône selon le type d'action */}
+          {confirmDialog.type === 'delete' && (
+            <div style={{
+              backgroundColor: '#fee',
+              borderRadius: '50%',
+              padding: '8px',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center'
+            }}>
+              <Trash2 size={24} color="hsl(6 100% 50%)" />
+            </div>
+          )}
+          {confirmDialog.type === 'status' && (
+            <div style={{
+              backgroundColor: '#fef2f2',
+              borderRadius: '50%',
+              padding: '8px',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center'
+            }}>
+              {confirmDialog.title.includes('Publier') && <CheckCircle size={24} color="hsl(6 100% 72%)" />}
+              {confirmDialog.title.includes('Marquer') && <Home size={24} color="hsl(6 100% 72%)" />}
+              {confirmDialog.title.includes('Désactiver') && <ToggleLeft size={24} color="hsl(6 100% 72%)" />}
+            </div>
+          )}
+          {confirmDialog.title}
+        </DialogTitle>
+        
+        <DialogContent sx={{ paddingTop: '16px', paddingBottom: '24px' }}>
+          <p style={{ 
+            margin: 0, 
+            color: '#666', 
+            lineHeight: '1.5',
+            fontSize: '0.95rem'
+          }}>
+            {confirmDialog.message}
+          </p>
+          
+          {/* Message d'avertissement pour la suppression */}
+          {confirmDialog.type === 'delete' && (
+            <div style={{
+              marginTop: '16px',
+              padding: '12px',
+              backgroundColor: 'hsl(6 100% 97%)',
+              border: '1px solid hsl(6 100% 88%)',
+              borderRadius: '8px',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '8px'
+            }}>
+              <div style={{
+                width: '4px',
+                height: '4px',
+                backgroundColor: 'hsl(6 100% 60%)',
+                borderRadius: '50%'
+              }}></div>
+              <span style={{ fontSize: '0.85rem', color: 'hsl(6 100% 50%)', fontWeight: 500 }}>
+                Cette action ne peut pas être annulée
+              </span>
+            </div>
+          )}
+        </DialogContent>
+        
+        <DialogActions sx={{ 
+          padding: '0 24px 24px 24px', 
+          gap: '12px',
+          justifyContent: 'flex-end'
+        }}>
+          <Button 
+            onClick={handleConfirmClose} 
+            variant="outlined"
+            sx={{
+              borderRadius: '8px',
+              textTransform: 'none',
+              fontWeight: 500,
+              padding: '8px 20px',
+              borderColor: 'hsl(6 50% 85%)',
+              color: 'hsl(6 50% 60%)',
+              '&:hover': {
+                borderColor: 'hsl(6 50% 75%)',
+                backgroundColor: 'hsl(6 50% 95%)'
+              }
+            }}
+          >
+            Annuler
+          </Button>
+          <Button 
+            onClick={handleConfirmAction} 
+            variant="contained"
+            sx={{
+              borderRadius: '8px',
+              textTransform: 'none',
+              fontWeight: 600,
+              padding: '8px 20px',
+              backgroundColor: confirmDialog.type === 'delete' ? 'hsl(6 100% 55%)' : 'hsl(6 100% 72%)',
+              boxShadow: confirmDialog.type === 'delete' 
+                ? '0 2px 8px hsla(6 100% 55% / 0.3)' 
+                : '0 2px 8px hsla(6 100% 72% / 0.3)',
+              '&:hover': {
+                backgroundColor: confirmDialog.type === 'delete' ? 'hsl(6 100% 48%)' : 'hsl(6 100% 68%)',
+                boxShadow: confirmDialog.type === 'delete' 
+                  ? '0 4px 12px hsla(6 100% 55% / 0.4)' 
+                  : '0 4px 12px hsla(6 100% 72% / 0.4)',
+              }
+            }}
+          >
+            {confirmDialog.type === 'delete' && <Trash2 size={16} style={{ marginRight: '6px' }} />}
+            {confirmDialog.type === 'status' && confirmDialog.title.includes('Publier') && 
+              <CheckCircle size={16} style={{ marginRight: '6px' }} />}
+            {confirmDialog.type === 'status' && confirmDialog.title.includes('Marquer') && 
+              <Home size={16} style={{ marginRight: '6px' }} />}
+            {confirmDialog.type === 'status' && confirmDialog.title.includes('Désactiver') && 
+              <ToggleLeft size={16} style={{ marginRight: '6px' }} />}
+            
+            {confirmDialog.type === 'delete' ? 'Supprimer' : 
+             confirmDialog.title.includes('Publier') ? 'Publier' :
+             confirmDialog.title.includes('Marquer') ? 'Marquer comme louée' :
+             confirmDialog.title.includes('Désactiver') ? 'Désactiver' : 'Confirmer'}
+          </Button>
+        </DialogActions>
+      </Dialog>
     </div>
   );
 };

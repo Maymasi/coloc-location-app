@@ -582,77 +582,77 @@ const OwnerAddProperty = ({logementId}) => {
                 Formats acceptés: JPG, PNG, WEBP
               </p>
            <input 
-  type="file" 
-  id="photo-upload" 
-  multiple 
-  accept="image/*"
-  style={{ display: 'none' }}
-  onChange={async (e) => {
-    const files = Array.from(e.target.files);
-    const currentPhotos = formData.photos || [];
-    
-    if (currentPhotos.length >= 6) {
-      setSnackbar({
-        open: true,
-        message: 'Maximum 6 photos autorisées',
-        severity: 'warning'
-      });
-      return;
-    }
-    
-    for (let index = 0; index < files.length; index++) {
-      if (currentPhotos.length + index >= 6) break;
-      
-      const file = files[index];
-      if (file.type.startsWith('image/')) {
-        // Compression avant conversion base64
-        const compressedBase64 = await new Promise((resolve) => {
-          const canvas = document.createElement('canvas');
-          const ctx = canvas.getContext('2d');
-          const img = new Image();
-          
-          img.onload = () => {
-            // Redimensionner plus petit pour réduire le base64
-            const maxSize = 400; // Plus petit = base64 plus court
-            let { width, height } = img;
-            
-            if (width > height && width > maxSize) {
-              height = (height * maxSize) / width;
-              width = maxSize;
-            } else if (height > maxSize) {
-              width = (width * maxSize) / height;
-              height = maxSize;
-            }
-            
-            canvas.width = width;
-            canvas.height = height;
-            ctx.drawImage(img, 0, 0, width, height);
-            
-            // Compression forte pour réduire le base64
-            const compressedDataUrl = canvas.toDataURL('image/jpeg', 0.5);
-            resolve(compressedDataUrl);
-          };
-          
-          img.src = URL.createObjectURL(file);
-        });
-        
-        const photoData = {
-          id: Date.now() + Math.random() + index,
-          file: file,
-          url: compressedBase64, // Base64 compressé
-          name: file.name
-        };
-        
-        // Afficher la réduction de taille
-        console.log(`Taille base64 originale: ${(file.size * 1.37).toFixed(0)} chars`);
-        console.log(`Taille base64 compressée: ${compressedBase64.length} chars`);
-        console.log(`Réduction: ${(100 - (compressedBase64.length / (file.size * 1.37)) * 100).toFixed(1)}%`);
-        
-        handleInputChange('photos', [...currentPhotos, photoData]);
-      }
-    }
-  }}
-/>
+            type="file" 
+            id="photo-upload" 
+            multiple 
+            accept="image/*"
+            style={{ display: 'none' }}
+            onChange={async (e) => {
+              const files = Array.from(e.target.files);
+              const currentPhotos = formData.photos || [];
+              
+              if (currentPhotos.length >= 6) {
+                setSnackbar({
+                  open: true,
+                  message: 'Maximum 6 photos autorisées',
+                  severity: 'warning'
+                });
+                return;
+              }
+              
+              for (let index = 0; index < files.length; index++) {
+                if (currentPhotos.length + index >= 6) break;
+                
+                const file = files[index];
+                if (file.type.startsWith('image/')) {
+                  // Compression avant conversion base64
+                  const compressedBase64 = await new Promise((resolve) => {
+                    const canvas = document.createElement('canvas');
+                    const ctx = canvas.getContext('2d');
+                    const img = new Image();
+                    
+                    img.onload = () => {
+                      // Redimensionner plus petit pour réduire le base64
+                      const maxSize = 400; // Plus petit = base64 plus court
+                      let { width, height } = img;
+                      
+                      if (width > height && width > maxSize) {
+                        height = (height * maxSize) / width;
+                        width = maxSize;
+                      } else if (height > maxSize) {
+                        width = (width * maxSize) / height;
+                        height = maxSize;
+                      }
+                      
+                      canvas.width = width;
+                      canvas.height = height;
+                      ctx.drawImage(img, 0, 0, width, height);
+                      
+                      // Compression forte pour réduire le base64
+                      const compressedDataUrl = canvas.toDataURL('image/jpeg', 0.5);
+                      resolve(compressedDataUrl);
+                    };
+                    
+                    img.src = URL.createObjectURL(file);
+                  });
+                  
+                  const photoData = {
+                    id: Date.now() + Math.random() + index,
+                    file: file,
+                    url: compressedBase64, // Base64 compressé
+                    name: file.name
+                  };
+                  
+                  // Afficher la réduction de taille
+                  console.log(`Taille base64 originale: ${(file.size * 1.37).toFixed(0)} chars`);
+                  console.log(`Taille base64 compressée: ${compressedBase64.length} chars`);
+                  console.log(`Réduction: ${(100 - (compressedBase64.length / (file.size * 1.37)) * 100).toFixed(1)}%`);
+                  
+                  handleInputChange('photos', [...currentPhotos, photoData]);
+                }
+              }
+            }}
+          />
               <button 
                 className="upload-btn"
                 onClick={() => document.getElementById('photo-upload').click()}
