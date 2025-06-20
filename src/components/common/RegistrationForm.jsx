@@ -1,5 +1,8 @@
 import React, { useState, useRef } from 'react';
-import '../../assets/styles/common/RegistrationForm.css'
+import { Snackbar, Alert } from '@mui/material';
+import '../../assets/styles/common/RegistrationForm.css';
+import {register} from '../../Services/AuthService';
+import { CodeSquare } from 'lucide-react';
 
 const RegistrationForm = () => {
   const [currentStep, setCurrentStep] = useState(0);
@@ -7,7 +10,15 @@ const RegistrationForm = () => {
   const [errors, setErrors] = useState({});
   const [profileImage, setProfileImage] = useState(null);
   const [previewImage, setPreviewImage] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
   const fileInputRef = useRef(null);
+  
+  // Snackbar states
+  const [snackbar, setSnackbar] = useState({
+    open: false,
+    message: '',
+    severity: 'success' // 'success', 'error', 'warning', 'info'
+  });
   
   // Form data state
   const [formData, setFormData] = useState({
@@ -40,17 +51,34 @@ const RegistrationForm = () => {
     ? ['Type de compte', 'Informations personnelles', 'Informations académiques', 'Préférences']
     : ['Type de compte', 'Informations personnelles', 'Adresse'];
 
+  // Snackbar functions
+  const showSnackbar = (message, severity = 'success') => {
+    setSnackbar({
+      open: true,
+      message,
+      severity
+    });
+  };
+
+  const handleCloseSnackbar = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+    setSnackbar(prev => ({ ...prev, open: false }));
+  };
+
   const validateEmail = (email) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailRegex.test(email);
   };
+
   const validatePhoneNumber = (phone) => {
-  // Formats acceptés:
-  // +2126xxxxxxxx ou +2127xxxxxxxx (12 chiffres au total)
-  // 06xxxxxxxx ou 07xxxxxxxx (10 chiffres au total)
-  const phoneRegex = /^(?:(?:\+212|0)([67]\d{8}))$/;
-  return phoneRegex.test(phone);
-};
+    // Formats acceptés:
+    // +2126xxxxxxxx ou +2127xxxxxxxx (12 chiffres au total)
+    // 06xxxxxxxx ou 07xxxxxxxx (10 chiffres au total)
+    const phoneRegex = /^(?:(?:\+212|0)([67]\d{8}))$/;
+    return phoneRegex.test(phone);
+  };
 
   const validateStep = () => {
     const newErrors = {};
@@ -66,10 +94,10 @@ const RegistrationForm = () => {
       else if (!validateEmail(formData.email)) newErrors.email = 'Format d\'email invalide';
       if (!formData.motDePasse.trim()) newErrors.motDePasse = 'Le mot de passe est requis';
       else if (formData.motDePasse.length < 6) newErrors.motDePasse = 'Minimum 6 caractères';
-         if (!formData.telephone.trim()) newErrors.telephone = 'Le téléphone est requis';
-            else if (!validatePhoneNumber(formData.telephone)) {
-            newErrors.telephone = 'Format de téléphone invalide. Utilisez +2126/7xxxxxxxx ou 06/7xxxxxxxx';
-            }
+      if (!formData.telephone.trim()) newErrors.telephone = 'Le téléphone est requis';
+      else if (!validatePhoneNumber(formData.telephone)) {
+        newErrors.telephone = 'Format de téléphone invalide. Utilisez +2126/7xxxxxxxx ou 06/7xxxxxxxx';
+      }
     }
     
     if (currentStep === 2 && userType === 'student') {
@@ -98,18 +126,61 @@ const RegistrationForm = () => {
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleNext = () => {
-    if (validateStep()) {
-      if (currentStep < steps.length - 1) {
-        setCurrentStep(currentStep + 1);
-      } else {
-        // Inscription terminée
-        console.log('Formulaire soumis avec succès', formData);
-        alert('Inscription réussie ! Bienvenue !');
-        // Ici vous pourriez rediriger vers le tableau de bord ou faire l'appel API
+const handleNext = async () => {
+  if (validateStep()) {
+    if (currentStep < steps.length - 1) {
+      setCurrentStep(currentStep + 1);
+    } else {
+      setIsLoading(true);
+      try {
+        const result = await register(userType, formData, previewImage);
+        console.log(result);
+
+        showSnackbar(
+          `🎉 Inscription réussie ! Bienvenue ${formData.prenom || ''} ! Votre compte ${
+            userType === 'student' ? 'étudiant' : 'propriétaire'
+          } a été créé avec succès.`,
+          'success'
+        );
+
+        setTimeout(() => {
+          window.location.href = '/login'; // Remplacer par useNavigate si tu utilises React Router
+        }, 2000);
+      } catch (error) {
+        console.error('Erreur:', error);
+
+        let errorMessage = "Une erreur inattendue s'est produite lors de l'inscription.";
+
+        if (error.response && error.response.data) {
+          const errorData = error.response.data;
+
+          if (typeof errorData === 'string') {
+            if (errorData.includes('Email')) {
+              errorMessage = "Cette adresse email est déjà utilisée. Veuillez en choisir une autre.";
+            } else if (errorData.toLowerCase().includes('network')) {
+              errorMessage = "Problème de connexion. Vérifiez votre connexion internet et réessayez.";
+            } else if (errorData.toLowerCase().includes('validation')) {
+              errorMessage = "Certaines informations saisies ne sont pas valides. Veuillez vérifier vos données.";
+            } else {
+              errorMessage = `Erreur : ${errorData}`;
+            }
+          } else {
+            errorMessage = "Erreur inattendue : réponse serveur invalide.";
+          }
+        } else if (error.message) {
+          errorMessage = `Erreur : ${error.message}`;
+        }
+
+        showSnackbar(errorMessage, 'error');
+      } finally {
+        setIsLoading(false);
       }
     }
-  };
+  } else {
+    showSnackbar('⚠️ Veuillez corriger les erreurs dans le formulaire avant de continuer.', 'warning');
+  }
+};
+
 
   const handleBack = () => {
     if (currentStep > 0) {
@@ -132,13 +203,13 @@ const RegistrationForm = () => {
     }
   };
 
-  const handleSelectChange = (field, value) => {
-    const selectedValues = Array.from(value.target.selectedOptions, option => option.value);
+  const handleSelectChange = (field, e) => {
+    const selectedValues = Array.from(e.target.selectedOptions, option => option.value);
     setFormData(prev => ({
       ...prev,
       [field]: selectedValues
     }));
-    
+    console.log(formData);
     if (errors[field]) {
       setErrors(prev => ({
         ...prev,
@@ -151,13 +222,14 @@ const RegistrationForm = () => {
     const file = e.target.files[0];
     if (file) {
       if (file.size > 5 * 1024 * 1024) {
-        alert('La taille du fichier ne doit pas dépasser 5MB');
+        showSnackbar('📁 La taille du fichier ne doit pas dépasser 5MB', 'warning');
         return;
       }
       setProfileImage(file);
       const reader = new FileReader();
       reader.onloadend = () => {
         setPreviewImage(reader.result);
+        showSnackbar('✅ Photo de profil ajoutée avec succès !', 'success');
       };
       reader.readAsDataURL(file);
     }
@@ -273,15 +345,15 @@ const RegistrationForm = () => {
               {errors.motDePasse && <span className="error-message">{errors.motDePasse}</span>}
             </div>
             <div className="form-group">
-            <label>Téléphone *</label>
-            <input
+              <label>Téléphone *</label>
+              <input
                 type="tel"
                 value={formData.telephone}
                 onChange={(e) => handleInputChange('telephone', e.target.value)}
                 className={errors.telephone ? 'error' : ''}
                 placeholder="+212612345678 ou 0612345678"
-            />
-            {errors.telephone && <span className="error-message">{errors.telephone}</span>}
+              />
+              {errors.telephone && <span className="error-message">{errors.telephone}</span>}
             </div>
           </div>
         );
@@ -431,16 +503,16 @@ const RegistrationForm = () => {
                 onChange={(e) => handleSelectChange('habitudes', e)}
                 className={errors.habitudes ? 'error multiple-select' : 'multiple-select'}
               >
-                <option value="Non-fumeur">Non-fumeur</option>
+                <option value="NonFumeur">Non-fumeur</option>
                 <option value="Fumeur">Fumeur</option>
                 <option value="Calme">Calme</option>
                 <option value="Social">Social</option>
                 <option value="Organisé">Organisé</option>
-                <option value="Nuit tôt">Nuit tôt</option>
-                <option value="Nuit tard">Nuit tard</option>
+                <option value="NuitTot">Nuit tôt</option>
+                <option value="NuitTard">Nuit tard</option>
                 <option value="Propre">Propre</option>
-                <option value="Animaux acceptés">Animaux acceptés</option>
-                <option value="Pas d'animaux">Pas d'animaux</option>
+                <option value="AnimauxAcceptés">Animaux acceptés</option>
+                <option value="PasDanimauxe">Pas d'animaux</option>
               </select>
               {errors.habitudes && <span className="error-message">{errors.habitudes}</span>}
             </div>
@@ -473,10 +545,10 @@ const RegistrationForm = () => {
                 onChange={(e) => handleSelectChange('styleDeVie', e)}
                 className={errors.styleDeVie ? 'error multiple-select' : 'multiple-select'}
               >
-                <option value="Étudiant">Étudiant</option>
+                <option value="Etudiant">Étudiant</option>
                 <option value="Actif">Actif</option>
                 <option value="Réservé">Réservé</option>
-                <option value="Fêtard">Fêtard</option>
+                <option value="Fetard">Fêtard</option>
                 <option value="Studieux">Studieux</option>
                 <option value="Sportif">Sportif</option>
                 <option value="Créatif">Créatif</option>
@@ -557,13 +629,17 @@ const RegistrationForm = () => {
         .multiple-select option {
           padding: 0.25rem 0.5rem;
           margin-bottom: 0.25rem;
-          
         }
         
         .multiple-select option:checked {
           background-color: hsl(6 100% 72%);
           color: white;
-          border-radius:12px
+          border-radius: 12px;
+        }
+        
+        .btn-primary:disabled {
+          opacity: 0.6;
+          cursor: not-allowed;
         }
       `}</style>
       
@@ -604,8 +680,16 @@ const RegistrationForm = () => {
             type="button" 
             className="btn-primary" 
             onClick={handleNext}
+            disabled={isLoading}
           >
-            {currentStep === steps.length - 1 ? 'Créer le compte' : 'Suivant'}
+            {isLoading ? (
+              <>
+                <span style={{marginRight: '8px'}}>⏳</span>
+                Création en cours...
+              </>
+            ) : (
+              currentStep === steps.length - 1 ? 'Créer le compte' : 'Suivant'
+            )}
           </button>
         </div>
 
@@ -613,6 +697,23 @@ const RegistrationForm = () => {
           <p>Vous avez déjà un compte ? <a href="/login">Se connecter</a></p>
         </div>
       </div>
+
+      {/* Snackbar pour les notifications */}
+      <Snackbar
+        open={snackbar.open}
+        autoHideDuration={6000}
+        onClose={handleCloseSnackbar}
+        anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+      >
+        <Alert 
+          onClose={handleCloseSnackbar} 
+          severity={snackbar.severity}
+          variant="filled"
+          sx={{ width: '100%' }}
+        >
+          {snackbar.message}
+        </Alert>
+      </Snackbar>
     </div>
   );
 };

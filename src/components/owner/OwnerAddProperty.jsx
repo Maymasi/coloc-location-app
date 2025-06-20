@@ -756,7 +756,7 @@ const OwnerAddProperty = () => {
           )}
           <button
             className="btn-primary"
-            onClick={activeStep === steps.length - 1 ? () => alert('Annonce publiée !') : handleNext}
+            onClick={activeStep === steps.length - 1 ? () => console.log(formData): handleNext}
           >
             {activeStep === steps.length - 1 ? "Publier l'annonce" : 'Suivant'}
           </button>

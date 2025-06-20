@@ -148,7 +148,7 @@ export default function StudentDashboard() {
               </div>
               <div className="card">
           <div className="content">
-            <div className="title">Vues de la propriété</div>
+            <div className="title">Mes Demandes</div>
             <div className="number">12</div>
           </div>
           <div className="icon">
