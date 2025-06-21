@@ -16,9 +16,21 @@ import TextField from '@mui/material/TextField';
 import Chip from '@mui/material/Chip';
 import { useTheme } from '@mui/material/styles';
 import OutlinedInput from '@mui/material/OutlinedInput';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogTitle from '@mui/material/DialogTitle';
+import Button from '@mui/material/Button';
+import RadioGroup from '@mui/material/RadioGroup';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import Radio from '@mui/material/Radio';
+import FormLabel from '@mui/material/FormLabel';
+import Snackbar from '@mui/material/Snackbar';
+import Alert from '@mui/material/Alert';
+import Grid from '@mui/material/Grid';
 
 // Icons
-import { Users, Search } from 'lucide-react';
+import { Users, Search, X } from 'lucide-react';
 
 // Styles
 import '../../assets/styles/roomateCss/rommateComp.css';
@@ -103,6 +115,8 @@ const names = [
   'Flexible',
   'Chaleureux',
   'Respectueux',
+  'Réservé',
+  'Gaming'
 ];
 
 function getStyles(name, preference, theme) {
@@ -137,6 +151,28 @@ export default function RoommateComp(){
         preferences:[],
         budget:1,
       });
+
+    // État pour gérer l'ouverture/fermeture du modal
+    const [openDialog, setOpenDialog] = useState(false);
+
+    // État pour gérer les données du formulaire
+    const [formData, setFormData] = useState({
+        quartier: '',
+        ville: '',
+        budget: '',
+        type: 'demande',
+        dateDebutDisponibilite: '',
+        preferences: []
+    });
+
+    // États pour les erreurs et snackbars
+    const [errors, setErrors] = useState({});
+    const [snackbar, setSnackbar] = useState({
+        open: false,
+        message: '',
+        severity: 'error'
+    });
+
         // Theme for MUI components
         const theme = useTheme();
 
@@ -216,6 +252,158 @@ export default function RoommateComp(){
             );
             setFilterData(filteredData);
           };
+
+    // Fonction pour ouvrir le modal
+    const handleOpenDialog = () => {
+        setOpenDialog(true);
+    };
+
+    // Fonction pour fermer le modal
+    const handleCloseDialog = () => {
+        setOpenDialog(false);
+        // Réinitialiser le formulaire
+        setFormData({
+            quartier: '',
+            ville: '',
+            budget: '',
+            type: 'demande',
+            dateDebutDisponibilite: '',
+            preferences: []
+        });
+        setErrors({});
+    };
+
+    // Fonction pour gérer les changements dans les champs du formulaire
+    const handleFormChange = (field, value) => {
+        setFormData(prev => ({
+            ...prev,
+            [field]: value
+        }));
+        
+        // Supprimer l'erreur pour ce champ si elle existe
+        if (errors[field]) {
+            setErrors(prev => ({
+                ...prev,
+                [field]: null
+            }));
+        }
+    };
+
+    // Fonction pour gérer les préférences du formulaire
+    const handleFormPreferencesChange = (event) => {
+        const {
+            target: { value },
+        } = event;
+
+        const newPreferences = typeof value === 'string' ? value.split(',') : value;
+        
+        if (newPreferences.length <= 4) {
+            handleFormChange('preferences', newPreferences);
+        } else {
+            const limitedPreferences = newPreferences.slice(0, 4);
+            handleFormChange('preferences', limitedPreferences);
+        }
+    };
+
+    // Fonction de validation
+    const validateForm = () => {
+        const newErrors = {};
+
+        // Validation du quartier
+        if (!formData.quartier.trim()) {
+            newErrors.quartier = 'Le quartier est obligatoire';
+        } else if (formData.quartier.trim().length < 2) {
+            newErrors.quartier = 'Le quartier doit contenir au moins 2 caractères';
+        }
+
+        // Validation de la ville
+        if (!formData.ville.trim()) {
+            newErrors.ville = 'La ville est obligatoire';
+        } else if (formData.ville.trim().length < 2) {
+            newErrors.ville = 'La ville doit contenir au moins 2 caractères';
+        }
+
+        // Validation du budget
+        if (!formData.budget) {
+            newErrors.budget = 'Le budget est obligatoire';
+        } else if (isNaN(formData.budget) || formData.budget <= 0) {
+            newErrors.budget = 'Le budget doit être un nombre positif';
+        } else if (formData.budget < 500) {
+            newErrors.budget = 'Le budget minimum est de 500 MAD';
+        } else if (formData.budget > 10000) {
+            newErrors.budget = 'Le budget maximum est de 10000 MAD';
+        }
+
+        // Validation de la date
+        if (!formData.dateDebutDisponibilite) {
+            newErrors.dateDebutDisponibilite = 'La date de disponibilité est obligatoire';
+        } else {
+            const selectedDate = new Date(formData.dateDebutDisponibilite);
+            const today = new Date();
+            today.setHours(0, 0, 0, 0);
+            
+            if (selectedDate < today) {
+                newErrors.dateDebutDisponibilite = 'La date ne peut pas être antérieure à aujourd\'hui';
+            }
+        }
+
+        setErrors(newErrors);
+        return Object.keys(newErrors).length === 0;
+    };
+
+    // Fonction pour afficher un snackbar
+    const showSnackbar = (message, severity = 'error') => {
+        setSnackbar({
+            open: true,
+            message,
+            severity
+        });
+    };
+
+    // Fonction pour fermer le snackbar
+    const handleCloseSnackbar = () => {
+        setSnackbar(prev => ({
+            ...prev,
+            open: false
+        }));
+    };
+
+    // Fonction pour soumettre le formulaire
+    const handleSubmitForm = () => {
+        if (!validateForm()) {
+            showSnackbar('Veuillez corriger les erreurs dans le formulaire', 'error');
+            return;
+        }
+
+        try {
+            // Convertir la date en format ISO
+            const isoDate = new Date(formData.dateDebutDisponibilite).toISOString();
+            
+            const newRequest = {
+                ...formData,
+                adresse: `${formData.quartier}, ${formData.ville}`,
+                dateDebutDisponibilite: isoDate,
+                budget: Number(formData.budget)
+            };
+
+            console.log('Nouvelle demande créée:', newRequest);
+            
+            // Ici vous pouvez ajouter la logique pour envoyer les données à votre API
+            // ou les ajouter à votre liste de données
+            
+            showSnackbar('Demande créée avec succès!', 'success');
+            handleCloseDialog();
+        } catch (error) {
+            showSnackbar('Une erreur est survenue lors de la création de la demande', 'error');
+        }
+    };
+
+    // Fonction pour obtenir la date minimum (aujourd'hui)
+    const getMinDate = () => {
+        const today = new Date();
+        return today.toISOString().slice(0, 16); // Format YYYY-MM-DDTHH:MM
+    };
+
     return (
       <div className="roommate-page"> 
         <div className="header">
@@ -223,8 +411,243 @@ export default function RoommateComp(){
           <div className="fonctionnality">Trouver des colocataires</div>
           <div className="description">Connectez-vous avec des colocataires potentiels près de votre campus</div>
           </div>
-          <div className="create-request "><Users size={16} style={{marginRight:'10px'}} />Créer une demande</div>
+          <div className="create-request" onClick={handleOpenDialog}>
+            <Users size={16} style={{marginRight:'10px'}} />Créer une demande
+          </div>
         </div>
+
+        {/* Modal pour créer une demande */}
+        <Dialog 
+            open={openDialog} 
+            onClose={handleCloseDialog}
+            maxWidth="md"
+            fullWidth
+            PaperProps={{
+                style: {
+                    borderRadius: '12px',
+                }
+            }}
+        >
+            <DialogTitle sx={{ 
+                display: 'flex', 
+                justifyContent: 'space-between', 
+                alignItems: 'center',
+                borderBottom: '1px solid #e0e0e0',
+                pb: 2,
+                marginBottom: 2,
+            }}>
+                <Typography variant="h6" component="div">
+                    Créer une nouvelle demande
+                </Typography>
+                <Button 
+                    onClick={handleCloseDialog}
+                    sx={{ minWidth: 'auto', p: 1 }}
+                >
+                    <X size={20} />
+                </Button>
+            </DialogTitle>
+            
+            <DialogContent sx={{ pt: 3 }}>
+                <Box sx={{ display: 'flex', flexDirection: 'column', gap: 3 }}>
+                    {/* Adresse - Quartier et Ville */}
+                    <Grid container spacing={2}>
+                        <Grid item xs={6}>
+                            <TextField
+                                fullWidth
+                                label="Quartier"
+                                placeholder="Ex: Agdal, Hay Riad..."
+                                value={formData.quartier}
+                                onChange={(e) => handleFormChange('quartier', e.target.value)}
+                                error={!!errors.quartier}
+                                helperText={errors.quartier}
+                                sx={{
+                                    '& .MuiOutlinedInput-root': {
+                                        '&.Mui-focused fieldset': {
+                                            borderColor: 'hsl(6 100% 72%)',
+                                        },
+                                    },
+                                }}
+                            />
+                        </Grid>
+                        <Grid item xs={6}>
+                            <TextField
+                                fullWidth
+                                label="Ville"
+                                placeholder="Ex: Rabat, Casablanca..."
+                                value={formData.ville}
+                                onChange={(e) => handleFormChange('ville', e.target.value)}
+                                error={!!errors.ville}
+                                helperText={errors.ville}
+                                sx={{
+                                    '& .MuiOutlinedInput-root': {
+                                        '&.Mui-focused fieldset': {
+                                            borderColor: 'hsl(6 100% 72%)',
+                                        },
+                                    },
+                                }}
+                            />
+                        </Grid>
+                    </Grid>
+
+                    {/* Budget */}
+                    <TextField
+                        fullWidth
+                        label="Budget (MAD)"
+                        type="number"
+                        placeholder="Ex: 2400"
+                        value={formData.budget}
+                        onChange={(e) => handleFormChange('budget', e.target.value)}
+                        error={!!errors.budget}
+                        helperText={errors.budget}
+                        InputProps={{
+                            inputProps: { min: 500, max: 10000 }
+                        }}
+                        sx={{
+                            '& .MuiOutlinedInput-root': {
+                                '&.Mui-focused fieldset': {
+                                    borderColor: 'hsl(6 100% 72%)',
+                                },
+                            },
+                        }}
+                    />
+
+                    {/* Type */}
+                    <FormControl component="fieldset">
+                        <FormLabel component="legend" sx={{ color: 'rgba(0, 0, 0, 0.87)', fontWeight: 500 }}>
+                            Type de demande
+                        </FormLabel>
+                        <RadioGroup
+                            row
+                            value={formData.type}
+                            onChange={(e) => handleFormChange('type', e.target.value)}
+                        >
+                            <FormControlLabel 
+                                value="demande" 
+                                control={<Radio sx={{ '&.Mui-checked': { color: 'hsl(6 100% 72%)' } }} />} 
+                                label="Demande" 
+                            />
+                            <FormControlLabel 
+                                value="offre" 
+                                control={<Radio sx={{ '&.Mui-checked': { color: 'hsl(6 100% 72%)' } }} />} 
+                                label="Offre" 
+                            />
+                        </RadioGroup>
+                    </FormControl>
+
+                    {/* Date de début de disponibilité */}
+                    <TextField
+                        fullWidth
+                        label="Date de début de disponibilité"
+                        type="datetime-local"
+                        value={formData.dateDebutDisponibilite}
+                        onChange={(e) => handleFormChange('dateDebutDisponibilite', e.target.value)}
+                        error={!!errors.dateDebutDisponibilite}
+                        helperText={errors.dateDebutDisponibilite}
+                        InputLabelProps={{
+                            shrink: true,
+                        }}
+                        InputProps={{
+                            inputProps: { min: getMinDate() }
+                        }}
+                        sx={{
+                            '& .MuiOutlinedInput-root': {
+                                '&.Mui-focused fieldset': {
+                                    borderColor: 'hsl(6 100% 72%)',
+                                },
+                            },
+                        }}
+                    />
+
+                    {/* Préférences */}
+                    <FormControl sx={{ 
+                        width: '100%',
+                        '& .MuiOutlinedInput-root': {
+                            '&.Mui-focused fieldset': {
+                                borderColor: 'hsl(6 100% 72%)',
+                            },
+                        },
+                    }}>
+                        <InputLabel 
+                            id="form-preferences-label"
+                            sx={{
+                                '&.Mui-focused': {
+                                    color: 'hsl(6 100% 78%)',
+                                },
+                            }}
+                        >
+                            Préférences (max 4)
+                        </InputLabel>
+                        <Select
+                            labelId="form-preferences-label"
+                            id="form-preferences"
+                            multiple
+                            value={formData.preferences}
+                            onChange={handleFormPreferencesChange}
+                            input={<OutlinedInput label="Préférences (max 4)" />}
+                            renderValue={(selected) => (
+                                <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
+                                    {selected.map((value) => (
+                                        <Chip key={value} label={value} size="small" />
+                                    ))}
+                                </Box>
+                            )}
+                            MenuProps={MenuProps}
+                        >
+                            {names.map((name) => (
+                                <MenuItem
+                                    key={name}
+                                    value={name}
+                                    style={getStyles(name, formData.preferences, theme)}
+                                    disabled={formData.preferences.length >= 4 && !formData.preferences.includes(name)}
+                                >
+                                    {name}
+                                </MenuItem>
+                            ))}
+                        </Select>
+                    </FormControl>
+                </Box>
+            </DialogContent>
+            
+            <DialogActions sx={{ p: 3, borderTop: '1px solid #e0e0e0' }}>
+                <Button 
+                    onClick={handleCloseDialog}
+                    sx={{ 
+                        color: 'gray',
+                        '&:hover': { backgroundColor: 'rgba(0, 0, 0, 0.04)' }
+                    }}
+                >
+                    Annuler
+                </Button>
+                <Button 
+                    onClick={handleSubmitForm}
+                    variant="contained"
+                    sx={{ 
+                        backgroundColor: 'hsl(6 100% 72%)',
+                        '&:hover': { backgroundColor: 'hsl(6 100% 65%)' }
+                    }}
+                >
+                    Créer la demande
+                </Button>
+            </DialogActions>
+        </Dialog>
+
+        {/* Snackbar pour les notifications */}
+        <Snackbar
+            open={snackbar.open}
+            autoHideDuration={6000}
+            onClose={handleCloseSnackbar}
+            anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+        >
+            <Alert 
+                onClose={handleCloseSnackbar} 
+                severity={snackbar.severity} 
+                variant="filled"
+                sx={{ width: '100%' }}
+            >
+                {snackbar.message}
+            </Alert>
+        </Snackbar>
+
         <div className="roommate-filter">
           <TextField
             placeholder='Rechercher par nom, université, ville...'
