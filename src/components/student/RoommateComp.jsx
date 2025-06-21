@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { useState } from 'react';
+import { useState ,useEffect} from 'react';
 // MUI Components
 import AppBar from '@mui/material/AppBar';
 import Tabs from '@mui/material/Tabs';
@@ -39,7 +39,8 @@ import RoommateCardRequest from './rommateCardRequest';
 import ListRommatePage from './ListRommatePage';
 //import context
 import { RommateContext } from '../../context/RommateContext';
-
+//services
+import * as roommateService from '../../Services/RoommateService';
 function TabPanel(props) {
     const { children, value, index, ...other } = props;
   
@@ -127,25 +128,11 @@ function getStyles(name, preference, theme) {
   };
 }
 
-const data = [
-    { id: 1, name: 'Oussama', school: 'ESI', budget: 3000, moveInDate: '01/10/2023', preferredZone: 'Agdal',type:'Offre' },
-    { id: 2, name: 'Ahmed', school: 'ENSIAS', budget: 2500 , moveInDate: '15/10/2023', preferredZone: 'Hay Riad', type:'Demande' },
-    { id: 3, name: 'Sara', school: 'EMI', budget: 3500 , moveInDate: '01/11/2023', preferredZone: 'Centre Ville' , type:'Offre' },
-    { id: 4, name: 'Fatima', school: 'FSI', budget: 2800 , moveInDate: '20/10/2023', preferredZone: 'Agdal' , type:'Demande' },
-    { id: 5, name: 'Youssef', school: 'ENSA', budget: 3200 , moveInDate: '01/12/2023', preferredZone: 'Hay Riad' , type:'Offre' },
-    { id: 6, name: 'Mouad', school: 'FST', budget: 2700 , moveInDate: '15/11/2023', preferredZone: 'Centre Ville' , type:'Demande' },
-    { id: 7, name: 'Laila', school: 'ENCG', budget: 3000 , moveInDate: '01/10/2023', preferredZone: 'Agdal' , type:'Offre' },
-    { id: 8, name: 'Khalid', school: 'FSI', budget: 2500 , moveInDate: '15/10/2023', preferredZone: 'Hay Riad' , type:'Demande' },  
-    { id: 9, name: 'Nadia', school: 'EMI', budget: 3500 , moveInDate: '01/11/2023', preferredZone: 'Centre Ville' , type:'Offre' },
-    { id: 10, name: 'Hassan', school: 'ENSIAS', budget: 2800 , moveInDate: '20/10/2023', preferredZone: 'Agdal' , type:'Demande' },
-    { id: 11, name: 'Amina', school: 'ENSA', budget: 3200 , moveInDate: '01/12/2023', preferredZone: 'Hay Riad' , type:'Offre' },
-    // Ajoutez plus de données si nécessaire
-];
-
 export default function RoommateComp(){
 
-    // State for managing the filtered data
-    const [filterData, setFilterData] = useState(data);
+    const [filterData, setFilterData] = useState([]);
+    const [data, setData] = useState([]);
+    const [loading, setLoading] = useState(true);
 
       const [coloc,setColoc]=useState({
         preferences:[],
@@ -188,6 +175,37 @@ export default function RoommateComp(){
         // State for controlling the open/close state of the budget dropdown
         const [open, setOpen] = React.useState(false);
 
+          // Fonction pour charger les données depuis l'API
+    const loadRoommateRequests = async () => {
+        try {
+            setLoading(true);
+            const result = await roommateService.getRoommateRequests();
+            
+            if (result.success) {
+                console.log('Données récupérées:', result.data.data.$values);
+                setData(result.data.data.$values || []);
+                setFilterData(result.data.data.$values || []);
+            } else {
+                console.error('Erreur lors du chargement:', result.error);
+                showSnackbar(result.error || 'Erreur lors du chargement des données', 'error');
+                // En cas d'erreur, on peut garder un tableau vide ou des données par défaut
+                setData([]);
+                setFilterData([]);
+            }
+        } catch (error) {
+            console.error('Erreur inattendue lors du chargement:', error);
+            showSnackbar('Erreur inattendue lors du chargement des données', 'error');
+            setData([]);
+            setFilterData([]);
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    // useEffect pour charger les données au montage du composant
+    useEffect(() => {
+        loadRoommateRequests();
+    }, []);
         // Handle tab change
         const handleChange = (event, newValue) => {
             setValue(newValue);
@@ -369,32 +387,38 @@ export default function RoommateComp(){
     };
 
     // Fonction pour soumettre le formulaire
-    const handleSubmitForm = () => {
+    const handleSubmitForm = async () => {
         if (!validateForm()) {
             showSnackbar('Veuillez corriger les erreurs dans le formulaire', 'error');
             return;
         }
 
         try {
-            // Convertir la date en format ISO
-            const isoDate = new Date(formData.dateDebutDisponibilite).toISOString();
-            
-            const newRequest = {
-                ...formData,
-                adresse: `${formData.quartier}, ${formData.ville}`,
-                dateDebutDisponibilite: isoDate,
-                budget: Number(formData.budget)
-            };
+            // Afficher un état de chargement (optionnel)
+            showSnackbar('Création de la demande en cours...', 'info');
 
-            console.log('Nouvelle demande créée:', newRequest);
+            // Formater les données pour l'API
+            const apiData = roommateService.formatDataForAPI(formData);
             
-            // Ici vous pouvez ajouter la logique pour envoyer les données à votre API
-            // ou les ajouter à votre liste de données
-            
-            showSnackbar('Demande créée avec succès!', 'success');
-            handleCloseDialog();
+            console.log('Données envoyées à l\'API:', apiData);
+
+            // Appeler le service pour créer la demande
+            const result = await roommateService.createRoommateRequest(apiData);
+
+            if (result.success) {
+                console.log('Demande créée avec succès:', result.data);
+                showSnackbar(result.message || 'Demande créée avec succès!', 'success');
+                handleCloseDialog();
+                
+                // Optionnel : recharger la liste des demandes
+                // await loadRoommateRequests();
+            } else {
+                console.error('Erreur lors de la création:', result.error);
+                showSnackbar(result.error || 'Une erreur est survenue lors de la création de la demande', 'error');
+            }
         } catch (error) {
-            showSnackbar('Une erreur est survenue lors de la création de la demande', 'error');
+            console.error('Erreur inattendue:', error);
+            showSnackbar('Une erreur inattendue est survenue', 'error');
         }
     };
 
@@ -765,8 +789,8 @@ export default function RoommateComp(){
             aria-label="full width tabs example"
           >
             <Tab label="Toutes les demandes" {...a11yProps(0)} className="tab" style={{ backgroundColor: 'white' }} />
-            <Tab label="Recherche chambre" {...a11yProps(1)} className="tab" />
-            <Tab label="Offre chambre" {...a11yProps(2)} className="tab" />
+            <Tab label="Recherche colocation" {...a11yProps(1)} className="tab" />
+            <Tab label="Offre colocation" {...a11yProps(2)} className="tab" />
           </Tabs>
           </AppBar>
             <TabPanel value={value} index={0} style={{ width: '100%', marginTop: '10px' }}>

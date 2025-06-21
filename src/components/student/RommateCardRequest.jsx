@@ -8,11 +8,11 @@ export default function RoommateCardRequest({data}) {
       <div className="header">
         <div className="state">
           <div className="state-text" style={{ backgroundColor: data.type.toLowerCase() === 'demande' ? 'hsl(6deg 100% 72%)' : 'rgba(246, 156, 18, 0.984)' }}>
-            {data.type} chambre
+            {data.type} colocation
           </div>
         </div>
         <div className="name">
-          <Avatar {...stringAvatar("Aussama", 'hsl(6deg 100% 72% / 10%)')} className='avatar' sx={{ width: 80, height: 80, backgroundColor: 'hsl(6deg 100% 72% / 10%)', color: 'hsl(6deg 100% 72%)', fontSize: '30px' }} />
+          <Avatar {...stringAvatar(`${data.name}`, 'hsl(6deg 100% 72% / 10%)')} className='avatar' sx={{ width: 80, height: 80, backgroundColor: 'hsl(6deg 100% 72% / 10%)', color: 'hsl(6deg 100% 72%)', fontSize: '30px' }} />
         </div>
       </div>
       <div className="content">
@@ -34,18 +34,12 @@ export default function RoommateCardRequest({data}) {
             <div className="value">{data.preferredZone}</div>
           </div>
           <div className="preferences">
-            <div className="item">
-              Fumeur
-            </div>
-            <div className="item">
-              Animaux
-           </div>
-            <div className="item">
-              Propre
-            </div>
-            <div className="item">
-              Calme
+            {data.preferences.$values.map((preference, index) => (
+              <div key={index} className="item" style={{textTransform: 'capitalize'}}>
+                {preference}
               </div>
+            ))}
+          
           </div>
         <div className="btns">
           <div className="seeProfil btn">Voir le profil</div>
