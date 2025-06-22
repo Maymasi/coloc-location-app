@@ -28,9 +28,11 @@ import FormLabel from '@mui/material/FormLabel';
 import Snackbar from '@mui/material/Snackbar';
 import Alert from '@mui/material/Alert';
 import Grid from '@mui/material/Grid';
+import CircularProgress from '@mui/material/CircularProgress';
+
 
 // Icons
-import { Users, Search, X } from 'lucide-react';
+import { Users, Search, X ,} from 'lucide-react';
 
 // Styles
 import '../../assets/styles/roomateCss/rommateComp.css';
@@ -133,6 +135,8 @@ export default function RoommateComp(){
     const [filterData, setFilterData] = useState([]);
     const [data, setData] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [filterLoading, setFilterLoading] = useState(false);
+
 
       const [coloc,setColoc]=useState({
         preferences:[],
@@ -201,6 +205,130 @@ export default function RoommateComp(){
             setLoading(false);
         }
     };
+        // Fonction pour appliquer les filtres via l'API
+ const applyFilters = async () => {
+    try {
+        setFilterLoading(true);
+        
+        // Validation et préparation des paramètres de filtrage
+        const budgetValue = budget === '' || budget === '1' || budget === 1 ? null : Number(budget);
+        const preferencesValue = preference && preference.length > 0 ? preference : null;
+        
+        // Validation du budget si fourni
+        if (budgetValue !== null && (isNaN(budgetValue) || budgetValue <= 0)) {
+            showSnackbar('Le budget doit être un nombre positif', 'error');
+            return;
+        }
+        
+        // Si aucun filtre n'est appliqué, on affiche toutes les données
+        if (!budgetValue && !preferencesValue) {
+            console.log('Aucun filtre appliqué, affichage de toutes les données');
+            setFilterData(data);
+            showSnackbar('Filtres supprimés', 'info');
+            return;
+        }
+        
+        console.log('Application des filtres:', { 
+            budget: budgetValue, 
+            preferences: preferencesValue,
+            originalDataCount: data?.length || 0
+        });
+        
+        // 🔥 CORRECTION MAJEURE: Ajouter await pour l'appel asynchrone
+        const result = await roommateService.filterRoommateRequests(budgetValue, preferencesValue);
+        
+        if (result.success) {
+            console.log('Réponse du service de filtrage:', result);
+            
+            // Extraction des données avec gestion robuste de la structure
+            let filteredData = [];
+            
+            // Gérer différentes structures possibles de réponse
+            if (result.data) {
+                // Structure: result.data.data.$values
+                if (result.data.data?.$values) {
+                    filteredData = result.data.data.$values;
+                }
+                // Structure: result.data.$values  
+                else if (result.data.$values) {
+                    filteredData = result.data.$values;
+                }
+                // Structure: result.data (array direct)
+                else if (Array.isArray(result.data)) {
+                    filteredData = result.data;
+                }
+                // Structure: result.data (objet avec propriétés)
+                else if (typeof result.data === 'object') {
+                    // Chercher la première propriété qui est un array
+                    const arrayKeys = Object.keys(result.data).filter(key => 
+                        Array.isArray(result.data[key])
+                    );
+                    if (arrayKeys.length > 0) {
+                        filteredData = result.data[arrayKeys[0]];
+                    }
+                }
+            }
+            
+            // Validation que nous avons bien un array
+            if (!Array.isArray(filteredData)) {
+                console.warn('Données filtrées non valides:', filteredData);
+                filteredData = [];
+            }
+            
+            console.log(`Données filtrées récupérées: ${filteredData.length} résultats`);
+            setFilterData(filteredData);
+            
+            // Messages informatifs
+            if (filteredData.length === 0) {
+                showSnackbar('Aucun résultat trouvé avec ces critères', 'info');
+            } else {
+                const message = `${filteredData.length} résultat${filteredData.length > 1 ? 's' : ''} trouvé${filteredData.length > 1 ? 's' : ''}`;
+                showSnackbar(message, 'success');
+            }
+            
+        } else {
+            console.error('Erreur lors du filtrage:', {
+                error: result.error,
+                status: result.status,
+                details: result.details
+            });
+            
+            // Messages d'erreur spécifiques
+            let errorMessage = result.error || 'Erreur lors du filtrage des données';
+            
+            // Personnaliser selon le type d'erreur
+            if (result.status === 400) {
+                errorMessage = 'Paramètres de filtrage invalides';
+            } else if (result.status === 401) {
+                errorMessage = 'Session expirée. Veuillez vous reconnecter';
+            } else if (result.isNetworkError) {
+                errorMessage = 'Problème de connexion. Vérifiez votre réseau';
+            }
+            
+            showSnackbar(errorMessage, 'error');
+            
+            // En cas d'erreur, on garde les données originales
+            setFilterData(data);
+        }
+        
+    } catch (error) {
+        console.error('Erreur inattendue lors du filtrage:', {
+            message: error.message,
+            stack: error.stack,
+            budget,
+            preference
+        });
+        
+        // 🔥 CORRECTION: Passer le bon type à showSnackbar (string, pas error object)
+        showSnackbar('Erreur inattendue lors du filtrage des données', 'error');
+        
+        // Fallback vers les données originales
+        setFilterData(data);
+        
+    } finally {
+        setFilterLoading(false);
+    }
+};
 
     // useEffect pour charger les données au montage du composant
     useEffect(() => {
@@ -731,7 +859,24 @@ export default function RoommateComp(){
               <MenuItem value={4000}>Plus de 4000 Mad/mois</MenuItem>
               </Select>
             </FormControl>
-            <div className="search-btn"><Search size={17} style={{marginRight:'14px'}}/>Rechercher</div>
+            <div 
+              className="search-btn" 
+              onClick={applyFilters}
+              style={{ 
+                cursor: 'pointer',
+                opacity: filterLoading ? 0.6 : 1,
+                pointerEvents: filterLoading ? 'none' : 'auto',
+                display: 'flex',
+                alignItems: 'center'
+              }}
+            >
+              {filterLoading ? (
+                <CircularProgress size={17} style={{ marginRight: '14px' }} />
+              ) : (
+                <Search size={17} style={{ marginRight: '14px' }} />
+              )}
+              {filterLoading ? 'Filtrage...' : 'Rechercher'}
+            </div>
           </div>
           <FormControl sx={{ m: 1, width: '60%' ,
                 '& .MuiOutlinedInput-root': {

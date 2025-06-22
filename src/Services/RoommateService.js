@@ -102,3 +102,49 @@ export async function getRoommateRequests() {
         }
     }
     }
+
+/**
+  * filter les demandes/offres de colocation par budget et par preferences
+  * @param {number} budget - Budget maximum
+  * @param {Array} preferences - Tableau des préférences
+  * @returns {Array} - Liste filtrée des colocations
+  */
+export async function filterRoommateRequests(budget, preferences) {
+    try {
+        const response = await authAxios.post('/Colocation/filtrer', {
+            budgetMax: budget,
+            preferences: preferences
+        });
+        
+        return {
+            success: true,
+            data: response.data,
+            message: 'Colocations filtrées avec succès'
+        };
+    } catch (error) {
+        console.error('Erreur lors du filtrage des colocations:', error);
+        if (error.response) {
+            // Erreur de réponse du serveur
+            return {
+                success: false,
+                error: error.response.data?.message || 'Erreur lors du filtrage des colocations',
+                status: error.response.status
+            };
+        } else if (error.request) {
+            // Erreur de réseau
+            console.error('Erreur de connexion au serveur:', error);
+            return {
+                success: false,
+                error: 'Erreur de connexion au serveur',
+                status: null
+            };
+        } else {
+            // Autre erreur
+            return {
+                success: false,
+                error: 'Une erreur inattendue s\'est produite',
+                status: null
+            };
+        }
+    }
+}
