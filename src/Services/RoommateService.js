@@ -148,3 +148,56 @@ export async function filterRoommateRequests(budget, preferences) {
         }
     }
 }
+/**
+ * postuler une demande de colocation
+ * @param {string} colocId - ID de la colocation
+ * @param {string} Budget - Budget proposé
+ * @param {string} message - Message de la candidature
+ * @param {string} DateEmmenagement - Date d'emménagement souhaitée
+ * @param {string} preferences - Préférences de colocation
+ * @param {string} address - Adresse de la colocation
+ * @returns {Promise} - Promesse contenant la réponse de l'API
+  */
+export async function applyForRoommate(colocId, Budget, message, DateEmmenagement, preferences, address) {
+    try {
+        const response = await authAxios.post('/Colocation/postuler', {
+            ColocationId: colocId,
+            budget: Budget,
+            message,
+            dateEmmenagement: new Date(DateEmmenagement).toISOString(),
+            preferences,
+            Adresse: address
+        });
+        
+        return {
+            success: true,
+            data: response.data,
+            message: 'Candidature postée avec succès'
+        };
+    } catch (error) {
+        console.error('Erreur lors de la candidature à la colocation:', error);
+        
+        if (error.response) {
+            // Erreur de réponse du serveur
+            return {
+                success: false,
+                error: error.response.data.error || 'Erreur lors de la candidature',
+                status: error.status
+            };
+        } else if (error.request) {
+            // Erreur de réseau
+            return {
+                success: false,
+                error: 'Erreur de connexion au serveur',
+                status: null
+            };
+        } else {
+            // Autre erreur
+            return {
+                success: false,
+                error: 'Une erreur inattendue s\'est produite',
+                status: null
+            };
+        }
+    }
+}
