@@ -25,7 +25,7 @@ import authAxios from './AuthService';
         // Erreur de réponse du serveur
         return {
           success: false,
-          error: error.response.data?.message || 'Erreur lors de la création de la demande',
+          error: error.response.data.error || 'Erreur lors de la création de la demande',
           status: error.response.status
         };
       } else if (error.request) {
@@ -82,7 +82,7 @@ export async function getRoommateRequests() {
         // Erreur de réponse du serveur
         return {
             success: false,
-            error: error.response.data?.message || 'Erreur lors de la récupération des colocations',
+            error: error.response.data.error || 'Erreur lors de la récupération des colocations',
             status: error.response.status
         };
         } else if (error.request) {
@@ -127,7 +127,7 @@ export async function filterRoommateRequests(budget, preferences) {
             // Erreur de réponse du serveur
             return {
                 success: false,
-                error: error.response.data?.message || 'Erreur lors du filtrage des colocations',
+                error: error.response.data.error || 'Erreur lors du filtrage des colocations',
                 status: error.response.status
             };
         } else if (error.request) {
@@ -193,6 +193,90 @@ export async function applyForRoommate(colocId, Budget, message, DateEmmenagemen
             };
         } else {
             // Autre erreur
+            return {
+                success: false,
+                error: 'Une erreur inattendue s\'est produite',
+                status: null
+            };
+        }
+    }
+}
+
+/**
+ * Récupérer  mes demandes  de colocation par ID
+ * @returns {Promise} - Promesse contenant la liste des colocations
+ */
+export async function getMyRoommateRequests() {
+    try {
+        const response = await authAxios.get('/Colocation/mes-demandes');
+        console.log('Liste de mes colocations récupérée avec succès:', response.data);
+
+        return {
+            success: true,
+            data: response.data,
+            message: 'Liste de mes colocations récupérée avec succès'
+        };
+    } catch (error) {
+        console.error('Erreur lors de la récupération de mes colocations:', error);
+        
+        // Gestion des différents types d'erreurs
+        if (error.response) {
+            // Erreur de réponse du serveur
+            return {
+                success: false,
+                error: error.response.data.error || 'Erreur lors de la récupération de mes colocations',
+                status: error.response.status
+            };
+        } else if (error.request) {
+            // Erreur de réseau
+            return {
+                success: false,
+                error: 'Erreur de connexion au serveur',
+                status: null
+            };
+        } else {
+            // Autre erreur
+            return {
+                success: false,
+                error: 'Une erreur inattendue s\'est produite',
+                status: null
+            };
+        }
+    }
+  }
+
+/**
+ * ANNULE une demande de colocation
+ * @param {string} demandeId - ID de la colocation
+ * @returns {Promise} - Promesse contenant la réponse de l'API
+ */
+export async function cancelRoommateRequest(demandeId) {
+    try {
+        const response = await authAxios.delete('/Colocation/annuler-demande', {
+            data: { demandeId }
+        });
+
+        return {
+            success: true,
+            data: response.data,
+            message: 'Demande de colocation annulée avec succès'
+        };
+    } catch (error) {
+        console.error('Erreur lors de l\'annulation de la demande de colocation:', error);
+        
+        if (error.response) {
+            return {
+                success: false,
+                error: error.response.data.error || 'Erreur lors de l\'annulation de la demande',
+                status: error.response.status
+            };
+        } else if (error.request) {
+            return {
+                success: false,
+                error: 'Erreur de connexion au serveur',
+                status: null
+            };
+        } else {
             return {
                 success: false,
                 error: 'Une erreur inattendue s\'est produite',
