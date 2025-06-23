@@ -1,9 +1,9 @@
 .detailsParent .imagesAnnoncesContainer{
-    width: 100%;
+    width: fit-content;
     display: flex;
-    height: 75vh;
-    padding: 20px 90px;
-    gap: 20px;
+    height: fit-content;
+    padding: 2%;
+    gap: 2%;
     background-color: #e8eaf6;
 }
 .detailsParent .principaleImage{
@@ -15,7 +15,7 @@
     width: 50%;
     display: flex;
     flex-wrap: wrap;
-    gap:4%;
+    gap:2%;
 }
 .detailsParent .autresImages div{
     background-color: blanchedalmond;

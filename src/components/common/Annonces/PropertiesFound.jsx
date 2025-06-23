@@ -121,7 +121,7 @@ export default function PropertiesFound({annonces}){
       } catch (error) {
         console.error("Erreur lors du chargement des annonces :", error);
       } finally {
-        setLoading(false);
+        // setLoading(false);
       }
     };
     fetchAnnonces();
