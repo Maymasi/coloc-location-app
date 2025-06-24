@@ -59,7 +59,7 @@ export default function Nav(){
             <ul className="ListNav">
                 <li >
                     <a href="/">
-                        <img src="/Logo.png" style={{ width: "100px" }} />
+                        <img src="/Logo.png" style={{ width: "70px" }} />
                     </a>
                 </li>
                 <li><a href="/">Accueil</a></li>
@@ -68,21 +68,23 @@ export default function Nav(){
                 <li><a href="/FAQ">FAQ</a></li>
                 <li className="searchBox">
                     <div className="searchContainer">
-                        <SearchIcon style={{ color: "#888", fontSize: "25px" }} />
+                        <SearchIcon style={{ color: "#888", fontSize: "22px" }} />
                         <input type="text" placeholder="Rechercher..." />
                     </div>
                 </li>
+                <li style={{display:"flex",gap:"15px"}}>
                 <li>
                     <a href="/Login" className="connexionContainer" style={{display:connected?"none":"flex"}}>
-                        <LoginIcon className="loginIcon" sx={{fontSize:"25px"}}/>
+                        <LoginIcon className="loginIcon" sx={{fontSize:"17px"}}/>
                         <button className="btn-outline" style={{fontSize:"13px",cursor:"pointer"}}>Connexion</button>
                     </a>
                 </li>
                 <li>
-                    <a href="#" className="inscripContainer" style={{display:connected?"none":"flex"}}>
-                            <UserPlus className="signIcon" style={{color:" rgb(250, 244, 244)"}} sx={{fontSize:"25px"}}/>
-                            <button  className="btn-filled" style={{fontSize:"13px"}}>Inscription</button>
+                    <a href="/register" className="inscripContainer" style={{display:connected?"none":"flex"}}>
+                        <UserPlus className="signIcon" style={{color:" rgb(250, 244, 244)"}} size={17}/>
+                        <button  className="btn-filled" style={{fontSize:"13px"}}>Inscription</button>
                     </a>
+                </li>
                 </li>
             </ul>
         </div>

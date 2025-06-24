@@ -17,6 +17,7 @@ import Favorite from '@mui/icons-material/Favorite';
 import Pagination from '@mui/material/Pagination';
 import { MapPin,SlidersHorizontal  } from 'lucide-react';
 import { useState,useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import {getAllAnnonces,filterAvancee,AddFavorisAnnonce,RemoveFavorisAnnonce,getMyFavoris} from '../../../Services/AnnonceService'
 import fallbackImg from '../../../assets/images/fallback.jpg'
 
@@ -62,6 +63,7 @@ const CustomSlider = styled(Slider)({
 function valuetext(value) {
     return `$${value}`;
 }
+
 export default function PropertiesFound({annonces}){
     // states
     const [properties,setproperties] = useState([]);
@@ -79,6 +81,11 @@ export default function PropertiesFound({annonces}){
     const propertiesPerPage = 6;
     const propertyTypes = ['Appartement', 'Maison', 'Chambre', 'Studio'];
     const amenitiesList = ['Parking','Animaux acceptés','Wi-Fi inclus']
+    //navigate
+    const navigate = useNavigate();
+    const goToDetails = (id) => {
+      navigate(`/details/${id}`);
+    };
 
     useEffect(() => {
       const handleResize = () => {
@@ -328,7 +335,11 @@ export default function PropertiesFound({annonces}){
                 </div>
                 <div className="cardsResultats">
                 {currentProperties.map((property) => (
-                  <div className="cardResultat" key={property.annonceId}>
+                  <div className="cardResultat" 
+                    key={property.annonceId} 
+                    onClick={() => goToDetails(property.annonceId)}
+                    style={{ cursor: "pointer" }}
+                  >
                     <div className="containerPic">
                       <img src={property.photos?.$values?.[0]?.url || fallbackImg} alt="" />
                       <div className="heartTopRight" >
@@ -337,6 +348,7 @@ export default function PropertiesFound({annonces}){
                           icon={<FavoriteBorder color="#fe7364" />} 
                           checkedIcon={<Favorite color="#fe7364"/>} 
                           checked={isFavori.includes(property.annonceId)}
+                          onClick={(e) => e.stopPropagation()}
                         />
                       </div>
                       <div className="typeTopLeft">{property.type}</div>

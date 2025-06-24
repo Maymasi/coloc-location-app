@@ -11,9 +11,9 @@
     list-style: none;
     display: flex;
     align-items: center;
-    justify-content: center;
-    gap: 25px;
-    padding: 10px 0px ;
+    justify-content: space-evenly;
+    gap: 1%;
+    padding: 5px 0px ;
     background: white;
     border-bottom: 1px solid #eee;
     width: 100%;
@@ -21,17 +21,17 @@
 .navParent ul li {
     display: flex;
     align-items: center;
-    color: #333;
+    color: #414141;
     cursor: pointer;
-    padding: 0px 10px;
 }
 .navParent ul li a {
     text-decoration: none;
     color: inherit;
-    font-size: 16px;
+    font-size: 14px;
+    font-weight: 600;
 }
 .navParent ul li a:hover {
-    color:#ff6c5cbc;
+    color:#ff5d4bee;
 }
 .navParent .dropdown::after {
     content: "";
@@ -44,11 +44,12 @@
 .navParent .searchContainer {
     display: flex;
     align-items: center;
-    background-color: #f5f5f5;
-    padding: 10px 12px;
+    background-color: #ffffff;
+    padding: 5px 8px;
     border-radius: 9999px;
-    border: 1px solid #ddd;
+    border: 1px solid #a1a1a1;
     gap: 8px;
+    width: 350px;
 }
 .navParent .searchContainer input {
     border: none;
@@ -65,16 +66,16 @@
     display: flex;
     align-items: center;
     padding: 10px 18px;
-    border-radius: 9999px;
+    border-radius: 10px;
     border: 1px solid #ddd;
     gap: 8px;
     text-align: center;
     cursor: pointer;
 }
-.navParent .connexionContainer:hover{
-    .navParent .btn-outline{
-        color: #ff6b5c;
-    }
+.navParent .connexionContainer:hover,
+.navParent .connexionContainer:hover .btn-outline,
+.navParent .connexionContainer:hover .loginIcon {
+  color: #ff6b5c;
 }
 .navParent .btn-filled {
     color: rgb(250, 244, 244) !important;
@@ -84,8 +85,8 @@
 .navParent .inscripContainer{
     display: flex;
     align-items: center;
-    padding: 8px 18px;
-    border-radius: 9999px;
+    padding: 10px 18px;
+    border-radius: 10px;
     gap: 8px;
     text-align: center;
     background-color: #ff6b5c;

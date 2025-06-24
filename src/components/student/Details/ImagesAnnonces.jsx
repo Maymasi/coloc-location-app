@@ -1,23 +1,19 @@
 import "../../../assets/styles/styleDetails.css";
-export default function ImagesAnnonces(){
+export default function ImagesAnnonces({annonce}){
     return(
         <div className="imagesAnnoncesContainer">
             <div className="principaleImage">
-                {/* <div>hh</div> */}
-                <img  src="/principalImg.jfif" alt="" />
+                <img  src={annonce.photos.$values[0].url} alt="" />
             </div>
             <div className="autresImages">
-                {/* <div>g</div>
-                <div>g</div>
-                <div>k</div> */}
                 <div>
-                    <img src="/autresImg.jfif" alt="" />                   
+                    <img src={annonce.photos.$values[1].url}alt="" />                   
                 </div>
                 <div>
-                    <img src="/autresImg.jfif" alt="" />                   
+                    <img src={annonce.photos.$values[2].url}alt="" />                   
                 </div>
                 <div>
-                    <img src="/autresImg.jfif" alt="" />                   
+                    <img src={annonce.photos.$values[3].url}alt="" />                   
                 </div>
             </div>
         </div>

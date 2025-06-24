@@ -42,3 +42,13 @@ export const getMyFavoris = async ()=>{
     const response = await authAxios.get(`${API_BASE_URL}/Favoris/annoncesFavoris`)
     return response.data;
 }
+
+export const getAnnonceById = async (id) => {
+    const response = await axios.get(`${API_BASE_URL}/Annonce/${id}`);
+    return response.data;
+};
+ 
+export const getSimilarAnnonces = async (id) => {
+    const response = await axios.get(`${API_BASE_URL}/Annonce/${id}/similar`);
+    return response.data;
+}
