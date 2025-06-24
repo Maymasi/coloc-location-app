@@ -285,3 +285,42 @@ export async function cancelRoommateRequest(demandeId) {
         }
     }
 }
+
+/**
+ * Les demades de colacation recues par l'utilisateur pour ses offres ou ses demandes
+ * @returns {Promise} - Promesse contenant la liste des demandes de colocation
+ */
+export async function getReceivedRoommateRequests() {
+    try {
+        const response = await authAxios.get('/Colocation/demandes-recues');
+        console.log('Liste des demandes de colocation reçues:', response.data);
+
+        return {
+            success: true,
+            data: response.data,
+            message: 'Liste des demandes de colocation reçues récupérée avec succès'
+        };
+    } catch (error) {
+        console.error('Erreur lors de la récupération des demandes de colocation reçues:', error);
+        
+        if (error.response) {
+            return {
+                success: false,
+                error: error.response.data.error || 'Erreur lors de la récupération des demandes de colocation reçues',
+                status: error.response.status
+            };
+        } else if (error.request) {
+            return {
+                success: false,
+                error: 'Erreur de connexion au serveur',
+                status: null
+            };
+        } else {
+            return {
+                success: false,
+                error: 'Une erreur inattendue s\'est produite',
+                status: null
+            };
+        }
+    }
+}

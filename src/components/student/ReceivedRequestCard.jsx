@@ -20,10 +20,10 @@ export default function ReceivedRequestCard({ demande }) {
             </div>
             <div className="content">
                 <div className="user-info">
-                    <Avatar {...stringAvatar(demande.nom)} sx={{ width: 50, height: 50 }} />
+                    <Avatar {...stringAvatar(demande.nomEtudiant)} sx={{ width: 50, height: 50 }} />
                     <div className="user-details">
-                        <div className='name'>{demande.nom}</div>
-                        <div className='school'>{demande.ecole}</div>
+                        <div className='name'>{demande.nomEtudiant}</div>
+                        <div className='school'>{demande.ecoleEtudiant}</div>
                     </div>
                 </div>
                 <div className="message">
@@ -36,14 +36,14 @@ export default function ReceivedRequestCard({ demande }) {
                     </div>
                     <div className="detail">
                         <div className='label'>Date d'emménagement:</div>
-                        <div className='value'>{demande.date}</div>
+                        <div className='value'>{demande.dateEmmenagement}</div>
                     </div>
                     <div className="detail">
                         <div className='label'>Quartier préféré:</div>
-                        <div className='value'>{demande.quartier}</div>
+                        <div className='value'>{demande.colocationAdresse}</div>
                     </div>
                     <div className="preferences">
-                        {demande.preferences.map((pref, index) => (
+                        {demande.preferences.$values.map((pref, index) => (
                             <div className="preference" key={index}>{pref}</div>
                         ))}
                     </div>
