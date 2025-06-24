@@ -324,3 +324,48 @@ export async function getReceivedRoommateRequests() {
         }
     }
 }
+
+/**
+ * Annuler ou accepter une demande de colocation
+ * @param {string} demandeId - ID de la demande de colocation
+ * @param {string} nouveauStatut - Nouveau statut de la demande ('acceptee' ou 'Refusee')
+ * @param {string} message - Message  pour la réponse
+ * @returns {Promise} - Promesse contenant la réponse de l'API
+ */
+export async function respondToRoommateRequest(demandeId, nouveauStatut, message) {
+    try {
+        const response = await authAxios.post('/Colocation/repondre-demande', {
+            demandeId,
+            nouveauStatut,
+            reponseMessage:message
+        });
+
+        return {
+            success: true,
+            data: response.data,
+            message: `Demande de colocation ${nouveauStatut} avec succès`
+        };
+    } catch (error) {
+        console.error(`Erreur lors de la ${nouveauStatut} de la demande de colocation:`, error);
+        
+        if (error.response) {
+            return {
+                success: false,
+                error: error.response.data.error || `Erreur lors de la ${nouveauStatut} de la demande`,
+                status: error.response.status
+            };
+        } else if (error.request) {
+            return {
+                success: false,
+                error: 'Erreur de connexion au serveur',
+                status: null
+            };
+        } else {
+            return {
+                success: false,
+                error: 'Une erreur inattendue s\'est produite',
+                status: null
+            };
+        }
+    }
+}

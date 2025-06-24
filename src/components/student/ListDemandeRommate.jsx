@@ -12,6 +12,7 @@ export default function ListDemandeRommate() {
     const [value, setValue] = useState(0);
     const [currentPage, setCurrentPage] = useState([1, 1, 1]);
     const cardsPerPage = 3;
+    const [changeStatusTrigger, setChangeStatusTrigger] = useState(0);
 
     // Récupération des données depuis l'API
     useEffect(() => {
@@ -36,7 +37,7 @@ export default function ListDemandeRommate() {
         };
 
         fetchData();
-    }, []);
+    }, [changeStatusTrigger]);
 
     function TabPanel(props) {
         const { children, value, index, ...other } = props;
@@ -108,6 +109,25 @@ export default function ListDemandeRommate() {
         }
     };
 
+    // Style pour les messages "aucune demande"
+    const emptyStateStyle = {
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'center',
+        width: '100%',
+        minHeight: '200px',
+        backgroundColor: '#f8f9fa',
+        borderRadius: '12px',
+        border: '2px dashed #dee2e6',
+        padding: '40px 20px',
+        textAlign: 'center',
+        color: '#6c757d',
+        fontSize: '16px',
+        fontWeight: '500',
+        margin: '20px 0'
+    };
+
     // Affichage du loader pendant le chargement initial
     if (loading && demandesColocation.length === 0) {
         return (
@@ -122,6 +142,10 @@ export default function ListDemandeRommate() {
             </div>
         );
     }
+
+    const handleStatusChange=() => {
+        setChangeStatusTrigger(prev => prev + 1);
+    };
 
     return (
         <div className="rommate-request-page">
@@ -188,12 +212,18 @@ export default function ListDemandeRommate() {
                                 <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 2 }}>
                                     {paginatedDemandes('En attente', 0).length > 0 ? (
                                         paginatedDemandes('En attente', 0).map(demande => (
-                                            <ReceivedRequestCard key={demande.id} demande={demande} />
+                                            <ReceivedRequestCard key={demande.id} demande={demande} onStatusChange={handleStatusChange} />
                                         ))
                                     ) : (
-                                        <Typography variant="body1" sx={{ textAlign: 'center', width: '100%', py: 4 }}>
-                                            Aucune demande en attente
-                                        </Typography>
+                                        <div style={emptyStateStyle}>
+                                            <div style={{ fontSize: '48px', marginBottom: '16px' }}>⏳</div>
+                                            <div style={{ fontSize: '18px', fontWeight: '600', marginBottom: '8px' }}>
+                                                Aucune demande en attente
+                                            </div>
+                                            <div style={{ fontSize: '14px', color: '#9ca3af' }}>
+                                                Les nouvelles demandes de colocation apparaîtront ici
+                                            </div>
+                                        </div>
                                     )}
                                 </Box>
                                 {filteredDemandes('En attente').length > cardsPerPage && (
@@ -219,12 +249,18 @@ export default function ListDemandeRommate() {
                                 <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 2 }}>
                                     {paginatedDemandes('Acceptée', 1).length > 0 ? (
                                         paginatedDemandes('Acceptée', 1).map(demande => (
-                                            <ReceivedRequestCard key={demande.id} demande={demande} />
+                                            <ReceivedRequestCard key={demande.id} demande={demande} onStatusChange={handleStatusChange}/>
                                         ))
                                     ) : (
-                                        <Typography variant="body1" sx={{ textAlign: 'center', width: '100%', py: 4 }}>
-                                            Aucune demande acceptée
-                                        </Typography>
+                                        <div style={emptyStateStyle}>
+                                            <div style={{ fontSize: '48px', marginBottom: '16px' }}>✅</div>
+                                            <div style={{ fontSize: '18px', fontWeight: '600', marginBottom: '8px' }}>
+                                                Aucune demande acceptée
+                                            </div>
+                                            <div style={{ fontSize: '14px', color: '#9ca3af' }}>
+                                                Les demandes acceptées s'afficheront dans cette section
+                                            </div>
+                                        </div>
                                     )}
                                 </Box>
                                 {filteredDemandes('Acceptée').length > cardsPerPage && (
@@ -250,12 +286,18 @@ export default function ListDemandeRommate() {
                                 <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 2 }}>
                                     {paginatedDemandes('Refusée', 2).length > 0 ? (
                                         paginatedDemandes('Refusée', 2).map(demande => (
-                                            <ReceivedRequestCard key={demande.id} demande={demande} />
+                                            <ReceivedRequestCard key={demande.id} demande={demande}  onStatusChange={handleStatusChange}/>
                                         ))
                                     ) : (
-                                        <Typography variant="body1" sx={{ textAlign: 'center', width: '100%', py: 4 }}>
-                                            Aucune demande refusée
-                                        </Typography>
+                                        <div style={emptyStateStyle}>
+                                            <div style={{ fontSize: '48px', marginBottom: '16px' }}>❌</div>
+                                            <div style={{ fontSize: '18px', fontWeight: '600', marginBottom: '8px' }}>
+                                                Aucune demande refusée
+                                            </div>
+                                            <div style={{ fontSize: '14px', color: '#9ca3af' }}>
+                                                Les demandes refusées apparaîtront dans cette section
+                                            </div>
+                                        </div>
                                     )}
                                 </Box>
                                 {filteredDemandes('Refusée').length > cardsPerPage && (
