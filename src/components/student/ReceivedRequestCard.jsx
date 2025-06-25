@@ -1,4 +1,5 @@
-import React, { useState } from 'react'
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { 
     AppBar, 
     Box, 
@@ -20,9 +21,11 @@ import Avatar from '@mui/material/Avatar'
 import { stringAvatar } from '../../utils/avatarUtils'
 import { MessageSquare, Check, X } from 'lucide-react'
 import { respondToRoommateRequest } from '../../Services/RoommateService'
+import { creerConversation } from '../../Services/MessagingService' 
 
 export default function ReceivedRequestCard({ demande, onStatusChange }) {
     const [loading, setLoading] = useState(false)
+    const [messageLoading, setMessageLoading] = useState(false) 
     const [error, setError] = useState(null)
     const [modalOpen, setModalOpen] = useState(false)
     const [responseType, setResponseType] = useState('') // 'Acceptee' ou 'Refusee'
@@ -32,6 +35,7 @@ export default function ReceivedRequestCard({ demande, onStatusChange }) {
     const [snackbarOpen, setSnackbarOpen] = useState(false)
     const [snackbarMessage, setSnackbarMessage] = useState('')
     const [snackbarSeverity, setSnackbarSeverity] = useState('success') // 'success', 'error', 'warning', 'info'
+    const navigate = useNavigate();
 
     const showSnackbar = (message, severity = 'success') => {
         setSnackbarMessage(message)
@@ -118,11 +122,38 @@ export default function ReceivedRequestCard({ demande, onStatusChange }) {
         setResponseType('')
     }
 
-    const handleMessage = () => {
-        // Logique pour ouvrir/naviguer vers la messagerie
-        console.log('Ouvrir conversation avec:', demande.nomEtudiant)
-        showSnackbar('Redirection vers la messagerie...', 'info')
-        // Exemple: navigate('/messages', { state: { recipientId: demande.etudiantId } })
+    const handleMessage = async () => {
+        try {
+            setMessageLoading(true)
+            console.log('Création de la conversation pour:', demande.colocataireId)
+            // Appeler le service pour créer la conversation
+            const result = await creerConversation(demande.colocataireId);
+            
+            if (result.success) {
+                showSnackbar('Conversation créée avec succès !', 'success')
+                console.log('Conversation créée:', result.data.id)
+                
+                // Redirection vers la page de messages avec les données de la conversation
+                // Vous pouvez adapter cette navigation selon votre structure de routes
+                navigate('/student/messages', { 
+                    state: { 
+                        conversationId: result.data.id, 
+                        userId: demande.colocataireId,
+                        userName: demande.nomEtudiant
+                    }
+                })
+            } else {
+                const errorMessage = result.error || 'Erreur lors de la création de la conversation'
+                showSnackbar(errorMessage, 'error')
+                console.error('Erreur création conversation:', result.error)
+            }
+        } catch (error) {
+            const errorMessage = 'Une erreur inattendue s\'est produite lors de la création de la conversation'
+            showSnackbar(errorMessage, 'error')
+            console.error('Erreur inattendue:', error)
+        } finally {
+            setMessageLoading(false)
+        }
     }
 
     const handleViewProfile = () => {
@@ -190,15 +221,21 @@ export default function ReceivedRequestCard({ demande, onStatusChange }) {
                             </div>
                             <div 
                                 className="message bt"
-                                onClick={demande.statut === 'Acceptée' ? handleMessage : undefined}
-                                disabled={demande.statut !== 'Acceptée'}
+                                onClick={demande.statut === 'Acceptée' && !messageLoading ? handleMessage : undefined}
+                                disabled={demande.statut !== 'Acceptée' || messageLoading}
                                 style={{ 
-                                    cursor: demande.statut === 'Acceptée' ? 'pointer' : 'not-allowed',
-                                    opacity: demande.statut === 'Acceptée' ? 1 : 0.6,
-                                    pointerEvents: demande.statut === 'Acceptée' ? 'auto' : 'none'
+                                    cursor: (demande.statut === 'Acceptée' && !messageLoading) ? 'pointer' : 'not-allowed',
+                                    opacity: (demande.statut === 'Acceptée' && !messageLoading) ? 1 : 0.6,
+                                    pointerEvents: (demande.statut === 'Acceptée' && !messageLoading) ? 'auto' : 'none',
+                                    position: 'relative'
                                 }}
                             >
-                                <MessageSquare style={{ marginRight: '8px' }} size={15} /> Message
+                                {messageLoading ? (
+                                    <CircularProgress size={15} style={{ marginRight: '8px' }} />
+                                ) : (
+                                    <MessageSquare style={{ marginRight: '8px' }} size={15} />
+                                )}
+                                {messageLoading ? 'Création...' : 'Message'}
                             </div>
                         </div>
                         

@@ -249,7 +249,7 @@ export default function ListDemandeRommate() {
                                 <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 2 }}>
                                     {paginatedDemandes('Acceptée', 1).length > 0 ? (
                                         paginatedDemandes('Acceptée', 1).map(demande => (
-                                            <ReceivedRequestCard key={demande.id} demande={demande} onStatusChange={handleStatusChange}/>
+                                            <ReceivedRequestCard key={demande.demandeId} demande={demande} onStatusChange={handleStatusChange}/>
                                         ))
                                     ) : (
                                         <div style={emptyStateStyle}>
