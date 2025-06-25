@@ -1,40 +1,86 @@
-import React from 'react';
-import { AppBar, Box, Tab, Tabs, Typography, Pagination } from '@mui/material';
+import React, { useState, useEffect } from 'react';
+import { AppBar, Box, Tab, Tabs, Typography, Pagination, CircularProgress } from '@mui/material';
 import PropTypes from 'prop-types';
 import MyRequestCard from './MyRequestCard';
+import { getMyRoommateRequests } from '../../Services/RoommateService'; 
 
 import '../../assets/styles/roomateCss/receivedRequest.css';
 import '../../assets/styles/roomateCss/myrequest.css';
 
-export default function MyRoomateRequest() {
-const MesDemadesColocation = [
-    { id: 1, nom: 'Oussama Nouhar', ecole: 'ENSA de Safi', message: 'Salut ! Je cherche un coloc sympa et calme.', date: '2023-10-01', statut: 'En attente' },
-    { id: 2, nom: 'Sara Benali', ecole: 'Université Cadi Ayyad', message: `J'ai un chat, j'aimerais un coloc qui aime les animaux 🐱`, date: '2023-09-15', statut: 'Acceptée', reponse: `Salut Sara ! Je suis aussi fan des chats 😺. On peut discuter davantage ?` },
-    { id: 3, nom: 'Youssef El Arabi', ecole: 'ENSA de Marrakech', message: `Je suis souvent en télétravail, j'ai besoin d'un endroit calme.`, date: '2023-11-01', statut: 'Refusée', reponse: `Bonjour Youssef, désolé, je cherche quelqu’un avec un emploi du temps plus flexible.` },
-    { id: 4, nom: 'Lina Zahraoui', ecole: 'Faculté des Sciences', message: 'Je cherche un logement proche des transports en commun.', budget: '1500 MAD/mois', date: '2023-08-20', quartier: 'Daoudiate', preferences: ['Flexible', 'Amicale'], statut: 'En attente' },
-    { id: 5, nom: 'Hicham Bouziane', ecole: 'ENSA de Fès', message: 'Je préfère vivre avec un étudiant de la même filière.', date: '2023-09-10', statut: 'Refusée', reponse: `Bonjour Hicham, je ne suis pas de la même filière, donc ça risque de ne pas matcher.` },
-    { id: 6, nom: 'Fatima Zahra', ecole: 'Faculté des Sciences', message: 'Je suis végétarienne et je préfère un coloc qui respecte ça.', date: '2023-09-18', statut: 'Acceptée', reponse: `Bonjour Fatima ! Je respecte totalement les choix alimentaires, on peut en discuter !` },
-    { id: 7, nom: 'Fatima Zahra', ecole: 'Faculté des Sciences', message: 'Je suis végétarienne et je préfère un coloc qui respecte ça.', date: '2023-09-18', statut: 'En attente' },
-    { id: 8, nom: 'Fatima Zahra', ecole: 'Faculté des Sciences', message: 'Je suis végétarienne et je préfère un coloc qui respecte ça.', date: '2023-09-18', statut: 'Refusée', reponse: `Bonjour Fatima, je ne pense pas qu’on soit compatibles niveau style de vie.` },
-    { id: 9, nom: 'Fatima Zahra', ecole: 'Faculté des Sciences', message: 'Je suis végétarienne et je préfère un coloc qui respecte ça.', date: '2023-09-18', statut: 'Acceptée', reponse: `Merci pour ton message Fatima, ton profil me semble compatible, parlons-en !` },
-    { id: 10, nom: 'Fatima Zahra', ecole: 'Faculté des Sciences', message: 'Je suis végétarienne et je préfère un coloc qui respecte ça.', date: '2023-09-18', statut: 'En attente' },
-        { id: 11, nom: 'Fatima Zahra', ecole: 'Faculté des Sciences', message: 'Je suis végétarienne et je préfère un coloc qui respecte ça.', date: '2023-09-18', statut: 'En attente' },
-            { id: 12, nom: 'Fatima Zahra', ecole: 'Faculté des Sciences', message: 'Je suis végétarienne et je préfère un coloc qui respecte ça.', date: '2023-09-18', statut: 'Acceptée', reponse: `Merci pour ton message Fatima, ton profil me semble compatible, parlons-en !` },
+export default function MyRoommateRequest() {
+    // États pour les données et le chargement
+    const [MesDemadesColocation, setMesDemadesColocation] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
+    const [refreshTrigger, setRefreshTrigger] = useState(0); 
 
-
-];
-
-
-    const [value, setValue] = React.useState(0);
-    const [currentPage, setCurrentPage] = React.useState(1);
-    const [currentPageAccepted, setCurrentPageAccepted] = React.useState(1);
-    const [currentPageRefused, setCurrentPageRefused] = React.useState(1);
+    // États existants
+    const [value, setValue] = useState(0);
+    const [currentPage, setCurrentPage] = useState(1);
+    const [currentPageAccepted, setCurrentPageAccepted] = useState(1);
+    const [currentPageRefused, setCurrentPageRefused] = useState(1);
     const cardsPerPage = 3;
 
+    // Fonction pour récupérer les données
+    const fetchMyRequests = async () => {
+        try {
+            setLoading(true);
+            setError(null);
+            
+            const result = await getMyRoommateRequests();
+            
+            if (result.success) {
+                let processedData = [];
+                
+                if (result.data.$values) {
+                    processedData = result.data.$values.map(item => ({
+                        id: item.id,
+                        nom: item.nom,
+                        ecole: item.ecole,
+                        message: item.message,
+                        date: item.date,
+                        statut: item.statut,
+                        budget: item.budget,
+                        quartier: item.quartier,
+                        preferences: item.preferences?.$values || [],
+                        reponse: item.reponse,
+                        colocationId: item.colocationId,
+                        colocationAdresse: item.colocationAdresse,
+                        colocationBudget: item.colocationBudget,
+                        colocationPreferences: item.colocationPreferences?.$values || []
+                    }));
+                } else {
+                    processedData = result.data;
+                }
+                
+                setMesDemadesColocation(processedData);
+            } else {
+                throw new Error(result.error || 'Erreur lors du chargement des demandes');
+            }
+            
+        } catch (err) {
+            console.error('Erreur lors du chargement des demandes:', err);
+            setError(err.message);
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    // useEffect pour récupérer les données au montage ET quand refreshTrigger change
+    useEffect(() => {
+        fetchMyRequests();
+    }, [refreshTrigger]); // Dépendance sur refreshTrigger
+
+    const handleRequestCanceled = () => {
+        setRefreshTrigger(prev => prev + 1);
+    };
+
+    // Handlers existants
     const handlePageChange = (event, value) => setCurrentPage(value);
     const handlePageChangeAccepted = (event, value) => setCurrentPageAccepted(value);
     const handlePageChangeRefused = (event, value) => setCurrentPageRefused(value);
 
+    // Calculs basés sur les données chargées
     const nombreRequests = MesDemadesColocation.filter(r => r.statut === 'En attente').length;
     const nombreAccepted = MesDemadesColocation.filter(r => r.statut === 'Acceptée').length;
     const nombreRefused = MesDemadesColocation.filter(r => r.statut === 'Refusée').length;
@@ -69,6 +115,103 @@ const MesDemadesColocation = [
     // Découpe pagination
     const paginate = (data, page) => data.slice((page - 1) * cardsPerPage, page * cardsPerPage);
 
+    // Fonction pour tronquer le message
+    const truncateMessage = (message, maxLength = 100) => {
+        if (!message) return '';
+        if (message.length <= maxLength) return message;
+        return message.substring(0, maxLength) + '...';
+    };
+
+    // Composant pour afficher quand il n'y a pas de demandes
+    const EmptyState = ({ type, icon, title, description }) => (
+        <Box 
+            display="flex" 
+            flexDirection="column" 
+            alignItems="center" 
+            justifyContent="center" 
+            minHeight="300px"
+            textAlign="center"
+            sx={{ 
+                backgroundColor: '#f8f9fa',
+                borderRadius: '12px',
+                border: '2px dashed #e0e0e0',
+                padding: '40px',
+                margin: '20px 0'
+            }}
+        >
+            <Box
+                sx={{
+                    fontSize: '4rem',
+                    marginBottom: '16px',
+                    opacity: 0.6
+                }}
+            >
+                {icon}
+            </Box>
+            <Typography 
+                variant="h6" 
+                sx={{ 
+                    marginBottom: '8px',
+                    color: '#666',
+                    fontWeight: 600
+                }}
+            >
+                {title}
+            </Typography>
+            <Typography 
+                variant="body2" 
+                sx={{ 
+                    color: '#999',
+                    maxWidth: '400px',
+                    lineHeight: 1.6
+                }}
+            >
+                {description}
+            </Typography>
+            {type === 'pending' && (
+                <Box
+                    sx={{
+                        marginTop: '24px',
+                        padding: '12px 24px',
+                        backgroundColor: '#fff3cd',
+                        borderRadius: '8px',
+                        border: '1px solid #ffeaa7'
+                    }}
+                >
+                    <Typography variant="body2" sx={{ color: '#856404' }}>
+                        💡 Astuce : Parcourez les colocations disponibles et envoyez vos premières demandes !
+                    </Typography>
+                </Box>
+            )}
+        </Box>
+    );
+
+    // Affichage conditionnel selon l'état de chargement
+    if (loading) {
+        return (
+            <div className="rommate-request-page">
+                <Box display="flex" justifyContent="center" alignItems="center" minHeight="400px">
+                    <CircularProgress size={60} />
+                    <Typography variant="h6" sx={{ ml: 2 }}>
+                        Chargement de vos demandes...
+                    </Typography>
+                </Box>
+            </div>
+        );
+    }
+
+    if (error) {
+        return (
+            <div className="rommate-request-page">
+                <Box display="flex" justifyContent="center" alignItems="center" minHeight="400px">
+                    <Typography variant="h6" color="error">
+                        Erreur lors du chargement: {error}
+                    </Typography>
+                </Box>
+            </div>
+        );
+    }
+
     return (
         <div className="rommate-request-page">
             <div className="header-myrequest">
@@ -102,58 +245,104 @@ const MesDemadesColocation = [
 
                     {/* En attente */}
                     <TabPanel value={value} index={0}>
-                        <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 2 }}>
-                            {paginate(enAttente, currentPage).map(demande => (
-                                <MyRequestCard key={demande.id} demande={demande} />
-                            ))}
-                        </Box>
-                        {enAttente.length > cardsPerPage && (
-                            <Box mt={3} display="flex" justifyContent="center">
-                                <Pagination
-                                    count={Math.ceil(enAttente.length / cardsPerPage)}
-                                    page={currentPage}
-                                    onChange={handlePageChange}
-                                    color="rgb(245 158 11)"
-                                />
-                            </Box>
+                        {enAttente.length === 0 ? (
+                            <EmptyState 
+                                type="pending"
+                                icon="⏳"
+                                title="Aucune demande en attente"
+                                description="Vous n'avez pas encore de demandes en attente de réponse. Explorez les colocations disponibles et postulez à celles qui vous intéressent !"
+                            />
+                        ) : (
+                            <>
+                                <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 2 }}>
+                                    {paginate(enAttente, currentPage).map(demande => (
+                                        <MyRequestCard 
+                                            key={demande.id} 
+                                            demande={{
+                                                ...demande,
+                                                message: truncateMessage(demande.message)
+                                            }}
+                                            onRequestCanceled={handleRequestCanceled}
+                                        />
+                                    ))}
+                                </Box>
+                                {enAttente.length > cardsPerPage && (
+                                    <Box mt={3} display="flex" justifyContent="center">
+                                        <Pagination
+                                            count={Math.ceil(enAttente.length / cardsPerPage)}
+                                            page={currentPage}
+                                            onChange={handlePageChange}
+                                            color="primary"
+                                        />
+                                    </Box>
+                                )}
+                            </>
                         )}
                     </TabPanel>
 
                     {/* Acceptées */}
                     <TabPanel value={value} index={1}>
-                        <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 2 }}>
-                            {paginate(accepted, currentPageAccepted).map(demande => (
-                                <MyRequestCard key={demande.id} demande={demande} />
-                            ))}
-                        </Box>
-                        {accepted.length > cardsPerPage && (
-                            <Box mt={3} display="flex" justifyContent="center">
-                                <Pagination
-                                    count={Math.ceil(accepted.length / cardsPerPage)}
-                                    page={currentPageAccepted}
-                                    onChange={handlePageChangeAccepted}
-                                    color="rgb(245 158 11)"
-                                />
-                            </Box>
+                        {accepted.length === 0 ? (
+                            <EmptyState 
+                                icon="✅"
+                                title="Aucune demande acceptée"
+                                description="Vos demandes acceptées apparaîtront ici."
+                            />
+                        ) : (
+                            <>
+                                <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 2 }}>
+                                    {paginate(accepted, currentPageAccepted).map(demande => (
+                                        <MyRequestCard 
+                                            key={demande.id} 
+                                            demande={demande}
+                                            onRequestCanceled={handleRequestCanceled}
+                                        />
+                                    ))}
+                                </Box>
+                                {accepted.length > cardsPerPage && (
+                                    <Box mt={3} display="flex" justifyContent="center">
+                                        <Pagination
+                                            count={Math.ceil(accepted.length / cardsPerPage)}
+                                            page={currentPageAccepted}
+                                            onChange={handlePageChangeAccepted}
+                                            color="primary"
+                                        />
+                                    </Box>
+                                )}
+                            </>
                         )}
                     </TabPanel>
 
                     {/* Refusées */}
                     <TabPanel value={value} index={2}>
-                        <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 2 }}>
-                            {paginate(refused, currentPageRefused).map(demande => (
-                                <MyRequestCard key={demande.id} demande={demande} />
-                            ))}
-                        </Box>
-                        {refused.length > cardsPerPage && (
-                            <Box mt={3} display="flex" justifyContent="center">
-                                <Pagination
-                                    count={Math.ceil(refused.length / cardsPerPage)}
-                                    page={currentPageRefused}
-                                    onChange={handlePageChangeRefused}
-                                    color="rgb(245 158 11)"
-                                />
-                            </Box>
+                        {refused.length === 0 ? (
+                            <EmptyState 
+                                icon="❌"
+                                title="Aucune demande refusée"
+                                description="Vos demandes refusées apparaîtront ici."
+                            />
+                        ) : (
+                            <>
+                                <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 2 }}>
+                                    {paginate(refused, currentPageRefused).map(demande => (
+                                        <MyRequestCard 
+                                            key={demande.id} 
+                                            demande={demande}
+                                            onRequestCanceled={handleRequestCanceled}
+                                        />
+                                    ))}
+                                </Box>
+                                {refused.length > cardsPerPage && (
+                                    <Box mt={3} display="flex" justifyContent="center">
+                                        <Pagination
+                                            count={Math.ceil(refused.length / cardsPerPage)}
+                                            page={currentPageRefused}
+                                            onChange={handlePageChangeRefused}
+                                            color="primary"
+                                        />
+                                    </Box>
+                                )}
+                            </>
                         )}
                     </TabPanel>
                 </Box>
