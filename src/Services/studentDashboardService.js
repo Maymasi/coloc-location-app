@@ -34,3 +34,74 @@ export const getStudentDashboardStates = async () => {
         }
   }
 };
+/**
+ * Recupere les messages recents de l'étudiant
+ * @returns {Promise<Object>} Un objet contenant les messages récents de l'étudiant
+ * */
+export const getRecentMessages = async () => {
+
+    try {
+        const response = await authAxios.get('/DashboardStudent/recent-messages');
+        return {
+            data: response.data,
+            status: response.status,
+            message:'Messages recents recuperes avec succes',
+        }
+    } catch (error) {
+            if (error.response) {
+                return {
+                    success: false,
+                    error: error.response.data.error || 'Erreur lors de la recuperation des messages recents',
+                    status: error.response.status
+                };
+            } else if (error.request) {
+                return {
+                    success: false,
+                    error: 'Erreur de connexion au serveur',
+                    status: null
+                };
+            } else {
+                return {
+                    success: false,
+                    error: 'Une erreur inattendue s\'est produite',
+                    status: null
+                };
+            }
+    }
+}
+
+/**
+ * Recupere les proprietes recemment publiees
+ * @returns {Promise<Object>} Un objet contenant les proprietes recemment publiées
+ */
+
+export const getRecentProperties = async () => {
+  try {
+    const response = await authAxios.get('/DashboardStudent/recent-properties');
+    return {
+      data: response.data,
+      status: response.status,
+      message: 'Propriétés récentes récupérées avec succès',
+    };
+  } catch (error) {
+    if (error.response) {
+      return {
+        success: false,
+        error: error.response.data.error || 'Erreur lors de la récupération des propriétés récentes',
+        status: error.response.status,
+      };
+    } else if (error.request) {
+      return {
+        success: false,
+        error: 'Erreur de connexion au serveur',
+        status: null,
+      };
+    } else {
+      return {
+        success: false,
+        error: 'Une erreur inattendue s\'est produite',
+        status: null,
+      };
+    }
+  }
+}
