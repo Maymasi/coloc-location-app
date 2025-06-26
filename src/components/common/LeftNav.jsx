@@ -114,7 +114,7 @@ export default function LeftNav({ openLogs, handleLogsClick }) {
                         onClick={() => handleLinkClick('mesDemandes')}
                     >
                         <SquareLibrary size={20} />
-                        <span>Mes demandes</span>
+                        <span>Mes Candidatures</span>
                     </div>
                     <div 
                         className={`link ${activeLink === 'profil' ? 'active' : ''}`} 

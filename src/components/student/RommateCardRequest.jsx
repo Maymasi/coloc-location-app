@@ -237,7 +237,7 @@ export default function RoommateCardRequest({data}) {
               <div className="seeProfil btn">Voir le profil</div>
               <div className="postulate btn" onClick={handleOpenDialog}>
                 <Send size={15} style={{marginRight:'10px'}}/>
-                Postuler
+                Candidater
               </div>
             </div>
           </div>
@@ -245,11 +245,41 @@ export default function RoommateCardRequest({data}) {
       </div>
 
       {/* Modal pour postuler */}
-      <Dialog 
+<Dialog 
         open={openDialog} 
         onClose={handleCloseDialog}
-        maxWidth="md"
+        // maxWidth="md"
         fullWidth
+        sx={{
+           '& .MuiDialog-root': {
+                width: 'calc(100vw - 256px)',
+                justifyContent: 'center',
+                '@media (max-width: 1280px)': {
+                    width: '100vw',
+                },
+                },
+                '& .MuiDialog-container': {
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    display: 'flex',
+                },
+                '& .MuiDialog-paper': {
+                    '@media (min-width: 1280px)': {
+                        marginLeft: '256px',
+                    },
+                    width: '100%',
+                    '@media (max-width: 768px)': {
+                        margin: '16px',
+                        width: 'calc(100% - 32px)',
+                        maxHeight: 'calc(100vh - 64px)',
+                    },
+                    '@media (max-width: 480px)': {
+                        margin: '8px',
+                        width: 'calc(100% - 16px)',
+                        maxHeight: 'calc(100vh - 32px)',
+                    },
+                }
+        }}
         PaperProps={{
           style: {
             borderRadius: '12px',
@@ -263,22 +293,74 @@ export default function RoommateCardRequest({data}) {
           borderBottom: '1px solid #e0e0e0',
           pb: 2,
           marginBottom: 2,
+          '@media (max-width: 768px)': {
+            pb: 1.5,
+            marginBottom: 1.5,
+          },
+          '@media (max-width: 480px)': {
+            pb: 1,
+            marginBottom: 1,
+          },
         }}>
-          <Typography variant="h6" component="div">
+          <Typography variant="h6" component="div" sx={{
+            '@media (max-width: 768px)': {
+              fontSize: '1.1rem',
+            },
+            '@media (max-width: 480px)': {
+              fontSize: '1rem',
+            },
+          }}>
             Postuler à cette colocation
           </Typography>
           <Button 
             onClick={handleCloseDialog}
-            sx={{ minWidth: 'auto', p: 1 }}
+            sx={{ 
+              minWidth: 'auto', 
+              p: 1,
+              '@media (max-width: 480px)': {
+                p: 0.5,
+              },
+            }}
           >
             <X size={20} />
           </Button>
         </DialogTitle>
         
-        <DialogContent sx={{ pt: 3 }}>
-          <Box sx={{ display: 'flex', flexDirection: 'column', gap: 3 }}>
-            <Grid container spacing={2}>
-              <Grid item xs={6}>
+        <DialogContent sx={{ 
+          pt: 3,
+          '@media (max-width: 768px)': {
+            pt: 2,
+            px: 2,
+          },
+          '@media (max-width: 480px)': {
+            pt: 1.5,
+            px: 1.5,
+          },
+        }}>
+          <Box sx={{ 
+            display: 'flex', 
+            flexDirection: 'column', 
+            gap: 3,
+            '@media (max-width: 768px)': {
+              gap: 2.5,
+            },
+            '@media (max-width: 480px)': {
+              gap: 2,
+            },
+          }}>
+            <Grid container spacing={2} sx={{
+              '@media (max-width: 768px)': {
+                spacing: 1.5,
+              },
+              '@media (max-width: 480px)': {
+                spacing: 1,
+              },
+            }}>
+              <Grid item xs={6} sx={{
+                '@media (max-width: 480px)': {
+                  xs: 12,
+                },
+              }}>
                 <TextField
                   fullWidth
                   label="Budget (MAD) *"
@@ -293,10 +375,19 @@ export default function RoommateCardRequest({data}) {
                         borderColor: 'hsl(6 100% 72%)',
                       },
                     },
+                    '@media (max-width: 480px)': {
+                      '& .MuiInputLabel-root': {
+                        fontSize: '0.9rem',
+                      },
+                    },
                   }}
                 />
               </Grid>
-              <Grid item xs={6}>
+              <Grid item xs={6} sx={{
+                '@media (max-width: 480px)': {
+                  xs: 12,
+                },
+              }}>
                 <TextField
                   fullWidth
                   label="Adresse *"
@@ -308,6 +399,11 @@ export default function RoommateCardRequest({data}) {
                     '& .MuiOutlinedInput-root': {
                       '&.Mui-focused fieldset': {
                         borderColor: 'hsl(6 100% 72%)',
+                      },
+                    },
+                    '@media (max-width: 480px)': {
+                      '& .MuiInputLabel-root': {
+                        fontSize: '0.9rem',
                       },
                     },
                   }}
@@ -334,6 +430,11 @@ export default function RoommateCardRequest({data}) {
                     borderColor: 'hsl(6 100% 72%)',
                   },
                 },
+                '@media (max-width: 480px)': {
+                  '& .MuiInputLabel-root': {
+                    fontSize: '0.9rem',
+                  },
+                },
               }}
             />
 
@@ -342,6 +443,11 @@ export default function RoommateCardRequest({data}) {
               '& .MuiOutlinedInput-root': {
                 '&.Mui-focused fieldset': {
                   borderColor: 'hsl(6 100% 72%)',
+                },
+              },
+              '@media (max-width: 480px)': {
+                '& .MuiInputLabel-root': {
+                  fontSize: '0.9rem',
                 },
               },
             }}>
@@ -362,9 +468,26 @@ export default function RoommateCardRequest({data}) {
                 onChange={handlePreferencesChange}
                 input={<OutlinedInput label="Préférences (max 4)" />}
                 renderValue={(selected) => (
-                  <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
+                  <Box sx={{ 
+                    display: 'flex', 
+                    flexWrap: 'wrap', 
+                    gap: 0.5,
+                    '@media (max-width: 480px)': {
+                      gap: 0.3,
+                    },
+                  }}>
                     {selected.map((value) => (
-                      <Chip key={value} label={value} size="small" />
+                      <Chip 
+                        key={value} 
+                        label={value} 
+                        size="small" 
+                        sx={{
+                          '@media (max-width: 480px)': {
+                            fontSize: '0.7rem',
+                            height: '24px',
+                          },
+                        }}
+                      />
                     ))}
                   </Box>
                 )}
@@ -397,18 +520,51 @@ export default function RoommateCardRequest({data}) {
                     borderColor: 'hsl(6 100% 72%)',
                   },
                 },
+                '@media (max-width: 768px)': {
+                  '& .MuiInputBase-root': {
+                    minHeight: '80px',
+                  },
+                },
+                '@media (max-width: 480px)': {
+                  '& .MuiInputLabel-root': {
+                    fontSize: '0.9rem',
+                  },
+                  '& .MuiInputBase-root': {
+                    minHeight: '70px',
+                  },
+                },
               }}
             />
           </Box>
         </DialogContent>
         
-        <DialogActions sx={{ p: 3, borderTop: '1px solid #e0e0e0' }}>
+        <DialogActions sx={{ 
+          p: 3, 
+          borderTop: '1px solid #e0e0e0',
+          '@media (max-width: 768px)': {
+            p: 2,
+            flexDirection: 'column-reverse',
+            gap: 1,
+          },
+          '@media (max-width: 480px)': {
+            p: 1.5,
+            gap: 0.5,
+          },
+        }}>
           <Button 
             onClick={handleCloseDialog}
             disabled={isSubmitting}
             sx={{ 
               color: 'gray',
-              '&:hover': { backgroundColor: 'rgba(0, 0, 0, 0.04)' }
+              '&:hover': { backgroundColor: 'rgba(0, 0, 0, 0.04)' },
+              '@media (max-width: 768px)': {
+                width: '100%',
+                order: 2,
+              },
+              '@media (max-width: 480px)': {
+                fontSize: '0.9rem',
+                py: 1.5,
+              },
             }}
           >
             Annuler
@@ -420,7 +576,15 @@ export default function RoommateCardRequest({data}) {
             sx={{ 
               backgroundColor: 'hsl(6 100% 72%)',
               '&:hover': { backgroundColor: 'hsl(6 100% 65%)' },
-              '&:disabled': { backgroundColor: 'rgba(0, 0, 0, 0.12)' }
+              '&:disabled': { backgroundColor: 'rgba(0, 0, 0, 0.12)' },
+              '@media (max-width: 768px)': {
+                width: '100%',
+                order: 1,
+              },
+              '@media (max-width: 480px)': {
+                fontSize: '0.9rem',
+                py: 1.5,
+              },
             }}
           >
             {isSubmitting ? 'Envoi en cours...' : 'Envoyer la candidature'}

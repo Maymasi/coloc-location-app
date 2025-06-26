@@ -564,7 +564,7 @@ export default function RoommateComp(){
           <div className="description">Connectez-vous avec des colocataires potentiels près de votre campus</div>
           </div>
           <div className="create-request" onClick={handleOpenDialog}>
-            <Users size={16} style={{marginRight:'10px'}} />Créer une demande
+            <Users size={16} style={{marginRight:'10px'}} />Créer une publication
           </div>
         </div>
 
@@ -572,8 +572,29 @@ export default function RoommateComp(){
         <Dialog 
             open={openDialog} 
             onClose={handleCloseDialog}
-            maxWidth="md"
+            maxWidth="lg"
             fullWidth
+            sx={{
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                '& .MuiDialog-root': {
+                    width: 'calc(100vw - 256px)',
+                    margin: '0 auto',
+                    '@media (max-width: 1280px)': {
+                            width: '100vw',
+                },
+                },
+                '& .MuiDialog-container': {
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                },
+                '& .MuiDialog-paper': {
+                    margin: '16px',
+                    width: '100%',
+    
+                }
+            }}
             PaperProps={{
                 style: {
                     borderRadius: '12px',
@@ -934,7 +955,7 @@ export default function RoommateComp(){
             aria-label="full width tabs example"
           >
             <Tab label="Toutes les demandes" {...a11yProps(0)} className="tab" style={{ backgroundColor: 'white' }} />
-            <Tab label="Recherche colocation" {...a11yProps(1)} className="tab" />
+            <Tab label="Demande colocation" {...a11yProps(1)} className="tab" />
             <Tab label="Offre colocation" {...a11yProps(2)} className="tab" />
           </Tabs>
           </AppBar>
