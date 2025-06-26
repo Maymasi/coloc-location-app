@@ -73,7 +73,7 @@ const roommateRequests = [
   },
 ];
 
-export default function StudentDashboard() {
+export default function StudentDashboard({ onStatsUpdate }) {
   const { user } = useAuth();
   const [value, setValue] = useState(0);
   
@@ -100,6 +100,12 @@ export default function StudentDashboard() {
           roommateRequests: result.data.demandesDeColocataires || 0,
           myRequests: result.data.mesColocations || 0
         });
+          if (onStatsUpdate) {
+            onStatsUpdate({
+              unreadMessages: dashboardStats.unreadMessages,
+              roommateRequests: dashboardStats.roommateRequests
+            });
+          }
         setError(null);
       } else {
         setError(result.error || 'Erreur lors du chargement des données');
