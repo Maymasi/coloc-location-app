@@ -216,8 +216,8 @@ export default function MyRoommateRequest() {
         <div className="rommate-request-page">
             <div className="header-myrequest">
                 <div className="part1">
-                    <div className='title'>Mes demandes</div>
-                    <div className='sub-title'>Gérez les demandes de colocation que vous avez envoyées</div>
+                    <div className='title'>Mes Candidatures</div>
+                    <div className='sub-title'>Gérez les candidatures de colocation que vous avez envoyées</div>
                 </div>
                 <div className="find-roomate">Trouver des colocataires</div>
             </div>
