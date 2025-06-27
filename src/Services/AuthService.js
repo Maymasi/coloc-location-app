@@ -6,7 +6,9 @@ export const login = async(email,password,role)=>{
     password,
     role,
   })
+  localStorage.setItem('urlAvatar', response.data.urlPhoto);
   return response.data;
+  
 };
 // ----- REGISTER (Étudiant & Propriétaire) -----
 export const register = async (userType, formData, profileImage) => {

@@ -199,11 +199,11 @@ export default function StudentDashboard({ onStatsUpdate }) {
         </div>
         <div className="links">
           <div className="homes">
-            <Home className="icon" />
+            <Home size={15} />
             <div>Parcourir les propriétés</div>
           </div>
           <div className="colocations">
-            <Users className="icon" />
+            <Users size={15} />
             <div>Trouver des colocataires</div>
           </div>
         </div>

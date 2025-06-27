@@ -14,6 +14,7 @@ export default function LeftNav({ openLogs, handleLogsClick }) {
     const [isNavOpen, setIsNavOpen] = React.useState();
     const [windowWidth, setWindowWidth] = React.useState(window.innerWidth);
     const Navigate = useNavigate();
+    const urlPhoto = localStorage.getItem('urlAvatar') || '/src/assets/images/defaultAvatar.jpg';
 
     const [navStats, setNavStats] = useState({
         unreadMessages: 0,
@@ -49,6 +50,7 @@ export default function LeftNav({ openLogs, handleLogsClick }) {
     // Hook pour charger les données au montage du composant
     useEffect(() => {
         fetchNavStats();
+        console.log('user', user);
     }, []);
 
     // Hook pour la mise à jour automatique toutes les 20 secondes
@@ -121,10 +123,10 @@ export default function LeftNav({ openLogs, handleLogsClick }) {
             
             <div className="content-nav">
                 <div className="user">
-                    <Avatar sx={{ width: 38, height: 38 }} style={{ backgroundColor: 'black' }} alt="user" src="/src/assets/logos/logoColokMeak.png" />
+                    <Avatar sx={{ width: 38, height: 38 }} style={{ backgroundColor: 'gray' }} src={urlPhoto} />
                     <div className="user-data">
                         <div className='name'>{user.nom}</div>
-                        <div className='role'>Student</div>
+                        <div className='role'>{user.role}</div>
                     </div>
                 </div>
                 <div className="nav-links">                           

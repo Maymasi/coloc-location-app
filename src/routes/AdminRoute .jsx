@@ -8,7 +8,7 @@ const StudentRoute = ({ children }) => {
   if (!token) return <Navigate to="/login" />;
   const decoded = jwtDecode(token);
   const role = decoded.role;
-  if (role !== 'Admin') return <Navigate to="/" />;
+  if (role !== 'Administrateur') return <Navigate to="/" />;
   return children;
 };
 

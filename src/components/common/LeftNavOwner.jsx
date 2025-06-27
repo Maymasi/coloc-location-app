@@ -5,13 +5,17 @@ import Avatar from '@mui/material/Avatar';
 import Divider from '@mui/material/Divider';
 import { useNavigate } from 'react-router-dom';
 import '../../assets/styles/LeftNav.css';
+import { useAuth } from '../../context/AuthContext';
+
 
 
 export default function LeftNavOwner({ openLogs, handleLogsClick }) {
+    const { user } = useAuth();
     const [activeLink, setActiveLink] = React.useState(null);
     const [isNavOpen, setIsNavOpen] = React.useState();
     const [windowWidth, setWindowWidth] = React.useState(window.innerWidth);
     const Navigate = useNavigate();
+    const urlPhoto = localStorage.getItem('urlAvatar') || '/src/assets/images/defaultAvatar.jpg';
 
     useEffect(() => {
         const handleResize = () => {
@@ -52,10 +56,10 @@ export default function LeftNavOwner({ openLogs, handleLogsClick }) {
             
             <div className="content-nav" style={{padding: '1rem 16px'}}>
                 <div className="user">
-                    <Avatar sx={{ width: 38, height: 38 }} style={{ backgroundColor: 'black' }} alt="user" src="/src/assets/logos/logoColokMeak.png" />
+                    <Avatar sx={{ width: 38, height: 38 }} style={{ backgroundColor: 'gray' }} src={urlPhoto} />
                     <div className="user-data">
-                        <div className='name'>User Name</div>
-                        <div className='role'>Student</div>
+                        <div className='name'>{user.nom}</div>
+                        <div className='role'>{user.role}</div>
                     </div>
                 </div>
                 <div className="nav-links">                           

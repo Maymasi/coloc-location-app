@@ -320,7 +320,7 @@
 
 .user-layout .recommended-home{
     width: 32%;
-     display: flex;
+    display: flex;
     flex-direction: column;
     border-radius: 14px;
     background-color: hsl(var(--background));
@@ -328,7 +328,7 @@
     cursor: pointer;
     box-shadow: 0 0 10px hsl(var(--shadow));
     transition: all 0.3s ease-in-out;
-    height: 300px;
+    height: 270px;
 }
 .user-layout .recommended-home:hover{
     transform: scale(1.02);
@@ -401,10 +401,10 @@
 .user-layout .recommended-home .title-price .price{
     font-weight: 600;
     color: hsl(var(--primary));
-    font-size: 0.96rem;
+    font-size: 0.92rem;
 }
 .user-layout .recommended-home .title-price .title{
-    font-size: 1.2rem;
+    font-size: 1rem;
 }
 .user-layout .recommended-home .location{
     font-size: 0.89rem;
@@ -412,15 +412,14 @@
     color: hsl(var(--muted-foreground));
     display: flex;
     align-items: center;
-    gap: 5px;
 }
 
 .user-layout .recommended-home .details .rooms{
     display: flex;
     align-items: center;
     gap: 3px;
-    font-size: 0.9rem;
-    font-weight: 500;
+    font-size: 0.7rem;
+    font-weight: 700;
 }
 .user-layout .recommended-home .details {
     display: flex;
@@ -437,7 +436,7 @@
 }
 .user-layout .all-recommended-home{
     display: flex;
-    gap: 20px;
+    gap: 1%;
     width: 100%;
     flex-wrap: wrap;
     }
