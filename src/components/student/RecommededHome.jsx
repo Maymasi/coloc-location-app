@@ -29,7 +29,7 @@ const recommendedHomes = [
         rooms: "1 chambre",
         bathrooms: "1 salle de bain",
         available: "Disponible",
-        image: "/src/assets/images/home.jpg"
+        image: "public/Room.jfif"
     },
     {
         id: 3,
@@ -40,7 +40,7 @@ const recommendedHomes = [
         rooms: "1 chambre",
         bathrooms: "1 salle de bain",
         available: "Disponible",
-        image: "/src/assets/images/home.jpg"
+        image: "/src/assets/images/maison-moderne-46517595.webp"
     },
 ];
 
@@ -55,7 +55,7 @@ export default function RecommededHome() {
                             <div className="info">
                                 <div className="type">{home.type}</div>
                                 <div className="favorite">
-                                    <Heart size={18} strokeWidth={2.4} />
+                                    {/* <Heart size={18} strokeWidth={2.4} /> */}
                                 </div>
                             </div>
                         </div>

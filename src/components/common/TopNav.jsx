@@ -17,8 +17,10 @@ import Logout from '@mui/icons-material/Logout';
 import { User, BellDot, Logs} from 'lucide-react';
 import '../../assets/styles/TopNav.css';
 import { useAuth } from '../../context/AuthContext';
+import { useNavigate } from 'react-router-dom';
 
 export default function TopNav({handleLogsClick}) {
+    const navigate = useNavigate();
     const {logout} = useAuth();
     const [userAnchorEl, setUserAnchorEl] = React.useState(null);
     const [notifAnchorEl, setNotifAnchorEl] = React.useState(null);
@@ -43,6 +45,7 @@ export default function TopNav({handleLogsClick}) {
     };
     const handleLogout = ()=>{
         logout();
+        navigate('/login');
     }
 
     return (

@@ -5,9 +5,9 @@ import { Stack, Pagination } from "@mui/material";
 
 export default function FavoritesProperties() {
     const favorites = [
-        { id: 1, title: "Appartement 1", type: "Studio", price: 500, location: "Marrakech", bathrooms: 2, chambres: 2, state: "Disponible" },
-        { id: 2, title: "Appartement 2", type: "Appartement", price: 700, location: "Casablanca", bathrooms: 2, chambres: 3, state: "Disponible" },
-        { id: 3, title: "Appartement 3", type: "Villa", price: 1500, location: "Rabat", bathrooms: 3, chambres: 4, state: "Indisponible" },
+        { id: 1, title: "Studio propre à Marrakech", type: "Studio", price: 800, location: "Marrakech", bathrooms: 2, chambres: 2, state: "Disponible",image: "/src/assets/images/home.jpg" },
+        { id: 2, title: "Appartement centre ville", type: "Appartement", price: 1700, location: "Casablanca", bathrooms: 2, chambres: 3, state: "Disponible" ,image: "/src/assets/images/fallback.jpg" },
+        { id: 3, title: "Studio à agdal Rabat", type: "Studio", price: 1500, location: "Rabat", bathrooms: 3, chambres: 4, state: "Indisponible" ,image: "/src/assets/images/maison-moderne-46517595.webp" },
         { id: 4, title: "Appartement 4", type: "Studio", price: 400, location: "Fès", bathrooms: 1, chambres: 1, state: "Disponible" },
         { id: 5, title: "Appartement 5", type: "Appartement", price: 600, location: "Tanger", bathrooms: 1, chambres: 2, state: "Disponible" },
         { id: 6, title: "Appartement 6", type: "Studio", price: 450, location: "Agadir", bathrooms: 1, chambres: 1, state: "Indisponible" },
