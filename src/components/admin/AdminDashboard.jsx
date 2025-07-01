@@ -3,20 +3,16 @@ import  '../../assets/styles/AdminStyles/DashboardAdmin.css';
 import VueDensemble from './tabsAdmin/VueDensemble';
 import ActiviteUtilisateur from './tabsAdmin/ActiviteUtilisateur';
 import SignalementsRecents from './tabsAdmin/SignalementsRecents';
-import ActionsRapide from './ActionsRapide';
 import { Flag,Users,MessageSquare,Building,  } from 'lucide-react';
 import Box from '@mui/material/Box';
 import Tab from '@mui/material/Tab';
 import TabContext from '@mui/lab/TabContext';
 import TabList from '@mui/lab/TabList';
 import TabPanel from '@mui/lab/TabPanel';
+import { getAdminDashboardStates } from '../../Services/AdminServices/AdminDashboardService';
+import { useEffect} from 'react';
+import { useNavigate } from 'react-router-dom';
 
-const cardsInfo = [
-    {title:"Utilisateurs totaux",number:1248,icon:"Users",evolutionMsg:"+12% depuis le mois dernier",color:"#00c853"},
-    {title:"Propriétés actives",number:356,icon:"Building",evolutionMsg:"+8% depuis le mois dernier",color:"#00c853"},
-    {title:"Messages aujourd'hui",number:124,icon:"MessageSquare",evolutionMsg:"+15% par rapport à hier",color:"#00c853"},
-    {title:"Signalements en attente",number:8,icon:"Flag",evolutionMsg:"+3 nouveaux aujourd'hui",color:"#ff5722"},
-]
 const iconMap = {
     Users: Users,
     Building: Building,
@@ -24,9 +20,28 @@ const iconMap = {
     Flag: Flag
 };
 export default function AdminDashboard () {
-
+    const navigate = useNavigate();
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const data = await getAdminDashboardStates();
+                console.log("dashboard data",data);
+                setData(data);
+                // Process the data as needed
+            } catch (error) {
+                console.error("Error fetching admin dashboard states:", error);
+            }
+        };
+        fetchData();
+    }, []);
     const [value, setValue] = React.useState('1');
-
+    const [data, setData] = React.useState();
+    const cardsInfo = [
+        {title:"Utilisateurs totaux",number: data?.totalUsers, icon:"Users",evolutionMsg:`${data?.userChange} depuis le mois dernier`,color:"#00c853"},
+        {title:"Propriétés actives",number:data?.totalProperties,icon:"Building",evolutionMsg:`${data?.propertyChange} depuis le mois dernier`,color:"#00c853"},
+        {title:"Messages aujourd'hui",number:data?.messagesToday,icon:"MessageSquare",evolutionMsg:`${data?.messageChange} par rapport à hier`,color:"#00c853"},
+        {title:"Signalements en attente",number:data?.pendingReports,icon:"Flag",evolutionMsg:`${data?.newReportsToday} nouveaux aujourd'hui`,color:"#ff5722"},
+    ]
     const handleChange = (event, newValue) => {
         setValue(newValue);
     };
@@ -38,11 +53,11 @@ export default function AdminDashboard () {
                     <div className="under-title-admin-dashboard">Vue d'ensemble et gestion de la plateforme</div>
                 </div>
                 <div className="left-side-admin-dashboard">
-                    <div className="btn-signalement-admin-dashboard">
+                    <div className="btn-signalement-admin-dashboard" onClick={() => navigate('/admin/signalements')}>
                         <Flag size={20}/>
                         <div style={{fontSize:"14px"}}>Signalements</div>
                     </div>
-                    <div className="btn-utilisateurs-admin-dashboard">
+                    <div className="btn-utilisateurs-admin-dashboard"  onClick={() => navigate('/admin/utilisateurs')}>
                         <Users size={20}/>
                         <div style={{fontSize:"14px"}}>Utilisateurs</div>
                     </div>
@@ -76,20 +91,16 @@ export default function AdminDashboard () {
                             </TabList>
                         </Box>
                         <TabPanel value="1" style={{width:"100%"}}>
-                            <VueDensemble/>
+                            <VueDensemble data={data}/>
                         </TabPanel>
                         <TabPanel value="2">
-                            <ActiviteUtilisateur/>
+                            <ActiviteUtilisateur data={data}/>
                         </TabPanel>
                         <TabPanel value="3">
-                            <SignalementsRecents/>
+                            <SignalementsRecents data={data}/>
                         </TabPanel>
                     </TabContext>
                 </Box>
-            </div>
-            <div className="actionsRapide">
-                <div className="big-title-parts-admin">Actions rapides</div>
-                <ActionsRapide/>
             </div>
             <div className="resume-analytique">
                 <div className="big-title-parts-admin">Résumé analytique</div>

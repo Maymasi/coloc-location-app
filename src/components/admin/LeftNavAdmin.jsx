@@ -25,8 +25,8 @@ export default  function LeftNav(){
                             <div>
                                 <div className='title-left-nav-admin'>Tableau de bord</div>
                                 <div 
-                                    className={`link-left-nav-admin ${activeLink === 'dashboard' ? 'active' : ''}`} 
-                                    onClick={() => handleLinkClick('dashboard')}
+                                    className={`link-left-nav-admin ${activeLink === '' ? 'active' : ''}`} 
+                                    onClick={() => handleLinkClick('')}
                                 >
                                     <House size={17} />
                                     <span>Tableau de Bord</span>
@@ -48,13 +48,6 @@ export default  function LeftNav(){
                                 >
                                     <Users  size={17} />
                                     <span>Utilisateurs</span>
-                                </div>
-                                <div 
-                                    className={`link-left-nav-admin ${activeLink === 'messages' ? 'active' : ''}`} 
-                                    onClick={() => handleLinkClick('messages')}
-                                >
-                                    <MessageSquare size={17} />
-                                    <span>Messages</span>
                                 </div>
                                 <div 
                                     className={`link-left-nav-admin ${activeLink === 'proprietés' ? 'active' : ''}`} 

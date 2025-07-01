@@ -6,11 +6,17 @@
     box-sizing: border-box;
     box-shadow: 0px 4px 8px 0px var(--color-border);
     height: 100vh;
-    overflow-y: auto;
+    /* overflow-y: auto; */
 }
 .title-left-nav-admin{
     font-size:  12px;
     font-weight: 600;
+}
+.left-nav-admin .content-nav{
+    overflow-y: auto;
+}
+.left-nav-admin .logo{
+    height: fit-content !important;
 }
 .link-left-nav-admin{
     display: flex;

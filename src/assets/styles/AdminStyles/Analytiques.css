@@ -79,7 +79,7 @@
   padding: 20px;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  /* justify-content: space-between; */
   transition: transform 0.2s ease;
   width: 40%;
 }
@@ -132,7 +132,7 @@
 .card-value {
   font-size: 28px;
   font-weight: bold;
-  margin: 15px 0 5px 0;
+  /* margin: 15px 0 5px 0; */
   color: #222;
 }
 
@@ -191,7 +191,7 @@
   max-width: none !important;
 }
 .tabs-analytiques .tabs-nav, .user-layout .css-jhczcq-MuiTabs-root, .user-layout .css-jhczcq-MuiTabs-root{
-  width: 98% !important;
+  width: fit-content !important;
 }
 /* vue d'ensemble analytiques  */
 .vue-analytiques {
@@ -245,6 +245,7 @@
 }
 .vue-analytiques .mois-item .mois-title{
   font-size: 14px;
+  width: 30px;
 }
 .vue-analytiques .mois-item div{
   font-size: 12px;
@@ -275,16 +276,18 @@
   /* background-color: #000; */
   display: flex;
   justify-content: space-between;
-  gap: 2%;
+  gap: 1%;
 }
 .card-logements{
   /* background-color: #2b6cb0; */
-  width: 32%;
-  justify-content: center;
+  width: 48%;
+  justify-content: start;
   padding: 18px;
   display: flex;
   flex-direction: column;
   background-color: #fefefe;
+  border-radius: 16px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
 }
 .title-card-logements{
   display: flex;

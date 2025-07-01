@@ -1,21 +1,7 @@
 import { School, Users, Percent } from 'lucide-react';
 import { useState } from 'react';
 
-export default function Etudiants() {
-  const [repartitionData] = useState([
-    { name: 'Université Paris-Saclay', count: 1245 },
-    { name: 'Sorbonne Université', count: 987 },
-    { name: 'Université de Lyon', count: 854 },
-    { name: 'Université de Toulouse', count: 712 },
-    { name: 'Autres établissements', count: 4628 },
-  ]);
-
-  const [colocData] = useState({
-    demandes: 487,
-    matchs: 312,
-    taux: '64%',
-    delai: '18 jours',
-  });
+export default function Etudiants({data}) {
 
   const [budgetData] = useState([
     { range: '< 400€', pourcentage: '18%' },
@@ -32,10 +18,10 @@ export default function Etudiants() {
           <h4>Répartition par établissement</h4>
         </div>
         <div className="content-card-etudiants">
-          {repartitionData.map((item, idx) => (
+          {data.repartitionEtudiantsParEtablissements.$values.map((item, idx) => (
             <div className="item-repartition" key={idx}>
-              <div className="txt-item-repartition">{item.name}</div>
-              <div className="numb-item-repartition">{item.count}</div>
+              <div className="txt-item-repartition">{item.etablissement}</div>
+              <div className="numb-item-repartition">{item.nombreEtudiants}</div>
             </div>
           ))}
         </div>
@@ -49,19 +35,15 @@ export default function Etudiants() {
         <div className="content-card-etudiants">
           <div className="item-coloc">
             <span>Demandes actives</span>
-            <span className="active-green">{colocData.demandes}</span>
+            <span className="active-green">{data.demandeActives}</span>
           </div>
           <div className="item-coloc">
             <span>Matchs réussis</span>
-            <span className="match-blue">{colocData.matchs}</span>
+            <span className="match-blue">{data.matchReussis}</span>
           </div>
           <div className="item-coloc">
             <span>Taux de réussite</span>
-            <span className="taux-purple">{colocData.taux}</span>
-          </div>
-          <div className="temps-coloc">
-            <span>Temps moyen pour trouver</span>
-            <h3>{colocData.delai}</h3>
+            <span className="taux-purple">{data.tauxDeReussite}</span>
           </div>
         </div>
       </div>
@@ -72,11 +54,11 @@ export default function Etudiants() {
           <h4>Budget des étudiants</h4>
         </div>
         <div className="content-card-etudiants">
-          {budgetData.map((item, idx) => (
+          {data.repartitionBudgetEtudiants.$values.map((item, idx) => (
             <div className="item-budget" key={idx}>
-              <span>{item.range}</span>
+              <span>{item.tranche}</span>
               <div className="bar-container">
-                <div className="bar-fill" style={{ width: item.pourcentage }}></div>
+                <div className="bar-fill" style={{ width: item.pourcentage + "%" }}></div>
               </div>
               <span className="pourcentage-budget">{item.pourcentage}</span>
             </div>
