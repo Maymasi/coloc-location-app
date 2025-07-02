@@ -1,6 +1,8 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Search, Eye, Mail, UserX, UserMinus, MoreHorizontal } from 'lucide-react';
 import "../../assets/styles/AdminStyles/Utilisateurs.css"
+import { getAllUsers,bannirUser } from '../../Services/AdminServices/gestionUtilisateurService';
+import Alert from '@mui/material/Alert';
 const Utilisateurs = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedType, setSelectedType] = useState('Tous les types');
@@ -8,67 +10,24 @@ const Utilisateurs = () => {
   const [showTypeDropdown, setShowTypeDropdown] = useState(false);
   const [showStatusDropdown, setShowStatusDropdown] = useState(false);
   const [showActionDropdown, setShowActionDropdown] = useState(null);
+  const [utilisateurs, setUtilisateurs] = useState([]);
+  const [showSuccessAlert, setShowSuccessAlert] = useState(false);
 
-  // Données des utilisateurs en state pour faciliter l'intégration API
-  const [utilisateurs, setUtilisateurs] = useState([
-    {
-      id: 1,
-      nom: 'Emma Johnson',
-      email: 'emma.j@example.com',
-      type: 'Étudiant',
-      statut: 'Actif',
-      verifie: true,
-      dateInscription: '15/01/2024'
-    },
-    {
-      id: 2,
-      nom: 'John Smith',
-      email: 'john.s@example.com',
-      type: 'Propriétaire',
-      statut: 'Actif',
-      verifie: true,
-      dateInscription: '20/02/2024'
-    },
-    {
-      id: 3,
-      nom: 'Michael Chen',
-      email: 'michael.c@example.com',
-      type: 'Étudiant',
-      statut: 'Suspendu',
-      verifie: true,
-      dateInscription: '10/03/2024'
-    },
-    {
-      id: 4,
-      nom: 'Sarah Williams',
-      email: 'sarah.w@example.com',
-      type: 'Étudiant',
-      statut: 'Actif',
-      verifie: false,
-      dateInscription: '05/04/2024'
-    },
-    {
-      id: 5,
-      nom: 'Robert Wilson',
-      email: 'robert.w@example.com',
-      type: 'Propriétaire',
-      statut: 'Banni',
-      verifie: true,
-      dateInscription: '25/01/2024'
-    },
-    {
-      id: 6,
-      nom: 'Jennifer Lopez',
-      email: 'jennifer.l@example.com',
-      type: 'Admin',
-      statut: 'Actif',
-      verifie: true,
-      dateInscription: '10/12/2023'
+  
+  useEffect(() => {
+    const fetchUsers = async()=>{
+      try {
+        const response = await getAllUsers();
+        setUtilisateurs(response.$values);
+      } catch (error) {
+        console.error('Error fetching users:', error);
+      }
     }
-  ]);
+    fetchUsers();
+  },[]);
 
-  const types = ['Tous les types', 'Étudiants', 'Propriétaires', 'Administrateurs'];
-  const statuts = ['Tous les statuts', 'Actifs', 'Suspendus', 'Bannis'];
+  const types = ['Tous les types', 'Etudiants', 'Proprietaires', 'Administrateurs'];
+  const statuts = ['Tous les statuts', 'actifs', 'suspendus', 'bannis'];
 
   // Filtrage des utilisateurs
   const filteredUsers = utilisateurs.filter(user => {
@@ -82,6 +41,21 @@ const Utilisateurs = () => {
 
   const handleAction = (action, userId) => {
     console.log(`Action ${action} pour l'utilisateur ${userId}`);
+    if (action === 'bannir') {
+      bannirUser(userId)
+        .then(() => {
+          setUtilisateurs(prevUsers => prevUsers.filter(user => user.id !== userId));
+          setShowSuccessAlert(true);
+          setTimeout(() => {
+            setShowSuccessAlert(false);
+          }, 3000); 
+        })
+        .catch(error => {
+          console.error('Erreur lors du bannissement de l\'utilisateur:', error);
+          alert('Erreur lors du bannissement de l\'utilisateur');
+        });
+
+    }
     setShowActionDropdown(null);
   };
 
@@ -96,13 +70,12 @@ const Utilisateurs = () => {
 
   const getTypeBadgeClass = (type) => {
     switch (type) {
-      case 'Étudiant': return 'utilisateurs-badge-etudiant';
-      case 'Propriétaire': return 'utilisateurs-badge-proprietaire';
-      case 'Admin': return 'utilisateurs-badge-admin';
+      case 'Etudiant': return 'utilisateurs-badge-etudiant';
+      case 'Proprietaire': return 'utilisateurs-badge-proprietaire';
+      case 'Administrateur': return 'utilisateurs-badge-admin';
       default: return 'utilisateurs-badge-etudiant';
     }
   };
-
   return (
     <div className="utilisateurs-container">
       <div className="utilisateurs-header">
@@ -264,6 +237,19 @@ const Utilisateurs = () => {
           </tbody>
         </table>
       </div>
+      {showSuccessAlert && (
+        <div style={{
+          position: 'fixed',
+          bottom: 20,
+          left: '60%',
+          transform: 'translateX(-60%)',
+          zIndex: 9999
+        }}>
+          <Alert severity="success" variant="filled">
+            Utilisateur banni avec succès.
+          </Alert>
+        </div>
+      )}
     </div>
   );
 };
