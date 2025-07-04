@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { 
   Search, 
   ChevronDown, 
@@ -11,55 +11,22 @@ import {
   MoreVertical 
 } from 'lucide-react';
 import '../../assets/styles/AdminStyles/Proprietes.css';
+import { getProprietes,verifierPropriete,rejeterPropriete } from '../../Services/AdminServices/gestionProprietesService'
 
 const Proprietes = () => {
   // État pour les données des propriétés
-  const [proprietes, setProprietes] = useState([
-    {
-      id: 1,
-      nom: "Modern Studio Apartment",
-      adresse: "123 University Ave, Near Tech Campus",
-      proprietaire: "John Smith",
-      type: "Studio",
-      prix: "$750/mo",
-      statut: "Vérifiée",
-      dateAjout: "15/05/2024",
-      image: null
-    },
-    {
-      id: 2,
-      nom: "Spacious 2-Bedroom Apartment",
-      adresse: "456 College St, Downtown",
-      proprietaire: "Sarah Williams",
-      type: "Apartment",
-      prix: "$1200/mo",
-      statut: "En attente",
-      dateAjout: "10/06/2024",
-      image: null
-    },
-    {
-      id: 3,
-      nom: "Cozy Room in Shared House",
-      adresse: "789 Campus Dr, 5 min to University",
-      proprietaire: "Michael Chen",
-      type: "Room",
-      prix: "$550/mo",
-      statut: "Vérifiée",
-      dateAjout: "20/05/2024",
-      image: null
-    },
-    {
-      id: 4,
-      nom: "Luxury 3-Bedroom Townhouse",
-      adresse: "101 Graduate Lane, Near Campus",
-      proprietaire: "Robert Wilson",
-      type: "House",
-      prix: "$1800/mo",
-      statut: "Rejetée",
-      dateAjout: "05/06/2024",
-      image: null
-    }
-  ]);
+  const [proprietes, setProprietes] = useState([]);
+  useEffect(() => {
+    const fetchProprietes = async () => {
+      try {
+        const response = await getProprietes();
+        setProprietes(response.$values);
+      } catch (error) {
+        console.error("Erreur lors de la récupération des propriétés:", error);
+      }
+    };
+    fetchProprietes();
+  }, []);
 
   // États pour les filtres
   const [searchTerm, setSearchTerm] = useState('');
@@ -71,7 +38,7 @@ const Proprietes = () => {
 
   // Options pour les filtres
   const typeOptions = ['Tous les types', 'Apartment', 'Maison', 'Studio', 'Chambre'];
-  const statusOptions = ['Tous les statuts', 'En attente', 'Vérifiées', 'Rejetées'];
+  const statusOptions = ['Tous les statuts', 'EnAttente', 'Verifié', 'Rejeté'];
 
   // Fonction pour filtrer les propriétés
   const filteredProprietes = proprietes.filter(propriete => {
@@ -86,9 +53,9 @@ const Proprietes = () => {
   // Fonction pour obtenir la classe CSS du statut
   const getStatusClass = (statut) => {
     switch(statut) {
-      case 'Vérifiée': return 'Proprietes-status-verified';
-      case 'En attente': return 'Proprietes-status-pending';
-      case 'Rejetée': return 'Proprietes-status-rejected';
+      case 'Verifié': return 'Proprietes-status-verified';
+      case 'EnAttente': return 'Proprietes-status-pending';
+      case 'Rejeté': return 'Proprietes-status-rejected';
       default: return '';
     }
   };
@@ -105,13 +72,29 @@ const Proprietes = () => {
   };
 
   const handleVerifier = (id) => {
-    console.log('Vérifier propriété:', id);
     setShowActionsMenu(null);
+    verifierPropriete(id)
+      .then(() => {
+        setProprietes(proprietes.map(p => 
+          p.id === id ? { ...p, statut: 'Verifié' } : p
+        ));
+      })
+      .catch(error => {
+        console.error("Erreur lors de la vérification de la propriété:", error);
+      });
   };
 
   const handleRejeter = (id) => {
-    console.log('Rejeter propriété:', id);
     setShowActionsMenu(null);
+    rejeterPropriete(id)
+      .then(() => {
+        setProprietes(proprietes.map(p => 
+          p.id === id ? { ...p, statut: 'Rejeté' } : p
+        ));
+      })
+      .catch(error => {
+        console.error("Erreur lors du rejet de la propriété:", error);
+      });
   };
 
   const handleSupprimer = (id) => {
@@ -263,13 +246,6 @@ const Proprietes = () => {
                           >
                             <Eye size={16} />
                             Voir la propriété
-                          </button>
-                          <button 
-                            className="Proprietes-action-item"
-                            onClick={() => handleModifier(propriete.id)}
-                          >
-                            <Edit size={16} />
-                            Modifier
                           </button>
                           <button 
                             className="Proprietes-action-item"

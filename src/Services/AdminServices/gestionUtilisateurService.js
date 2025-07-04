@@ -18,3 +18,12 @@ export const bannirUser =  async (userId) => {
     throw error;
   }
 }
+export const suspendreUser =  async (userId) => {
+  try{
+    const response = await AuthAxios.post(`/Utilisateur/SuspendreUser?IdUser=${userId}`);
+    return response.data;
+  } catch(error){
+    console.error('Error suspending user:', error);
+    throw error;
+  }
+}

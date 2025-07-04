@@ -1,286 +1,415 @@
-.signalements-container {
+/* Conteneur principal */
+.signalements_container {
+  max-width: 1200px;
+  margin: 0 auto;
   padding: 24px;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
+  background-color: #f8fafc;
+  min-height: 100vh;
 }
 
-.signalements-title {
-  font-size: 1.875rem;
-  font-weight: bold;
-  margin-top: -40px;
+/* En-tête */
+.signalements_header {
+  margin-bottom: 32px;
 }
 
-.signalements-subtitle {
-  color: #4b5563;
-  margin-top: -10px;
-  font-size: 1.125rem;
-  line-height: 1.25rem;
-}
-
-.signalements-tabs {
-  display: flex;
-  gap: 0;
-  background-color: #e7e7e9;
-  padding: 4px;
-  border-radius: 12px;
-  width: fit-content;
-}
-
-.signalements-tab-button {
-  background-color: transparent;
-  padding: 8px 16px;
-  border-radius: 8px;
-  border: none;
-  cursor: pointer;
-  font-size: 0.95rem;
-  font-weight: 500;
-  color: #374151;
-  transition: background-color 0.2s ease;
-}
-
-.signalements-tab-button.active {
-  background-color: #ffffff;
+.signalements_title {
+  font-size: 32px;
   font-weight: 700;
+  color: #1a202c;
+  margin: 0 0 8px 0;
+  line-height: 1.2;
 }
-.signale-tab-content {
+
+.signalements_subtitle {
+  font-size: 16px;
+  color: #718096;
+  margin: 0;
+  line-height: 1.5;
+}
+
+/* Onglets */
+.signalements_tabs {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 32px;
+  border-bottom: 2px solid #e2e8f0;
+  padding-bottom: 0;
+}
+
+.signalements_tab {
   display: flex;
   align-items: center;
   gap: 8px;
-  white-space: nowrap;
+  padding: 12px 20px;
+  background: transparent;
+  border: none;
+  border-radius: 8px 8px 0 0;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  color: #718096;
+  transition: all 0.2s ease;
+  position: relative;
 }
 
-.signalements-badge {
-  font-size: 0.75rem;
+.signalements_tab:hover {
+  background-color: #f7fafc;
+  color: #4a5568;
+}
+
+.signalements_tab_active {
+  background-color: #ffffff;
+  color: #2d3748;
+  border-bottom: 3px solid #3182ce;
+  margin-bottom: -2px;
+}
+
+.signalements_tab_count {
+  background-color: #e2e8f0;
+  color: #4a5568;
   padding: 2px 8px;
-  border-radius: 9999px;
-  color: #ffffff;
+  border-radius: 12px;
+  font-size: 12px;
   font-weight: 600;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
+  min-width: 20px;
+  text-align: center;
 }
 
-.signalements-badge.yellow {
-  background-color: #f59e0b;
+.signalements_tab_active .signalements_tab_count {
+  background-color: #3182ce;
+  color: white;
 }
 
-.signalements-badge.green {
-  background-color: #10b981;
-}
-
-.signalements-badge.red {
-  background-color: #ef4444;
-}
-
-
-
-.signalements-report-card {
-  background-color: #fff;
-  border: 1px solid #e5e7eb;
-  border-radius: 16px;
-  margin-top: 24px;
-  padding: 24px;
-  margin-right: 10%;
-  
-}
-
-.signalements-report-header {
+/* Contenu */
+.signalements_content {
   display: flex;
-  align-items: center;        
-  gap: 8px;                   
-  justify-content: flex-start;
-  flex-wrap: wrap;
-  margin-top: -10px;
+  flex-direction: column;
+  gap: 24px;
 }
 
-.signalements-report-title {
-  font-size: 1.25rem;
+.signalements_empty {
+  text-align: center;
+  padding: 60px 20px;
+  color: #718096;
+  font-size: 16px;
+}
+
+/* Carte de signalement */
+.signalements_card {
+  background: white;
+  border-radius: 12px;
+  border: 1px solid #e2e8f0;
+  overflow: hidden;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  transition: box-shadow 0.2s ease;
+}
+
+.signalements_card:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.signalements_card_header {
+  padding: 24px 24px 16px 24px;
+  border-bottom: 1px solid #f7fafc;
+}
+
+.signalements_card_title {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 12px;
+}
+
+.signalements_card_title h3 {
+  font-size: 20px;
   font-weight: 600;
-  margin-right: 16px;
+  color: #1a202c;
+  margin: 0;
 }
 
-.signalements-report-tags {
+.signalements_badges {
   display: flex;
   gap: 8px;
-  
+  flex-wrap: wrap;
 }
 
-.signalements-tag {
-  background-color: #facc15;
-  color: white;
-  font-size: 0.75rem;
-  font-weight: 500;
-  padding: 4px 8px;
-  border-radius: 9999px;
+.signalements_timestamp {
+  font-size: 14px;
+  color: #718096;
+  margin-top: 4px;
 }
 
-.signalements-tag-outline {
-  font-size: 0.75rem;
-  font-weight: 500;
-  padding: 4px 8px;
-  border-radius: 9999px;
+/* Badges de statut */
+.signalements_status_badge {
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.signalements_status_pending {
+  background-color: #fed7aa;
+  color: #c2410c;
+}
+
+.signalements_status_resolved {
+  background-color: #bbf7d0;
+  color: #166534;
+}
+
+.signalements_status_rejected {
+  background-color: #fecaca;
+  color: #dc2626;
+}
+
+/* Badges de priorité */
+.signalements_priority_badge {
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
   border: 1px solid;
 }
 
-.signalements-tag-outline.red {
-  color: #ef4444;
-  border-color: #ef4444;
-}
-.signalements-tag-outline.green{
-  color: rgb(59 130 246);
-  border-color: rgb(59 130 246);
-
+.signalements_priority_high {
+  background-color: #fee2e2;
+  color: #dc2626;
+  border-color: #fca5a5;
 }
 
-.signalements-report-date {
-  color: #6b7280;
-  font-size: 0.875rem;
-  margin-top: -8px;
+.signalements_priority_medium {
+  background-color: #fef3c7;
+  color: #d97706;
+  border-color: #fcd34d;
 }
 
-.signalements-report-body {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 32px;
-  margin-top: 24px;
+.signalements_priority_low {
+  background-color: #e0f2fe;
+  color: #0369a1;
+  border-color: #7dd3fc;
 }
 
-.signalements-report-column {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
+/* Contenu de la carte */
+.signalements_card_content {
+  padding: 24px;
 }
 
-.signalements-report-section .signalements-section-title {
-  font-size: 0.875rem;
-  font-weight: 500;
-  color: #374151;
-  margin-top: -4px;
-  padding-left: -10px;
-  
+.signalements_section_title {
+  font-size: 12px;
+  font-weight: 600;
+  color: #4a5568;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 8px;
 }
 
-.signalements-report-user {
+/* Section reporter */
+.signalements_reporter_section {
+  margin-bottom: 24px;
+}
+
+.signalements_reporter_info {
   display: flex;
   align-items: center;
   gap: 12px;
-  margin-top: 8px;
 }
 
-.signalements-user-avatar {
-  width: 40px;
-  height: 40px;
-  background-color: #e5e7eb;
-  border-radius: 9999px;
-  margin-top: -20px;
-}
-
-.signalements-user-name {
-  font-weight: 600;
-  margin-top: -10px;
-}
-
-.signalements-user-email {
-  font-size: 0.875rem;
-  color: #6b7280;
-  margin-top: -10px;
-}
-
-.signalements-section-value {
-  color: #1f2937;
-  margin-top: -8px;
- 
-}
-
-.signalements-description-box {
-  background-color: #f3f4f6;
-  padding: 12px;
-  border-radius: 8px;
-  margin-top: 8px;
-  color: #1f2937;
-  line-height: 1.5;
-  margin-left: -10px;
-  font-size: 0.875rem;
-  line-height: 1.25rem;
-}
-
-.signalements-reported-content-box {
-  background-color: #eff6ff;
-  padding: 12px;
-  border-radius: 8px;
-  margin-top: 8px;
-  color: #1f2937;
-  padding-top: -5px;
-  margin-left: -10px;
-}
-
-
-.signalements-original-link {
-  color: #ef4444;
-  margin-top: 6px;
-  cursor: pointer;
-  margin-top: -8px;
-  font-size: 0.75rem;
-  line-height: 1rem;
-}
-.signalements-original-Signale{
-    margin-top: -10px;
-    font-size: 0.875rem;
-    line-height: 1.25rem;
-}
-
-.signalements-original-link:hover {
-  text-decoration: underline;
-}
-
-.signalements-report-actions {
-  display: flex;
-  justify-content: flex-end;
-  gap: 16px;
-  margin-top: 24px;
-}
-
-.signalements-action-btn {
+.signalements_avatar {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   display: flex;
   align-items: center;
-  gap: 6px;
-  padding: 10px 16px;
+  justify-content: center;
+  color: white;
+  font-weight: 600;
+  font-size: 16px;
+}
+
+.signalements_reporter_name {
+  font-size: 16px;
+  font-weight: 600;
+  color: #1a202c;
+  margin-bottom: 2px;
+}
+
+.signalements_reporter_email {
+  font-size: 14px;
+  color: #718096;
+}
+
+/* Section description */
+.signalements_description_section {
+  margin-bottom: 24px;
+}
+
+.signalements_description {
+  font-size: 14px;
+  color: #4a5568;
+  line-height: 1.6;
+  background-color: #f7fafc;
+  padding: 16px;
   border-radius: 8px;
-  font-size: 0.95rem;
-  cursor: pointer;
+  border-left: 4px solid #cbd5e0;
+}
+
+/* Info contenu */
+.signalements_content_info {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  gap: 24px;
+  margin-bottom: 24px;
+}
+
+.signalements_content_type_value {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #4a5568;
+  font-size: 14px;
   font-weight: 500;
 }
 
-.signalements-action-btn.reject {
-  border: 1px solid #ef4444;
-  color: #ef4444;
-  background-color: transparent;
+.signalements_reported_content_card {
+  background-color: #f7fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  padding: 16px;
 }
 
-.signalements-action-btn.reject:hover {
-  background-color: #fef2f2;
-}
-
-.signalements-action-btn.resolve {
-  background-color: #16a34a;
-  color: white;
-  border: none;
-}
-
-.signalements-action-btn.resolve:hover {
-  background-color: #15803d;
-}
-
-.signalements-tag-outline.orange{
-    color: #facc15;
-    border-color:#facc15;
-
-}
-.signalements-tab-button {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.signalements-caret {
+.signalements_reported_author {
   font-size: 14px;
-  margin-top: 2px;
+  color: #718096;
+  margin-bottom: 4px;
+}
+
+.signalements_reported_title {
+  font-size: 16px;
+  font-weight: 500;
+  color: #1a202c;
+  margin-bottom: 8px;
+}
+
+.signalements_view_original {
+  color: #3182ce;
+  font-size: 14px;
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+.signalements_view_original:hover {
+  color: #2c5282;
+}
+
+/* Section raison */
+.signalements_reason_section {
+  margin-bottom: 24px;
+}
+
+.signalements_reason {
+  font-size: 14px;
+  color: #1a202c;
+  font-weight: 500;
+}
+
+/* Note administrative */
+.signalements_admin_note_section {
+  margin-bottom: 24px;
+}
+
+.signalements_admin_note {
+  background-color: #edf2f7;
+  border: 1px solid #cbd5e0;
+  border-radius: 8px;
+  padding: 16px;
+  font-size: 14px;
+  color: #4a5568;
+  line-height: 1.6;
+}
+
+/* Actions */
+.signalements_actions {
+  display: flex;
+  gap: 12px;
+  justify-content: flex-end;
+  padding-top: 16px;
+  border-top: 1px solid #f7fafc;
+}
+
+.signalements_reject_btn,
+.signalements_resolve_btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.signalements_reject_btn {
+  background-color: #fed7d7;
+  color: #c53030;
+  border: 1px solid #feb2b2;
+}
+
+.signalements_reject_btn:hover {
+  background-color: #fbb6b6;
+  transform: translateY(-1px);
+}
+
+.signalements_resolve_btn {
+  background-color: #c6f6d5;
+  color: #2f855a;
+  border: 1px solid #9ae6b4;
+}
+
+.signalements_resolve_btn:hover {
+  background-color: #9ae6b4;
+  transform: translateY(-1px);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .signalements_container {
+    padding: 16px;
+  }
+  
+  .signalements_title {
+    font-size: 24px;
+  }
+  
+  .signalements_tabs {
+    flex-direction: column;
+    gap: 4px;
+  }
+  
+  .signalements_tab {
+    justify-content: center;
+  }
+  
+  .signalements_card_content {
+    padding: 16px;
+  }
+  
+  .signalements_content_info {
+    grid-template-columns: 1fr;
+  }
+  
+  .signalements_card_title {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+  
+  .signalements_actions {
+    flex-direction: column;
+  }
 }

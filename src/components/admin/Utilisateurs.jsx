@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Search, Eye, Mail, UserX, UserMinus, MoreHorizontal } from 'lucide-react';
 import "../../assets/styles/AdminStyles/Utilisateurs.css"
-import { getAllUsers,bannirUser } from '../../Services/AdminServices/gestionUtilisateurService';
+import { getAllUsers,bannirUser,suspendreUser } from '../../Services/AdminServices/gestionUtilisateurService';
 import Alert from '@mui/material/Alert';
 const Utilisateurs = () => {
   const [searchTerm, setSearchTerm] = useState('');
@@ -27,7 +27,7 @@ const Utilisateurs = () => {
   },[]);
 
   const types = ['Tous les types', 'Etudiants', 'Proprietaires', 'Administrateurs'];
-  const statuts = ['Tous les statuts', 'actifs', 'suspendus', 'bannis'];
+  const statuts = ['Tous les statuts', 'actifs', 'suspendus'];
 
   // Filtrage des utilisateurs
   const filteredUsers = utilisateurs.filter(user => {
@@ -54,7 +54,18 @@ const Utilisateurs = () => {
           console.error('Erreur lors du bannissement de l\'utilisateur:', error);
           alert('Erreur lors du bannissement de l\'utilisateur');
         });
-
+    }
+    if( action === 'suspendre') {
+      suspendreUser(userId)
+        .then(() => {
+          setUtilisateurs(prevUsers => prevUsers.map(user => 
+            user.id === userId ? { ...user, statut: 'Suspendu' } : user
+          ));
+        })
+        .catch(error => {
+          console.error('Erreur lors de la suspension de l\'utilisateur:', error);
+          alert('Erreur lors de la suspension de l\'utilisateur');
+        });
     }
     setShowActionDropdown(null);
   };

@@ -1,337 +1,262 @@
-import React, { useState } from 'react';
-import { CheckCircle2, XCircle } from 'lucide-react';
-import { AiOutlineSolution } from "react-icons/ai";
-import { AiOutlineFlag } from "react-icons/ai";
-import '../../assets/styles/Signalements.css';
-import ModalRejet from './ModalRejet';
-import ModalResolution from './ModalResolution';
-
+import React, { useEffect, useState } from 'react';
+import { MessageSquare, Home, Clock, CheckCircle, X } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
+import '../../assets/styles/Signalements.css'; // Assurez-vous d'avoir ce fichier CSS pour le style
+import {  getSignalements,resolveSignalement,rejectSignalement } from '../../Services/AdminServices/gestionSignalements'
 const Signalements = () => {
-  const [showModal, setShowModal] = useState(false);
-  const [showResolutionModal, setShowResolutionModal] = useState(false);
   const [activeTab, setActiveTab] = useState('pending');
+  const Navigate = useNavigate();
+  // Données d'exemple pour les signalements
 
-  const handleRejectClick = () => setShowModal(true);
-  const handleCloseModal = () => setShowModal(false);
-  const handleConfirmRejet = () => {
-    setShowModal(false);
-    setActiveTab('rejected');
+  const [pendingSignalements, setPendingSignalements] = useState([]);
+  const [resolvedSignalements, setResolvedSignalements] = useState([]);
+  const [rejectedSignalements, setRejectedSignalements] = useState([]);
+
+  useEffect(() => {
+  const fetchSignalements = async () => {
+    try {
+      const response = await getSignalements();
+      const pending = [];
+      const resolved = [];
+      const rejected = [];
+
+      for (const signalement of response.$values) {
+        switch (signalement.status) {
+          case 'EnAttente':
+            pending.push(signalement);
+            break;
+          case 'Resolu':
+            resolved.push(signalement);
+            break;
+          case 'Rejete':
+            rejected.push(signalement);
+            break;
+        }
+      }
+
+      // Mise à jour des états une seule fois
+      setPendingSignalements(pending);
+      setResolvedSignalements(resolved);
+      setRejectedSignalements(rejected);
+
+    } catch (error) {
+      console.error("Error fetching signalements:", error);
+    }
   };
 
-  const handleResolveClick = () => setShowResolutionModal(true);
-  const handleConfirmResolution = (data) => {
-    console.log('Résolution confirmée avec :', data);
-    setShowResolutionModal(false);
+  fetchSignalements();
+}, []);
+
+  const signalements = {
+    pending: pendingSignalements,
+    resolved: resolvedSignalements,
+    rejected: rejectedSignalements
   };
+  const getTabCount = (tab) => {
+    if(tab === 'pending') {
+      return pendingSignalements.length;
+    }
+    if(tab === 'resolved') { 
+      return resolvedSignalements.length;
+    }
+    if(tab === 'rejected') {
+      return rejectedSignalements.length;
+    }
+  };
+
+  const handleResolve = (signalementId) => {
+    console.log(`Résoudre le signalement ${signalementId}`);
+    resolveSignalement(signalementId)
+      .then(() => {
+        // Rafraîchir la liste des signalements après résolution
+        setPendingSignalements(prev => prev.filter(s => s.id !== signalementId));
+        setResolvedSignalements(prev => {
+          const resolvedSignalement = pendingSignalements.find(s => s.id === signalementId);
+          if (resolvedSignalement) {
+            return [...prev, { ...resolvedSignalement, status: 'Resolu' }];
+          }
+          return prev;
+        });
+      })
+      .catch(error => {
+        console.error("Error resolving signalement:", error);
+      });
+  };
+
+  const handleReject = (signalementId) => {
+    console.log(`Rejeter le signalement ${signalementId}`);
+    rejectSignalement(signalementId)
+      .then(() => {
+        // Rafraîchir la liste des signalements après rejet
+        setPendingSignalements(prev => prev.filter(s => s.id !== signalementId));
+        setRejectedSignalements(prev => {
+          const rejectedSignalement = pendingSignalements.find(s => s.id === signalementId);
+          if (rejectedSignalement) {
+            return [...prev, { ...rejectedSignalement, status: 'Rejete' }];
+          }
+          return prev;
+        });
+      })
+      .catch(error => {
+        console.error("Error rejecting signalement:", error);
+      });
+  };
+
+  const SignalementCard = ({ signalement, showActions = true }) => (
+    <div className="signalements_card">
+      <div className="signalements_card_header">
+        <div className="signalements_card_title">
+          <h3>Signalement #{signalement.$id}</h3>
+          <div className="signalements_badges">
+            <span className={`signalements_status_badge signalements_status_${signalement.status === 'EnAttente' ? 'pending' : signalement.status === 'Resolu' ? 'resolved' : 'rejected'}`}>
+              {signalement.status}
+            </span>
+            {/* <span className={`signalements_priority_badge signalements_priority_${signalement.priority}`}>
+              {signalement.priority === 'high' ? 'Haute priorité' : signalement.priority === 'medium' ? 'Priorité moyenne' : 'Priorité faible'}
+            </span> */}
+          </div>
+        </div>
+        <div className="signalements_timestamp">
+          {signalement.status === 'Résolu' ? `Résolu le ${signalement.dateResolution}` : `Signalé le ${signalement.dateSignalement}`}
+        </div>
+      </div>
+
+      <div className="signalements_card_content">
+        <div className="signalements_reporter_section">
+          <div className="signalements_section_title">Signalé par</div>
+          <div className="signalements_reporter_info">
+            {/* <div className="signalements_avatar">
+              {signalement.reportedBy.avatar}
+            </div> */}
+            <div className="signalements_reporter_details">
+              <div className="signalements_reporter_name">{signalement.signaleurName}</div>
+              <div className="signalements_reporter_email">{signalement.signaleurEmail}</div>
+            </div>
+          </div>
+        </div>
+
+        <div className="signalements_description_section">
+          <div className="signalements_section_title">Description</div>
+          <div className="signalements_description">
+            {signalement.description}
+          </div>
+        </div>
+
+        <div className="signalements_content_info">
+          <div className="signalements_content_type">
+            <div className="signalements_section_title">Type de contenu</div>
+            <div className="signalements_content_type_value">
+               <Home size={16} />
+              {signalement.contentType}
+            </div>
+          </div>
+
+          <div className="signalements_reported_content">
+            <div className="signalements_section_title">Contenu signalé</div>
+            <div className="signalements_reported_content_card">
+              <div className="signalements_reported_author">
+                {/* {signalement.reportedContent.author} */}
+              </div>
+              <div className="signalements_reported_title">
+                {signalement.contentName}
+              </div>
+              {signalement.status === 'EnAttente' && (
+                <Link to={`/details/${signalement.contentId}`} className="signalements_view_original">
+                  Voir le contenu original
+                </Link>
+              )}
+            </div>
+          </div>
+        </div>
+
+        <div className="signalements_reason_section">
+          <div className="signalements_section_title">Raison</div>
+          <div className="signalements_reason">
+            {signalement.motif}
+          </div>
+        </div>
+
+        {signalement.adminNote && (
+          <div className="signalements_admin_note_section">
+            <div className="signalements_section_title">Note administrative</div>
+            {/* <div className="signalements_admin_note">
+              {signalement.adminNote}
+            </div> */}
+          </div>
+        )}
+
+        {showActions && signalement.status === 'EnAttente' && (
+          <div className="signalements_actions">
+            <button 
+              className="signalements_reject_btn"
+              onClick={() => handleReject(signalement.id)}
+            >
+              <X size={16} />
+              Rejeter
+            </button>
+            <button 
+              className="signalements_resolve_btn"
+              onClick={() => handleResolve(signalement.id)}
+            >
+              <CheckCircle size={16} />
+              Résoudre
+            </button>
+          </div>
+        )}
+      </div>
+    </div>
+  );
 
   return (
-    <div className="signalements-container">
-      <h1 className="signalements-title">Gestion des signalements</h1>
-      <p className="signalements-subtitle">Examinez et traitez les signalements des utilisateurs</p>
+    <div className="signalements_container">
+      <div className="signalements_header">
+        <h1 className="signalements_title">Gestion des signalements</h1>
+        <p className="signalements_subtitle">Examinez et traitez les signalements des utilisateurs</p>
+      </div>
 
-      {/* Filtres */}
-      <div className="signalements-tabs">
+      <div className="signalements_tabs">
         <button
-          className={`signalements-tab-button ${activeTab === 'pending' ? 'active' : ''}`}
+          className={`signalements_tab ${activeTab === 'pending' ? 'signalements_tab_active' : ''}`}
           onClick={() => setActiveTab('pending')}
         >
-          <div className="signale-tab-content">
-            <span>En attente</span>
-            <span className="signalements-badge yellow">3</span>
-         </div>
+          <Clock size={16} />
+          En attente
+          <span className="signalements_tab_count">{getTabCount('pending')}</span>
         </button>
-
         <button
-          className={`signalements-tab-button ${activeTab === 'resolved' ? 'active' : ''}`}
+          className={`signalements_tab ${activeTab === 'resolved' ? 'signalements_tab_active' : ''}`}
           onClick={() => setActiveTab('resolved')}
         >
-          <div className="signale-tab-content">
-           <span>Résolus</span>
-           <span className="signalements-badge green">1</span>
-          </div>
+          <CheckCircle size={16} />
+          Résolus
+          <span className="signalements_tab_count">{getTabCount('resolved')}</span>
         </button>
-
         <button
-          className={`signalements-tab-button ${activeTab === 'rejected' ? 'active' : ''}`}
+          className={`signalements_tab ${activeTab === 'rejected' ? 'signalements_tab_active' : ''}`}
           onClick={() => setActiveTab('rejected')}
         >
-          <div className="signale-tab-content">
-           <span>Rejetés</span>
-           <span className="signalements-badge red">1</span>
-          </div>
+          <X size={16} />
+          Rejetés
+          <span className="signalements_tab_count">{getTabCount('rejected')}</span>
         </button>
       </div>
 
-      {/* Signalements en attente */}
-      {activeTab === 'pending' && (
-        <>
-          {/* Signalement #1 */}
-          <div className="signalements-report-card">
-            <div className="signalements-report-header">
-              <h2 className="signalements-report-title">Signalement #1</h2>
-              <div className="signalements-report-tags">
-                <span className="signalements-tag yellow">En attente</span>
-                <span className="signalements-tag-outline red">Haute priorité</span>
-              </div>
-            </div>
-
-            <p className="signalements-report-date">Signalé le 15/06/2025 à 12:23:00</p>
-
-            <div className="signalements-report-body">
-              <div className="signalements-report-column">
-                <div className="signalements-report-section">
-                  <h3 className="signalements-section-title">Signalé par</h3>
-                  <div className="signalements-report-user">
-                    <div className="signalements-user-avatar" />
-                    <div>
-                      <p className="signalements-user-name">Emma Johnson</p>
-                      <p className="signalements-user-email">emma.j@example.com</p>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="signalements-report-section">
-                  <h3 className="signalements-section-title">Type de contenu</h3>
-                  <p className="signalements-section-value"><AiOutlineSolution /> Propriété</p>
-                </div>
-
-                <div className="signalements-report-section">
-                  <h3 className="signalements-section-title">Raison</h3>
-                  <p className="signalements-section-value">Contenu frauduleux ou trompeur</p>
-                </div>
-              </div>
-
-              <div className="signalements-report-column">
-                <div className="signalements-report-section">
-                  <h3 className="signalements-section-title">Description</h3>
-                  <div className="signalements-description-box">
-                    Cette annonce contient des photos qui ne correspondent pas à la propriété réelle. J'ai visité l'appartement et il est complètement différent des photos.
-                  </div>
-                </div>
-
-                <div className="signalements-report-section">
-                  <h3 className="signalements-section-title">Contenu signalé</h3>
-                  <div className="signalements-reported-content-box">
-                    <p className="signalements-user-name">John Smith</p>
-                    <p className="signalements-original-Signale">Spacious 2-Bedroom Apartment Near Campus - $1200/mo</p>
-                    <p className="signalements-original-link">Voir le contenu original</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div className="signalements-report-actions">
-              <button className="signalements-action-btn reject" onClick={handleRejectClick}>
-                <XCircle size={16} /> Rejeter
-              </button>
-              <button className="signalements-action-btn resolve" onClick={handleResolveClick}>
-                <CheckCircle2 size={16} /> Résoudre
-              </button>
-            </div>
+      <div className="signalements_content">
+        {signalements[activeTab].length > 0 ? (
+          signalements[activeTab].map((signalement) => (
+            <SignalementCard 
+              key={signalement.id} 
+              signalement={signalement} 
+              showActions={activeTab === 'pending'}
+            />
+          ))
+        ) : (
+          <div className="signalements_empty">
+            <p>Aucun signalement dans cette catégorie</p>
           </div>
-
-          {/* Signalement #2 */}
-          <div className="signalements-report-card">
-            <div className="signalements-report-header">
-              <h2 className="signalements-report-title">Signalement #2</h2>
-              <div className="signalements-report-tags">
-                <span className="signalements-tag yellow">En attente</span>
-                <span className="signalements-tag-outline orange">Priorité moyenne</span>
-              </div>
-            </div>
-
-            <p className="signalements-report-date">Signalé le 14/06/2025 à 17:45:00</p>
-
-            <div className="signalements-report-body">
-              <div className="signalements-report-column">
-                <div className="signalements-report-section">
-                  <h3 className="signalements-section-title">Signalé par</h3>
-                  <div className="signalements-report-user">
-                    <div className="signalements-user-avatar" />
-                    <div>
-                      <p className="signalements-user-name">Michael Chen</p>
-                      <p className="signalements-user-email">michael.c@example.com</p>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="signalements-report-section">
-                  <h3 className="signalements-section-title">Type de contenu</h3>
-                  <p className="signalements-section-value"><AiOutlineSolution /> Utilisateur</p>
-                </div>
-
-                <div className="signalements-report-section">
-                  <h3 className="signalements-section-title">Raison</h3>
-                  <p className="signalements-section-value">Harcèlement ou comportement abusif</p>
-                </div>
-              </div>
-
-              <div className="signalements-report-column">
-                <div className="signalements-report-section">
-                  <h3 className="signalements-section-title">Description</h3>
-                  <div className="signalements-description-box">
-                    Ce propriétaire a été très impoli et agressif lors de notre communication. Il a fait des commentaires inappropriés sur mon origine.
-                  </div>
-                </div>
-
-                <div className="signalements-report-section">
-                  <h3 className="signalements-section-title">Contenu signalé</h3>
-                  <div className="signalements-reported-content-box">
-                    <p className="signalements-user-name">Robert Wilson</p>
-                    <p className="signalements-original-Signale">Profil de propriétaire</p>
-                    <p className="signalements-original-link">Voir le contenu original</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div className="signalements-report-actions">
-              <button className="signalements-action-btn reject" onClick={handleRejectClick}>
-                <XCircle size={16} /> Rejeter
-              </button>
-              <button className="signalements-action-btn resolve" onClick={handleResolveClick}>
-                <CheckCircle2 size={16} /> Résoudre
-              </button>
-            </div>
-          </div>
-        </>
-      )}
-
-      {/* Signalement résolu */}
-      {activeTab === 'resolved' && (
-        <div className="signalements-report-card">
-          <div className="signalements-report-header">
-            <h2 className="signalements-report-title">Signalement #3</h2>
-            <div className="signalements-report-tags">
-              <span className="signalements-tag green">Résolu</span>
-              <span className="signalements-tag-outline red">Haute priorité</span>
-            </div>
-          </div>
-
-          <p className="signalements-report-date">Signalé le 13/06/2025 à 11:30:00</p>
-
-          <div className="signalements-report-body">
-            <div className="signalements-report-column">
-              <div className="signalements-report-section">
-                <h3 className="signalements-section-title">Signalé par</h3>
-                <div className="signalements-report-user">
-                  <div className="signalements-user-avatar" />
-                  <div>
-                    <p className="signalements-user-name">Sarah Williams</p>
-                    <p className="signalements-user-email">sarah.w@example.com</p>
-                  </div>
-                </div>
-              </div>
-
-              <div className="signalements-report-section">
-                <h3 className="signalements-section-title">Type de contenu</h3>
-                <p className="signalements-section-value">📩 Message</p>
-              </div>
-
-              <div className="signalements-report-section">
-                <h3 className="signalements-section-title">Raison</h3>
-                <p className="signalements-section-value">Contenu inapproprié</p>
-              </div>
-            </div>
-
-            <div className="signalements-report-column">
-              <div className="signalements-report-section">
-                <h3 className="signalements-section-title">Description</h3>
-                <div className="signalements-description-box">
-                  J'ai reçu des messages inappropriés de cet utilisateur avec des propositions indécentes et des insultes.
-                </div>
-              </div>
-
-              <div className="signalements-report-section">
-                <h3 className="signalements-section-title">Contenu signalé</h3>
-                <div className="signalements-reported-content-box">
-                  <p className="signalements-user-name">Anonymous User</p>
-                  <p className="signalements-original-Signale">[Contenu masqué pour des raisons de confidentialité]</p>
-                </div>
-              </div>
-
-              <div className="signalements-report-section">
-                <h3 className="signalements-section-title">Note administrative</h3>
-                <div className="signalements-description-box">
-                  Compte suspendu pour 30 jours après vérification des messages. Avertissement envoyé à l'utilisateur.
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
-      {/* Signalement rejeté */}
-{activeTab === 'rejected' && (
-  <div className="signalements-report-card">
-    <div className="signalements-report-header">
-      <h2 className="signalements-report-title">Signalement #4</h2>
-      <div className="signalements-report-tags">
-        <span className="signalements-tag red">Rejeté</span>
-        <span className="signalements-tag-outline green">Priorité basse</span>
+        )}
       </div>
-    </div>
-
-    <p className="signalements-report-date">Signalé le 12/06/2025 à 13:15:00</p>
-
-    <div className="signalements-report-body">
-      <div className="signalements-report-column">
-        <div className="signalements-report-section">
-          <h3 className="signalements-section-title">Signalé par</h3>
-          <div className="signalements-report-user">
-            <div className="signalements-user-avatar" />
-            <div>
-              <p className="signalements-user-name">David Lee</p>
-              <p className="signalements-user-email">david.lee@example.com</p>
-            </div>
-          </div>
-        </div>
-
-        <div className="signalements-report-section">
-          <h3 className="signalements-section-title">Type de contenu</h3>
-          <p className="signalements-section-value"><AiOutlineFlag /> Annonce de colocation</p>
-        </div>
-
-        <div className="signalements-report-section">
-          <h3 className="signalements-section-title">Raison</h3>
-          <p className="signalements-section-value">Spam ou publicité</p>
-        </div>
-      </div>
-
-      <div className="signalements-report-column">
-        <div className="signalements-report-section">
-          <h3 className="signalements-section-title">Description</h3>
-          <div className="signalements-description-box">
-            Cette annonce de colocation semble être du spam, elle est publiée plusieurs fois par jour.
-          </div>
-        </div>
-
-        <div className="signalements-report-section">
-          <h3 className="signalements-section-title">Contenu signalé</h3>
-          <div className="signalements-reported-content-box">
-            <p className="signalements-user-name">Alex Johnson</p>
-            <p className="signalements-original-Signale">Recherche colocataire pour appartement 2 chambres - $800/mois</p>
-            <p className="signalements-original-link">Voir le contenu original</p>
-          </div>
-        </div>
-
-        <div className="signalements-report-section">
-          <h3 className="signalements-section-title">Note administrative</h3>
-          <div className="signalements-description-box">
-            Après vérification, l'utilisateur a publié l'annonce une seule fois. Il s'agit probablement d'un malentendu.
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-  )}
-
-      {/* Modales */}
-      {showModal && (
-        <ModalRejet onClose={handleCloseModal} onConfirm={handleConfirmRejet} />
-      )}
-      {showResolutionModal && (
-        <ModalResolution onClose={() => setShowResolutionModal(false)} onConfirm={handleConfirmResolution} />
-      )}
     </div>
   );
 };

@@ -38,7 +38,7 @@ export default function VueDensembleAnalytiques({data}) {
                         <div key={i} className="type-item">
                             <div style={{display:"flex",justifyContent:"space-between"}}>
                                 <span style={{fontSize:"14px"}}>{item.type}</span>
-                                <span style={{fontSize:"14px"}}>{item.count} ({totalLogements!=0?item.count/(totalLogements)*100:0}%)</span> 
+                                <span style={{fontSize:"14px"}}>{item.count} ({totalLogements!=0?(item.count / totalLogements * 100).toFixed(2):0}%)</span> 
                             </div>                           
                             <div className="bar">
                                 <div className="remplissage" style={{ width: (totalLogements!=0?item.count/(totalLogements)*100:0) + "%" }}></div>

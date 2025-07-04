@@ -12,6 +12,10 @@ export default  function LeftNav(){
         setActiveLink(linkName);
         Navigate(`${linkName}`); // Utilisez navigate pour changer de route
     };
+    const handleLogout = () => {
+        localStorage.removeItem('token'); // Supprimer le token du localStorage
+        Navigate('/'); // Rediriger vers la page d'accueil
+    };
 
     return(
             <div className="left-nav-admin">
@@ -64,32 +68,17 @@ export default  function LeftNav(){
                                     <Flag  size={17} />
                                     <span>signalements</span>
                                 </div>
-                                <div 
-                                    className={`link-left-nav-admin ${activeLink === 'Sécurité' ? 'active' : ''}`} 
-                                    onClick={() => handleLinkClick('Sécurité')}
-                                >
-                                    <ShieldAlert  size={17} />
-                                    <span>Sécurité</span>
-                                </div>
-                                <div className='title-left-nav-admin' style={{marginTop:"20px"}}>Paramètres</div>
-                                <div 
-                                    className={`link-left-nav-admin ${activeLink === 'parametres' ? 'active' : ''}`} 
-                                    onClick={() => handleLinkClick('parametres')}
-                                >
-                                    <Settings size={17} />
-                                    <span>Paramètres</span>
-                                </div>
                                 <div style={{marginTop:"20px"}}>
                                     <div 
                                         className={`link-left-nav-admin ${activeLink === '' ? 'active' : ''}`} 
-                                        onClick={() => handleLinkClick('')}
+                                        onClick={() => handleLinkClick('/')}
                                     >
                                         <Home size={17} />
                                         <span>Retour au site</span>
                                     </div>
                                     <div 
                                         className={`link-left-nav-admin ${activeLink === 'Déconnexion' ? 'active' : ''}`} 
-                                        onClick={() => handleLinkClick('Déconnexion')}
+                                        onClick={handleLogout}
                                     >
                                         <LogOut  size={17} />
                                         <span>Déconnexion</span>
