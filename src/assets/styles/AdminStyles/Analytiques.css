@@ -190,8 +190,8 @@
   width: 25% !important;
   max-width: none !important;
 }
-.tabs-analytiques .tabs-nav, .user-layout .css-jhczcq-MuiTabs-root, .user-layout .css-jhczcq-MuiTabs-root{
-  width: fit-content !important;
+.tabs-analytiques .tabs-nav{
+  width: 100% !important;
 }
 /* vue d'ensemble analytiques  */
 .vue-analytiques {
