@@ -88,41 +88,52 @@ const OwnerAddProperty = ({logementId}) => {
     2: ['photos'],
     3: ['desiredDuration', 'houseRules']};
 
-  const validateStep = (step) => {
-    const newErrors = {};
-    const fieldsToValidate = requiredFields[step] || [];
+const validateStep = (step) => {
+  const newErrors = {};
+  const fieldsToValidate = requiredFields[step] || [];
 
-    fieldsToValidate.forEach(field => {
-      if (!formData[field] || (Array.isArray(formData[field]) && formData[field].length === 0)) {
-        newErrors[field] = 'Ce champ est obligatoire';
+  fieldsToValidate.forEach(field => {
+    if (field === 'photos') {
+      // Validation spécifique pour les photos : minimum 4 photos
+      if (!formData[field] || formData[field].length < 4) {
+        newErrors[field] = 'Veuillez ajouter au moins 4 photos de votre propriété';
       }
+    } else if (!formData[field] || (Array.isArray(formData[field]) && formData[field].length === 0)) {
+      newErrors[field] = 'Ce champ est obligatoire';
+    }
+  });
+
+  // Validation spécifique pour le code postal
+  if (step === 1 && formData.postalCode && !/^\d{5}$/.test(formData.postalCode)) {
+    newErrors.postalCode = 'Le code postal doit contenir 5 chiffres';
+  }
+
+  // Validation spécifique pour le loyer
+  if (step === 0 && formData.monthlyRent && parseFloat(formData.monthlyRent) <= 0) {
+    newErrors.monthlyRent = 'Le loyer doit être supérieur à 0';
+  }
+
+  setErrors(newErrors);
+  return Object.keys(newErrors).length === 0;
+};
+
+
+const handleNext = () => {
+  if (validateStep(activeStep)) {
+    setActiveStep((prevActiveStep) => prevActiveStep + 1);
+  } else {
+    // Message d'erreur personnalisé pour l'étape des photos
+    const errorMessage = activeStep === 2 && formData.photos && formData.photos.length < 4 
+      ? 'Veuillez ajouter au moins 4 photos avant de continuer'
+      : 'Veuillez remplir tous les champs obligatoires';
+    
+    setSnackbar({
+      open: true,
+      message: errorMessage,
+      severity: 'error'
     });
-
-    // Validation spécifique pour le code postal
-    if (step === 1 && formData.postalCode && !/^\d{5}$/.test(formData.postalCode)) {
-      newErrors.postalCode = 'Le code postal doit contenir 5 chiffres';
-    }
-
-    // Validation spécifique pour le loyer
-    if (step === 0 && formData.monthlyRent && parseFloat(formData.monthlyRent) <= 0) {
-      newErrors.monthlyRent = 'Le loyer doit être supérieur à 0';
-    }
-
-    setErrors(newErrors);
-    return Object.keys(newErrors).length === 0;
-  };
-
-  const handleNext = () => {
-    if (validateStep(activeStep)) {
-      setActiveStep((prevActiveStep) => prevActiveStep + 1);
-    } else {
-      setSnackbar({
-        open: true,
-        message: 'Veuillez remplir tous les champs obligatoires',
-        severity: 'error'
-      });
-    }
-  };
+  }
+};
 
   const handleBack = () => {
     setActiveStep((prevActiveStep) => prevActiveStep - 1);
