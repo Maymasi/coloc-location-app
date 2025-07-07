@@ -447,11 +447,13 @@
 .HomeParent .titleProcessCard{
     font-size: 20px;
     font-weight: 700;
+    text-align: center;
     color: rgb(26, 26, 26);
 }
 .HomeParent .descripProcessCard{
     font-size: 15px;
     color: #878686;
+    text-align: center !important;
 }
 .HomeParent .bleuCard:hover{
     background-color: #f8fdff;
@@ -713,7 +715,7 @@
     width: 24%;
     display: flex;
     flex-direction: column;
-    align-items: start;
+    align-items: center;
     gap: 10px;
     border: 2px solid #dbd7d734;
     padding: 25px;
@@ -770,7 +772,7 @@
     width: 80%;
     justify-content: flex-start;;
     align-items: center;
-    gap: 25px;
+    gap: 2%;
     overflow-x: auto;         
     scroll-behavior: smooth;  
     padding-bottom: 20px;
@@ -809,23 +811,26 @@
 }
 .HomeParent .topSayCard{
     display: flex;
-    gap: 13px;
+    gap: 2%;
     align-items: start;
 }
-.HomeParent .pic{
-    width: 100%;
-    height: 100%;
+.HomeParent .pic {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
 }
-.HomeParent .picProfile{
-    border: 2px solid #fdd3cd;
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
-    overflow: hidden; 
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: #777;
+.HomeParent .picProfile {
+  width: 50px;     /* fixe, pas en % */
+  height: 50px;    /* fixe, même valeur pour faire un cercle */
+  border-radius: 50%;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #777;
+  border: 2px solid #fdd3cd;
+  flex-shrink: 0;  /* ⬅️ clé : évite le rétrécissement */
 }
 .HomeParent .infoStudent{
     display: flex;
@@ -1001,8 +1006,8 @@
     height: fit-content;
 }
 
-.HomeParent .btn-primary {
-    background-color: white;
+.HomeParent .banner-buttons.btn-primary {
+    background-color: rgb(255, 255, 255);
     color: #ff6e64;
     width: 170px;
     transform: scale(1.05);

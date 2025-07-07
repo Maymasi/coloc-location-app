@@ -1,26 +1,27 @@
 import React from 'react';
 import { Sparkles } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 export default function StudentHousingBanner () {
+    const navigate = useNavigate();
     return (
         <section className="student-housing-banner">
         <div className="banner-content" data-aos="fade-right">
             <span className="limited-offer">
             <Sparkles size={"16px"}/>
-            Limited Time Offer
+            Offre limitée
             </span>
             <h1>
-            Ready to Find Your Perfect Student <br /> Housing?
+            Prêt à trouver votre logement <br /> étudiant idéal ?
             </h1>
             <p>
-            Join thousands of students who have found their ideal accommodations and roommates with CampusHaven. 
-            Sign up today and get 50% off your first month's rent!
+            Rejoignez des milliers d’étudiants qui ont trouvé leur logement et leurs colocataires idéaux avec CampusHaven. 
+            Inscrivez-vous dès aujourd'hui et bénéficiez de 50% de réduction sur votre premier mois de loyer !
             </p>
         </div>
         <div className="banner-buttons" data-aos="fade-left">
-            <button className="btn-primary">Sign Up Now</button>
-            <button className="btn-secondary">Browse Properties</button>
+            <button className="btn-primary" onClick={()=>navigate("/Register")} style={{backgroundColor:"white !important"}}>S’inscrire</button>
+            <button className="btn-secondary" onClick={()=>navigate("/annonces")}>Voir les annonces</button>
         </div>
         </section>
     );
 }
-

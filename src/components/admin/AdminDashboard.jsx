@@ -102,19 +102,6 @@ export default function AdminDashboard () {
                     </TabContext>
                 </Box>
             </div>
-            <div className="resume-analytique">
-                <div className="big-title-parts-admin">Résumé analytique</div>
-                <div style={{backgroundColor:"white",height:"400px",padding:"20px",borderRadius:"13px",border:"1px solid rgb(179, 179, 179)",marginTop:"20px",gap:"20px",display:"flex",flexDirection:"column"}}>
-                    <div>
-                        <div className="title-tab-admin-dashboard">Distribution des utilisateurs</div>
-                        <div className="description-tab-admin-dashboard">Répartition des types d'utilisateurs sur la plateforme</div>
-                    </div>
-                    <div className="graphiqueAnalyse">
-                        
-                    </div>
-                </div>
-            </div>
-
         </div>
     )
 }

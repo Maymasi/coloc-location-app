@@ -2,7 +2,10 @@ import { Users, Building, House, UsersRound } from 'lucide-react';
 import { useInView } from 'react-intersection-observer';
 import { useState, useEffect } from 'react';
 import CountUp from 'react-countup';
+import {getStatistics} from '../../Services/HomeService';
 export default function StatisiCard(){
+    const [startCount, setStartCount] = useState(false);
+    const [statistics, setStatistics] = useState();
     const { ref, inView } = useInView({
         triggerOnce: true,
         threshold: 0.3 
@@ -12,7 +15,17 @@ export default function StatisiCard(){
             setStartCount(true);
         }
     }, [inView]);
-    const [startCount, setStartCount] = useState(false);
+    useEffect(()=>{
+        const fetchStatistics = async () => {
+            try {
+                const data = await getStatistics();
+                setStatistics(data);
+            } catch (error) {
+                console.error("Error fetching statistics:", error);
+            }
+        };
+        fetchStatistics();
+    })
     return(
         <div className='cardsSta' data-aos="fade-up" style={{margin:"60px 0px",height:'30vh',display:"flex",justifyContent:"center",alignItems:"center",gap:"30px"}}>
             <div ref={ref} className='CardSta'>
@@ -22,7 +35,7 @@ export default function StatisiCard(){
                 <div className="number">
                     {startCount && (
                         <CountUp
-                        end={15000}
+                        end={statistics.totalStudents}
                         duration={2}
                         separator=","
                         style={{ fontSize: '33px', fontWeight: '700' }}
@@ -32,7 +45,7 @@ export default function StatisiCard(){
                         <div style={{ fontSize: '33px', fontWeight: '700' }}>0</div>
                     )}+
                 </div>
-                <div className="content">Happy Students</div>
+                <div className="content">Étudiants heureux</div>
             </div>
             <div className='CardSta'>
                 <div className="icn">
@@ -41,7 +54,7 @@ export default function StatisiCard(){
                 <div className="number">
                     {startCount && (
                         <CountUp
-                        end={8500}
+                        end={statistics.totalProperties}
                         duration={2}
                         separator=","
                         style={{ fontSize: '33px', fontWeight: '700' }}
@@ -51,7 +64,7 @@ export default function StatisiCard(){
                         <div style={{ fontSize: '33px', fontWeight: '700' }}>0</div>
                     )}+
                 </div>
-                <div className="content">Properties Listed</div>
+                <div className="content">Propriétés listées</div>
             </div>
             <div className='CardSta'>
                 <div className="icn">
@@ -60,7 +73,7 @@ export default function StatisiCard(){
                 <div className="number">
                     {startCount && (
                         <CountUp
-                        end={120}
+                        end={statistics.totalUniversities}
                         duration={2}
                         separator=","
                         style={{ fontSize: '33px', fontWeight: '700' }}
@@ -70,7 +83,7 @@ export default function StatisiCard(){
                         <div style={{ fontSize: '33px', fontWeight: '700' }}>0</div>
                     )}+
                 </div>
-                <div className="content">Universities</div>
+                <div className="content">Universités</div>
             </div>
             <div className='CardSta'>
                 <div className="icn">
@@ -79,7 +92,7 @@ export default function StatisiCard(){
                 <div className="number">
                     {startCount && (
                         <CountUp
-                        end={6200}
+                        end={statistics.roomateMatches}
                         duration={2}
                         separator=","
                         style={{ fontSize: '33px', fontWeight: '700' }}
@@ -89,7 +102,7 @@ export default function StatisiCard(){
                         <div style={{ fontSize: '33px', fontWeight: '700' }}>0</div>
                     )}+
                 </div>
-                <div className="content">Roommate Matches</div>
+                <div className="content">Colocataires compatibles</div>
             </div>
         </div>
     );
