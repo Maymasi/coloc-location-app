@@ -18,9 +18,10 @@ import Typography from '@mui/material/Typography';
 import Snackbar from '@mui/material/Snackbar';
 import Alert from '@mui/material/Alert';
 import { useTheme } from '@mui/material/styles';
-import { Send, X } from 'lucide-react';
-import {stringAvatar} from '../../utils/avatarUtils';
-import {applyForRoommate} from '../../Services/RoommateService';
+import { Send, X, Heart } from 'lucide-react';
+import { stringAvatar } from '../../utils/avatarUtils';
+import { applyForRoommate } from '../../Services/RoommateService';
+import { addFavoriteColocation, removeFavoriteColocation } from '../../Services/studentFavoritesService'; 
 
 const names = [
   'Non-fumeur',
@@ -76,15 +77,20 @@ function getStyles(name, preferences, theme) {
   };
 }
 
-export default function RoommateCardRequest({data}) {
+export default function RoommateCardRequest({ data }) {
   const theme = useTheme();
   const [openDialog, setOpenDialog] = useState(false);
   const [snackbar, setSnackbar] = useState({
     open: false,
     message: '',
-    severity: 'success' // 'success', 'error', 'warning', 'info'
+    severity: 'success'
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
+  
+  // État pour les favoris
+  const [isFavorite, setIsFavorite] = useState(data.isFavorite || false);
+  const [isLoadingFavorite, setIsLoadingFavorite] = useState(false);
+  
   const [formData, setFormData] = useState({
     ColocationId: data.id || 2,
     Budget: '',
@@ -94,6 +100,37 @@ export default function RoommateCardRequest({data}) {
     address: ''
   });
 
+  // Fonction pour gérer les favoris
+  const handleFavoriteToggle = async () => {
+    setIsLoadingFavorite(true);
+    
+    try {
+      let result;
+      if (isFavorite) {
+        // Supprimer des favoris
+        result = await removeFavoriteColocation(data.id, "Colocation");
+      } else {
+        // Ajouter aux favoris
+        result = await addFavoriteColocation(data.id, "Colocation");
+      }
+
+      if (result.success !== false) {
+        setIsFavorite(!isFavorite);
+        showSnackbar(
+          isFavorite ? 'Supprimé des favoris' : 'Ajouté aux favoris',
+          'success'
+        );
+      } else {
+        showSnackbar(result.error || 'Erreur lors de la gestion des favoris', 'error');
+      }
+    } catch (error) {
+      console.error('Erreur lors de la gestion des favoris:', error);
+      showSnackbar('Une erreur inattendue s\'est produite', 'error');
+    } finally {
+      setIsLoadingFavorite(false);
+    }
+  };
+
   const handleOpenDialog = () => {
     setOpenDialog(true);
   };
@@ -101,7 +138,7 @@ export default function RoommateCardRequest({data}) {
   const handleCloseDialog = () => {
     setOpenDialog(false);
     setFormData({
-      ColocationId: data.id ,
+      ColocationId: data.id,
       Budget: '',
       Message: '',
       DateEmmenagement: '',
@@ -148,7 +185,6 @@ export default function RoommateCardRequest({data}) {
   };
 
   const handleSubmit = async () => {
-    // Validation des champs requis
     if (!formData.Budget || !formData.DateEmmenagement || !formData.address) {
       showSnackbar('Veuillez remplir tous les champs obligatoires', 'error');
       return;
@@ -157,13 +193,10 @@ export default function RoommateCardRequest({data}) {
     setIsSubmitting(true);
 
     try {
-      // Formatage de la date pour l'API
       const formattedData = {
         ...formData,
         DateEmmenagement: formData.DateEmmenagement ? new Date(formData.DateEmmenagement).toISOString() : ""
       };
-      
-      console.log('Données à envoyer:', formattedData);
       
       const result = await applyForRoommate(
         formattedData.ColocationId,
@@ -175,11 +208,9 @@ export default function RoommateCardRequest({data}) {
       );
 
       if (result.success) {
-        console.log('Candidature envoyée avec succès:', result);
         showSnackbar(result.message || 'Candidature envoyée avec succès !', 'success');
         handleCloseDialog();
       } else {
-        console.error('Erreur lors de l\'envoi de la candidature:', result.error);
         showSnackbar(result.error || 'Erreur lors de l\'envoi de la candidature', 'error');
       }
     } catch (error) {
@@ -199,11 +230,25 @@ export default function RoommateCardRequest({data}) {
     <>
       <div className="roommate-card">
         <div className="header">
-          <div className="state">
+          <div className="state" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
             <div className="state-text" style={{ backgroundColor: data.type.toLowerCase() === 'demande' ? 'hsl(6deg 100% 72%)' : 'rgba(246, 156, 18, 0.984)' }}>
               {data.type} colocation
             </div>
+            <div className="heart-btn" onClick={handleFavoriteToggle}>
+              <Heart 
+                className={`icn ${isFavorite ? 'favorited' : ''}`}
+                size={20} 
+                fill={isFavorite ? '#ff4757' : 'none'}
+                stroke={isFavorite ? '#ff4757' : '#666'}
+                style={{ 
+                  cursor: isLoadingFavorite ? 'not-allowed' : 'pointer',
+                  opacity: isLoadingFavorite ? 0.5 : 1,
+                  transition: 'all 0.3s ease'
+                }}
+              />
+            </div>
           </div>
+
           <div className="name">
             <Avatar {...stringAvatar(`${data.name}`, 'hsl(6deg 100% 72% / 10%)')} className='avatar' sx={{ width: 80, height: 80, backgroundColor: 'hsl(6deg 100% 72% / 10%)', color: 'hsl(6deg 100% 72%)', fontSize: '30px' }} />
           </div>
@@ -228,7 +273,7 @@ export default function RoommateCardRequest({data}) {
             </div>
             <div className="preferences">
               {data.preferences.$values.map((preference, index) => (
-                <div key={index} className="item" style={{textTransform: 'capitalize'}}>
+                <div key={index} className="item" style={{ textTransform: 'capitalize' }}>
                   {preference}
                 </div>
               ))}
@@ -236,7 +281,7 @@ export default function RoommateCardRequest({data}) {
             <div className="btns">
               <div className="seeProfil btn">Voir le profil</div>
               <div className="postulate btn" onClick={handleOpenDialog}>
-                <Send size={15} style={{marginRight:'10px'}}/>
+                <Send size={15} style={{ marginRight: '10px' }} />
                 Candidater
               </div>
             </div>
@@ -245,40 +290,39 @@ export default function RoommateCardRequest({data}) {
       </div>
 
       {/* Modal pour postuler */}
-<Dialog 
+      <Dialog 
         open={openDialog} 
         onClose={handleCloseDialog}
-        // maxWidth="md"
         fullWidth
         sx={{
-           '& .MuiDialog-root': {
-                width: 'calc(100vw - 256px)',
-                justifyContent: 'center',
-                '@media (max-width: 1280px)': {
-                    width: '100vw',
-                },
-                },
-                '& .MuiDialog-container': {
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    display: 'flex',
-                },
-                '& .MuiDialog-paper': {
-                    '@media (min-width: 1280px)': {
-                        marginLeft: '256px',
-                    },
-                    width: '100%',
-                    '@media (max-width: 768px)': {
-                        margin: '16px',
-                        width: 'calc(100% - 32px)',
-                        maxHeight: 'calc(100vh - 64px)',
-                    },
-                    '@media (max-width: 480px)': {
-                        margin: '8px',
-                        width: 'calc(100% - 16px)',
-                        maxHeight: 'calc(100vh - 32px)',
-                    },
-                }
+          '& .MuiDialog-root': {
+            width: 'calc(100vw - 256px)',
+            justifyContent: 'center',
+            '@media (max-width: 1280px)': {
+              width: '100vw',
+            },
+          },
+          '& .MuiDialog-container': {
+            alignItems: 'center',
+            justifyContent: 'center',
+            display: 'flex',
+          },
+          '& .MuiDialog-paper': {
+            '@media (min-width: 1280px)': {
+              marginLeft: '256px',
+            },
+            width: '100%',
+            '@media (max-width: 768px)': {
+              margin: '16px',
+              width: 'calc(100% - 32px)',
+              maxHeight: 'calc(100vh - 64px)',
+            },
+            '@media (max-width: 480px)': {
+              margin: '8px',
+              width: 'calc(100% - 16px)',
+              maxHeight: 'calc(100vh - 32px)',
+            },
+          }
         }}
         PaperProps={{
           style: {

@@ -6,6 +6,7 @@
     width: calc(100vw - 256px) !important;
     padding: 20px 0 0 0 ;
     box-sizing: border-box;
+    min-height: 100vh;
     
 }
 .user-layout  .left-bar{
