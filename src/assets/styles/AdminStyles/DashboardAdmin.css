@@ -90,7 +90,9 @@
 .tabs-admin-dashboard .css-13xfq8m-MuiTabPanel-root{
     padding: 30px 0px;
 }
-.tabs-admin-dashboard.user-layout .tabs-nav, .user-layout .css-jhczcq-MuiTabs-root, .user-layout .css-jhczcq-MuiTabs-root{
+.tabs-admin-dashboard.user-layout .tabs-nav,
+.tabs-admin-dashboard .css-jhczcq-MuiTabs-root,
+.tabs-admin-dashboard .css-jhczcq-MuiTabs-root{
     width: fit-content !important;
 }
 /* vueDensemble */

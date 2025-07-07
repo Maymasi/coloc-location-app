@@ -145,7 +145,7 @@
     Tabs Section
     =========================== */
 .user-layout .bar {
-     width: 450px !important;
+     width: 50% !important;
      border-radius: 15px;
      height: 30px !important;
      align-items: center;
@@ -160,7 +160,7 @@
 .user-layout .tabs-nav,
 .user-layout .css-jhczcq-MuiTabs-root,
 .user-layout .css-jhczcq-MuiTabs-root {
-     width: 450px !important;
+     width: 100% !important;
      border-radius: 15px;
      height: 30px !important;
      align-items: center;
