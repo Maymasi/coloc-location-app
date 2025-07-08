@@ -257,6 +257,17 @@
     background-color: #ff887b !important;
     color: white !important;
 }
+.annoncesParent .noResults{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    gap: 10px;
+    width: 100%;
+    height: 100%;
+    padding-bottom: 250px;
+}
 /* Media query page annonces */
 @media (max-width: 768px){
     .annoncesParent .BigTitleSearch{

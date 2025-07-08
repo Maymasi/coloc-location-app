@@ -1,9 +1,12 @@
-import { TrendingUp,House,MapPin } from 'lucide-react';
+import { TrendingUp, House, MapPin, MapIcon } from 'lucide-react';
+
 export default function VueDensembleAnalytiques({data}) {
     if (!data || !data.evolutionReservations || !data.evolutionReservations.$values) {
         return <div>Chargement...</div>;
     }
     var totalLogements = data.rejetes + data.logementVerifies + data.logementAttentes;
+    const hasVilles = data.repartitionParVille.$values && data.repartitionParVille.$values.length > 0;
+    
     return (
         <div className="vue-analytiques">
             <div className="Top-sections">
@@ -54,21 +57,38 @@ export default function VueDensembleAnalytiques({data}) {
                 </div>
                 <p>Répartition géographique des logements</p>
                 <div className="villes">
-                    {data.repartitionParVille.$values.map((ville, i) => (
-                        <div key={i} className="ville-card">
-                            <div className="ville-nom">
-                                <div>{ville.ville}</div>
-                                <div className="total">({ville.nombreLogements})</div>
+                    {hasVilles ? (
+                        data.repartitionParVille.$values.map((ville, i) => (
+                            <div key={i} className="ville-card">
+                                <div className="ville-nom">
+                                    <div>{ville.ville}</div>
+                                    <div className="total">({ville.nombreLogements})</div>
+                                </div>
+                                <div style={{fontSize:"14px" , color:"#5f5f5f"}}>Occupation <strong>{ville.tauxOccupation}%</strong></div>
+                                <div className="bar">
+                                    <div className="remplissage" style={{ width: ville.tauxOccupation + "%" }}></div>
+                                </div>
+                                <div style={{fontSize:"14px" , color:"#5f5f5f"}}>Prix moyen <strong>{ville.prixMoyen}DH</strong></div>
                             </div>
-                            <div style={{fontSize:"14px" , color:"#5f5f5f"}}>Occupation <strong>{ville.tauxOccupation}%</strong></div>
-                            <div className="bar">
-                                <div className="remplissage" style={{ width: ville.tauxOccupation + "%" }}></div>
-                            </div>
-                            <div style={{fontSize:"14px" , color:"#5f5f5f"}}>Prix moyen <strong>{ville.prixMoyen}DH</strong></div>
+                        ))
+                    ) : (
+                        <div className="no-villes" style={{
+                            display: 'flex', 
+                            alignItems: 'center', 
+                            justifyContent: 'center', 
+                            flexDirection: 'column',
+                            padding: '40px 20px',
+                            textAlign: 'center',
+                            color: '#666',
+                            width: '100%'
+                        }}>
+                            <MapIcon size={40} color='#673ab7' style={{marginBottom: '12px'}} />
+                            <span style={{fontSize: '16px', fontWeight: '500', marginBottom: '4px'}}>Aucun logement par ville</span>
+                            <span style={{fontSize: '14px', color: '#999'}}>Les données géographiques apparaîtront ici</span>
                         </div>
-                    ))}
+                    )}
                 </div>
             </div>
         </div>
     );
-} 
+}

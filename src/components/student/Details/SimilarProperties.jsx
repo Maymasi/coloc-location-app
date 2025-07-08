@@ -58,46 +58,54 @@ export default function SimilarProperties({annonce}){
         <div className='similarPropertiesContainer'>
             <div className="titleSimilarPart">Similar Properties</div>
             <div className="cardsSimilarPart">
-                {similar.map((property)=>{
-                    return(
-                        <div className="cardResultat" key={property.annonceId}
-                         style={{width: "30% !important",cursor:"pointer"}}
-                         onClick={()=>goToDetails(property.annonceId)}
-                         >
-                            <div className="containerPic">
-                            <img src={property.photos.$values[0].url} alt="" />
-                            <div className="heartTopRight">
-                                <Checkbox  icon={<FavoriteBorder color="#fe7364" />} checkedIcon={<Favorite color="#fe7364"/>}
-                                    onClick={(e)=>e.stopPropagation()}
-                                    onChange={()=>handelFavori(property.annonceId)}
-                                    checked={isFavori.includes(property.annonceId)}
-                                />
-                            </div>
-                            <div className="typeTopLeft">{property.type}</div>
-                            </div>
-                            <div className="infoSectionn">
-                            <div className="descrbAndPrice">
-                                <div className="describ">{property.title}</div>
-                                <div className="Pprice">
-                                <span style={{fontSize:"20px",fontWeight:"700"}}>${property.prix}/</span>
-                                <span style={{fontSize:"18px",fontWeight:"700"}}>mo</span>
+                {similar.length === 0 ? (
+                    <div  style={{ justifyContent:"center",width:"100%",height:"100%", textAlign: "center", fontSize: "14px", display: "flex", flexDirection: "column", alignItems: "center", gap: "8px", padding: "24px" }}>
+                        <div style={{ fontSize: "48px", marginBottom: "15px"}}>🏡</div>
+                        <div style={{ fontWeight: "500" }}>Aucune propriété similaire disponible</div>
+                        <div style={{ fontSize: "13px", color: "#9e9e9e" }}>Essayez de modifier vos critères ou explorez d'autres quartiers.</div>
+                    </div>                  
+                ) : (
+                    similar.map((property)=>{
+                        return(
+                            <div className="cardResultat" key={property.annonceId}
+                            style={{width: "30% !important",cursor:"pointer"}}
+                            onClick={()=>goToDetails(property.annonceId)}
+                            >
+                                <div className="containerPic">
+                                <img src={property.photos.$values[0].url} alt="" />
+                                <div className="heartTopRight">
+                                    <Checkbox  icon={<FavoriteBorder color="#fe7364" />} checkedIcon={<Favorite color="#fe7364"/>}
+                                        onClick={(e)=>e.stopPropagation()}
+                                        onChange={()=>handelFavori(property.annonceId)}
+                                        checked={isFavori.includes(property.annonceId)}
+                                    />
+                                </div>
+                                <div className="typeTopLeft">{property.type}</div>
+                                </div>
+                                <div className="infoSectionn">
+                                <div className="descrbAndPrice">
+                                    <div className="describ">{property.title}</div>
+                                    <div className="Pprice">
+                                    <span style={{fontSize:"20px",fontWeight:"700"}}>${property.prix}/</span>
+                                    <span style={{fontSize:"18px",fontWeight:"700"}}>mo</span>
+                                    </div>
+                                </div>
+                                <div className="address">
+                                    <MapPin size={"15px"}/>
+                                    <div style={{fontSize:"16px"}}>{property.ville}</div>
+                                </div>
+                                <div className="infoSupp">
+                                    <div className="bedsAndBaths">
+                                    <span style={{fontSize:"16px",fontWeight:"500"}}>{property.beds} Beds</span>
+                                    <span style={{ fontSize: '18px', lineHeight: '0' }}>•</span>
+                                    <span style={{fontSize:"16px",fontWeight:"500"}}>{property.baths} Baths</span>
+                                    </div>
+                                    <div className="availability">Available Now</div>
+                                </div>
                                 </div>
                             </div>
-                            <div className="address">
-                                <MapPin size={"15px"}/>
-                                <div style={{fontSize:"16px"}}>{property.ville}</div>
-                            </div>
-                            <div className="infoSupp">
-                                <div className="bedsAndBaths">
-                                <span style={{fontSize:"16px",fontWeight:"500"}}>{property.beds} Beds</span>
-                                <span style={{ fontSize: '18px', lineHeight: '0' }}>•</span>
-                                <span style={{fontSize:"16px",fontWeight:"500"}}>{property.baths} Baths</span>
-                                </div>
-                                <div className="availability">Available Now</div>
-                            </div>
-                            </div>
-                        </div>
-                )})}
+                    )})
+                )}
             </div>
         </div>
     );

@@ -1,4 +1,4 @@
-import { School, Users, Percent } from 'lucide-react';
+import { School, Users, Percent, GraduationCap } from 'lucide-react';
 import { useState } from 'react';
 
 export default function Etudiants({data}) {
@@ -10,6 +10,8 @@ export default function Etudiants({data}) {
     { range: '> 800€', pourcentage: '12%' },
   ]);
 
+  const hasEtudiants = data.repartitionEtudiantsParEtablissements.$values && data.repartitionEtudiantsParEtablissements.$values.length > 0;
+
   return (
     <div className="container-etudiants">
       <div className="card-etudiants">
@@ -18,12 +20,28 @@ export default function Etudiants({data}) {
           <h4>Répartition par établissement</h4>
         </div>
         <div className="content-card-etudiants">
-          {data.repartitionEtudiantsParEtablissements.$values.map((item, idx) => (
-            <div className="item-repartition" key={idx}>
-              <div className="txt-item-repartition">{item.etablissement}</div>
-              <div className="numb-item-repartition">{item.nombreEtudiants}</div>
+          {hasEtudiants ? (
+            data.repartitionEtudiantsParEtablissements.$values.map((item, idx) => (
+              <div className="item-repartition" key={idx}>
+                <div className="txt-item-repartition">{item.etablissement}</div>
+                <div className="numb-item-repartition">{item.nombreEtudiants}</div>
+              </div>
+            ))
+          ) : (
+            <div className="no-etudiants" style={{
+              display: 'flex', 
+              alignItems: 'center', 
+              justifyContent: 'center', 
+              flexDirection: 'column',
+              padding: '20px',
+              textAlign: 'center',
+              color: '#666'
+            }}>
+              <GraduationCap size={32} color='#3d5afe' style={{marginBottom: '8px'}} />
+              <span style={{fontSize: '14px', fontWeight: '500'}}>Aucun étudiant inscrit</span>
+              <span style={{fontSize: '12px', color: '#999', marginTop: '4px'}}>Les données apparaîtront ici</span>
             </div>
-          ))}
+          )}
         </div>
       </div>
 
@@ -60,7 +78,7 @@ export default function Etudiants({data}) {
               <div className="bar-container">
                 <div className="bar-fill" style={{ width: item.pourcentage + "%" }}></div>
               </div>
-              <span className="pourcentage-budget">{item.pourcentage}</span>
+              <span className="pourcentage-budget">{item.pourcentage.toFixed(2)}</span>
             </div>
           ))}
         </div>
