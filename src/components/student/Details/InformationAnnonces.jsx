@@ -15,6 +15,10 @@ import Button from '@mui/material/Button';
 import Alert from '@mui/material/Alert';
 import defaultAvatar from "../../../assets/images/defaultAvatar.jpg"
 import {signalAnnonce} from '../../../Services/signalService';
+import {jwtDecode} from 'jwt-decode';
+import { toast, ToastContainer } from 'react-toastify';
+import {AddFavorisAnnonce,getMyFavoris} from '../../../Services/AnnonceService';
+import 'react-toastify/dist/ReactToastify.css';
 function CustomTabPanel(props) {
     const { children, value, index, ...other } = props;
 
@@ -48,7 +52,21 @@ export default function InformationAnnonces({annonce}){
     const [motif, setMotif] = React.useState("");
     const [description, setDescription] = React.useState("");
     const [error, setError] = React.useState(false);
+    const [isFavori, setIsFavori] = React.useState([]);
 
+    React.useEffect(() => {
+      const fetchFavoris = async () => {
+        try {
+          const data = await getMyFavoris(); 
+          const ids = data.$values.map(fav => fav.id); 
+          console.log("ids :",ids)
+          setIsFavori(ids);
+        } catch (error) {
+          console.error("Erreur lors du chargement des favoris :", error);
+        }
+      };
+        fetchFavoris();
+    }, []);    
     // handlers
     const handleChange = (event, newValue) => {
         setValue(newValue);
@@ -85,18 +103,38 @@ export default function InformationAnnonces({annonce}){
 
     const typesApp = [
         {icn:House,title:"Type :",value:annonce.logement.type},
-        {icn:User,title:"Bedrooms :",value:annonce.logement.nbChambres},
-        {icn:Bath,title:"Bathrooms :",value:annonce.logement.nbSallesBain},
-        {icn:Grid2x2Plus,title:"Area (m²) :",value:annonce.logement.surface}
+        {icn:User,title:"Chambres :",value:annonce.logement.nbChambres},
+        {icn:Bath,title:"Salles de bain :",value:annonce.logement.nbSallesBain},
+        {icn:Grid2x2Plus,title:"Superficie (m²) :",value:annonce.logement.surface}
     ]
     //format date
     const date = new Date(annonce.disponibleDe);
     const options = { day: '2-digit', month: 'long', year: 'numeric' };
     const formatted = date.toLocaleDateString('en-US', options);
-
+    const handelFavori = async (id) => {
+        let newFavoris 
+        var token = localStorage.getItem("token");
+        if(token){
+            const decoded = jwtDecode(token);
+            const role = decoded.role;
+              if(role !== 'Etudiant'){
+                toast.error("Vous devez être connecté en tant qu'étudiant pour ajouter des favoris.");
+                return;
+              }else{
+                let data=await AddFavorisAnnonce(id)
+                newFavoris = [...isFavori,id]
+                console.log(data)
+              }
+              setIsFavori(newFavoris)
+        }
+        else{
+            toast.error("Vous devez être connecté pour ajouter des favoris.");
+        }
+    }
+    const isAlreadyFavori = isFavori.includes(annonce.id);
     return(
         <div className='infoAnnoncesContainer'>
-            
+            <ToastContainer />
             {/* Overlay */}
             {openSignal && (
                 <div className="overlay" onClick={handleCloseSignal}></div>
@@ -153,7 +191,7 @@ export default function InformationAnnonces({annonce}){
                     </div>
                     <div className="priceAppartment">
                         <div className="prcAppartment">{annonce.prix}MAD</div>
-                        <div className="available">Available from {formatted}</div>
+                        <div className="available">Disponible à partir du {formatted}</div>
                     </div>
                 </div>
                 <div className="bodyAppartment">
@@ -178,8 +216,8 @@ export default function InformationAnnonces({annonce}){
                             <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
                                 <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
                                 <Tab label="Description" {...a11yProps(0)} />
-                                <Tab label="Amenities" {...a11yProps(1)} />
-                                <Tab label="Location" {...a11yProps(2)} />
+                                <Tab label="Commodités" {...a11yProps(1)} />
+                                <Tab label="Localisation" {...a11yProps(2)} />
                                 </Tabs>
                             </Box>
                             <CustomTabPanel value={value} index={0}>
@@ -187,6 +225,9 @@ export default function InformationAnnonces({annonce}){
                             </CustomTabPanel>
                             <CustomTabPanel value={value} index={1}>
                                 <ul className='listAmenities'>
+                                    {!annonce.logement.animauxAutorises && !annonce.logement.fumeurAutorise && !annonce.logement.parkingDisponible && !annonce.logement.internetInclus && !annonce.logement.chargesIncluses && (
+                                        <div style={{textAlign:"center",color:"#757575",fontSize:"14px"}}>❗Aucune commodité disponible</div>
+                                    )}
                                     {annonce.logement.animauxAutorises&& (
                                     <li>
                                         <FiberManualRecordIcon style={{fontSize:"12px",color:"#ff6b5c"}}/>
@@ -220,17 +261,25 @@ export default function InformationAnnonces({annonce}){
                                 </ul>
                             </CustomTabPanel>
                             <CustomTabPanel value={value} index={2}>
-                                Located in a prime area just 5 minutes walking distance from the university campus. Nearby amenities include grocery stores, cafes, restaurants, and public transportation.
+                                Situé dans un quartier privilégié à seulement 5 minutes à pied du campus universitaire. Les commodités à proximité comprennent des épiceries, des cafés, des restaurants et les transports en commun.
                             </CustomTabPanel>
                         </Box>
                         <div className="buttonsBodyAppartment">
-                            <div className="buttonBodyAppartment">
+                            <button className="buttonBodyAppartment" 
+                                onClick={()=>handelFavori(annonce.id)} 
+                                disabled={isAlreadyFavori} 
+                                sx={{
+                                textTransform: 'none',
+                                opacity: isAlreadyFavori ? 1 : 0.5, 
+                                cursor: isAlreadyFavori ? 'pointer' : 'not-allowed'
+                                }}                                
+                            >
                                 <Heart size="14px"/>
-                                <div>Save</div>
-                            </div>
+                                <div>Enregistrer</div>
+                            </button>
                             <div className="buttonBodyAppartment">
                                 <ShareIcon sx={{fontSize:"14px"}}/>
-                                <div>Share</div>
+                                <div>Partager</div>
                             </div>
                             <div className="buttonBodyAppartment" onClick={handleOpenSignal}>
                                 <Flag size="14px"/>
@@ -268,10 +317,10 @@ export default function InformationAnnonces({annonce}){
                 <div className="btnContactContainer" style={{display:"flex",justifyContent:"center",width:"100%"}}>
                     <div className="cntctBtn">
                         <MessageSquare style={{color:"white",width:"15px"}} />
-                        <button style={{fontSize:"13px",color:"white",cursor:"pointer"}}>Contact Owner</button>
+                        <button style={{fontSize:"13px",color:"white",cursor:"pointer"}}>Contacter le propriétaire</button>
                     </div>
                 </div>
-                <div style={{textAlign:"center",fontSize:"11px",color:"#757575"}}>You must be logged in as a student to contact property owners</div>
+                <div style={{textAlign:"center",fontSize:"11px",color:"#757575"}}>Vous devez être connecté en tant qu'étudiant pour contacter les propriétaires.</div>
             </div>
         </div>
     );

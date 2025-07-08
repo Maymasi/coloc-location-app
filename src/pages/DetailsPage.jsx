@@ -5,6 +5,7 @@ import SimilarProperties from "../components/student/Details/SimilarProperties";
 import {getAnnonceById} from "../Services/AnnonceService"
 import {useState,useEffect } from "react";
 import { useParams } from "react-router-dom";
+import NotFound from "./NotFound"
 export default function DetailsPage(){
     const { id } = useParams();
     const [annonce, setAnnonce] = useState(null);
@@ -21,8 +22,10 @@ export default function DetailsPage(){
         fetchAnnonce();
     }, [id]);
 
-    if (!annonce) return <div>Chargement...</div>;
-
+   
+    if (!annonce) {
+        return <NotFound />;
+    }
     return(
         <div className="detailsParent">
             <ImagesAnnonces annonce={annonce}/>

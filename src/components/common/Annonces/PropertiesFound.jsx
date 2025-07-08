@@ -20,6 +20,10 @@ import { useState,useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import {getAllAnnonces,filterAvancee,AddFavorisAnnonce,RemoveFavorisAnnonce,getMyFavoris} from '../../../Services/AnnonceService'
 import fallbackImg from '../../../assets/images/fallback.jpg'
+import CircularProgress from '@mui/material/CircularProgress';
+import {jwtDecode} from 'jwt-decode';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const marks = [
     {
@@ -67,11 +71,11 @@ function valuetext(value) {
 export default function PropertiesFound({annonces}){
     // states
     const [properties,setproperties] = useState([]);
-    // const [loading, setLoading] = useState(true);
+    const [loading, setLoading] = useState(true);
     const [Bedrooms, setBedrooms] = useState('Any');
     const [Bathrooms, setBathrooms] = useState('Any');
     const [priceRange,setPriceRange] = useState(10000);
-    const [propertyType,setPropertyType]=useState(['']);
+    const [propertyType,setPropertyType]=useState([]);
     const [amenities,setAmenities]=useState(['']);
     const [page, setPage] = useState(1);
     const [openFilter,setOpenFilter]=useState(false);
@@ -128,7 +132,7 @@ export default function PropertiesFound({annonces}){
       } catch (error) {
         console.error("Erreur lors du chargement des annonces :", error);
       } finally {
-        // setLoading(false);
+        setLoading(false);
       }
     };
     fetchAnnonces();
@@ -137,16 +141,28 @@ export default function PropertiesFound({annonces}){
     //handlers
     const handelFavori = async (id) => {
         let newFavoris 
-        if(isFavori.includes(id)){
-          let data= await RemoveFavorisAnnonce(id)
-          newFavoris = isFavori.filter(favId => favId !== id);
-          console.log(data)
-        }else{
-          let data=await AddFavorisAnnonce(id)
-          newFavoris = [...isFavori,id]
-          console.log(data)
+        var token = localStorage.getItem("token");
+        if(token){
+            const decoded = jwtDecode(token);
+            const role = decoded.role;
+              if(role !== 'Etudiant'){
+                toast.error("Vous devez être connecté en tant qu'étudiant pour ajouter des favoris.");
+                return;
+              }
+              if(isFavori.includes(id)){
+                let data= await RemoveFavorisAnnonce(id)
+                newFavoris = isFavori.filter(favId => favId !== id);
+                console.log(data)
+              }else{
+                let data=await AddFavorisAnnonce(id)
+                newFavoris = [...isFavori,id]
+                console.log(data)
+              }
+              setIsFavori(newFavoris)
         }
-        setIsFavori(newFavoris)
+        else{
+            toast.error("Vous devez être connecté pour ajouter des favoris.");
+        }
     }
     const handleAdvancedFilter = async ()=>{
       const data = await filterAvancee(priceRange,propertyType,Bedrooms,Bathrooms,amenities);
@@ -191,8 +207,17 @@ export default function PropertiesFound({annonces}){
     const startIndex = (page - 1) * propertiesPerPage;
     const endIndex = startIndex + propertiesPerPage;
     const currentProperties = properties.slice(startIndex, endIndex);
+    
+    if (loading) {
+      return (
+        <div className="loadingContainer">
+          <CircularProgress style={{ color: "#fe7364" }} />
+        </div>
+      );
+    }
     return(
         <div className="PropertiesFoundContainer">
+            <ToastContainer />
             <div className="btnFilter" onClick={handleOpenFilter}>
               <SlidersHorizontal size={"15px"}/>
               <button className="buttonFilter" >Filters</button>
@@ -334,50 +359,62 @@ export default function PropertiesFound({annonces}){
                   <div  className="titlePropFound" style={{fontSize:"23px"}}>{properties.length} Properties Found</div>
                 </div>
                 <div className="cardsResultats">
-                {currentProperties.map((property) => (
-                  <div className="cardResultat" 
-                    key={property.annonceId} 
-                    onClick={() => goToDetails(property.annonceId)}
-                    style={{ cursor: "pointer" }}
-                  >
-                    <div className="containerPic">
-                      <img src={property.photos?.$values?.[0]?.url || fallbackImg} alt="" />
-                      <div className="heartTopRight" >
-                        <Checkbox 
-                          onChange={() => handelFavori(property.annonceId)} 
-                          icon={<FavoriteBorder color="#fe7364" />} 
-                          checkedIcon={<Favorite color="#fe7364"/>} 
-                          checked={isFavori.includes(property.annonceId)}
-                          onClick={(e) => e.stopPropagation()}
-                        />
+                {currentProperties.length > 0 ? (
+                  currentProperties.map((property) => (
+                    <div className="cardResultat" 
+                      key={property.annonceId} 
+                      onClick={() => goToDetails(property.annonceId)}
+                      style={{ cursor: "pointer" }}
+                    >
+                      <div className="containerPic">
+                        <img src={property.photos?.$values?.[0]?.url || fallbackImg} alt="" />
+                        <div className="heartTopRight" >
+                          <Checkbox 
+                            onChange={() => handelFavori(property.annonceId)} 
+                            icon={<FavoriteBorder color="#fe7364" />} 
+                            checkedIcon={<Favorite color="#fe7364"/>} 
+                            checked={isFavori.includes(property.annonceId)}
+                            onClick={(e) => e.stopPropagation()}
+                          />
+                        </div>
+                        <div className="typeTopLeft">{property.type}</div>
                       </div>
-                      <div className="typeTopLeft">{property.type}</div>
-                    </div>
-                    <div className="infoSectionn">
-                      <div className="descrbAndPrice">
-                        <div className="describ">{property.title}</div>
-                        <div className="Pprice">
-                          <span style={{fontSize:"20px",fontWeight:"700"}}>${property.prix}/</span>
-                          <span style={{fontSize:"18px",fontWeight:"700"}}>mo</span>
+                      <div className="infoSectionn">
+                        <div className="descrbAndPrice">
+                          <div className="describ">{property.title}</div>
+                          <div className="Pprice">
+                            <span style={{fontSize:"20px",fontWeight:"700"}}>{property.prix}MAD/</span>
+                            <span style={{fontSize:"18px",fontWeight:"700"}}>mo</span>
+                          </div>
+                        </div>
+                        <div className="address">
+                          <MapPin size={"15px"}/>
+                          <div style={{fontSize:"16px"}}>{property.ville}</div>
+                        </div>
+                        <div className="infoSupp">
+                          <div className="bedsAndBaths">
+                            <span style={{fontSize:"16px",fontWeight:"500"}}>{property.beds} Beds</span>
+                            <span style={{ fontSize: '18px', lineHeight: '0' }}>•</span>
+                            <span style={{fontSize:"16px",fontWeight:"500"}}>{property.baths} Baths</span>
+                          </div>
+                          <div className="availability">Available Now</div>
                         </div>
                       </div>
-                      <div className="address">
-                        <MapPin size={"15px"}/>
-                        <div style={{fontSize:"16px"}}>{property.ville}</div>
-                      </div>
-                      <div className="infoSupp">
-                        <div className="bedsAndBaths">
-                          <span style={{fontSize:"16px",fontWeight:"500"}}>{property.beds} Beds</span>
-                          <span style={{ fontSize: '18px', lineHeight: '0' }}>•</span>
-                          <span style={{fontSize:"16px",fontWeight:"500"}}>{property.baths} Baths</span>
-                        </div>
-                        <div className="availability">Available Now</div>
+                    </div>
+                  ))
+                  ) : (
+                    <div className="noResults">
+                      <div style={{ fontSize: "70px", marginBottom: "0px" }}>🔍</div>
+                      <div style={{ fontSize: "30px", fontWeight: "bold", marginBottom: "0px" }}>Aucune annonce trouvée</div>
+                      <div style={{ textAlign: "center", maxWidth: "400px" , color: "#666", fontSize: "18px",fontFamily: "Arial, sans-serif"}}>
+                        Nous n'avons trouvé aucun logement correspondant à vos critères de recherche. <br />
+                        Essayez d'ajuster vos filtres ou élargissez votre zone de recherche.
                       </div>
                     </div>
-                  </div>
-                ))}
+                  )
+                }
                 </div>
-                <div  className="pagination" style={{display: "flex", justifyContent: "center", marginTop: "20px" }}>
+                <div  className="pagination" style={{display: properties.length>0 ? "flex" : "none", justifyContent: "center", marginTop: "20px" }}>
                 <Pagination
                   count={Math.ceil(properties.length / propertiesPerPage)}
                   page={page}

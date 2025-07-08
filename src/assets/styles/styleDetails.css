@@ -209,6 +209,7 @@
     width: 32%;
     padding: 7px;
     border-radius: 11px;
+    cursor: pointer;
 }
 .detailsParent .buttonBodyAppartment:hover{
     background-color: #ff6b5c;
