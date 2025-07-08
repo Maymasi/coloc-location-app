@@ -1,5 +1,13 @@
 import authAxios from "./AuthService";
 
+/**
+ * Envoie une demande de location pour une annonce spécifique.
+ * @param {Object} demandeData - Les données de la demande de location.
+ * @returns {Promise<Object>} - Un objet contenant le statut de la requête et les
+ * données de la réponse ou une erreur.
+ * @throws {Error} - Si une erreur se produit lors de l'envoi de la
+ * demande de location.
+ */
 export const envoyerDemandeLocation = async (demandeData) => {
     try {
         const response = await authAxios.post("/demandesLocation/envoyer", demandeData);
@@ -38,3 +46,39 @@ export const envoyerDemandeLocation = async (demandeData) => {
     }
 };
 
+/**
+ * Récupère toutes les demandes de location reçues par le propriétaire de toutes ses annonces.
+ * @returns {Promise<Object>} - Un objet contenant le statut de la requête et les
+ * données de la réponse ou une erreur.
+ * @throws {Error} - Si une erreur se produit lors de la récupération des demandes
+ * de location.
+ */
+export const GetAllReceivedRequestsLocationOwner = async () => {
+    try {
+        const response = await authAxios.get("/DemandesLocation/proprietaire/demandes-recues");
+        return {
+            success: true,
+            data: response.data
+        };
+    } catch (error) {
+        if (error.response) {
+            return {
+                success: false,
+                error: error.response.data.error || "Erreur lors de la récupération des demandes de location",
+                status: error.response.status
+            };
+        } else if (error.request) {
+            return {
+                success: false,
+                error: "Erreur de connexion au serveur",
+                status: null
+            };
+        } else {
+            return {
+                success: false,
+                error: "Une erreur inattendue s'est produite",
+                status: null
+            };
+        }
+    }
+}
