@@ -15,6 +15,7 @@ import PolitiquePage from './components/Politique/PolitiquePage';
 import FAQ from './components/faq/FAQ'
 import PrincipalePageLayout from './pages/PrincipalePageLayout';
 import Login from './pages/Login';
+import LoginAdmin from './pages/LoginAdmin';
 import NotFound from './pages/NotFound';
 // Admin part components
 import AdminLayout from './pages/AdminLayout';
@@ -106,6 +107,11 @@ function App() {
          <Route path="Login" element={
             <PublicRoute>
               <Login/>
+            </PublicRoute>
+          } />
+        <Route path="/loginAdmin" element={
+            <PublicRoute>
+              <LoginAdmin/>
             </PublicRoute>
           } />
         <Route path="*" element={<NotFound/>} />

@@ -70,7 +70,7 @@ export default  function LeftNav(){
                                 </div>
                                 <div style={{marginTop:"20px"}}>
                                     <div 
-                                        className={`link-left-nav-admin ${activeLink === '' ? 'active' : ''}`} 
+                                        className={`link-left-nav-admin ${activeLink === '/' ? 'active' : ''}`} 
                                         onClick={() => handleLinkClick('/')}
                                     >
                                         <Home size={17} />
