@@ -26,7 +26,7 @@ const Utilisateurs = () => {
     fetchUsers();
   },[]);
 
-  const types = ['Tous les types', 'Etudiants', 'Proprietaires', 'Administrateurs'];
+  const types = ['Tous les types', 'Etudiants', 'Proprietaires'];
   const statuts = ['Tous les statuts', 'actifs', 'suspendus'];
 
   // Filtrage des utilisateurs
@@ -83,7 +83,6 @@ const Utilisateurs = () => {
     switch (type) {
       case 'Etudiant': return 'utilisateurs-badge-etudiant';
       case 'Proprietaire': return 'utilisateurs-badge-proprietaire';
-      case 'Administrateur': return 'utilisateurs-badge-admin';
       default: return 'utilisateurs-badge-etudiant';
     }
   };
