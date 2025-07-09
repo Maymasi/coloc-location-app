@@ -102,6 +102,9 @@ function App() {
             <Route path="OwnerStatistiques" element={<OwnerStatistiques/>} />
             <Route path="OwnerProfilComp" element={<OwnerProfilComp />} />
             <Route path="OwnerParametres" element={<OwnerParametres />} /> 
+            <Route path="messages" element={<ChatUi/>} />
+
+
           </Route>
         <Route path="/register" element={<RegistrationForm/>} />
          <Route path="Login" element={
