@@ -1,22 +1,41 @@
-import React from 'react';
-const PropertyAnalytics = () => {
-  // Données des propriétés avec leurs vues
-  const properties = [
-    { name: "Studio moderne", views: 87 },
-    { name: "Spacieux appartement de 2 chambres", views: 124 },
-    { name: "Chambre confortable dans une maison partagée", views: 37 }
-  ];
+import React, { useEffect, useState } from 'react';
+import { getPropertyAnalytics } from '../../Services/DashboardOwnerService';
 
-  // Calcul du pourcentage pour chaque barre de progression
-  const maxViews = Math.max(...properties.map(p => p.views));
-  
+const PropertyAnalytics = () => {
+  const [properties, setProperties] = useState([]);
+  const [responseRate, setResponseRate] = useState(0);
+  const [averageResponseTime, setAverageResponseTime] = useState('0 heure');
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    async function fetchData() {
+      const result = await getPropertyAnalytics();
+      if (result.success) {
+        const data = result.data;
+        const performances = data.propertyPerformances?.$values || [];
+        setProperties(performances);
+        setResponseRate((data.responseRate || 0) / 100); // convertir en ratio (0.5 pour 50%)
+        const hours = data.averageResponseTimeHours || 0;
+        setAverageResponseTime(
+          hours < 1 ? `${Math.round(hours * 60)} min` : `${hours.toFixed(1)} heures`
+        );
+      }
+      setLoading(false);
+    }
+    fetchData();
+  }, []);
+
+  const maxViews = Math.max(...properties.map(p => p.views || 0), 1);
+
+  if (loading) return <div>Chargement des analyses...</div>;
+
   return (
     <div className="property-performance-container">
-      {/* Section Performance de la propriété */}
+      {/* Performance des propriétés */}
       <div className="performance-section">
         <h2 className="section-title">Performance de la propriété</h2>
         <p className="section-subtitle">Vues et demandes de renseignements sur vos propriétés</p>
-        
+
         <div className="properties-list">
           {properties.map((property, index) => (
             <div key={index} className="property-item">
@@ -25,7 +44,7 @@ const PropertyAnalytics = () => {
                 <span className="property-views">{property.views} vues</span>
               </div>
               <div className="progress-bar">
-                <div 
+                <div
                   className="progress-fill"
                   style={{ width: `${(property.views / maxViews) * 100}%` }}
                 ></div>
@@ -35,16 +54,14 @@ const PropertyAnalytics = () => {
         </div>
       </div>
 
-      {/* Section Taux de réponse */}
+      {/* Taux de réponse */}
       <div className="response-section">
         <h2 className="section-title">Taux de réponse aux demandes de renseignements</h2>
         <p className="section-subtitle">Votre temps de réponse aux demandes des étudiants</p>
-        
+
         <div className="response-chart">
-          {/* Graphique circulaire */}
           <div className="circular-progress">
             <svg width="150" height="150" viewBox="0 0 200 200">
-              {/* Cercle de fond */}
               <circle
                 cx="100"
                 cy="100"
@@ -53,7 +70,6 @@ const PropertyAnalytics = () => {
                 stroke="#f0f0f0"
                 strokeWidth="20"
               />
-              {/* Cercle de progression */}
               <circle
                 cx="100"
                 cy="100"
@@ -63,15 +79,15 @@ const PropertyAnalytics = () => {
                 strokeWidth="20"
                 strokeLinecap="round"
                 strokeDasharray={`${2 * Math.PI * 80}`}
-                strokeDashoffset={`${2 * Math.PI * 80 * (1 - 0.85)}`}
+                strokeDashoffset={`${2 * Math.PI * 80 * (1 - responseRate)}`}
                 transform="rotate(-90 100 100)"
               />
             </svg>
-            <div className="percentage-text">85%</div>
+            <div className="percentage-text">{Math.round(responseRate * 100)}%</div>
           </div>
-          
+
           <div className="response-time">
-            Temps de réponse moyen : 2 heures
+            Temps de réponse moyen : {averageResponseTime}
           </div>
         </div>
       </div>

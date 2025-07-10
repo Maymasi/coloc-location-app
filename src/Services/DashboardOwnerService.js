@@ -122,3 +122,41 @@ export async function getRecentInquiries(limit = 3) {
     }
   }
 }
+
+
+/**
+ * Récupère les analyses de propriétés d'un propriétaire connecté
+ * @returns {Promise} - Promesse contenant les données d'analyse des propriétés
+ */
+export async function getPropertyAnalytics() {
+  try {
+    const response = await authAxios.get('/DashboardOwner/analytics');
+    console.log('Analyses de propriétés récupérées avec succès:', response.data);
+    return {
+      success: true,
+      data: response.data,
+      message: 'Analyses de propriétés récupérées avec succès'
+    };
+  } catch (error) {
+    console.error('Erreur lors de la récupération des analyses de propriétés:', error);
+    if (error.response) {
+      return {
+        success: false,
+        error: error.response.data.error || 'Erreur lors de la récupération des analyses',
+        status: error.response.status
+      };
+    } else if (error.request) {
+      return {
+        success: false,
+        error: 'Erreur de connexion au serveur',
+        status: null
+      };
+    } else {
+      return {
+        success: false,
+        error: 'Une erreur inattendue s\'est produite',
+        status: null
+      };
+    }
+  }
+}
