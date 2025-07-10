@@ -45,6 +45,7 @@ import OwnerRoute from './routes/OwnerRoute';
 import AdminRoute from './routes/AdminRoute ';
 //scroll to top
 import ScrollToTop from './components/ScrollToTop';
+import OwnerProfile from './components/owner/OwnerProfile';
 
 function App() {
   return (
@@ -72,6 +73,7 @@ function App() {
           <Route path="aboutUs" element={<AboutUs/>} />
           <Route path="FAQ" element={<FAQ/>} />
           <Route path="" element={<HomePage/>} />
+          <Route path="OwnerProfile" element={<OwnerProfile />} />
         </Route>
         {/* ROUTES ADMIN */}
         <Route path="/admin" element={
