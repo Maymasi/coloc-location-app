@@ -35,7 +35,7 @@ export default function StatisiCard(){
                 <div className="number">
                     {startCount && (
                         <CountUp
-                        end={statistics.totalStudents}
+                        end={statistics.totalStudents || 0}
                         duration={2}
                         separator=","
                         style={{ fontSize: '33px', fontWeight: '700' }}
@@ -54,7 +54,7 @@ export default function StatisiCard(){
                 <div className="number">
                     {startCount && (
                         <CountUp
-                        end={statistics.totalProperties}
+                        end={statistics.totalProperties || 0}
                         duration={2}
                         separator=","
                         style={{ fontSize: '33px', fontWeight: '700' }}
@@ -73,7 +73,7 @@ export default function StatisiCard(){
                 <div className="number">
                     {startCount && (
                         <CountUp
-                        end={statistics.totalUniversities}
+                        end={statistics.totalUniversities || 0}
                         duration={2}
                         separator=","
                         style={{ fontSize: '33px', fontWeight: '700' }}
@@ -92,7 +92,7 @@ export default function StatisiCard(){
                 <div className="number">
                     {startCount && (
                         <CountUp
-                        end={statistics.roomateMatches}
+                        end={statistics.roomateMatches || 0}
                         duration={2}
                         separator=","
                         style={{ fontSize: '33px', fontWeight: '700' }}
