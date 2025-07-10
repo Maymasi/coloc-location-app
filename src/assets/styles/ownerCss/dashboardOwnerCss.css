@@ -259,122 +259,99 @@
         font-size: 13px;
     }
 }
-/* ===== RECENT INQUIRIES COMPONENT ===== */
+/* ===== COMPOSANT DEMANDES RÉCENTES - DESIGN ÉPURÉ ===== */
 .recent-inquiries {
-    background: linear-gradient(145deg, #ffffff, #f8fafc);
+    background: #ffffff;
     border-radius: 16px;
     box-shadow: 
         0 4px 6px -1px rgba(0, 0, 0, 0.1),
-        0 2px 4px -1px rgba(0, 0, 0, 0.06),
-        0 0 0 1px rgba(255, 255, 255, 0.05) inset;
+        0 2px 4px -1px rgba(0, 0, 0, 0.06);
     padding: 32px;
     margin: 24px 0;
     border: 1px solid rgba(226, 232, 240, 0.8);
     transition: all 0.3s ease;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
 }
 
 .recent-inquiries:hover {
     box-shadow: 
-        0 10px 15px -3px rgba(0, 0, 0, 0.1),
+        0 8px 15px -3px rgba(0, 0, 0, 0.1),
         0 4px 6px -2px rgba(0, 0, 0, 0.05);
     transform: translateY(-1px);
 }
 
-/* ===== HEADER SECTION ===== */
+/* ===== EN-TÊTE SECTION ===== */
 .recent-inquiries .inquiries-header {
-    border-bottom: 2px solid rgba(241, 245, 249, 0.8);
+    border-bottom: 2px solid #f1f5f9;
     padding-bottom: 20px;
     margin-bottom: 28px;
 }
 
 .recent-inquiries .inquiries-header h2 {
     font-size: 24px;
-    font-weight: 700;
-    background: linear-gradient(135deg, #1e293b, #475569);
-    background-clip: text;
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
+    font-weight: 600;
+    color: #1e293b;
     margin: 0 0 8px 0;
-    letter-spacing: -0.025em;
+    letter-spacing: -0.02em;
 }
 
 .recent-inquiries .inquiries-header p {
     font-size: 15px;
     color: #64748b;
     margin: 0;
-    font-weight: 500;
+    font-weight: 400;
 }
 
-/* ===== INQUIRIES LIST ===== */
+/* ===== LISTE DES DEMANDES ===== */
 .recent-inquiries .inquiries-list {
     display: flex;
     flex-direction: column;
-    gap: 24px;
+    gap: 20px;
 }
 
-/* ===== INDIVIDUAL INQUIRY ITEM ===== */
+/* ===== ÉLÉMENT DEMANDE INDIVIDUEL ===== */
 .recent-inquiries .inquiry-item {
     display: flex;
     gap: 20px;
     padding: 24px;
-    background: linear-gradient(145deg, #ffffff, #f8fafc);
-    border: 1px solid rgba(226, 232, 240, 0.6);
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
     border-radius: 12px;
     transition: all 0.3s ease;
     position: relative;
-    overflow: hidden;
-}
-
-.recent-inquiries .inquiry-item::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 3px;
-    background: linear-gradient(90deg, #ff7a7a, #ff9f9f);
-    opacity: 0;
-    transition: opacity 0.3s ease;
 }
 
 .recent-inquiries .inquiry-item:hover {
-    border-color: rgba(255, 122, 122, 0.3);
+    border-color: #ff7a7a;
     box-shadow: 
-        0 8px 25px -5px rgba(0, 0, 0, 0.1),
-        0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        0 6px 20px -5px rgba(255, 122, 122, 0.15),
+        0 4px 8px -2px rgba(0, 0, 0, 0.05);
     transform: translateY(-2px);
 }
 
-.recent-inquiries .inquiry-item:hover::before {
-    opacity: 1;
-}
-
-/* ===== AVATAR STYLING ===== */
+/* ===== STYLING AVATAR ===== */
 .recent-inquiries .inquiry-avatar {
     width: 48px;
     height: 48px;
     border-radius: 50%;
-    background: linear-gradient(135deg, #e2e8f0, #f1f5f9);
+    background: #f1f5f9;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-weight: 700;
+    font-weight: 600;
     font-size: 18px;
     color: #475569;
     flex-shrink: 0;
-    box-shadow: 
-        0 4px 6px -1px rgba(0, 0, 0, 0.1),
-        0 0 0 3px rgba(255, 255, 255, 0.8);
     transition: all 0.3s ease;
 }
 
 .recent-inquiries .inquiry-item:hover .inquiry-avatar {
-    background: linear-gradient(135deg, #ff7a7a, #ff9f9f);
+    background: #ff7a7a;
     color: white;
     transform: scale(1.05);
 }
 
-/* ===== CONTENT AREA ===== */
+/* ===== ZONE DE CONTENU ===== */
 .recent-inquiries .inquiry-content {
     flex: 1;
     display: flex;
@@ -382,7 +359,7 @@
     gap: 16px;
 }
 
-/* ===== INQUIRY HEADER ===== */
+/* ===== EN-TÊTE DEMANDE ===== */
 .recent-inquiries .inquiry-header {
     display: flex;
     justify-content: space-between;
@@ -392,20 +369,20 @@
 
 .recent-inquiries .inquiry-info h4 {
     font-size: 18px;
-    font-weight: 700;
+    font-weight: 600;
     color: #1e293b;
     margin: 0 0 6px 0;
-    letter-spacing: -0.025em;
+    letter-spacing: -0.02em;
 }
 
 .recent-inquiries .inquiry-info p {
     font-size: 14px;
     color: #64748b;
     margin: 0;
-    font-weight: 500;
+    font-weight: 400;
 }
 
-/* ===== META INFORMATION ===== */
+/* ===== INFORMATIONS META ===== */
 .recent-inquiries .inquiry-meta {
     display: flex;
     align-items: center;
@@ -416,43 +393,42 @@
 .recent-inquiries .inquiry-time {
     font-size: 13px;
     color: #94a3b8;
-    font-weight: 500;
+    font-weight: 400;
 }
 
 .recent-inquiries .inquiry-status {
-    padding: 6px 16px;
-    border-radius: 20px;
+    padding: 6px 14px;
+    border-radius: 16px;
     font-size: 12px;
-    font-weight: 600;
+    font-weight: 500;
     text-transform: uppercase;
     letter-spacing: 0.5px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .recent-inquiries .inquiry-status.nouveau {
-    background: linear-gradient(135deg, #ff7a7a, #ff6b6b);
+    background: #ff7a7a;
     color: white;
 }
 
 .recent-inquiries .inquiry-status.repondu {
-    background: linear-gradient(135deg, #e2e8f0, #cbd5e1);
+    background: #e2e8f0;
     color: #475569;
 }
 
-/* ===== MESSAGE STYLING ===== */
+/* ===== STYLING DU MESSAGE ===== */
 .recent-inquiries .inquiry-message {
     font-size: 15px;
     color: #334155;
     line-height: 1.6;
     margin: 0;
     padding: 16px;
-    background: rgba(248, 250, 252, 0.5);
+    background: #f8fafc;
     border-radius: 8px;
     border-left: 4px solid #e2e8f0;
     font-weight: 400;
 }
 
-/* ===== ACTION BUTTONS ===== */
+/* ===== BOUTONS D'ACTION ===== */
 .recent-inquiries .inquiry-actions {
     display: flex;
     gap: 12px;
@@ -460,71 +436,64 @@
 }
 
 .recent-inquiries .inquiry-actions button {
-    padding: 10px 20px;
+    padding: 10px 18px;
     border-radius: 8px;
     font-size: 14px;
-    font-weight: 600;
+    font-weight: 500;
     cursor: pointer;
     transition: all 0.3s ease;
     border: none;
-    position: relative;
-    overflow: hidden;
 }
 
 .recent-inquiries .reply-btn {
-    background: linear-gradient(135deg, #ff7a7a, #ff6b6b);
+    background: #ff7a7a;
     color: white;
-    box-shadow: 0 4px 6px -1px rgba(255, 122, 122, 0.4);
 }
 
 .recent-inquiries .reply-btn:hover {
-    background: linear-gradient(135deg, #ff6b6b, #ff5a5a);
-    box-shadow: 0 6px 12px -2px rgba(255, 122, 122, 0.5);
+    background: #ff6b6b;
     transform: translateY(-1px);
 }
 
 .recent-inquiries .mark-read-btn {
-    background: linear-gradient(135deg, #f8fafc, #e2e8f0);
+    background: #f1f5f9;
     color: #64748b;
-    border: 1px solid rgba(226, 232, 240, 0.8);
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    border: 1px solid #e2e8f0;
 }
 
 .recent-inquiries .mark-read-btn:hover {
-    background: linear-gradient(135deg, #e2e8f0, #cbd5e1);
+    background: #e2e8f0;
     color: #475569;
     transform: translateY(-1px);
 }
 
-/* ===== VIEW ALL SECTION ===== */
+/* ===== SECTION VOIR TOUT ===== */
 .recent-inquiries .view-all {
     margin-top: 32px;
     text-align: center;
     padding-top: 24px;
-    border-top: 1px solid rgba(226, 232, 240, 0.6);
+    border-top: 1px solid #e2e8f0;
 }
 
 .recent-inquiries .view-all-btn {
-    background: linear-gradient(135deg, #f8fafc, #e2e8f0);
-    border: 1px solid rgba(226, 232, 240, 0.8);
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
     color: #64748b;
     font-size: 15px;
-    font-weight: 600;
+    font-weight: 500;
     cursor: pointer;
     padding: 12px 24px;
     border-radius: 8px;
     transition: all 0.3s ease;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
 }
 
 .recent-inquiries .view-all-btn:hover {
-    background: linear-gradient(135deg, #e2e8f0, #cbd5e1);
+    background: #e2e8f0;
     color: #475569;
     transform: translateY(-1px);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-/* ===== RESPONSIVE DESIGN ===== */
+/* ===== DESIGN RESPONSIVE ===== */
 @media (max-width: 768px) {
     .recent-inquiries {
         padding: 24px 20px;
