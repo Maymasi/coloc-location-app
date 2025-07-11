@@ -160,3 +160,43 @@ export async function getPropertyAnalytics() {
     }
   }
 }
+
+/**
+ * Récupère les activités récentes d'un propriétaire connecté
+ * @param {number} limit - Nombre maximum d'activités à récupérer (défaut: 10)
+ * @returns {Promise} - Promesse contenant la liste des activités récentes
+ */
+export async function getRecentActivities(limit = 10) {
+  try {
+    const response = await authAxios.get(`DashboardOwner/recent-activities`);
+    console.log('Activités récentes récupérées avec succès:', response.data);
+
+    return {
+      success: true,
+      data: response.data.$values,
+      message: 'Activités récentes récupérées avec succès'
+    };
+  } catch (error) {
+    console.error('Erreur lors de la récupération des activités récentes:', error);
+
+    if (error.response) {
+      return {
+        success: false,
+        error: error.response.data.error || 'Erreur lors de la récupération des activités récentes',
+        status: error.response.status
+      };
+    } else if (error.request) {
+      return {
+        success: false,
+        error: 'Erreur de connexion au serveur',
+        status: null
+      };
+    } else {
+      return {
+        success: false,
+        error: 'Une erreur inattendue s\'est produite',
+        status: null
+      };
+    }
+  }
+}
