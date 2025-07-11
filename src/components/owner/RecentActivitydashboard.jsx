@@ -36,7 +36,7 @@ const RecentActivitydashboard = () => {
     const fetchActivities = async () => {
       const response = await getRecentActivities(10); 
       if (response.success) {
-        setActivities(response.data);
+        // setActivities(response.data);
       }
       setLoading(false);
     };
@@ -111,12 +111,10 @@ const RecentActivitydashboard = () => {
 };
 const styles={
   container: {
-    backgroundColor: '#ffffff',
     borderRadius: '16px',
     padding: '24px',
-    boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)',
-    border: '1px solid #e5e7eb',
-    maxWidth: '100%',
+    border: '2px dashed #d1d5db',
+    width: '60%',
     margin: '0 auto'
   },
   header: {
