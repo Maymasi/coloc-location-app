@@ -14,7 +14,7 @@ const PropertyAnalytics = () => {
         const data = result.data;
         const performances = data.propertyPerformances?.$values || [];
         setProperties(performances);
-        setResponseRate((data.responseRate || 0) / 100); // convertir en ratio (0.5 pour 50%)
+        setResponseRate((data.responseRate || 0) / 100);
         const hours = data.averageResponseTimeHours || 0;
         setAverageResponseTime(
           hours < 1 ? `${Math.round(hours * 60)} min` : `${hours.toFixed(1)} heures`
@@ -36,22 +36,52 @@ const PropertyAnalytics = () => {
         <h2 className="section-title">Performance de la propriété</h2>
         <p className="section-subtitle">Vues et demandes de renseignements sur vos propriétés</p>
 
-        <div className="properties-list">
-          {properties.map((property, index) => (
-            <div key={index} className="property-item">
-              <div className="property-info">
-                <span className="property-name">{property.name}</span>
-                <span className="property-views">{property.views} vues</span>
+        {properties.length === 0 ? (
+          <div 
+            className="empty-state"
+            style={{
+              textAlign: 'center',
+              padding: '3rem 2rem',
+              background: '#f8fafc',
+              borderRadius: '12px',
+              border: '2px dashed #cbd5e1',
+              margin: '2rem 0'
+            }}
+          >
+            <p style={{
+              margin: '0 0 0.5rem 0',
+              fontSize: '1.25rem',
+              fontWeight: '600',
+              color: '#334155'
+            }}>
+              Aucune donnée de performance disponible
+            </p>
+            <p style={{
+              margin: '0',
+              fontSize: '0.95rem',
+              color: '#64748b'
+            }}>
+              Les statistiques apparaîtront une fois que vos propriétés recevront des vues
+            </p>
+          </div>
+        ) : (
+          <div className="properties-list">
+            {properties.map((property, index) => (
+              <div key={index} className="property-item">
+                <div className="property-info">
+                  <span className="property-name">{property.name}</span>
+                  <span className="property-views">{property.views} vues</span>
+                </div>
+                <div className="progress-bar">
+                  <div
+                    className="progress-fill"
+                    style={{ width: `${(property.views / maxViews) * 100}%` }}
+                  ></div>
+                </div>
               </div>
-              <div className="progress-bar">
-                <div
-                  className="progress-fill"
-                  style={{ width: `${(property.views / maxViews) * 100}%` }}
-                ></div>
-              </div>
-            </div>
-          ))}
-        </div>
+            ))}
+          </div>
+        )}
       </div>
 
       {/* Taux de réponse */}
