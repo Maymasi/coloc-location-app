@@ -82,10 +82,31 @@ export default function RecentInquiries() {
             {/* Liste des demandes */}
             <div className="inquiries-list">
                 {inquiries.length === 0 ? (
-                    <div className="no-inquiries">
-                        <div className="no-inquiries-icon">📧</div>
-                        <h3>Aucune demande récente</h3>
-                        <p>Vous n'avez pas encore reçu de demandes pour vos propriétés.</p>
+                   <div style={{
+                        textAlign: 'center',
+                        padding: '4rem 2rem',
+                        backgroundColor: '#f8fafc',
+                        borderRadius: '12px',
+                        border: '2px dashed #cbd5e1',
+                        margin: '1rem 0'
+                    }}>
+                        <div style={{
+                            fontSize: '3rem',
+                            marginBottom: '1rem',
+                            opacity: '0.6'
+                        }}>📧</div>
+                        <h3 style={{
+                            fontSize: '1.25rem',
+                            fontWeight: '600',
+                            color: '#334155',
+                            margin: '0 0 0.5rem 0',
+                            fontFamily: 'Inter, system-ui, sans-serif'
+                        }}>Aucune demande récente</h3>
+                        <p style={{
+                            color: '#64748b',
+                            margin: '0',
+                            fontSize: '0.95rem'
+                        }}>Vous n'avez pas encore reçu de demandes pour vos propriétés.</p>
                     </div>
                 ) : (
                     inquiries.map((demande) => (

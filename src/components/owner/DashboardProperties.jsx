@@ -88,17 +88,13 @@ export default function DashboardProperties() {
         );
     }
 
-    if (properties.length === 0) {
-        return (
-            <div className="dashboard-properties">
-                <div className="empty-state">
-                    <p>Aucune propriété trouvée</p>
-                    <p>Commencez par ajouter votre première propriété</p>
-                </div>
-                <AddPropertyCard />
-            </div>
-        );
-    }
+  if (properties.length === 0) {
+    return (
+        <div className="dashboard-properties">
+            <AddPropertyCard />
+        </div>
+    );
+}
 
     return (
         <div className="dashboard-properties">
