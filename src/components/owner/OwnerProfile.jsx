@@ -1,6 +1,12 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { MapPin, Globe, Home, MessageCircle, ThumbsUp, Star, X } from 'lucide-react';
 import '../../assets/styles/ownerCss/profileOwnerStyle.css';
+import {getOwnerProfile, addAvis} from '../../Services/OwnerProfileService'
+import { useParams } from 'react-router-dom';
+import {jwtDecode} from 'jwt-decode';
+import { toast } from 'react-toastify';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const OwnerProfile = ({ 
   owner = {
@@ -14,38 +20,28 @@ const OwnerProfile = ({
     isSuperHost: true,
     profileImage: null
   },
-  reviews = [
-    {
-      id: 1,
-      reviewer: "Marie L.",
-      rating: 5,
-      comment: "Propriétaire très réactif et logement parfait pour mes études. Je recommande vivement !",
-      date: "Il y a 2 semaines",
-      helpful: 8
-    },
-    {
-      id: 2,
-      reviewer: "Thomas K.",
-      rating: 4,
-      comment: "Bon propriétaire, appartement bien situé près du campus. Quelques petits détails à améliorer mais globalement satisfait.",
-      date: "Il y a 1 mois",
-      helpful: 5
-    },
-    {
-      id: 3,
-      reviewer: "Emma D.",
-      rating: 5,
-      comment: "Excellente expérience ! Sophie est très compréhensive avec les étudiants et l'appartement était exactement comme décrit.",
-      date: "Il y a 2 mois",
-      helpful: 12
-    }
-  ]
+
 }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedRating, setSelectedRating] = useState(0);
   const [hoverRating, setHoverRating] = useState(0);
   const [comment, setComment] = useState('');
-
+  const [ownerData, setOwnerData] = useState();
+  var {id} = useParams();
+  // Fonction pour récupérer le profil du propriétaire
+  useEffect(() => {
+    const fetchOwnerProfile = async (ownerId) => {
+      try {
+        const profileData = await getOwnerProfile(ownerId);
+        console.log("Profil du propriétaire récupéré:", profileData);
+        setOwnerData(profileData);
+      } catch (error) { 
+        console.error("Erreur lors de la récupération du profil du propriétaire:", error);
+      }
+    };
+    if(id)
+      fetchOwnerProfile(id);
+  },[id]);
   const renderStars = (rating) => {
     const stars = [];
     for (let i = 1; i <= 5; i++) {
@@ -77,11 +73,11 @@ const OwnerProfile = ({
   };
 
   const renderProfileImage = () => {
-    if (owner.profileImage) {
+    if (ownerData.avatarProp) {
       return (
         <img 
-          src={owner.profileImage} 
-          alt={owner.name}
+          src={ownerData.avatarProp} 
+          alt={ownerData.nom}
           className="profile-owner-avatar-image"
         />
       );
@@ -89,7 +85,7 @@ const OwnerProfile = ({
     return (
       <div className="profile-owner-avatar-placeholder">
         <span className="profile-owner-avatar-initials">
-          {owner.name.split(' ').map(n => n[0]).join('')}
+          {ownerData.nom.split(' ').map(n => n[0]).join('')}
         </span>
       </div>
     );
@@ -106,36 +102,47 @@ const OwnerProfile = ({
     setComment('');
   };
 
-  const handleSubmitReview = () => {
-    if (selectedRating === 0) {
-      alert('Veuillez sélectionner une note');
-      return;
-    }
-    
-    // Ici vous pouvez ajouter la logique pour soumettre l'avis
-    console.log('Avis soumis:', {
-      rating: selectedRating,
-      comment: comment,
-      ownerName: owner.name
-    });
-    
-    handleModalClose();
-    alert('Votre avis a été publié avec succès !');
-  };
+  const handleSubmitReview = async () => {
+    try {
+      const token = localStorage.getItem('token');
+      const decoded = jwtDecode(token);
+      if (!token) return <Navigate to="/login" />;
+      const Iid = decoded.nameid;
 
-  const getRatingText = (rating) => {
-    const ratingTexts = {
-      1: '1 étoile',
-      2: '2 étoiles', 
-      3: '3 étoiles',
-      4: '4 étoiles',
-      5: '5 étoiles'
-    };
-    return ratingTexts[rating] || '';
-  };
+      await addAvis({
+        rating: selectedRating,
+        comment: comment,
+        StudentId: Number(Iid),
+        ProprietaireId: id
+      });
 
+      toast.success("Votre avis a été publié avec succès !");
+      handleModalClose();
+
+    } catch (error) {
+      if (
+        error.response &&
+        error.response.data &&
+        typeof error.response.data === "string" &&
+        error.response.data.includes("Vous avez déjà laissé un avis")
+      ) {
+        toast.warning("Vous avez déjà évalué ce propriétaire.");
+      } else if (
+        error.response &&
+        error.response.data &&
+        error.response.data.includes("Etudiant non trouvable")
+      ) {
+        toast.error("Étudiant introuvable. Veuillez vous reconnecter.");
+      } else {
+        toast.error("Une erreur est survenue lors de l’envoi de votre avis.");
+      }
+}
+
+  };
+  if (!ownerData) return <div>Chargement du profil...</div>;
   return (
     <div className="profile-owner-container">
+       <ToastContainer position="top-right" autoClose={3000} />
       <div className="profile-owner-layout">
         {/* Profile Section */}
         <div className="profile-owner-left-section">
@@ -145,14 +152,13 @@ const OwnerProfile = ({
                 {renderProfileImage()}
               </div>
               
-              <h1 className="profile-owner-name">{owner.name}</h1>
+              <h1 className="profile-owner-name">{ownerData.nom}</h1>
               
               <div className="profile-owner-rating">
                 <div className="profile-owner-stars">
-                  {renderStars(Math.floor(owner.rating))}
+                  {renderStars(Math.floor(ownerData.note))}
                 </div>
-                <span className="profile-owner-rating-score">{owner.rating}</span>
-                <span className="profile-owner-rating-count">({owner.reviewCount} avis)</span>
+                <span className="profile-owner-rating-score">{ownerData.note}</span>
               </div>
             </div>
           </div>
@@ -161,7 +167,7 @@ const OwnerProfile = ({
             <div className="profile-owner-property-icon">
               <Home className="profile-owner-icon" />
             </div>
-            <div className="profile-owner-property-count">{owner.propertyCount}</div>
+            <div className="profile-owner-property-count">{ownerData.nmbProprietes}</div>
             <div className="profile-owner-property-label">Propriétés</div>
           </div>
 
@@ -169,15 +175,15 @@ const OwnerProfile = ({
             <div className="profile-owner-detail-item">
               <MapPin className="profile-owner-detail-icon" />
               <div className="profile-owner-detail-content">
-                <div className="profile-owner-detail-primary">{owner.address}</div>
-                <div className="profile-owner-detail-secondary">{owner.city}</div>
+                <div className="profile-owner-detail-primary">{ownerData.adresse}</div>
+                <div className="profile-owner-detail-secondary">{owner.pays}</div>
               </div>
             </div>
             
             <div className="profile-owner-detail-item">
               <Globe className="profile-owner-detail-icon" />
               <div className="profile-owner-detail-content">
-                <div className="profile-owner-detail-primary">{owner.country}</div>
+                <div className="profile-owner-detail-primary">{ownerData.ville}</div>
               </div>
             </div>
           </div>
@@ -194,36 +200,37 @@ const OwnerProfile = ({
             <MessageCircle className="profile-owner-reviews-icon" />
             <h2 className="profile-owner-reviews-title">Avis des étudiants</h2>
             <span className="profile-owner-reviews-count">
-              {reviews.length} avis
+              {ownerData.avis.$values.length} avis
             </span>
           </div>
 
           <div className="profile-owner-reviews-list">
-            {reviews.length > 0 ? (
-              reviews.map((review) => (
-                <div key={review.id} className="profile-owner-review-item">
+            {ownerData.avis.$values.length > 0 ? (
+              ownerData.avis.$values.map((review) => (
+                <div key={review.$id} className="profile-owner-review-item">
                   <div className="profile-owner-review-content">
                     <div className="profile-owner-reviewer-avatar">
-                      <span className="profile-owner-reviewer-initials">
-                        {review.reviewer.split(' ').map(n => n[0]).join('')}
-                      </span>
+                      {review.avatarProfile ? (
+                        <img
+                          src={review.avatarProfile}
+                          className="profile-owner-avatar-image"
+                        />
+                      ) : (
+                        <span className="profile-owner-reviewer-initials">
+                          {review.nomEtudiant.split(' ').map(n => n[0]).join('')}
+                        </span>
+                      )}
                     </div>
                     
                     <div className="profile-owner-review-details">
                       <div className="profile-owner-review-header">
-                        <span className="profile-owner-reviewer-name">{review.reviewer}</span>
+                        <span className="profile-owner-reviewer-name">{review.nomEtudiant}</span>
                         <div className="profile-owner-review-stars">
                           {renderStars(review.rating)}
                         </div>
-                        <span className="profile-owner-review-date">{review.date}</span>
                       </div>
                       
                       <p className="profile-owner-review-comment">{review.comment}</p>
-                      
-                      <div className="profile-owner-review-helpful">
-                        <ThumbsUp className="profile-owner-helpful-icon" />
-                        <span>Utile ({review.helpful})</span>
-                      </div>
                     </div>
                   </div>
                 </div>
@@ -247,7 +254,7 @@ const OwnerProfile = ({
         <div className="evaluation-modal-overlay" onClick={handleModalClose}>
           <div className="evaluation-modal-content" onClick={(e) => e.stopPropagation()}>
             <div className="evaluation-modal-header">
-              <h2 className="evaluation-modal-title">Évaluer {owner.name}</h2>
+              <h2 className="evaluation-modal-title">Évaluer {ownerData.nom}</h2>
               <button className="evaluation-modal-close" onClick={handleModalClose}>
                 <X className="evaluation-modal-close-icon" />
               </button>
@@ -264,9 +271,6 @@ const OwnerProfile = ({
                     setSelectedRating
                   )}
                 </div>
-                {selectedRating > 0 && (
-                  <p className="evaluation-rating-text">{getRatingText(selectedRating)}</p>
-                )}
               </div>
 
               <div className="evaluation-comment-section">
