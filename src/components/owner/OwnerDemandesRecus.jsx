@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Search, MessageCircle, MapPin, Calendar, Euro, MoreHorizontal, Check, X, User, FileText, Users, Clock, AlertCircle, CheckCircle, XCircle } from 'lucide-react';
+import { Search, MessageCircle, MapPin, Calendar, Euro, MoreHorizontal, Check, X, User, FileText, Users, Clock, AlertCircle, CheckCircle, XCircle, ChevronLeft, ChevronRight } from 'lucide-react';
 import { GetAllReceivedRequestsLocationOwner,accepterOuRefuserDemandeLocation } from '../../Services/DemandeDeLocationService'; 
 import { creerConversation } from '../../Services/MessagingService' ;
 import { useNavigate } from 'react-router-dom';
@@ -105,6 +105,10 @@ const OwnerDemandesRecus = () => {
   const [selectedDemande, setSelectedDemande] = useState(null);
   const [modalAction, setModalAction] = useState('approve'); // 'approve' ou 'reject'
   const navigate = useNavigate();
+
+  // States pour la pagination
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage] = useState(2); // Nombre d'éléments par page
 
   // States pour les snackbars
   const [snackbar, setSnackbar] = useState({
@@ -225,6 +229,15 @@ const OwnerDemandesRecus = () => {
         return demandes;
     }
   };
+
+  // Pagination logic
+  const filteredDemandes = getFilteredDemandes();
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentItems = filteredDemandes.slice(indexOfFirstItem, indexOfLastItem);
+  const totalPages = Math.ceil(filteredDemandes.length / itemsPerPage);
+
+  const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
   const getStatusColor = (status) => {
     switch (status) {
@@ -481,25 +494,37 @@ const OwnerDemandesRecus = () => {
         <div className="tabs-container">
           <button 
             className={`tab-button ${activeTab === 'toutes' ? 'active' : ''}`}
-            onClick={() => setActiveTab('toutes')}
+            onClick={() => {
+              setActiveTab('toutes');
+              setCurrentPage(1); // Reset à la première page quand on change d'onglet
+            }}
           >
             Toutes ({counts.total})
           </button>
           <button 
             className={`tab-button ${activeTab === 'en-attente' ? 'active' : ''}`}
-            onClick={() => setActiveTab('en-attente')}
+            onClick={() => {
+              setActiveTab('en-attente');
+              setCurrentPage(1);
+            }}
           >
             En attente ({counts.enAttente})
           </button>
           <button 
             className={`tab-button ${activeTab === 'approuvees' ? 'active' : ''}`}
-            onClick={() => setActiveTab('approuvees')}
+            onClick={() => {
+              setActiveTab('approuvees');
+              setCurrentPage(1);
+            }}
           >
             Approuvés ({counts.approuvees})
           </button>
           <button 
             className={`tab-button ${activeTab === 'rejetees' ? 'active' : ''}`}
-            onClick={() => setActiveTab('rejetees')}
+            onClick={() => {
+              setActiveTab('rejetees');
+              setCurrentPage(1);
+            }}
           >
             Rejetées ({counts.rejetees})
           </button>
@@ -507,7 +532,7 @@ const OwnerDemandesRecus = () => {
         
 
         <div className="demandes-list">
-          {getFilteredDemandes().length === 0 ? (
+          {filteredDemandes.length === 0 ? (
             <div 
               className="empty-state"
               style={{
@@ -589,179 +614,212 @@ const OwnerDemandesRecus = () => {
               )}
             </div>
           ) : (
-            getFilteredDemandes().map((demande) => (
-              <div key={demande.id} className="demande-card">
-                <div className="demande-header">
-                  <div className="user-info">
-                    <div className="avatar">
-                      {demande.nom.split(' ').map(n => n[0]).join('')}
+            <>
+              {currentItems.map((demande) => (
+                <div key={demande.id} className="demande-card">
+                  <div className="demande-header">
+                    <div className="user-info">
+                      <div className="avatar">
+                        {demande.nom.split(' ').map(n => n[0]).join('')}
+                      </div>
+                      <div className="user-details">
+                        <h3>{demande.nom}</h3>
+                        <p>{demande.email}</p>
+                      </div>
                     </div>
-                    <div className="user-details">
-                      <h3>{demande.nom}</h3>
-                      <p>{demande.email}</p>
+                    <div className="status-badges">
+                      <span className={`status-badge ${demande.status}`}>
+                        {demande.status === 'en-attente' && 'En attente'}
+                        {demande.status === 'approuvee' && 'Approuvée'}
+                        {demande.status === 'rejetee' && 'Rejetée'}
+                      </span>
+                      <span className={`priority-badge ${demande.priority}`}>
+                        {demande.priority === 'haute' && 'Haute'}
+                        {demande.priority === 'moyenne' && 'Moyenne'}
+                        {demande.priority === 'basse' && 'Basse'}
+                      </span>
+                      
+                      <div className="dropdown-container">
+                        <button 
+                          className="more-button"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            setOpenDropdown(openDropdown === demande.id ? null : demande.id);
+                          }}
+                        >
+                          <MoreHorizontal size={20} />
+                        </button>
+                        
+                        {openDropdown === demande.id && (
+                          <div className="dropdown-menu">
+                            {shouldShowApprovalButtons(demande.status) && (
+                              <>
+                                <button 
+                                  className="dropdown-item approve"
+                                  onClick={() => handleApprove(demande.id)}
+                                >
+                                  <Check size={16} />
+                                  Approuver
+                                </button>
+                                <button 
+                                  className="dropdown-item reject"
+                                  onClick={() => handleReject(demande.id)}
+                                >
+                                  <X size={16} />
+                                  Rejeter
+                                </button>
+                              </>
+                            )}
+                            <button 
+                              className={`dropdown-item respond ${isRespondDisabled(demande.status) ? 'disabled' : ''}`}
+                              onClick={() => !isRespondDisabled(demande.status) && handleRespond(demande.etudiantId, demande.nom)}
+                              disabled={isRespondDisabled(demande.status)}
+                            >
+                              <MessageCircle size={16} />
+                              Envoyer un message
+                            </button>
+                            <button 
+                              className="dropdown-item profile"
+                              onClick={() => handleViewProfile(demande.id)}
+                            >
+                              <User size={16} />
+                              Voir le profil
+                            </button>
+                          </div>
+                        )}
+                      </div>
                     </div>
                   </div>
-                  <div className="status-badges">
-                    <span className={`status-badge ${demande.status}`}>
-                      {demande.status === 'en-attente' && 'En attente'}
-                      {demande.status === 'approuvee' && 'Approuvée'}
-                      {demande.status === 'rejetee' && 'Rejetée'}
-                    </span>
-                    <span className={`priority-badge ${demande.priority}`}>
-                      {demande.priority === 'haute' && 'Haute'}
-                      {demande.priority === 'moyenne' && 'Moyenne'}
-                      {demande.priority === 'basse' && 'Basse'}
-                    </span>
-                    
-                    <div className="dropdown-container">
-                      <button 
-                        className="more-button"
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          setOpenDropdown(openDropdown === demande.id ? null : demande.id);
-                        }}
-                      >
-                        <MoreHorizontal size={20} />
-                      </button>
-                      
-                      {openDropdown === demande.id && (
-                        <div className="dropdown-menu">
-                          {shouldShowApprovalButtons(demande.status) && (
-                            <>
-                              <button 
-                                className="dropdown-item approve"
-                                onClick={() => handleApprove(demande.id)}
-                              >
-                                <Check size={16} />
-                                Approuver
-                              </button>
-                              <button 
-                                className="dropdown-item reject"
-                                onClick={() => handleReject(demande.id)}
-                              >
-                                <X size={16} />
-                                Rejeter
-                              </button>
-                            </>
-                          )}
-                          <button 
-                            className={`dropdown-item respond ${isRespondDisabled(demande.status) ? 'disabled' : ''}`}
-                            onClick={() => !isRespondDisabled(demande.status) && handleRespond(demande.etudiantId, demande.nom)}
-                            disabled={isRespondDisabled(demande.status)}
-                          >
-                            <MessageCircle size={16} />
-                            Envoyer un message
-                          </button>
-                          <button 
-                            className="dropdown-item profile"
-                            onClick={() => handleViewProfile(demande.id)}
-                          >
-                            <User size={16} />
-                            Voir le profil
-                          </button>
+
+                  <div className="property-info">
+                    <div className="property-item">
+                      <MapPin size={16} />
+                      <span>{demande.logement}</span>
+                    </div>
+                    <div className="property-item">
+                      <Calendar size={16} />
+                      <span>Demandé le {demande.datedemande}</span>
+                    </div>
+                    <div className="property-item">
+                      <Euro size={16} />
+                      <span>Budget : {demande.budget}</span>
+                    </div>
+                  </div>
+
+                  {demande.message && (
+                    <div className="message-section">
+                      <h4>Message de l'étudiant :</h4>
+                      <p>{demande.message}</p>
+                    </div>
+                  )}
+
+                  {/* Section message de réponse pour les demandes approuvées ou rejetées */}
+                  {(demande.status === 'approuvee' || demande.status === 'rejetee') && demande.messageReponse && (
+                    <div className="response-message-section">
+                      <h4>
+                        {demande.status === 'approuvee' ? 'Message d\'approbation :' : 'Message de rejet :'}
+                      </h4>
+                      <p>{demande.messageReponse}</p>
+                      {demande.dateReponse && (
+                        <div className="response-date">
+                          <small>Répondu le {new Date(demande.dateReponse).toLocaleDateString('fr-FR', {
+                            day: '2-digit',
+                            month: '2-digit', 
+                            year: 'numeric',
+                            hour: '2-digit',
+                            minute: '2-digit'
+                          })}</small>
                         </div>
                       )}
                     </div>
-                  </div>
-                </div>
-
-                <div className="property-info">
-                  <div className="property-item">
-                    <MapPin size={16} />
-                    <span>{demande.logement}</span>
-                  </div>
-                  <div className="property-item">
-                    <Calendar size={16} />
-                    <span>Demandé le {demande.datedemande}</span>
-                  </div>
-                  <div className="property-item">
-                    <Euro size={16} />
-                    <span>Budget : {demande.budget}</span>
-                  </div>
-                </div>
-
-                {demande.message && (
-                  <div className="message-section">
-                    <h4>Message de l'étudiant :</h4>
-                    <p>{demande.message}</p>
-                  </div>
-                )}
-
-                {/* Section message de réponse pour les demandes approuvées ou rejetées */}
-                {(demande.status === 'approuvee' || demande.status === 'rejetee') && demande.messageReponse && (
-                  <div className="response-message-section">
-                    <h4>
-                      {demande.status === 'approuvee' ? 'Message d\'approbation :' : 'Message de rejet :'}
-                    </h4>
-                    <p>{demande.messageReponse}</p>
-                    {demande.dateReponse && (
-                      <div className="response-date">
-                        <small>Répondu le {new Date(demande.dateReponse).toLocaleDateString('fr-FR', {
-                          day: '2-digit',
-                          month: '2-digit', 
-                          year: 'numeric',
-                          hour: '2-digit',
-                          minute: '2-digit'
-                        })}</small>
-                      </div>
-                    )}
-                  </div>
-                )}
-
-                {(demande.universite || demande.duree) && (
-                  <div className="student-details">
-                    {demande.universite && (
-                      <div className="detail-item">
-                        <span className="label">Université :</span>
-                        <span>{demande.universite}</span>
-                      </div>
-                    )}
-                    {demande.annee && (
-                      <div className="detail-item">
-                        <span className="label">Année d'étude :</span>
-                        <span>{demande.annee}</span>
-                      </div>
-                    )}
-                    {demande.duree && (
-                      <div className="detail-item">
-                        <span className="label">Durée souhaitée :</span>
-                        <span>{demande.duree}</span>
-                      </div>
-                    )}
-                    {demande.emmenagement && (
-                      <div className="detail-item">
-                        <span className="label">Date d'emménagement :</span>
-                        <span>{demande.emmenagement}</span>
-                      </div>
-                    )}
-                  </div>
-                )}
-
-                <div className="actions">
-                  {shouldShowApprovalButtons(demande.status) && (
-                    <>
-                      <button className="btn-approve" onClick={() => handleApprove(demande.id)}>
-                        <Check size={16} />
-                        Approuver
-                      </button>
-                      <button className="btn-reject" onClick={() => handleReject(demande.id)}>
-                        <X size={16} />
-                        Rejeter
-                      </button>
-                    </>
                   )}
+
+                  {(demande.universite || demande.duree) && (
+                    <div className="student-details">
+                      {demande.universite && (
+                        <div className="detail-item">
+                          <span className="label">Université :</span>
+                          <span>{demande.universite}</span>
+                        </div>
+                      )}
+                      {demande.annee && (
+                        <div className="detail-item">
+                          <span className="label">Année d'étude :</span>
+                          <span>{demande.annee}</span>
+                        </div>
+                      )}
+                      {demande.duree && (
+                        <div className="detail-item">
+                          <span className="label">Durée souhaitée :</span>
+                          <span>{demande.duree}</span>
+                        </div>
+                      )}
+                      {demande.emmenagement && (
+                        <div className="detail-item">
+                          <span className="label">Date d'emménagement :</span>
+                          <span>{demande.emmenagement}</span>
+                        </div>
+                      )}
+                    </div>
+                  )}
+
+                  <div className="actions">
+                    {shouldShowApprovalButtons(demande.status) && (
+                      <>
+                        <button className="btn-approve" onClick={() => handleApprove(demande.id)}>
+                          <Check size={16} />
+                          Approuver
+                        </button>
+                        <button className="btn-reject" onClick={() => handleReject(demande.id)}>
+                          <X size={16} />
+                          Rejeter
+                        </button>
+                      </>
+                    )}
+                    <button 
+                      className={`btn-respond ${isRespondDisabled(demande.status) ? 'disabled' : ''}`}
+                      onClick={() => !isRespondDisabled(demande.status) && handleRespond(demande.etudiantId, demande.nom)}
+                      disabled={isRespondDisabled(demande.status)}
+                      title={isRespondDisabled(demande.status) ? 'Vous pouvez seulement répondre aux demandes approuvées' : 'Envoyer un message'}
+                    >
+                      <MessageCircle size={16} />
+                      Répondre
+                    </button>
+                  </div>
+                </div>
+              ))}
+
+              {/* Pagination */}
+              {filteredDemandes.length > itemsPerPage && (
+                <div className="pagination-container">
                   <button 
-                    className={`btn-respond ${isRespondDisabled(demande.status) ? 'disabled' : ''}`}
-                    onClick={() => !isRespondDisabled(demande.status) && handleRespond(demande.etudiantId, demande.nom)}
-                    disabled={isRespondDisabled(demande.status)}
-                    title={isRespondDisabled(demande.status) ? 'Vous pouvez seulement répondre aux demandes approuvées' : 'Envoyer un message'}
+                    onClick={() => paginate(currentPage - 1)} 
+                    disabled={currentPage === 1}
+                    className="pagination-button"
                   >
-                    <MessageCircle size={16} />
-                    Répondre
+                    <ChevronLeft size={16} />
+                  </button>
+
+                  {Array.from({ length: totalPages }, (_, i) => i + 1).map(number => (
+                    <button
+                      key={number}
+                      onClick={() => paginate(number)}
+                      className={`pagination-button ${currentPage === number ? 'active' : ''}`}
+                    >
+                      {number}
+                    </button>
+                  ))}
+
+                  <button 
+                    onClick={() => paginate(currentPage + 1)} 
+                    disabled={currentPage === totalPages}
+                    className="pagination-button"
+                  >
+                    <ChevronRight size={16} />
                   </button>
                 </div>
-              </div>
-            ))
+              )}
+            </>
           )}
         </div>
       </div>

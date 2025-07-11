@@ -467,6 +467,44 @@
 .demandes-container .demande-card:has(.status-badge.rejetee) .response-message-section {
   border-left-color: #ef4444;
 }
+
+.demandes-container .pagination-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  margin-top: 20px;
+  padding: 20px 0;
+}
+
+.demandes-container .pagination-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: 1px solid #e2e8f0;
+  background-color: white;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.demandes-container .pagination-button:hover:not(:disabled) {
+  background-color: #f8fafc;
+  border-color: #cbd5e1;
+}
+
+.demandes-container .pagination-button.active {
+  background-color: #f77c6e;
+  color: white;
+  border-color: #f77c6e;
+}
+
+.demandes-container .pagination-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
 /* Media Queries - Mobile First Approach */
 @media (max-width: 480px) {
     .demandes-container .demandes-container {
