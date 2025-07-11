@@ -1,23 +1,32 @@
-import React, { useState } from 'react';
-import { Camera, Star } from 'lucide-react';
-import { Avatar, Rating, Box, Typography } from '@mui/material';
+import React, { useState, useEffect } from 'react';
+import { Camera, Star, Upload, X } from 'lucide-react';
+import { Avatar, Rating, Box, Snackbar, Alert } from '@mui/material';
 import '../../assets/styles/ownerCss/OwnerProfil.css';
+import { getProprietaireProfil, updateProprietaireProfil } from '../../Services/ProfilOwnerService';
 
 const OwnerProfilComp = () => {
   const [isEditing, setIsEditing] = useState(false);
   const [activeTab, setActiveTab] = useState('informations');
-  const [profileData, setProfileData] = useState({
-    firstName: 'John',
-    lastName: 'Smith',
-    email: 'john.smith@email.com',
-    phone: '+33 6 12 34 56 78',
-    biography: 'Propriétaire expérimenté avec plus de 10 ans dans l\'immobilier étudiant. Je m\'engage à offrir des logements de qualité dans un environnement sûr et convivial.',
-    address: '123 rue de la Paix',
-    city: 'Paris',
-    postalCode: '75001'
+  const [profileData, setProfileData] = useState(null);
+  const [tempData, setTempData] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  
+  // États pour les snackbars
+  const [snackbar, setSnackbar] = useState({
+    open: false,
+    message: '',
+    severity: 'info' // 'success', 'error', 'warning', 'info'
   });
 
-  const [tempData, setTempData] = useState(profileData);
+  // État pour la gestion des images
+  const [imageUploading, setImageUploading] = useState(false);
+
+  // États pour les erreurs de validation
+  const [validationErrors, setValidationErrors] = useState({
+    phone: '',
+    postalCode: ''
+  });
 
   const reviews = [
     {
@@ -56,19 +65,232 @@ const OwnerProfilComp = () => {
     { stars: 1, count: 1 }
   ];
 
-  const handleEdit = () => {
-    setIsEditing(true);
-    setTempData(profileData);
+  // Fonction pour valider le numéro de téléphone marocain
+  const validateMoroccanPhone = (phone) => {
+    if (!phone) return true; // Optionnel, donc valide si vide
+    
+    // Supprimer les espaces et les tirets
+    const cleanPhone = phone.replace(/[\s-]/g, '');
+    
+    // Formats valides pour le Maroc :
+    // 06XXXXXXXX ou 07XXXXXXXX (10 chiffres)
+    // +21206XXXXXXXX ou +21207XXXXXXXX (13 chiffres avec +212)
+    // 002126XXXXXXXX ou 002127XXXXXXXX (12 chiffres avec 00212)
+    
+    const patterns = [
+      /^0[67]\d{8}$/,           // 06 ou 07 suivi de 8 chiffres
+      /^\+212[67]\d{8}$/,       // +212 suivi de 6 ou 7 puis 8 chiffres
+      /^00212[67]\d{8}$/        // 00212 suivi de 6 ou 7 puis 8 chiffres
+    ];
+    
+    return patterns.some(pattern => pattern.test(cleanPhone));
   };
 
-  const handleSave = () => {
-    setProfileData(tempData);
-    setIsEditing(false);
+  // Fonction pour valider le code postal (numérique uniquement)
+  const validatePostalCode = (postalCode) => {
+    if (!postalCode) return true; // Optionnel, donc valide si vide
+    
+    // Doit contenir uniquement des chiffres
+    return /^\d+$/.test(postalCode);
+  };
+
+  // Fonction pour mettre à jour les erreurs de validation
+  const updateValidationError = (field, error) => {
+    setValidationErrors(prev => ({
+      ...prev,
+      [field]: error
+    }));
+  };
+
+  // Fonction pour afficher les snackbars
+  const showSnackbar = (message, severity = 'info') => {
+    setSnackbar({
+      open: true,
+      message,
+      severity
+    });
+  };
+
+  // Fonction pour fermer les snackbars
+  const handleCloseSnackbar = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+    setSnackbar(prev => ({ ...prev, open: false }));
+  };
+
+  // Fonction pour convertir un fichier en data URL
+  const convertFileToDataURL = (file) => {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = (event) => resolve(event.target.result);
+      reader.onerror = (error) => reject(error);
+      reader.readAsDataURL(file);
+    });
+  };
+
+  // Fonction pour valider et traiter l'image
+  const handleImageUpload = async (event) => {
+    const file = event.target.files[0];
+    if (!file) return;
+
+    // Validation du type de fichier
+    const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png'];
+    if (!allowedTypes.includes(file.type)) {
+      showSnackbar('Format de fichier non supporté. Utilisez JPG ou PNG.', 'error');
+      return;
+    }
+
+    // Validation de la taille (5MB max)
+    const maxSize = 5 * 1024 * 1024; // 5MB
+    if (file.size > maxSize) {
+      showSnackbar('La taille du fichier est trop importante. Maximum 5MB.', 'error');
+      return;
+    }
+
+    try {
+      setImageUploading(true);
+      showSnackbar('Upload de l\'image en cours...', 'info');
+      
+      const dataURL = await convertFileToDataURL(file);
+      
+      handleInputChange('avatarUrl', dataURL);
+      showSnackbar('Image uploadée avec succès !', 'success');
+      
+    } catch (error) {
+      console.error('Erreur lors de l\'upload:', error);
+      showSnackbar('Erreur lors de l\'upload de l\'image', 'error');
+    } finally {
+      setImageUploading(false);
+    }
+  };
+
+  // Fonction pour supprimer l'image
+  const handleRemoveImage = () => {
+    handleInputChange('avatarUrl', '');
+    showSnackbar('Image supprimée', 'info');
+  };
+
+  useEffect(() => {
+    const fetchProfil = async () => {
+      try {
+        setLoading(true);
+        setError(null);
+        
+        const response = await getProprietaireProfil();
+        
+        if (response.success === false) {
+          setError(response.error);
+          showSnackbar(`Erreur: ${response.error}`, 'error');
+          console.error('Erreur lors de la récupération du profil:', response.error);
+        } else {
+          const data = response.data;
+          const profileInfo = {
+            firstName: data.prenom || '',
+            lastName: data.nom || '',
+            email: data.email || '',
+            phone: data.telephone || '',
+            address: data.adresse || '',
+            city: data.ville || '',
+            postalCode: data.codePostal || '',
+            country: data.pays || '',
+            avatarUrl: data.avatarUrl || ''
+          };
+          
+          setProfileData(profileInfo);
+          setTempData({ ...profileInfo });
+          showSnackbar('Profil chargé avec succès', 'success');
+        }
+      } catch (err) {
+        const errorMessage = 'Erreur lors du chargement du profil';
+        setError(errorMessage);
+        showSnackbar(errorMessage, 'error');
+        console.error('Erreur:', err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchProfil();
+  }, []);
+
+  const handleEdit = () => {
+    setIsEditing(true);
+    setTempData({ ...profileData });
+    setValidationErrors({ phone: '', postalCode: '' }); // Reset des erreurs
+    showSnackbar('Mode édition activé', 'info');
+  };
+
+  const handleSave = async () => {
+    try {
+      // Validation des données avant envoi
+      if (!tempData.firstName || !tempData.lastName || !tempData.email) {
+        showSnackbar('Veuillez remplir tous les champs obligatoires', 'warning');
+        return;
+      }
+
+      // Validation de l'email
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailRegex.test(tempData.email)) {
+        showSnackbar('Format d\'email invalide', 'error');
+        return;
+      }
+
+      // Validation du téléphone
+      if (tempData.phone && !validateMoroccanPhone(tempData.phone)) {
+        showSnackbar('Format de téléphone invalide. Utilisez un numéro marocain (06/07 ou +212)', 'error');
+        return;
+      }
+
+      // Validation du code postal
+      if (tempData.postalCode && !validatePostalCode(tempData.postalCode)) {
+        showSnackbar('Le code postal doit contenir uniquement des chiffres', 'error');
+        return;
+      }
+
+      // Vérifier s'il y a des erreurs de validation
+      if (validationErrors.phone || validationErrors.postalCode) {
+        showSnackbar('Veuillez corriger les erreurs avant de sauvegarder', 'error');
+        return;
+      }
+
+      showSnackbar('Sauvegarde en cours...', 'info');
+
+      const updated = {
+        nom: tempData.lastName,
+        prenom: tempData.firstName,
+        email: tempData.email,
+        telephone: tempData.phone,
+        adresse: tempData.address,
+        ville: tempData.city,
+        codePostal: tempData.postalCode,
+        pays: tempData.country,
+        avatarUrl: tempData.avatarUrl 
+      };
+
+      const response = await updateProprietaireProfil(updated);
+
+      if (response.success === false) {
+        showSnackbar(response.error, 'error');
+        return;
+      }
+
+      // Mise à jour réussie
+      setProfileData({ ...tempData });
+      setIsEditing(false);
+      showSnackbar(response.message || 'Profil mis à jour avec succès !', 'success');
+      
+    } catch (err) {
+      showSnackbar('Erreur lors de la sauvegarde du profil', 'error');
+      console.error('Erreur lors de la sauvegarde:', err);
+    }
   };
 
   const handleCancel = () => {
-    setTempData(profileData);
+    setTempData({ ...profileData });
     setIsEditing(false);
+    setValidationErrors({ phone: '', postalCode: '' }); // Reset des erreurs
+    showSnackbar('Modifications annulées', 'info');
   };
 
   const handleInputChange = (field, value) => {
@@ -76,22 +298,71 @@ const OwnerProfilComp = () => {
       ...prev,
       [field]: value
     }));
+
+    // Validation en temps réel
+    if (field === 'phone') {
+      if (value && !validateMoroccanPhone(value)) {
+        updateValidationError('phone', 'Format invalide. Utilisez 06/07XXXXXXXX ou +212XXXXXXXX');
+      } else {
+        updateValidationError('phone', '');
+      }
+    }
+
+    if (field === 'postalCode') {
+      if (value && !validatePostalCode(value)) {
+        updateValidationError('postalCode', 'Le code postal doit contenir uniquement des chiffres');
+      } else {
+        updateValidationError('postalCode', '');
+      }
+    }
   };
 
-  const renderStars = (rating) => {
+  const renderStars = (rating) => (
+    <Box className="stars-container">
+      <Rating value={rating} readOnly precision={0.5} />
+    </Box>
+  );
+
+  // Gestion des états de chargement et d'erreur
+  if (loading) {
     return (
-      <Box className="stars-container">
-        <Rating value={rating} readOnly precision={0.5} />
-      </Box>
+      <div className="profile-container">
+        <div className="loading-message">
+          <p>Chargement du profil...</p>
+        </div>
+      </div>
     );
-  };
+  }
+
+  if (error) {
+    return (
+      <div className="profile-container">
+        <div className="error-message">
+          <p>Erreur: {error}</p>
+          <button onClick={() => window.location.reload()}>
+            Réessayer
+          </button>
+        </div>
+      </div>
+    );
+  }
+
+  if (!profileData || !tempData) {
+    return (
+      <div className="profile-container">
+        <div className="error-message">
+          <p>Impossible de charger les données du profil</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="profile-container">
       <div className="profile-header">
         <div className="head">
-        <h1>Mon profil</h1>
-        <p>Gérez vos informations personnelles et professionnelles</p>
+          <h1>Mon profil</h1>
+          <p>Gérez vos informations personnelles et professionnelles</p>
         </div>
         <div className="profile-actions">
           {!isEditing ? (
@@ -146,15 +417,61 @@ const OwnerProfilComp = () => {
               <p className="section-subtitle">Votre photo sera visible par les étudiants</p>
               <div className="photo-section">
                 <div className="photo-placeholder">
-                  <Avatar sx={{ width: 80, height: 80, bgcolor: '#e0e0e0' }}>
-                    <Camera size={24} color="#999" />
-                  </Avatar>
+                  {tempData.avatarUrl ? (
+                    <Avatar 
+                      sx={{ width: 80, height: 80 }}
+                      src={tempData.avatarUrl}
+                      alt="Photo de profil"
+                    />
+                  ) : (
+                    <Avatar sx={{ width: 80, height: 80, bgcolor: '#e0e0e0' }}>
+                      <Camera size={24} color="#999" />
+                    </Avatar>
+                  )}
                 </div>
                 <div className="photo-info">
-                  <button className="btn-change-photo">
-                    <Camera size={16} />
-                    Changer la photo
-                  </button>
+                  {isEditing ? (
+                    <div className="photo-edit-controls">
+                      <input
+                        type="file"
+                        accept="image/jpeg,image/jpg,image/png"
+                        onChange={handleImageUpload}
+                        style={{ display: 'none' }}
+                        id="avatar-upload"
+                        disabled={imageUploading}
+                      />
+                      <label htmlFor="avatar-upload" className="btn-upload-photo">
+                        <Upload size={16} />
+                        {imageUploading ? 'Upload en cours...' : 'Choisir une image'}
+                      </label>
+                      
+                      {tempData.avatarUrl && (
+                        <button 
+                          type="button" 
+                          className="btn-remove-photo"
+                          onClick={handleRemoveImage}
+                        >
+                          <X size={16} />
+                          Supprimer la photo
+                        </button>
+                      )}
+                    </div>
+                  ) : (
+                    <div className="photo-view-controls">
+                      <input
+                        type="file"
+                        accept="image/jpeg,image/jpg,image/png"
+                        onChange={handleImageUpload}
+                        style={{ display: 'none' }}
+                        id="avatar-upload-view"
+                        disabled={imageUploading}
+                      />
+                      <label htmlFor="avatar-upload-view" className="btn-change-photo">
+                        <Camera size={16} />
+                        {imageUploading ? 'Upload en cours...' : 'Changer la photo'}
+                      </label>
+                    </div>
+                  )}
                   <p className="photo-requirements">
                     Formats acceptés : JPG, PNG. Taille maximale : 5 Mo
                   </p>
@@ -166,36 +483,39 @@ const OwnerProfilComp = () => {
               <h2>Informations de base</h2>
               <div className="form-grid">
                 <div className="form-group">
-                  <label>Prénom</label>
+                  <label>Prénom *</label>
                   {isEditing ? (
                     <input
                       type="text"
                       value={tempData.firstName}
                       onChange={(e) => handleInputChange('firstName', e.target.value)}
+                      required
                     />
                   ) : (
                     <div className="form-value">{profileData.firstName}</div>
                   )}
                 </div>
                 <div className="form-group">
-                  <label>Nom</label>
+                  <label>Nom *</label>
                   {isEditing ? (
                     <input
                       type="text"
                       value={tempData.lastName}
                       onChange={(e) => handleInputChange('lastName', e.target.value)}
+                      required
                     />
                   ) : (
                     <div className="form-value">{profileData.lastName}</div>
                   )}
                 </div>
                 <div className="form-group">
-                  <label>E-mail</label>
+                  <label>E-mail *</label>
                   {isEditing ? (
                     <input
                       type="email"
                       value={tempData.email}
                       onChange={(e) => handleInputChange('email', e.target.value)}
+                      required
                     />
                   ) : (
                     <div className="form-value">{profileData.email}</div>
@@ -204,27 +524,25 @@ const OwnerProfilComp = () => {
                 <div className="form-group">
                   <label>Téléphone</label>
                   {isEditing ? (
-                    <input
-                      type="tel"
-                      value={tempData.phone}
-                      onChange={(e) => handleInputChange('phone', e.target.value)}
-                    />
+                    <div>
+                      <input
+                        type="tel"
+                        value={tempData.phone}
+                        onChange={(e) => handleInputChange('phone', e.target.value)}
+                        className={validationErrors.phone ? 'error' : ''}
+                        placeholder="06XXXXXXXX ou +212XXXXXXXX"
+                      />
+                      {validationErrors.phone && (
+                        <div className="error-message">{validationErrors.phone}</div>
+                      )}
+                      <small className="field-hint">
+                        Formats acceptés : 06/07XXXXXXXX, +2126/7XXXXXXXX
+                      </small>
+                    </div>
                   ) : (
                     <div className="form-value">{profileData.phone}</div>
                   )}
                 </div>
-              </div>
-              <div className="form-group full-width">
-                <label>Biographie</label>
-                {isEditing ? (
-                  <textarea
-                    value={tempData.biography}
-                    onChange={(e) => handleInputChange('biography', e.target.value)}
-                    rows={4}
-                  />
-                ) : (
-                  <div className="form-value">{profileData.biography}</div>
-                )}
               </div>
             </div>
 
@@ -258,13 +576,35 @@ const OwnerProfilComp = () => {
                 <div className="form-group">
                   <label>Code postal</label>
                   {isEditing ? (
-                    <input
-                      type="text"
-                      value={tempData.postalCode}
-                      onChange={(e) => handleInputChange('postalCode', e.target.value)}
-                    />
+                    <div>
+                      <input
+                        type="text"
+                        value={tempData.postalCode}
+                        onChange={(e) => handleInputChange('postalCode', e.target.value)}
+                        className={validationErrors.postalCode ? 'error' : ''}
+                        placeholder="Ex: 20000"
+                      />
+                      {validationErrors.postalCode && (
+                        <div className="error-message">{validationErrors.postalCode}</div>
+                      )}
+                      <small className="field-hint">
+                        Chiffres uniquement
+                      </small>
+                    </div>
                   ) : (
                     <div className="form-value">{profileData.postalCode}</div>
+                  )}
+                </div>
+                <div className="form-group">
+                  <label>Pays</label>
+                  {isEditing ? (
+                    <input
+                      type="text"
+                      value={tempData.country}
+                      onChange={(e) => handleInputChange('country', e.target.value)}
+                    />
+                  ) : (
+                    <div className="form-value">{profileData.country}</div>
                   )}
                 </div>
               </div>
@@ -371,6 +711,22 @@ const OwnerProfilComp = () => {
           </>
         )}
       </div>
+
+      {/* Snackbar pour les notifications */}
+      <Snackbar
+        open={snackbar.open}
+        autoHideDuration={6000}
+        onClose={handleCloseSnackbar}
+        anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+      >
+        <Alert 
+          onClose={handleCloseSnackbar} 
+          severity={snackbar.severity}
+          sx={{ width: '100%' }}
+        >
+          {snackbar.message}
+        </Alert>
+      </Snackbar>
     </div>
   );
 };
