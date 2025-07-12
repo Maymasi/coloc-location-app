@@ -1,8 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect,useContext } from 'react';
 import { Camera, Star, Upload, X } from 'lucide-react';
 import { Avatar, Rating, Box, Snackbar, Alert } from '@mui/material';
 import '../../assets/styles/ownerCss/OwnerProfil.css';
 import { getProprietaireProfil, updateProprietaireProfil } from '../../Services/ProfilOwnerService';
+import { ProfilContext } from '../../context/ProfilContext';
 
 const OwnerProfilComp = () => {
   const [isEditing, setIsEditing] = useState(false);
@@ -11,7 +12,8 @@ const OwnerProfilComp = () => {
   const [tempData, setTempData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  
+    const { fetchProfil } = useContext(ProfilContext);
+
   // États pour les snackbars
   const [snackbar, setSnackbar] = useState({
     open: false,
@@ -21,12 +23,6 @@ const OwnerProfilComp = () => {
 
   // État pour la gestion des images
   const [imageUploading, setImageUploading] = useState(false);
-
-  // États pour les erreurs de validation
-  const [validationErrors, setValidationErrors] = useState({
-    phone: '',
-    postalCode: ''
-  });
 
   const reviews = [
     {
@@ -64,43 +60,6 @@ const OwnerProfilComp = () => {
     { stars: 2, count: 1 },
     { stars: 1, count: 1 }
   ];
-
-  // Fonction pour valider le numéro de téléphone marocain
-  const validateMoroccanPhone = (phone) => {
-    if (!phone) return true; // Optionnel, donc valide si vide
-    
-    // Supprimer les espaces et les tirets
-    const cleanPhone = phone.replace(/[\s-]/g, '');
-    
-    // Formats valides pour le Maroc :
-    // 06XXXXXXXX ou 07XXXXXXXX (10 chiffres)
-    // +21206XXXXXXXX ou +21207XXXXXXXX (13 chiffres avec +212)
-    // 002126XXXXXXXX ou 002127XXXXXXXX (12 chiffres avec 00212)
-    
-    const patterns = [
-      /^0[67]\d{8}$/,           // 06 ou 07 suivi de 8 chiffres
-      /^\+212[67]\d{8}$/,       // +212 suivi de 6 ou 7 puis 8 chiffres
-      /^00212[67]\d{8}$/        // 00212 suivi de 6 ou 7 puis 8 chiffres
-    ];
-    
-    return patterns.some(pattern => pattern.test(cleanPhone));
-  };
-
-  // Fonction pour valider le code postal (numérique uniquement)
-  const validatePostalCode = (postalCode) => {
-    if (!postalCode) return true; // Optionnel, donc valide si vide
-    
-    // Doit contenir uniquement des chiffres
-    return /^\d+$/.test(postalCode);
-  };
-
-  // Fonction pour mettre à jour les erreurs de validation
-  const updateValidationError = (field, error) => {
-    setValidationErrors(prev => ({
-      ...prev,
-      [field]: error
-    }));
-  };
 
   // Fonction pour afficher les snackbars
   const showSnackbar = (message, severity = 'info') => {
@@ -217,7 +176,6 @@ const OwnerProfilComp = () => {
   const handleEdit = () => {
     setIsEditing(true);
     setTempData({ ...profileData });
-    setValidationErrors({ phone: '', postalCode: '' }); // Reset des erreurs
     showSnackbar('Mode édition activé', 'info');
   };
 
@@ -233,24 +191,6 @@ const OwnerProfilComp = () => {
       const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
       if (!emailRegex.test(tempData.email)) {
         showSnackbar('Format d\'email invalide', 'error');
-        return;
-      }
-
-      // Validation du téléphone
-      if (tempData.phone && !validateMoroccanPhone(tempData.phone)) {
-        showSnackbar('Format de téléphone invalide. Utilisez un numéro marocain (06/07 ou +212)', 'error');
-        return;
-      }
-
-      // Validation du code postal
-      if (tempData.postalCode && !validatePostalCode(tempData.postalCode)) {
-        showSnackbar('Le code postal doit contenir uniquement des chiffres', 'error');
-        return;
-      }
-
-      // Vérifier s'il y a des erreurs de validation
-      if (validationErrors.phone || validationErrors.postalCode) {
-        showSnackbar('Veuillez corriger les erreurs avant de sauvegarder', 'error');
         return;
       }
 
@@ -279,6 +219,8 @@ const OwnerProfilComp = () => {
       setProfileData({ ...tempData });
       setIsEditing(false);
       showSnackbar(response.message || 'Profil mis à jour avec succès !', 'success');
+      fetchProfil();
+
       
     } catch (err) {
       showSnackbar('Erreur lors de la sauvegarde du profil', 'error');
@@ -289,7 +231,6 @@ const OwnerProfilComp = () => {
   const handleCancel = () => {
     setTempData({ ...profileData });
     setIsEditing(false);
-    setValidationErrors({ phone: '', postalCode: '' }); // Reset des erreurs
     showSnackbar('Modifications annulées', 'info');
   };
 
@@ -298,23 +239,6 @@ const OwnerProfilComp = () => {
       ...prev,
       [field]: value
     }));
-
-    // Validation en temps réel
-    if (field === 'phone') {
-      if (value && !validateMoroccanPhone(value)) {
-        updateValidationError('phone', 'Format invalide. Utilisez 06/07XXXXXXXX ou +212XXXXXXXX');
-      } else {
-        updateValidationError('phone', '');
-      }
-    }
-
-    if (field === 'postalCode') {
-      if (value && !validatePostalCode(value)) {
-        updateValidationError('postalCode', 'Le code postal doit contenir uniquement des chiffres');
-      } else {
-        updateValidationError('postalCode', '');
-      }
-    }
   };
 
   const renderStars = (rating) => (
@@ -524,21 +448,11 @@ const OwnerProfilComp = () => {
                 <div className="form-group">
                   <label>Téléphone</label>
                   {isEditing ? (
-                    <div>
-                      <input
-                        type="tel"
-                        value={tempData.phone}
-                        onChange={(e) => handleInputChange('phone', e.target.value)}
-                        className={validationErrors.phone ? 'error' : ''}
-                        placeholder="06XXXXXXXX ou +212XXXXXXXX"
-                      />
-                      {validationErrors.phone && (
-                        <div className="error-message">{validationErrors.phone}</div>
-                      )}
-                      <small className="field-hint">
-                        Formats acceptés : 06/07XXXXXXXX, +2126/7XXXXXXXX
-                      </small>
-                    </div>
+                    <input
+                      type="tel"
+                      value={tempData.phone}
+                      onChange={(e) => handleInputChange('phone', e.target.value)}
+                    />
                   ) : (
                     <div className="form-value">{profileData.phone}</div>
                   )}
@@ -576,21 +490,11 @@ const OwnerProfilComp = () => {
                 <div className="form-group">
                   <label>Code postal</label>
                   {isEditing ? (
-                    <div>
-                      <input
-                        type="text"
-                        value={tempData.postalCode}
-                        onChange={(e) => handleInputChange('postalCode', e.target.value)}
-                        className={validationErrors.postalCode ? 'error' : ''}
-                        placeholder="Ex: 20000"
-                      />
-                      {validationErrors.postalCode && (
-                        <div className="error-message">{validationErrors.postalCode}</div>
-                      )}
-                      <small className="field-hint">
-                        Chiffres uniquement
-                      </small>
-                    </div>
+                    <input
+                      type="text"
+                      value={tempData.postalCode}
+                      onChange={(e) => handleInputChange('postalCode', e.target.value)}
+                    />
                   ) : (
                     <div className="form-value">{profileData.postalCode}</div>
                   )}
