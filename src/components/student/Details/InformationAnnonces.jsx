@@ -21,6 +21,7 @@ import { toast, ToastContainer } from 'react-toastify';
 import {AddFavorisAnnonce,getMyFavoris} from '../../../Services/AnnonceService';
 import 'react-toastify/dist/ReactToastify.css';
 import {envoyerDemandeLocation} from '../../../Services/DemandeDeLocationService';
+import { useNavigate } from 'react-router-dom';
 
 function CustomTabPanel(props) {
     const { children, value, index, ...other } = props;
@@ -60,6 +61,8 @@ export default function InformationAnnonces({annonce}){
     const [description, setDescription] = React.useState("");
     const [error, setError] = React.useState(false);
     const [isFavori, setIsFavori] = React.useState([]);
+    //navigation
+    const Navigate=useNavigate();
     
     // États pour le formulaire de demande de location
     const [demandeData, setDemandeData] = React.useState({
@@ -99,6 +102,9 @@ export default function InformationAnnonces({annonce}){
         setError(false);
         setMotif(""); 
         setDescription("");
+    }
+    const handleNavigateProfilOwner=()=>{
+        Navigate(`/OwnerProfile/${annonce.proprietaire.$id}`)
     }
 
     const handleSignal = ()=>{
@@ -515,12 +521,12 @@ export default function InformationAnnonces({annonce}){
             </div>
             <div className="infoPropCard">
                 <div className="topInfoCard">
-                    <div className="pdpProp">
+                    <div className="pdpProp" style={{cursor:'pointer'}} onClick={()=> handleNavigateProfilOwner()}>
                         <img  style={{width:"100%",height:"100%"}} src={annonce.proprietaire.avatarUrl || defaultAvatar} alt="" />
                         
                     </div>
                     <div className="cordonneesProp">
-                        <div className="nameProp">
+                        <div className="nameProp" style={{cursor:'pointer'}}onClick={()=> handleNavigateProfilOwner()}>
                             <div style={{fontSize: "14px",color:"black",fontWeight:"700"}}>{annonce.proprietaire.nom} {annonce.proprietaire.prenom}</div>
                             <Flag  className='iconInfo'/>
                         </div>

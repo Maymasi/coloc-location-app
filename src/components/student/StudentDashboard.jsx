@@ -263,7 +263,6 @@ export default function StudentDashboard({ onStatsUpdate }) {
             aria-label="full width tabs example"
           >
             <Tab label="Activité récente" {...a11yProps(0)} className="tab" style={{ backgroundColor: 'white' }} />
-            <Tab label="Recommandé" {...a11yProps(1)} className="tab" />
             <Tab label="Favoris" {...a11yProps(2)} className="tab" />
           </Tabs>
         </AppBar>
@@ -272,11 +271,11 @@ export default function StudentDashboard({ onStatsUpdate }) {
           <RecentActivity />
         </TabPanel>
         
-        <TabPanel value={value} index={1} style={{ width: '100%', marginTop: '10px' }}>
+        {/* <TabPanel value={value} index={1} style={{ width: '100%', marginTop: '10px' }}>
           <RecommededHome />
-        </TabPanel>
+        </TabPanel> */}
         
-        <TabPanel value={value} index={2} style={{ width: '100%', marginTop: '10px' }}>
+        <TabPanel value={value} index={1} style={{ width: '100%', marginTop: '10px' }}>
           <RecommededHome />
         </TabPanel>
       </Box>

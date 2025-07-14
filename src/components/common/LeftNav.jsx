@@ -57,7 +57,7 @@ export default function LeftNav({ openLogs, handleLogsClick }) {
     useEffect(() => {
         const interval = setInterval(() => {
             fetchNavStats();
-        }, 20000); // 20 secondes
+        }, 20000); 
 
         return () => clearInterval(interval);
     }, []);

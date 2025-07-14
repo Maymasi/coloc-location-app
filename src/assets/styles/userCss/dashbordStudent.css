@@ -322,137 +322,209 @@
     width: 32%;
     display: flex;
     flex-direction: column;
-    border-radius: 14px;
+    border-radius: 16px;
     background-color: hsl(var(--background));
     border: 1px solid hsl(var(--border));
     cursor: pointer;
-    box-shadow: 0 0 10px hsl(var(--shadow));
-    transition: all 0.3s ease-in-out;
+    box-shadow: 0 2px 8px hsla(var(--shadow), 0.08);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     height: 270px;
+    overflow: hidden;
+    position: relative;
 }
+
 .user-layout .recommended-home:hover{
-    transform: scale(1.02);
-    box-shadow: 0 0 20px hsl(var(--shadow));
-    background-color: hsl(var(--primary));
+    transform: translateY(-4px);
+    box-shadow: 0 8px 25px hsla(var(--shadow), 0.15);
+    border-color: hsl(var(--primary));
 }
+
 .user-layout .recommended-home .image{
-    height:180px !important;
+    height: 180px !important;
     width: 100%;
-    background-image:contain !important;
     background-repeat: no-repeat !important;
     background-position: center !important;
     background-size: cover !important; 
-    border-radius: 14px 14px 0 0;
-    border: 1px solid hsl(var(--border));
-    border-bottom: none;
-    padding: 10px;
-     box-sizing: border-box;
+    border-radius: 16px 16px 0 0;
+    padding: 12px;
+    box-sizing: border-box;
+    position: relative;
+    overflow: hidden;
 }
+
+.user-layout .recommended-home .image::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, rgba(0,0,0,0.1) 0%, rgba(0,0,0,0.3) 100%);
+    border-radius: 16px 16px 0 0;
+}
+
 .user-layout .recommended-home .image .info{
     display: flex;
     justify-content: space-between;
     align-items: center;
     width: 100%;
+    position: relative;
+    z-index: 2;
 }
+
 .user-layout .recommended-home .image .info .type{
     font-size: 0.75rem;
     font-weight: 600;
-    color: hsl(var(--background));
-    background-color: hsl(var(--primary));
-    padding: 3px 12px;
-    border-radius: 15px;
-    text-transform:capitalize;
-
+    color: white;
+    background: linear-gradient(135deg, hsl(var(--primary)) 0%, hsl(var(--primary)) 100%);
+    padding: 4px 12px;
+    border-radius: 20px;
+    text-transform: capitalize;
+    backdrop-filter: blur(8px);
+    border: 1px solid hsla(255, 255, 255, 0.2);
+    box-shadow: 0 2px 8px hsla(var(--primary), 0.3);
 }
+
 .user-layout .recommended-home .image .info .favorite{
-    width: 20px;
-    height: 20px;
-    background-color: hsl(var(--background));
+    width: 24px;
+    height: 24px;
+    background-color: hsla(var(--background), 0.95);
     border-radius: 50%;
     display: flex;
     justify-content: center;
     align-items: center;
     color: hsl(var(--primary));
-    padding: 6px;
+    padding: 8px;
+    backdrop-filter: blur(8px);
+    border: 1px solid hsla(255, 255, 255, 0.3);
+    transition: all 0.2s ease;
+}
+
+.user-layout .recommended-home .image .info .favorite:hover{
+    background-color: hsl(var(--primary));
+    color: white;
+    transform: scale(1.1);
 }
 
 .user-layout .recommended-home .description{
     display: flex;
     flex-direction: column;
-    gap: 8px;
-    padding: 10px;
+    gap: 10px;
+    padding: 14px;
     width: 100%;
     background-color: hsl(var(--background));
-    border-radius: 0 0 14px 14px;
-    border: 1px solid hsl(var(--border));
-    border-top: none;
-     height: 55%;
-     box-sizing: border-box;
+    border-radius: 0 0 16px 16px;
+    height: 55%;
+    box-sizing: border-box;
+    position: relative;
 }
+
 .user-layout .recommended-home .title-price{
     display: flex;
     justify-content: space-between;
     align-items: center;
     width: 100%;
-    margin-top: 5px;
+    margin-top: 2px;
     font-weight: 600;
     font-size: 1rem;
 }
+
 .user-layout .recommended-home .title-price .price{
-    font-weight: 600;
+    font-weight: 700;
     color: hsl(var(--primary));
     font-size: 0.92rem;
+    white-space: nowrap;
 }
+
 .user-layout .recommended-home .title-price .title{
     font-size: 1rem;
+    color: hsl(var(--foreground));
+    line-height: 1.2;
 }
+
 .user-layout .recommended-home .location{
     font-size: 0.89rem;
     font-weight: 400;
     color: hsl(var(--muted-foreground));
     display: flex;
     align-items: center;
+    gap: 6px;
+}
+
+.user-layout .recommended-home .location .icon{
+    opacity: 0.8;
+    flex-shrink: 0;
 }
 
 .user-layout .recommended-home .details .rooms{
     display: flex;
     align-items: center;
-    gap: 3px;
-    font-size: 0.7rem;
-    font-weight: 700;
+    gap: 4px;
+    font-size: 0.72rem;
+    font-weight: 600;
+    color: hsl(var(--muted-foreground));
 }
+
 .user-layout .recommended-home .details {
     display: flex;
     align-items: center;
     justify-content: space-between;
+    margin-top: auto;
 }
+
 .user-layout .recommended-home .details .available{
-    font-size: 0.8rem;
+    font-size: 0.75rem;
     font-weight: 600;
-    background-color: hsl(var(--background));
+    background-color: hsl(var(--muted));
+    color: hsl(var(--muted-foreground));
     padding: 4px 10px;
-    border-radius: 15px;
+    border-radius: 20px;
     border: 1px solid hsl(var(--border));
+    white-space: nowrap;
 }
+
 .user-layout .all-recommended-home{
     display: flex;
-    gap: 1%;
+    gap: 1.5%;
     width: 100%;
     flex-wrap: wrap;
-    }
-.user-layout .see-all{
-     padding: 5px 12px;
-     background-color: hsl(var(--background));
-     border-radius: 10px;
-     border: 1px solid hsl(var(--border));
-     color: hsl(var(--foreground));
-     font-size: 0.95rem;
-     font-weight: 500;
-     cursor: pointer;
 }
+
+.user-layout .see-all{
+    padding: 8px 16px;
+    background-color: hsl(var(--background));
+    border-radius: 12px;
+    border: 1px solid hsl(var(--border));
+    color: hsl(var(--foreground));
+    font-size: 0.95rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow: 0 1px 3px hsla(var(--shadow), 0.1);
+}
+
 .user-layout .see-all:hover{
-     background-color: hsl(var(--primary));
-     color: white;
+    background-color: hsl(var(--primary));
+    color: white;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px hsla(var(--primary), 0.3);
+}
+
+/* Responsive improvements */
+@media (max-width: 768px) {
+    .user-layout .recommended-home {
+        width: 48%;
+    }
+}
+
+@media (max-width: 480px) {
+    .user-layout .recommended-home {
+        width: 100%;
+    }
+    
+    .user-layout .all-recommended-home {
+        gap: 12px;
+    }
 }
 /* ===========================
     requests Section
