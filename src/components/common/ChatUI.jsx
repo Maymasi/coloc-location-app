@@ -849,7 +849,7 @@ const handleSend = async () => {
     }
 
     return (
-        <div className="chat-ui" style={{ display: 'flex', height: '100vh' }}>
+        <div className="chat-ui" style={{ display: 'flex' }}>
             {/* Left Section: List of users */}
             <div className="all-messages" style={{ width: '30%', borderRight: '1px solid #ccc', display: 'flex', flexDirection: 'column' }}>
                 {/* Header avec indicateur de connexion SignalR */}
