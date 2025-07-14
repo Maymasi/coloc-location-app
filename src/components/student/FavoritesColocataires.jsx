@@ -76,52 +76,83 @@ export default function FavoritesColocataires() {
     if (favorites.length === 0) {
         return (
             <div className="favorites-colocataires" style={{
-                minHeight: '400px',
+                minHeight: '500px',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                padding: '20px',
-                background: 'linear-gradient(135deg, #fef2f2 0%, #fee2e2 100%)',
-                borderRadius: '16px',
-                border: '1px solid #fecaca'
+                padding: '40px 20px',
+                background: 'linear-gradient(135deg, #fefcfc 0%, #fdf8f8 100%)',
+                borderRadius: '24px',
+                border: '2px solid hsl(6 15% 92%)',
+                position: 'relative',
+                overflow: 'hidden'
             }}>
+                {/* Motif de fond subtil */}
+                <div style={{
+                    position: 'absolute',
+                    top: '0',
+                    left: '0',
+                    right: '0',
+                    bottom: '0',
+                    background: `
+                        radial-gradient(circle at 20% 80%, hsl(6 40% 85% / 0.1) 0%, transparent 50%),
+                        radial-gradient(circle at 80% 20%, hsl(6 60% 80% / 0.08) 0%, transparent 50%),
+                        radial-gradient(circle at 40% 40%, hsl(6 30% 90% / 0.06) 0%, transparent 50%)
+                    `,
+                    zIndex: 1
+                }}></div>
+                
                 <div style={{
                     textAlign: 'center',
-                    maxWidth: '480px',
-                    padding: '40px 20px',
-                
+                    maxWidth: '500px',
+                    padding: '50px 30px',
+                    position: 'relative',
+                    zIndex: 2
                 }}>
                     <div style={{
-                        marginBottom: '24px',
-                        animation: 'pulse 2s infinite'
+                        marginBottom: '32px',
+                        animation: 'heartFloat 3s ease-in-out infinite'
                     }}>
-                        <svg width="80" height="80" viewBox="0 0 24 24" fill="none" stroke="hsl(6 100% 72%)" strokeWidth="1.5" style={{opacity: 0.8}}>
-                            <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
-                            <line x1="12" y1="5" x2="12" y2="19"/>
-                            <line x1="5" y1="12" x2="19" y2="12"/>
-                        </svg>
+                        <div style={{
+                            display: 'inline-block',
+                            padding: '20px',
+                            background: 'linear-gradient(135deg, hsl(6 25% 97%) 0%, hsl(6 20% 95%) 100%)',
+                            borderRadius: '50%',
+                            border: '3px solid hsl(6 50% 85%)',
+                            transform: 'rotate(-5deg)'
+                        }}>
+                            <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="hsl(6 70% 65%)" strokeWidth="2" style={{display: 'block'}}>
+                                <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+                                <path d="M12 8v8M8 12h8" stroke="hsl(6 45% 75%)" strokeWidth="1.5" opacity="0.6"/>
+                            </svg>
+                        </div>
                     </div>
+                    
                     <div>
                         <h3 style={{
-                            color: '#7c2d12',
-                            fontSize: '24px',
-                            fontWeight: '600',
-                            marginBottom: '12px',
-                            marginTop: '0'
+                            color: '#2d1b1b',
+                            fontSize: '28px',
+                            fontWeight: '700',
+                            marginBottom: '16px',
+                            marginTop: '0',
+                            letterSpacing: '-0.02em'
                         }}>Aucune colocation favorite</h3>
                         <p style={{
-                            color: '#a16207',
-                            fontSize: '16px',
-                            lineHeight: '1.6',
-                            marginBottom: '32px',
-                            margin: '0 0 32px 0'
+                            color: 'hsl(6 15% 45%)',
+                            fontSize: '17px',
+                            lineHeight: '1.7',
+                            marginBottom: '40px',
+                            margin: '0 0 40px 0',
+                            fontWeight: '400'
                         }}>
                             Vous n'avez pas encore ajouté de colocations à vos favoris.
+                            <br />
                             Explorez nos annonces et cliquez sur le cœur pour les sauvegarder ici !
                         </p>
+                        
                         <div style={{
                             display: 'flex',
-                            gap: '12px',
+                            gap: '16px',
                             justifyContent: 'center',
                             flexWrap: 'wrap'
                         }}>
@@ -130,67 +161,65 @@ export default function FavoritesColocataires() {
                                 style={{
                                     display: 'flex',
                                     alignItems: 'center',
-                                    gap: '8px',
-                                    padding: '12px 20px',
-                                    background: '#fef2f2',
-                                    border: '1px solid hsl(6 100% 72%)',
-                                    borderRadius: '10px',
-                                    color: '#7c2d12',
-                                    fontSize: '14px',
-                                    fontWeight: '500',
+                                    gap: '10px',
+                                    padding: '14px 24px',
+                                    background: '#ffffff',
+                                    border: '2px solid hsl(6 25% 85%)',
+                                    borderRadius: '16px',
+                                    color: 'hsl(6 20% 40%)',
+                                    fontSize: '15px',
+                                    fontWeight: '600',
                                     cursor: 'pointer',
-                                    transition: 'all 0.2s ease',
-                                    ':hover': {
-                                        background: '#fee2e2',
-                                        transform: 'translateY(-1px)'
-                                    }
+                                    transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+                                    outline: 'none'
                                 }}
                                 aria-label="Actualiser les favoris"
                                 onMouseOver={(e) => {
-                                    e.target.style.background = '#fee2e2';
-                                    e.target.style.transform = 'translateY(-1px)';
+                                    e.target.style.background = 'hsl(6 30% 98%)';
+                                    e.target.style.borderColor = 'hsl(6 35% 75%)';
+                                    e.target.style.transform = 'translateY(-2px) scale(1.02)';
                                 }}
                                 onMouseOut={(e) => {
-                                    e.target.style.background = '#fef2f2';
-                                    e.target.style.transform = 'translateY(0)';
+                                    e.target.style.background = '#ffffff';
+                                    e.target.style.borderColor = 'hsl(6 25% 85%)';
+                                    e.target.style.transform = 'translateY(0) scale(1)';
                                 }}
                             >
-                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
                                     <path d="M1 4v6h6"/>
                                     <path d="M23 20v-6h-6"/>
                                     <path d="M20.49 9A9 9 0 0 0 5.64 5.64L1 10m22 4l-4.64 4.36A9 9 0 0 1 3.51 15"/>
                                 </svg>
                                 Actualiser
                             </button>
+                            
                             <button 
                                 onClick={() => window.location.href = '/student/colocations'} 
                                 style={{
                                     display: 'flex',
                                     alignItems: 'center',
-                                    gap: '8px',
-                                    padding: '12px 20px',
-                                    background: `linear-gradient(135deg, hsl(6 100% 72%) 0%, hsl(6 100% 65%) 100%)`,
+                                    gap: '10px',
+                                    padding: '14px 28px',
+                                    background: 'linear-gradient(135deg, hsl(6 100% 72%) 0%, hsl(6 100% 68%) 100%)',
                                     border: 'none',
-                                    borderRadius: '10px',
+                                    borderRadius: '16px',
                                     color: 'white',
-                                    fontSize: '14px',
-                                    fontWeight: '500',
+                                    fontSize: '15px',
+                                    fontWeight: '600',
                                     cursor: 'pointer',
-                                    transition: 'all 0.2s ease',
-                                    boxShadow: '0 2px 8px rgba(255, 107, 107, 0.3)'
+                                    transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+                                    outline: 'none'
                                 }}
                                 onMouseOver={(e) => {
-                                    e.target.style.background = `linear-gradient(135deg, hsl(6 100% 65%) 0%, hsl(6 100% 58%) 100%)`;
-                                    e.target.style.transform = 'translateY(-1px)';
-                                    e.target.style.boxShadow = '0 4px 12px rgba(255, 107, 107, 0.4)';
+                                    e.target.style.background = 'linear-gradient(135deg, hsl(6 100% 68%) 0%, hsl(6 100% 64%) 100%)';
+                                    e.target.style.transform = 'translateY(-2px) scale(1.02)';
                                 }}
                                 onMouseOut={(e) => {
-                                    e.target.style.background = `linear-gradient(135deg, hsl(6 100% 72%) 0%, hsl(6 100% 65%) 100%)`;
-                                    e.target.style.transform = 'translateY(0)';
-                                    e.target.style.boxShadow = '0 2px 8px rgba(255, 107, 107, 0.3)';
+                                    e.target.style.background = 'linear-gradient(135deg, hsl(6 100% 72%) 0%, hsl(6 100% 68%) 100%)';
+                                    e.target.style.transform = 'translateY(0) scale(1)';
                                 }}
                             >
-                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
                                     <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
                                     <polyline points="9,22 9,12 15,12 15,22"/>
                                 </svg>
@@ -199,6 +228,14 @@ export default function FavoritesColocataires() {
                         </div>
                     </div>
                 </div>
+                
+                {/* Style pour l'animation */}
+                <style jsx>{`
+                    @keyframes heartFloat {
+                        0%, 100% { transform: rotate(-5deg) translateY(0px); }
+                        50% { transform: rotate(-5deg) translateY(-10px); }
+                    }
+                `}</style>
             </div>
         );
     }
