@@ -1,6 +1,7 @@
 import {
   X, House, Heart, MessageSquare, Users,
-  SquareLibrary, Bell, Settings, User
+  SquareLibrary, Bell, Settings, User,LayoutDashboard,
+  BookOpenCheck
 } from 'lucide-react';
 import * as React from 'react';
 import { useEffect, useState, useCallback } from 'react';
@@ -33,7 +34,7 @@ export default function LeftNav({ openLogs, handleLogsClick }) {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  // ✅ Mémorisation de fetchUserSummary
+  //  Mémorisation de fetchUserSummary
   const fetchUserSummary = useCallback(async () => {
     const result = await getUserProfileSummary();
     if (result.data) {
@@ -47,7 +48,7 @@ export default function LeftNav({ openLogs, handleLogsClick }) {
     }
   }, []);
 
-  // ✅ Fetch dashboard stats
+  //  Fetch dashboard stats
   const fetchNavStats = async () => {
     try {
       const result = await getStudentDashboardStates();
@@ -147,12 +148,16 @@ export default function LeftNav({ openLogs, handleLogsClick }) {
           </div>
         </div>
         <div className="nav-links">
+            <div className={`link ${activeLink === '/' ? 'active' : ''}`} onClick={() => handleLinkClick('/')}>
+                <House size={20} />
+                <span>Accueil</span>
+            </div>
           <div className={`link ${activeLink === '/student' ? 'active' : ''}`} onClick={() => handleLinkClick('/student')}>
-            <House size={19} />
+            <LayoutDashboard size={19} />
             <span>Tableau de Bord</span>
           </div>
           <div className={`link ${activeLink === 'annonces' ? 'active' : ''}`} onClick={() => handleLinkClick('/annonces')}>
-            <House size={19} />
+            <BookOpenCheck size={19} />
             <span>Annonces</span>
           </div>
           <div className={`link ${activeLink === 'favoris' ? 'active' : ''}`} onClick={() => handleLinkClick('favoris')}>

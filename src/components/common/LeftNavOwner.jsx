@@ -1,38 +1,54 @@
-import { X, House, MessageSquare, Bell, Settings, User, BadgePlus, ChartNoAxesColumnIncreasing } from 'lucide-react';
+import { X, House, MessageSquare, Bell, Settings, User, BadgePlus, ChartNoAxesColumnIncreasing,LayoutDashboard,MapPinHouse } from 'lucide-react';
 import * as React from 'react';
-import { useState, useEffect, useContext } from 'react';
+import { useState, useEffect, useContext, useCallback } from 'react';
 import Avatar from '@mui/material/Avatar';
 import Divider from '@mui/material/Divider';
 import { useNavigate } from 'react-router-dom';
 import '../../assets/styles/LeftNav.css';
 import { ProfilContext } from '../../context/ProfilContext';
+import { getOwnerStats } from '../../Services/OwnerStatsService';
 
 export default function LeftNavOwner({ openLogs, handleLogsClick }) {
   const [activeLink, setActiveLink] = useState(null);
   const [isNavOpen, setIsNavOpen] = useState();
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
   const { profil, loading } = useContext(ProfilContext);
+  const [stats, setStats] = useState({ unreadMessages: 0, pendingDemandes: 0 });
 
   const Navigate = useNavigate();
 
+  const fetchStats = useCallback(async () => {
+    const res = await getOwnerStats();
+    if (res.success) {
+      setStats({
+        unreadMessages: res.data.unreadMessages,
+        pendingDemandes: res.data.pendingDemandes,
+      });
+    }
+  }, []);
+
   useEffect(() => {
-    const handleResize = () => {
-      setWindowWidth(window.innerWidth);
-    };
+    fetchStats(); 
+    const interval = setInterval(fetchStats, 15000);
+    return () => clearInterval(interval);
+  }, [fetchStats]);
+
+  useEffect(() => {
+    const handleResize = () => setWindowWidth(window.innerWidth);
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
-  const handleLinkClick = (linkName) => {
+  const handleLinkClick = useCallback((linkName) => {
     setActiveLink(linkName);
     Navigate(`${linkName}`);
     setIsNavOpen(false);
-  };
+  }, [Navigate]);
 
   const shouldShowNav = windowWidth >= 1280 || openLogs;
   const shouldShowCloseX = windowWidth < 1280 && openLogs;
 
-  if (loading || !profil) return null; // Affiche rien ou un Skeleton si profil pas encore chargé
+  if (loading || !profil) return null;
 
   return (
     <div className="left-nav" style={{ display: shouldShowNav ? 'flex' : 'none' }}>
@@ -56,12 +72,16 @@ export default function LeftNavOwner({ openLogs, handleLogsClick }) {
         </div>
 
         <div className="nav-links">
-          <div className={`link ${activeLink === '' ? 'active' : ''}`} onClick={() => handleLinkClick('')}>
+          <div className={`link ${activeLink === '/' ? 'active' : ''}`} onClick={() => handleLinkClick('/')}>
             <House size={20} />
+            <span>Accueil</span>
+          </div>
+          <div className={`link ${activeLink === '' ? 'active' : ''}`} onClick={() => handleLinkClick('')}>
+            <LayoutDashboard size={20}/>
             <span>Tableau de Bord</span>
           </div>
           <div className={`link ${activeLink === 'OwnerProperties' ? 'active' : ''}`} onClick={() => handleLinkClick('OwnerProperties')}>
-            <House size={20} />
+            <MapPinHouse size={20} />
             <span>Mes Propriétés</span>
           </div>
           <div className={`link ${activeLink === 'OwnerAddProperty' ? 'active' : ''}`} onClick={() => handleLinkClick('OwnerAddProperty')}>
@@ -73,18 +93,18 @@ export default function LeftNavOwner({ openLogs, handleLogsClick }) {
               <MessageSquare size={20} />
               <span>Messages</span>
             </div>
-            <span className="notification">3</span>
+            {stats.unreadMessages > 0 && (
+              <span className="notification">{stats.unreadMessages}</span>
+            )}
           </div>
           <div className={`link ${activeLink === 'OwnerDemandesRecus' ? 'active' : ''}`} onClick={() => handleLinkClick('OwnerDemandesRecus')} style={{ justifyContent: 'space-between' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
               <Bell size={20} />
               <span>Demandes Reçues</span>
             </div>
-            <span className="notification">5</span>
-          </div>
-          <div className={`link ${activeLink === 'OwnerStatistiques' ? 'active' : ''}`} onClick={() => handleLinkClick('OwnerStatistiques')}>
-            <ChartNoAxesColumnIncreasing />
-            <span>Statistiques</span>
+            {stats.pendingDemandes > 0 && (
+              <span className="notification">{stats.pendingDemandes}</span>
+            )}
           </div>
           <div className={`link ${activeLink === 'OwnerProfilComp' ? 'active' : ''}`} onClick={() => handleLinkClick('OwnerProfilComp')}>
             <User size={20} />
