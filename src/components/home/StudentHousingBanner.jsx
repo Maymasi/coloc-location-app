@@ -14,7 +14,7 @@ export default function StudentHousingBanner () {
             Prêt à trouver votre logement <br /> étudiant idéal ?
             </h1>
             <p>
-            Rejoignez des milliers d’étudiants qui ont trouvé leur logement et leurs colocataires idéaux avec CampusHaven. 
+            Rejoignez des milliers d’étudiants qui ont trouvé leur logement et leurs colocataires idéaux avec ColocMeak. 
             Inscrivez-vous dès aujourd'hui et bénéficiez de 50% de réduction sur votre premier mois de loyer !
             </p>
         </div>

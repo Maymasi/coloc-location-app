@@ -68,7 +68,7 @@ export default function StudentSay() {
     >
       <div className="bigTitle">Ce que disent nos étudiants</div>
       <div className="shortDescrip">
-        Découvrez les avis d'étudiants qui ont trouvé leur logement et leurs colocataires grâce à CampusHaven
+        Découvrez les avis d'étudiants qui ont trouvé leur logement et leurs colocataires grâce à ColocMeak
       </div>
       <div className="Says">
         {StudentsSay.map((student, index) => (
