@@ -7,9 +7,9 @@ const Footer = () => {
     <footer className="footer">
       {/* Haut du footer */}
       <div className="footer-top">
-        {/* Bloc CampusHaven */}
+        {/* Bloc ColocMeak */}
         <div className="footer-brand">
-          <h2>CampusHaven</h2>
+          <h2>ColocMeak</h2>
           <p>
             La solution idéale pour le logement étudiant. Trouvez votre logement parfait près du campus.
           </p>
@@ -80,7 +80,7 @@ const Footer = () => {
               </div>
               <div >
                   <Mail size={12} />
-                  <p>contact@campushaven.com</p>
+                  <p>contact@ColocMeak.com</p>
               </div>
             </div>
           </div>

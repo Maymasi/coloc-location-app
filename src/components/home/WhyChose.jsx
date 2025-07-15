@@ -2,7 +2,7 @@ import { House, UsersRound, Building2 } from 'lucide-react';
 export default function WhyChose(){
     return (
         <div className='whyContainer' style={{display:"flex",flexDirection:"column",justifyContent:"center",alignItems:"center",gap:"10px",background:"linear-gradient(to bottom,rgb(255, 255, 255),rgb(255, 252, 252))",margin:"70px 0px"}}>
-            <div className="bigTitle">Pourquoi choisir CampusHaven</div>
+            <div className="bigTitle">Pourquoi choisir ColocMeak</div>
             <div className="shortDescrip">Nous rendons la recherche de logement étudiant et de colocataires simple, sûre et sans stress</div>
             <div className="cards" >
                 <div className="cardHome whycard" data-aos="fade-up" data-aos-delay="0">

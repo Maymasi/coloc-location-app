@@ -17,7 +17,7 @@ const PolitiquePage = () => {
                         Politique de Confidentialité
                     </h1>
                     <p className="about-text-Politique">
-                        Chez CampusHaven, nous prenons la protection de vos données personnelles très au sérieux. Cette politique explique comment nous collectons, utilisons et protégeons vos informations.
+                        Chez ColocMeak, nous prenons la protection de vos données personnelles très au sérieux. Cette politique explique comment nous collectons, utilisons et protégeons vos informations.
                     </p>
                     <div className="update-info-Politique">
                         <div className="info-item-Politique">

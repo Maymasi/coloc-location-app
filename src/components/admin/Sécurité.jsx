@@ -315,7 +315,7 @@ const Sécurité = () => {
                 className="security-parametre-textarea"
                 rows="2"
                 placeholder="exemple@domaine.com"
-                defaultValue="admin@campushaven.com, security@campushaven.com"
+                defaultValue="admin@ColocMeak.com, security@ColocMeak.com"
               />
               <small>Les alertes de sécurité seront envoyées à ces adresses e-mail</small>
             </div>

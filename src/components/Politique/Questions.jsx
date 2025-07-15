@@ -18,7 +18,7 @@ const Questions = () => {
               <div>
                 <h2>Comment puis-je accéder à mes données personnelles ?</h2>
                 <p>
-                  Vous pouvez accéder à la plupart de vos données personnelles directement depuis votre compte dans la section 'Paramètres &gt; Confidentialité'. Pour une demande d'accès complète, contactez-nous à privacy@campushaven.com.
+                  Vous pouvez accéder à la plupart de vos données personnelles directement depuis votre compte dans la section 'Paramètres &gt; Confidentialité'. Pour une demande d'accès complète, contactez-nous à privacy@ColocMeak.com.
                 </p>
               </div>
             </div>

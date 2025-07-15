@@ -42,10 +42,10 @@ export default function PrivacyPolicy() {
                 Aperçu de notre politique
               </h2>
               <p>
-                 Bienvenue sur la page de politique de confidentialité de CampusHaven. Cette politique s'applique à tous les utilisateurs de notre plateforme, qu'ils soient étudiants, propriétaires ou visiteurs. Nous nous engageons à protéger vos informations personnelles et à être transparents sur la façon dont nous les utilisons.
+                 Bienvenue sur la page de politique de confidentialité de ColocMeak. Cette politique s'applique à tous les utilisateurs de notre plateforme, qu'ils soient étudiants, propriétaires ou visiteurs. Nous nous engageons à protéger vos informations personnelles et à être transparents sur la façon dont nous les utilisons.
               </p>
               <p>
-                 CampusHaven est une plateforme qui met en relation des étudiants à la recherche de logements et de colocataires avec des propriétaires proposant des logements adaptés aux besoins des étudiants. Pour fournir ces services, nous avons besoin de collecter et de traiter certaines informations vous concernant.
+                 ColocMeak est une plateforme qui met en relation des étudiants à la recherche de logements et de colocataires avec des propriétaires proposant des logements adaptés aux besoins des étudiants. Pour fournir ces services, nous avons besoin de collecter et de traiter certaines informations vous concernant.
               </p>
             </section>
 
@@ -132,7 +132,7 @@ export default function PrivacyPolicy() {
                 <BsCheck2Circle className='icon' />
                 Vos droits
               </h2>
-              <p>En tant qu'utilisateur de CampusHaven, vous disposez de certains droits concernant vos données personnelles :</p>
+              <p>En tant qu'utilisateur de ColocMeak, vous disposez de certains droits concernant vos données personnelles :</p>
               <ul>
                 <li><strong>Droit d'accès :</strong>vous pouvez demander une copie des données personnelles que nous détenons à votre sujet.</li>
                 <li><strong>Droit de rectification :</strong>vous pouvez demander la correction de données inexactes ou incomplètes.</li>
@@ -141,7 +141,7 @@ export default function PrivacyPolicy() {
                 <li><strong>Droit à la portabilité des données :</strong> vous pouvez demander le transfert de vos données à un autre service.</li>
                 <li><strong>Droit d'opposition :</strong> vous pouvez vous opposer au traitement de vos données à des fins de marketing direct.</li>
               </ul>
-              <p>Pour exercer ces droits, veuillez nous contacter via notre formulaire de contact ou à l'adresse privacy@campushaven.com. Nous répondrons à votre demande dans un délai d'un mois.</p>
+              <p>Pour exercer ces droits, veuillez nous contacter via notre formulaire de contact ou à l'adresse privacy@ColocMeak.com. Nous répondrons à votre demande dans un délai d'un mois.</p>
             </section>
             <section className="privacy-section1" id="modifications">
               <h2 className="privacy-section-title">
@@ -165,11 +165,11 @@ export default function PrivacyPolicy() {
               </h2>
               <p>Si vous avez des questions, des préoccupations ou des demandes concernant cette politique de confidentialité ou le traitement de vos données personnelles, veuillez nous contacter :</p>
               <ul>
-                <li><strong>Par e-mail :</strong>privacy@campushaven.com</li>
-                <li><strong>Par courrier :</strong>CampusHaven, 123 Campus Avenue, University District, 75001 Paris, France</li>
+                <li><strong>Par e-mail :</strong>privacy@ColocMeak.com</li>
+                <li><strong>Par courrier :</strong>ColocMeak, 123 Campus Avenue, University District, 75001 Paris, France</li>
                 <li><strong>Via notre formulaire de contact :</strong><a href="/contact" class="text-primary hover:underline">Formulaire de contact</a></li>
               </ul>
-              <p>Notre Délégué à la Protection des Données (DPO) peut être contacté à l'adresse dpo@campushaven.com.</p>
+              <p>Notre Délégué à la Protection des Données (DPO) peut être contacté à l'adresse dpo@ColocMeak.com.</p>
               <p>
                  Si vous n'êtes pas satisfait de notre réponse, vous avez le droit de déposer une plainte auprès de l'autorité de protection des données de votre pays de résidence.
               </p>

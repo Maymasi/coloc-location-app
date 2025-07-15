@@ -12,34 +12,34 @@ const FAQ = () => {
     const faqData = {
         'Général': [
             { 
-                question: "Qu'est-ce que CampusHaven?", 
-                answer: "CampusHaven est une plateforme dédiée au logement étudiant qui met en relation les étudiants à la recherche d'un logement avec des propriétaires proposant des biens à louer.",
+                question: "Qu'est-ce que ColocMeak?", 
+                answer: "ColocMeak est une plateforme dédiée au logement étudiant qui met en relation les étudiants à la recherche d'un logement avec des propriétaires proposant des biens à louer.",
                 categories: { 'Général': true, 'Colocation': true } 
             },
             { 
-                question: "Comment fonctionne CampusHaven?", 
+                question: "Comment fonctionne ColocMeak?", 
                 answer: "Notre plateforme permet aux étudiants de trouver des logements adaptés à leurs besoins et aux propriétaires de gérer facilement leurs annonces.",
                 categories: { 'Général': true, 'Colocation': true } 
             },
             { 
                 question: "L'inscription est-elle gratuite?", 
-                answer: "Oui, l'inscription et l'utilisation de base de CampusHaven sont totalement gratuites pour les étudiants.",
+                answer: "Oui, l'inscription et l'utilisation de base de ColocMeak sont totalement gratuites pour les étudiants.",
                 categories: { 'Général': true, 'Colocation': true } 
             },
             { 
                 question: "Comment puis-je contacter le support?", 
-                answer: "Vous pouvez contacter notre support via le formulaire de contact ou par email à support@campushaven.com.",
+                answer: "Vous pouvez contacter notre support via le formulaire de contact ou par email à support@ColocMeak.com.",
                 categories: { 'Général': true, 'Colocation': true } 
             },
             { 
-                question: "CampusHaven est-il disponible dans ma ville?", 
-                answer: "CampusHaven est disponible dans toutes les villes universitaires de France. Consultez notre carte pour voir les disponibilités.",
+                question: "ColocMeak est-il disponible dans ma ville?", 
+                answer: "ColocMeak est disponible dans toutes les villes universitaires de France. Consultez notre carte pour voir les disponibilités.",
                 categories: { 'Général': true, 'Colocation': true } 
             }
         ],
         'Étudiants': [
             { 
-                question: "Comment trouver un logement sur CampusHaven?", 
+                question: "Comment trouver un logement sur ColocMeak?", 
                 answer: "Utilisez nos filtres avancés pour trouver des logements qui correspondent à vos critères de localisation, de budget et de type de logement.",
                 categories: { 'Étudiants': true } 
             },
@@ -128,7 +128,7 @@ const FAQ = () => {
                     <div className="faq-header">
                         <h1 className="faq-title">Foire Aux Questions</h1>
                         <Typography variant="body1" className="faq-description">
-                            Trouvez des réponses aux questions les plus fréquemment posées sur CampusHaven
+                            Trouvez des réponses aux questions les plus fréquemment posées sur ColocMeak
                         </Typography>
                     </div>
 
@@ -173,7 +173,7 @@ const FAQ = () => {
                     </p>
                     <div className="contact-actions-faq">
                         <button className="contact-button-faq">Contactez-nous</button>
-                        <button className="contact-email-faq">support@campushaven.com</button>
+                        <button className="contact-email-faq">support@ColocMeak.com</button>
                     </div>
                 </div>
             </div>

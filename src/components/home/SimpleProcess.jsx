@@ -4,7 +4,7 @@ export default function SimpleProcess(){
     return(
         <div className='simpleProcessContainer' style={{display:"flex",flexDirection:"column",justifyContent:"center",alignItems:"center",gap:"10px",background:"linear-gradient(rgb(253 247 247), rgb(255 254 254))",paddingTop:"25px"}}>
             <div className="litleTitle">Processus Simple</div>
-            <div className="bigTitle">Comment fonctionne CampusHaven</div>
+            <div className="bigTitle">Comment fonctionne ColocMeak</div>
             <div className="shortDescrip">Trouver votre logement étudiant idéal et des colocataires compatibles est facile grâce à notre processus en trois étapes</div>
             <div className="cards">
                 <div className="processCard bleuCard">
