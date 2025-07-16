@@ -380,7 +380,7 @@ const handleNext = async () => {
                   {errors.niveauEtudes && <span className="error-message">{errors.niveauEtudes}</span>}
                 </div>
                 <div className="form-group">
-                  <label>Budget mensuel (€) *</label>
+                  <label>Budget mensuel (DH) *</label>
                   <input
                     type="number"
                     value={formData.budget}

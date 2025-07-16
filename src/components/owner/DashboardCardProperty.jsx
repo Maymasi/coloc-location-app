@@ -35,7 +35,7 @@ export default function DashboardCardProperty({ property }) {
                 </div>
                
                 <div className="actions">
-                    <button className="btn-edit">Modifier</button>
+                    <button className="btn-edit"     onClick={() => Navigate(`OwnerAddProperty?logementId=${property.id}`)}>Modifier</button>
                     <button className="btn-view" onClick={()=>Navigate(`/details/${property.id}`)}>Voir</button>
                 </div>
             </div>

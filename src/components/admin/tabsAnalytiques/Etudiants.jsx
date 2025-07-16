@@ -4,10 +4,10 @@ import { useState } from 'react';
 export default function Etudiants({data}) {
 
   const [budgetData] = useState([
-    { range: '< 400€', pourcentage: '18%' },
-    { range: '400€ - 600€', pourcentage: '42%' },
-    { range: '600€ - 800€', pourcentage: '28%' },
-    { range: '> 800€', pourcentage: '12%' },
+    { range: '< 400DH', pourcentage: '18%' },
+    { range: '400DH - 600DH', pourcentage: '42%' },
+    { range: '600DH - 800DH', pourcentage: '28%' },
+    { range: '> 800DH', pourcentage: '12%' },
   ]);
 
   const hasEtudiants = data.repartitionEtudiantsParEtablissements.$values && data.repartitionEtudiantsParEtablissements.$values.length > 0;
