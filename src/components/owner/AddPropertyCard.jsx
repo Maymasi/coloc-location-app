@@ -1,6 +1,8 @@
+import { useNavigate } from "react-router-dom";
 export default function AddPropertyCard() {
+    const Navigate=useNavigate();
     return (
-        <div className="add-property-card">
+        <div className="add-property-card" onClick={()=>Navigate('/owner/OwnerAddProperty')}>
             <div className="add-property-icon">
                 <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                     <circle cx="12" cy="12" r="10"/>
