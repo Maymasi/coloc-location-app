@@ -68,7 +68,7 @@ export default function FeaturedProperties() {
                             </div>
                             <div className="footerCard">
                                 <div className="price">
-                                    <div style={{ fontSize: "20px", fontWeight: "700" }}>$650 </div>
+                                    <div style={{ fontSize: "20px", fontWeight: "700" }}>{property.prix}DH </div>
                                     <div style={{ fontSize: "12px", color: "#656565" }}>/ mois</div>
                                 </div>
                                 <Button variant="contained" className="viewDetailsBtn" onClick={()=>navigate(`details/${property.id}`)}>Voir plus</Button>

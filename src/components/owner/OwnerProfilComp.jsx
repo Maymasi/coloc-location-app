@@ -18,7 +18,7 @@ const OwnerProfilComp = () => {
   const [snackbar, setSnackbar] = useState({
     open: false,
     message: '',
-    severity: 'info' // 'success', 'error', 'warning', 'info'
+    severity: 'info' 
   });
 
   // État pour la gestion des images

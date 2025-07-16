@@ -86,7 +86,7 @@ export default function SimilarProperties({annonce}){
                                 <div className="descrbAndPrice">
                                     <div className="describ">{property.title}</div>
                                     <div className="Pprice">
-                                    <span style={{fontSize:"20px",fontWeight:"700"}}>${property.prix}/</span>
+                                    <span style={{fontSize:"20px",fontWeight:"700"}}>{property.prix}DH/</span>
                                     <span style={{fontSize:"18px",fontWeight:"700"}}>mo</span>
                                     </div>
                                 </div>
