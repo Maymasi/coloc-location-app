@@ -579,7 +579,7 @@
   background: rgba(0, 0, 0, 0.5);
   backdrop-filter: blur(8px);
   display: flex;
-  align-items: center;
+  align-items: start;
   justify-content: center;
   z-index: 1000;
   padding: 20px;
@@ -592,11 +592,13 @@
 }
 
 .evaluation-modal-content {
+  display: flex;
+  flex-direction: column;
+  max-height: 90vh;
+  width: 100%;
+  max-width: 580px;
   background: white;
   border-radius: 28px;
-  max-width: 580px;
-  width: 100%;
-  max-height: 90vh;
   overflow: hidden;
   border: 2px solid var(--primary-coral-light);
   animation: slideUp 0.4s ease;
@@ -645,6 +647,8 @@
 
 .evaluation-modal-body {
   padding: 35px;
+    flex: 1;
+  overflow-y: auto;
 }
 
 .evaluation-rating-section {
@@ -729,11 +733,13 @@
 }
 
 .evaluation-modal-footer {
+   flex-shrink: 0;
+  padding: 25px 35px;
+  border-top: 2px solid var(--neutral-200);
   display: flex;
   justify-content: flex-end;
   gap: 16px;
-  padding: 25px 35px;
-  border-top: 2px solid var(--neutral-200);
+  background: white; 
 }
 
 .evaluation-cancel-btn {

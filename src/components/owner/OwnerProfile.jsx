@@ -139,7 +139,22 @@ const OwnerProfile = ({
       handleModalClose();
 
     } catch (error) {
-      // reste inchangé
+       if (
+        error.response &&
+        error.response.data &&
+        typeof error.response.data === "string" &&
+        error.response.data.includes("Vous avez déjà laissé un avis")
+      ) {
+        toast.warning("Vous avez déjà évalué ce propriétaire.");
+      } else if (
+        error.response &&
+        error.response.data &&
+        error.response.data.includes("Etudiant non trouvable")
+      ) {
+        toast.error("Étudiant introuvable. Veuillez vous reconnecter.");
+      } else {
+        toast.error("Une erreur est survenue lors de l’envoi de votre avis.");
+      }
     }
   };
 
