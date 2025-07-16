@@ -126,8 +126,8 @@
 }
 
 .dashboard-properties .dashboard-card-property .content-card-property .actions .btn-view:hover{
-    background-color: hsl(var(--primary-hover, var(--primary)));
-    opacity: 0.9;
+    background-color: hsl(var(--primary));
+        opacity: 0.9;
 }
 
 /* Responsive design */

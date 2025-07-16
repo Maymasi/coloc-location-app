@@ -1,21 +1,21 @@
-import { X, House, MessageSquare, Bell, Settings, User, BadgePlus, ChartNoAxesColumnIncreasing,LayoutDashboard,MapPinHouse } from 'lucide-react';
+import { X, House, MessageSquare, Bell, Settings, User, BadgePlus, ChartNoAxesColumnIncreasing, LayoutDashboard, MapPinHouse } from 'lucide-react';
 import * as React from 'react';
 import { useState, useEffect, useContext, useCallback } from 'react';
 import Avatar from '@mui/material/Avatar';
 import Divider from '@mui/material/Divider';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import '../../assets/styles/LeftNav.css';
 import { ProfilContext } from '../../context/ProfilContext';
 import { getOwnerStats } from '../../Services/OwnerStatsService';
 
 export default function LeftNavOwner({ openLogs, handleLogsClick }) {
-  const [activeLink, setActiveLink] = useState(null);
   const [isNavOpen, setIsNavOpen] = useState();
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
   const { profil, loading } = useContext(ProfilContext);
   const [stats, setStats] = useState({ unreadMessages: 0, pendingDemandes: 0 });
 
   const Navigate = useNavigate();
+  const location = useLocation();
 
   const fetchStats = useCallback(async () => {
     const res = await getOwnerStats();
@@ -40,7 +40,6 @@ export default function LeftNavOwner({ openLogs, handleLogsClick }) {
   }, []);
 
   const handleLinkClick = useCallback((linkName) => {
-    setActiveLink(linkName);
     Navigate(`${linkName}`);
     setIsNavOpen(false);
   }, [Navigate]);
@@ -72,23 +71,23 @@ export default function LeftNavOwner({ openLogs, handleLogsClick }) {
         </div>
 
         <div className="nav-links">
-          <div className={`link ${activeLink === '/' ? 'active' : ''}`} onClick={() => handleLinkClick('/')}>
+          <div className={`link ${location.pathname === '/' ? 'active' : ''}`} onClick={() => handleLinkClick('/')}>
             <House size={20} />
             <span>Accueil</span>
           </div>
-          <div className={`link ${activeLink === '' ? 'active' : ''}`} onClick={() => handleLinkClick('')}>
+          <div className={`link ${location.pathname === '/owner' ? 'active' : ''}`} onClick={() => handleLinkClick('')}>
             <LayoutDashboard size={20}/>
             <span>Tableau de Bord</span>
           </div>
-          <div className={`link ${activeLink === 'OwnerProperties' ? 'active' : ''}`} onClick={() => handleLinkClick('OwnerProperties')}>
+          <div className={`link ${location.pathname === '/owner/OwnerProperties' ? 'active' : ''}`} onClick={() => handleLinkClick('OwnerProperties')}>
             <MapPinHouse size={20} />
             <span>Mes Propriétés</span>
           </div>
-          <div className={`link ${activeLink === 'OwnerAddProperty' ? 'active' : ''}`} onClick={() => handleLinkClick('OwnerAddProperty')}>
+          <div className={`link ${location.pathname === '/owner/OwnerAddProperty' ? 'active' : ''}`} onClick={() => handleLinkClick('OwnerAddProperty')}>
             <BadgePlus />
             <span>Ajouter une Propriété</span>
           </div>
-          <div className={`link ${activeLink === 'messages' ? 'active' : ''}`} onClick={() => handleLinkClick('messages')} style={{ justifyContent: 'space-between' }}>
+          <div className={`link ${location.pathname === '/owner/messages' ? 'active' : ''}`} onClick={() => handleLinkClick('messages')} style={{ justifyContent: 'space-between' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
               <MessageSquare size={20} />
               <span>Messages</span>
@@ -97,7 +96,7 @@ export default function LeftNavOwner({ openLogs, handleLogsClick }) {
               <span className="notification">{stats.unreadMessages}</span>
             )}
           </div>
-          <div className={`link ${activeLink === 'OwnerDemandesRecus' ? 'active' : ''}`} onClick={() => handleLinkClick('OwnerDemandesRecus')} style={{ justifyContent: 'space-between' }}>
+          <div className={`link ${location.pathname === '/owner/OwnerDemandesRecus' ? 'active' : ''}`} onClick={() => handleLinkClick('OwnerDemandesRecus')} style={{ justifyContent: 'space-between' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
               <Bell size={20} />
               <span>Demandes Reçues</span>
@@ -106,11 +105,11 @@ export default function LeftNavOwner({ openLogs, handleLogsClick }) {
               <span className="notification">{stats.pendingDemandes}</span>
             )}
           </div>
-          <div className={`link ${activeLink === 'OwnerProfilComp' ? 'active' : ''}`} onClick={() => handleLinkClick('OwnerProfilComp')}>
+          <div className={`link ${location.pathname === '/owner/OwnerProfilComp' ? 'active' : ''}`} onClick={() => handleLinkClick('OwnerProfilComp')}>
             <User size={20} />
             <span>Profil</span>
           </div>
-          <div className={`link ${activeLink === 'OwnerParametres' ? 'active' : ''}`} onClick={() => handleLinkClick('OwnerParametres')}>
+          <div className={`link ${location.pathname === '/owner/OwnerParametres' ? 'active' : ''}`} onClick={() => handleLinkClick('OwnerParametres')}>
             <Settings size={20} />
             <span>Paramètres</span>
           </div>

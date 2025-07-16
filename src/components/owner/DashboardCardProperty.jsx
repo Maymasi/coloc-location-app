@@ -1,6 +1,7 @@
+import { useNavigate } from "react-router-dom";
 export default function DashboardCardProperty({ property }) {
     const backgroundImage = property?.photoUrl;
-    
+    const Navigate=useNavigate();
     return (
         <div className="dashboard-card-property">
             <div className="header-card-property" style={{
@@ -35,7 +36,7 @@ export default function DashboardCardProperty({ property }) {
                
                 <div className="actions">
                     <button className="btn-edit">Modifier</button>
-                    <button className="btn-view">Voir</button>
+                    <button className="btn-view" onClick={()=>Navigate(`/details/${property.id}`)}>Voir</button>
                 </div>
             </div>
         </div>

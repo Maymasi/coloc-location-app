@@ -17,7 +17,8 @@ import RecentInquiries from './RecentInquiries';
 import PropertyAnalytics from './PropertyAnalytics';
 import RecentActivitydashboard from './RecentActivitydashboard';
 import { useAuth } from '../../context/AuthContext';
-import { getDashboardStats } from '../../services/DashboardOwnerService';
+import { getDashboardStats } from '../../Services/DashboardOwnerService';
+import { useNavigate } from 'react-router-dom';
 
 // Hook personnalisé pour debouncing
 const useDebounce = (value, delay) => {
@@ -82,6 +83,8 @@ export default function OwnerDashboard() {
   const [error, setError] = useState(null);
   const [refreshTrigger, setRefreshTrigger] = useState(0);
   const [isAutoRefresh, setIsAutoRefresh] = useState(false);
+  //navigation
+  const Navigate = useNavigate();
   
   // Snackbar states
   const [snackbar, setSnackbar] = useState({
@@ -193,8 +196,8 @@ export default function OwnerDashboard() {
           <p>Gérez vos propriétés et les demandes des étudiants</p>
         </div>
         <div className="links">
-          <div className="homes">
-            <HousePlus className="icon" />
+          <div className="homes" onClick={()=>Navigate('OwnerAddProperty')}>
+            <HousePlus className="icon" color='white' />
             <div>Ajouter une propriété</div>
           </div>
           <IconButton 

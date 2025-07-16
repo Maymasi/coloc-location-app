@@ -3,6 +3,7 @@ import { Pagination, Snackbar, Alert, Dialog, DialogTitle, DialogContent, Dialog
 import { Search, Plus, MoreHorizontal, Eye, Edit, Trash2, Image, MapPin, Calendar, ToggleLeft, ToggleRight, CheckCircle, Home, Building, Sparkles } from 'lucide-react';
 import { getAllProperties, deleteProperty, changePropertyStatus } from '../../Services/PropertyService';
 import '../../assets/styles/ownerCss/PropertiesPage.css';
+import { useNavigate } from 'react-router-dom';
 
 const OwnerProperties = () => {
   const [activeTab, setActiveTab] = useState('all');
@@ -12,6 +13,8 @@ const OwnerProperties = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [searchTerm, setSearchTerm] = useState('');
+  //navigation
+  const Navigate=useNavigate();
   
   // États pour les snackbars
   const [snackbar, setSnackbar] = useState({
@@ -575,7 +578,7 @@ const EmptyState = () => {
           <h1>Mes propriétés</h1>
           <p>Gérez toutes vos propriétés en location</p>
         </div>
-        <button className="add-property-btn">
+        <button className="add-property-btn" onClick={()=>Navigate('/owner/OwnerAddProperty')}>
           <Plus size={20} />
           Ajouter une propriété
         </button>
@@ -670,7 +673,7 @@ const EmptyState = () => {
                 </button>
                 {showMenu === property.id && (
                   <div className="dropdown-menu">
-                    <button className="menu-item">
+                    <button className="menu-item" onClick={()=>Navigate(`/details/${property.id}`)}>
                       <Eye size={16} />
                       Voir l'annonce
                     </button>
@@ -760,7 +763,7 @@ const EmptyState = () => {
                   <Edit size={16} />
                   Modifier
                 </button>
-                <button className="action-btn view">
+                <button className="action-btn view" onClick={()=>Navigate(`/details/${property.id}`)}>
                   <Eye size={16} />
                   Voir
                 </button>
