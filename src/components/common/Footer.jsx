@@ -72,7 +72,7 @@ const Footer = () => {
             <div className="contact-info-footer">
               <div >
                   <MapPin size={12} /> 
-                  <p>123 Rue Al Qods, Casablanca</p>
+                  <p>123 Avenue du Campus, Maroc</p>
               </div>
               <div >
                   <Phone size={12} />

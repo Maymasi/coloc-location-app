@@ -1,8 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Stepper, Step, StepLabel, Box, Snackbar, Alert } from '@mui/material';
 import { Upload, Calendar, Wifi, Car, Tv, WashingMachine, AirVent, Shield } from 'lucide-react';
 import '../../assets/styles/ownerCss/AddProperty.css';
 import { saveProperty } from '../../Services/PropertyService';
+import { getAnnonceById } from '../../Services/AnnonceModificationService'; 
+import { useSearchParams } from 'react-router-dom';
 
 /**
  * OwnerAddProperty component
@@ -20,6 +22,7 @@ import { saveProperty } from '../../Services/PropertyService';
  * - formData {Object} : Les données du formulaire pour la propriété.
  * - errors {Object} : Les erreurs de validation pour chaque champ.
  * - snackbar {Object} : L'état de la notification (message, type, affichage).
+ * - loading {boolean} : Indique si les données sont en cours de chargement.
  * 
  * Fonctions principales :
  * - validateStep(step) : Valide les champs requis pour l'étape donnée.
@@ -30,6 +33,7 @@ import { saveProperty } from '../../Services/PropertyService';
  * - resetForm() : Réinitialise le formulaire à ses valeurs initiales.
  * - handlePublish() : Publie l'annonce après validation.
  * - handleSaveDraft() : Sauvegarde l'annonce en tant que brouillon.
+ * - loadExistingAnnonce() : Charge les données d'une annonce existante.
  * - renderStepContent(step) : Affiche le contenu du formulaire pour l'étape courante.
  * 
  * Utilisation :
@@ -39,9 +43,15 @@ import { saveProperty } from '../../Services/PropertyService';
  * 
  * @component
  */
-const OwnerAddProperty = ({logementId}) => {
+const OwnerAddProperty = () => {
+  // Params
+  const [searchParams] = useSearchParams();
+  const logementId = searchParams.get('logementId');
+  
   const [activeStep, setActiveStep] = useState(0);
-  const [isEditing, setIsEditing] = useState(logementId == null ? false : true);
+  const [isEditing, setIsEditing] = useState(logementId != null);
+  const [loading, setLoading] = useState(false); // Nouvel état pour le chargement
+  
   const [formData, setFormData] = useState({
     title: '',
     type: '',
@@ -65,7 +75,7 @@ const OwnerAddProperty = ({logementId}) => {
     desiredDuration: '',
     houseRules: '',
     photos: [],
-    status:'active' // 'active', 'brouillon'
+    status: 'active' // 'active', 'brouillon'
   });
 
   const [errors, setErrors] = useState({});
@@ -86,54 +96,154 @@ const OwnerAddProperty = ({logementId}) => {
     0: ['title', 'type', 'monthlyRent', 'description'],
     1: ['address', 'city', 'postalCode', 'availableFrom'],
     2: ['photos'],
-    3: ['desiredDuration', 'houseRules']};
+    3: ['desiredDuration', 'houseRules']
+  };
 
-const validateStep = (step) => {
-  const newErrors = {};
-  const fieldsToValidate = requiredFields[step] || [];
+  // Fonction pour charger les données existantes
+  const loadExistingAnnonce = async (annonceId) => {
+    setLoading(true);
+    try {
+      const result = await getAnnonceById(annonceId);
+      
+      if (result.success) {
+        // Mapper les données de l'API vers le format du formulaire
+        const annonceData = result.data;
+        
+        // Traitement des photos
+        let photosArray = [];
+        if (annonceData.photos && annonceData.photos.$values) {
+          photosArray = annonceData.photos.$values.map(photo => ({
+            id: photo.id,
+            url: photo.url
+          }));
+        }
+        
+        // Formatage de la date disponibleDe
+        let formattedAvailableFrom = '';
+        if (annonceData.disponibleDe) {
+          const date = new Date(annonceData.disponibleDe);
+          formattedAvailableFrom = date.toISOString().split('T')[0]; // Format YYYY-MM-DD
+        }
+        
+        setFormData({
+          title: annonceData.titre || '',
+          type: annonceData.typeLogement || '',
+          monthlyRent: annonceData.prix?.toString() || '750',
+          deposit: annonceData.caution?.toString() || '750',
+          fees: annonceData.charges?.toString() || '50',
+          description: annonceData.description || '',
+          surface: annonceData.surface?.toString() || '25',
+          rooms: annonceData.occupantsMax?.toString() || '2', // Utilise occupantsMax comme approximation
+          bedrooms: annonceData.nbChambres?.toString() || '1',
+          bathrooms: annonceData.nbSallesBain?.toString() || '1',
+          floor: annonceData.etage?.toString() || '2',
+          availableFrom: formattedAvailableFrom,
+          address: annonceData.adresse || '123 rue de la Paix',
+          city: annonceData.ville || 'Paris',
+          postalCode: annonceData.codePostal || '75001',
+          furnished: annonceData.estMeuble || false,
+          petsAllowed: annonceData.animauxAutorises || false,
+          smokingAllowed: annonceData.fumeurAutorise || false,
+          amenities: [], // Les équipements ne sont pas dans cette structure, à adapter selon vos besoins
+          desiredDuration: annonceData.dureeMinMois?.toString() || '',
+          houseRules: '', // Pas d'équivalent dans la structure, à adapter
+          photos: photosArray,
+          status: annonceData.statutAnnonce || 'active'
+        });
 
-  fieldsToValidate.forEach(field => {
-    if (field === 'photos') {
-      // Validation spécifique pour les photos : minimum 4 photos
-      if (!formData[field] || formData[field].length < 4) {
-        newErrors[field] = 'Veuillez ajouter au moins 4 photos de votre propriété';
+        setSnackbar({
+          open: true,
+          message: 'Données de l\'annonce chargées avec succès',
+          severity: 'success'
+        });
+      } else {
+        // Gestion des erreurs
+        let errorMessage = 'Erreur lors du chargement de l\'annonce';
+        
+        if (result.status === 404) {
+          errorMessage = 'Annonce introuvable';
+        } else if (result.status === 401) {
+          errorMessage = 'Non autorisé - Veuillez vous connecter';
+        } else if (result.status === 403) {
+          errorMessage = 'Accès refusé - Permissions insuffisantes';
+        } else {
+          errorMessage = result.error || errorMessage;
+        }
+
+        setSnackbar({
+          open: true,
+          message: errorMessage,
+          severity: 'error'
+        });
+
+        // En cas d'erreur, revenir au mode création
+        setIsEditing(false);
       }
-    } else if (!formData[field] || (Array.isArray(formData[field]) && formData[field].length === 0)) {
-      newErrors[field] = 'Ce champ est obligatoire';
+    } catch (error) {
+      console.error('Erreur lors du chargement de l\'annonce:', error);
+      setSnackbar({
+        open: true,
+        message: 'Une erreur inattendue s\'est produite lors du chargement',
+        severity: 'error'
+      });
+      setIsEditing(false);
+    } finally {
+      setLoading(false);
     }
-  });
+  };
 
-  // Validation spécifique pour le code postal
-  if (step === 1 && formData.postalCode && !/^\d{5}$/.test(formData.postalCode)) {
-    newErrors.postalCode = 'Le code postal doit contenir 5 chiffres';
-  }
+  // Effect pour charger les données existantes si logementId est présent
+  useEffect(() => {
+    if (logementId && isEditing) {
+      loadExistingAnnonce(logementId);
+    }
+  }, [logementId, isEditing]);
 
-  // Validation spécifique pour le loyer
-  if (step === 0 && formData.monthlyRent && parseFloat(formData.monthlyRent) <= 0) {
-    newErrors.monthlyRent = 'Le loyer doit être supérieur à 0';
-  }
+  const validateStep = (step) => {
+    const newErrors = {};
+    const fieldsToValidate = requiredFields[step] || [];
 
-  setErrors(newErrors);
-  return Object.keys(newErrors).length === 0;
-};
-
-
-const handleNext = () => {
-  if (validateStep(activeStep)) {
-    setActiveStep((prevActiveStep) => prevActiveStep + 1);
-  } else {
-    // Message d'erreur personnalisé pour l'étape des photos
-    const errorMessage = activeStep === 2 && formData.photos && formData.photos.length < 4 
-      ? 'Veuillez ajouter au moins 4 photos avant de continuer'
-      : 'Veuillez remplir tous les champs obligatoires';
-    
-    setSnackbar({
-      open: true,
-      message: errorMessage,
-      severity: 'error'
+    fieldsToValidate.forEach(field => {
+      if (field === 'photos') {
+        // Validation spécifique pour les photos : minimum 4 photos
+        if (!formData[field] || formData[field].length < 4) {
+          newErrors[field] = 'Veuillez ajouter au moins 4 photos de votre propriété';
+        }
+      } else if (!formData[field] || (Array.isArray(formData[field]) && formData[field].length === 0)) {
+        newErrors[field] = 'Ce champ est obligatoire';
+      }
     });
-  }
-};
+
+    // Validation spécifique pour le code postal
+    if (step === 1 && formData.postalCode && !/^\d{5}$/.test(formData.postalCode)) {
+      newErrors.postalCode = 'Le code postal doit contenir 5 chiffres';
+    }
+
+    // Validation spécifique pour le loyer
+    if (step === 0 && formData.monthlyRent && parseFloat(formData.monthlyRent) <= 0) {
+      newErrors.monthlyRent = 'Le loyer doit être supérieur à 0';
+    }
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
+  const handleNext = () => {
+    if (validateStep(activeStep)) {
+      setActiveStep((prevActiveStep) => prevActiveStep + 1);
+    } else {
+      // Message d'erreur personnalisé pour l'étape des photos
+      const errorMessage = activeStep === 2 && formData.photos && formData.photos.length < 4 
+        ? 'Veuillez ajouter au moins 4 photos avant de continuer'
+        : 'Veuillez remplir tous les champs obligatoires';
+      
+      setSnackbar({
+        open: true,
+        message: errorMessage,
+        severity: 'error'
+      });
+    }
+  };
 
   const handleBack = () => {
     setActiveStep((prevActiveStep) => prevActiveStep - 1);
@@ -163,97 +273,101 @@ const handleNext = () => {
         : [...prev.amenities, amenity]
     }));
   };
+
   const resetForm = () => {
-  setActiveStep(0);
-  setFormData({
-    title: '',
-    type: '',
-    monthlyRent: '750',
-    deposit: '750',
-    fees: '50',
-    description: '',
-    surface: '60',
-    rooms: '2',
-    bedrooms: '1',
-    bathrooms: '1',
-    floor: '2',
-    availableFrom: '',
-    address: '123 rue de la Paix',
-    city: 'Safi',
-    postalCode: '75001',
-    furnished: false,
-    petsAllowed: false,
-    smokingAllowed: false,
-    amenities: [],
-    desiredDuration: '',
-    houseRules: '',
-    photos: [],
-    status: 'active'
-  });
-  setErrors({});
-};
+    setActiveStep(0);
+    setFormData({
+      title: '',
+      type: '',
+      monthlyRent: '750',
+      deposit: '750',
+      fees: '50',
+      description: '',
+      surface: '60',
+      rooms: '2',
+      bedrooms: '1',
+      bathrooms: '1',
+      floor: '2',
+      availableFrom: '',
+      address: '123 rue de la Paix',
+      city: 'Safi',
+      postalCode: '75001',
+      furnished: false,
+      petsAllowed: false,
+      smokingAllowed: false,
+      amenities: [],
+      desiredDuration: '',
+      houseRules: '',
+      photos: [],
+      status: 'active'
+    });
+    setErrors({});
+    setIsEditing(false);
+  };
 
   const handleCloseSnackbar = () => {
     setSnackbar(prev => ({...prev, open: false}));
   };
+
   // Fonction pour enregistrer la propriété
-    const handlePublish = async () => {
-      console.log('Form data before saving:', formData);
-      if (validateStep(activeStep)) {
-        try {
-          const propertyToSave = {
-            ...formData,
-            status: 'active', 
-          };
-          
-          const result = await saveProperty(propertyToSave, logementId);
-          
-          setSnackbar({
-            open: true,
-            message: isEditing ? 'Annonce mise à jour avec succès!' : 'Annonce publiée avec succès!',
-            severity: 'success'
-          });
-          setTimeout(() => {resetForm();},2000);
-          // Redirection ou autre logique après succès
-        } catch (error) {
-          setSnackbar({
-            open: true,
-            message: error.message || 'Erreur lors de la publication',
-            severity: 'error'
-          });
-        }
-      } else {
-        setSnackbar({
-          open: true,
-          message: 'Veuillez corriger les erreurs avant de publier',
-          severity: 'error'
-        });
-      }
-    };
-    //fonction pour brouillonner la propriété
-    const handleSaveDraft = async () => {
+  const handlePublish = async () => {
+    console.log('Form data before saving:', formData);
+    if (validateStep(activeStep)) {
       try {
         const propertyToSave = {
           ...formData,
-          status: 'brouillon'
+          status: 'active', 
         };
         
         const result = await saveProperty(propertyToSave, logementId);
         
         setSnackbar({
           open: true,
-          message: 'Brouillon sauvegardé avec succès',
+          message: isEditing ? 'Annonce mise à jour avec succès!' : 'Annonce publiée avec succès!',
           severity: 'success'
         });
-          setTimeout(() => {resetForm();},2000);
+        setTimeout(() => {resetForm();}, 2000);
+        // Redirection ou autre logique après succès
       } catch (error) {
         setSnackbar({
           open: true,
-          message: error.message || 'Erreur lors de la sauvegarde du brouillon',
+          message: error.message || 'Erreur lors de la publication',
           severity: 'error'
         });
       }
-    };
+    } else {
+      setSnackbar({
+        open: true,
+        message: 'Veuillez corriger les erreurs avant de publier',
+        severity: 'error'
+      });
+    }
+  };
+
+  // Fonction pour brouillonner la propriété
+  const handleSaveDraft = async () => {
+    try {
+      const propertyToSave = {
+        ...formData,
+        status: 'brouillon'
+      };
+      
+      const result = await saveProperty(propertyToSave, logementId);
+      
+      setSnackbar({
+        open: true,
+        message: 'Brouillon sauvegardé avec succès',
+        severity: 'success'
+      });
+      setTimeout(() => {resetForm();}, 2000);
+    } catch (error) {
+      setSnackbar({
+        open: true,
+        message: error.message || 'Erreur lors de la sauvegarde du brouillon',
+        severity: 'error'
+      });
+    }
+  };
 
   const renderStepContent = (step) => {
     switch (step) {

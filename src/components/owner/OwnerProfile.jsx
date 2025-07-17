@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { MapPin, Globe, Home, MessageCircle, ThumbsUp, Star, X } from 'lucide-react';
 import '../../assets/styles/ownerCss/profileOwnerStyle.css';
-import {getOwnerProfile, addAvis} from '../../Services/OwnerProfileService'
+import {getOwnerProfile} from '../../Services/OwnerProfileService'
 import { useParams } from 'react-router-dom';
 import {jwtDecode} from 'jwt-decode';
 import { toast } from 'react-toastify';
@@ -109,21 +109,13 @@ const OwnerProfile = ({
       if (!token) return <Navigate to="/login" />;
       const Iid = decoded.nameid;
 
-      // Envoie au backend
-      const newReview = await addAvis({
-        rating: selectedRating,
-        comment: comment,
-        StudentId: Number(Iid),
-        ProprietaireId: id
-      });
-
       // Ajoute le nouvel avis localement
       const updatedAvis = [...ownerData.avis.$values, {
-        $id: Date.now(), // pour la clé unique, remplace par l'id réel si ton API le renvoie
-        nomEtudiant: decoded.unique_name, // ou autre info
+        $id: Date.now(), 
+        nomEtudiant: decoded.unique_name, 
         rating: selectedRating,
         comment: comment,
-        avatarProfile: null, // adapte si dispo
+        avatarProfile: null, 
       }];
 
       setOwnerData({
@@ -131,7 +123,6 @@ const OwnerProfile = ({
         avis: {
           $values: updatedAvis
         },
-        // Mets à jour la note globale aussi si ton API ne le fait pas :
         note: ((ownerData.note * ownerData.avis.$values.length + selectedRating) / (ownerData.avis.$values.length + 1)).toFixed(1)
       });
 
@@ -139,7 +130,22 @@ const OwnerProfile = ({
       handleModalClose();
 
     } catch (error) {
-      // reste inchangé
+       if (
+        error.response &&
+        error.response.data &&
+        typeof error.response.data === "string" &&
+        error.response.data.includes("Vous avez déjà laissé un avis")
+      ) {
+        toast.warning("Vous avez déjà évalué ce propriétaire.");
+      } else if (
+        error.response &&
+        error.response.data &&
+        error.response.data.includes("Etudiant non trouvable")
+      ) {
+        toast.error("Étudiant introuvable. Veuillez vous reconnecter.");
+      } else {
+        toast.error("Une erreur est survenue lors de l’envoi de votre avis.");
+      }
     }
   };
 

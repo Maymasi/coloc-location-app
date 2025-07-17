@@ -30,21 +30,21 @@ function Login() {
   return (
     <div className="login-container">
       <div className="login-box">
-        <h2>Welcome back</h2>
-        <p>Enter your credentials to access your account</p>
+        <h2>Bienvenue</h2>
+        <p>Entrez vos identifiants pour accéder à votre compte</p>
 
         <div className="login-role-switch">
           <button
             className={role === 'Etudiant' ? 'active' : ''}
             onClick={() => setRole('Etudiant')}
           >
-            Student
+            Étudiant
           </button>
           <button
             className={role === 'Proprietaire' ? 'active' : ''}
             onClick={() => setRole('Proprietaire')}
           >
-            Property Owner
+            Propriétaire
           </button>
         </div>
 
@@ -55,15 +55,15 @@ function Login() {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             placeholder={
-              role === 'student' ? 'student@example.com' : 'owner@example.com'
+              role === 'Etudiant' ? 'etudiant@exemple.com' : 'proprietaire@exemple.com'
             }
             required
             className="login-input-field"
           />
 
           <div className="password-label-row">
-             <label>Password</label>
-             <a href="#" className="forgot-password">Forgot password?</a>
+             <label>Mot de passe</label>
+             <a href="#" className="forgot-password">Mot de passe oublié ?</a>
           </div>
           <div className="password-input-wrapper">
              <input
@@ -83,11 +83,11 @@ function Login() {
             {Erreur && <div style={{ color: 'red', textAlign : "center" , marginTop : '5px'}}>{Erreur}</div>}
 
           <button className="login-button" type="submit">
-            Sign In as {role === 'Etudiant' ? 'student' : 'Property Owner'}
+            Se connecter en tant que {role === 'Etudiant' ? 'étudiant' : 'propriétaire'}
           </button>
         </form>
         <p className="signup-text">
-          Don't have an account? <Link to="/register">Sign up</Link>
+          Vous n'avez pas de compte ? <Link to="/register">Inscrivez-vous</Link>
         </p>
       </div>
     </div>
