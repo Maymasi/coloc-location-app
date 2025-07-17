@@ -24,6 +24,7 @@ export default function TopNav({handleLogsClick}) {
     const {logout} = useAuth();
     const [userAnchorEl, setUserAnchorEl] = React.useState(null);
     const [notifAnchorEl, setNotifAnchorEl] = React.useState(null);
+    const pdp =  localStorage.getItem('urlAvatar')
 
     const userMenuOpen = Boolean(userAnchorEl);
     const notifMenuOpen = Boolean(notifAnchorEl);
@@ -145,7 +146,14 @@ export default function TopNav({handleLogsClick}) {
                         anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
                     >
                         <MenuItem onClick={handleUserMenuClose}>
-                            <Avatar /> Mon Compte
+                            {pdp ? (
+                                <Avatar src={`https://localhost:7174${pdp}`} alt="User Avatar" /> 
+                            ) : (
+                                <Avatar style={{ backgroundColor: 'gray' }}>
+                                    <User size={24} />
+                                </Avatar>
+                            )} Mon compte
+                            
                         </MenuItem>
                         <Divider />
                         <MenuItem onClick={handleUserMenuClose}>

@@ -72,11 +72,11 @@ const Footer = () => {
             <div className="contact-info-footer">
               <div >
                   <MapPin size={12} /> 
-                  <p>123 Campus Avenue,France</p>
+                  <p>123 Rue Al Qods, Casablanca</p>
               </div>
               <div >
                   <Phone size={12} />
-                  <p>+33 1 23 45 67 89</p>
+                  <p>+212 6 12 34 56 78</p>
               </div>
               <div >
                   <Mail size={12} />

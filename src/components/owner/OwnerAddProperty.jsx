@@ -291,7 +291,7 @@ const handleNext = () => {
                 {errors.type && <span className="error-message">{errors.type}</span>}
               </div>
               <div className="form-group">
-                <label>Loyer mensuel (€) *</label>
+                <label>Loyer mensuel (DH) *</label>
                 <input
                   type="number"
                   value={formData.monthlyRent}
@@ -305,7 +305,7 @@ const handleNext = () => {
 
             <div className="form-row">
               <div className="form-group">
-                <label>Dépôt de garantie (€)</label>
+                <label>Dépôt de garantie (DH)</label>
                 <input
                   type="number"
                   value={formData.deposit}
@@ -314,7 +314,7 @@ const handleNext = () => {
                 />
               </div>
               <div className="form-group">
-                <label>Frais (€)</label>
+                <label>Frais (DH)</label>
                 <input
                   type="number"
                   value={formData.fees}
@@ -954,7 +954,7 @@ const handleNext = () => {
                 </div>
                 <div className="summary-item">
                   <span className="summary-label">Prix :</span>
-                  <span className="summary-value">{formData.monthlyRent || 'Non renseigné'} €</span>
+                  <span className="summary-value">{formData.monthlyRent || 'Non renseigné'} DH</span>
                 </div>
                 <div className="summary-item">
                   <span className="summary-label">Localisation :</span>

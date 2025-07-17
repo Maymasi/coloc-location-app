@@ -104,7 +104,7 @@ export default function InformationAnnonces({annonce}){
         setDescription("");
     }
     const handleNavigateProfilOwner=()=>{
-        Navigate(`/OwnerProfile/${annonce.proprietaire.$id}`)
+        Navigate(`/OwnerProfile/${annonce.proprietaire.id}`)
     }
 
     const handleSignal = ()=>{

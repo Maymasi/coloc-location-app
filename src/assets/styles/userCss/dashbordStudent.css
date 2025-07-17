@@ -247,7 +247,10 @@
     Properties Section
     =========================== */
 .user-layout .css-1q0hex5-MuiPaper-root-MuiCard-root {
-     padding: 10px !important;
+     /* padding: 10px !important; */
+     display: flex;
+     flex-direction: column;
+     justify-content: space-between;
 }
 
 .user-layout .all-prop {

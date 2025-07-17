@@ -37,7 +37,7 @@ const Proprietes = () => {
   const [showActionsMenu, setShowActionsMenu] = useState(null);
 
   // Options pour les filtres
-  const typeOptions = ['Tous les types', 'Apartment', 'Maison', 'Studio', 'Chambre'];
+  const typeOptions = ['Tous les types', 'appartement', 'maison', 'studio', 'chambre'];
   const statusOptions = ['Tous les statuts', 'EnAttente', 'Verifié', 'Rejeté'];
 
   // Fonction pour filtrer les propriétés

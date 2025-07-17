@@ -59,7 +59,7 @@ const Utilisateurs = () => {
       suspendreUser(userId)
         .then(() => {
           setUtilisateurs(prevUsers => prevUsers.map(user => 
-            user.id === userId ? { ...user, statut: 'Suspendu' } : user
+            user.id === userId ? { ...user, statut: 'suspendu' } : user
           ));
         })
         .catch(error => {
@@ -73,7 +73,7 @@ const Utilisateurs = () => {
   const getStatusBadgeClass = (statut) => {
     switch (statut) {
       case 'Actif': return 'utilisateurs-badge-actif';
-      case 'Suspendu': return 'utilisateurs-badge-suspendu';
+      case 'suspendu': return 'utilisateurs-badge-suspendu';
       case 'Banni': return 'utilisateurs-badge-banni';
       default: return 'utilisateurs-badge-actif';
     }

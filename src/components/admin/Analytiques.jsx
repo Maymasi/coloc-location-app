@@ -45,7 +45,7 @@ const Analytiques = () => {
                     },
                     {
                         title: "Loyer moyen",
-                        value: `${data?.prixLoyerMoyen}€`,
+                        value: `${data?.prixLoyerMoyen}DH`,
                         desc: "Par mois, tous logements",
                         icon: "fas fa-building",
                         bg: "orange-bg"
